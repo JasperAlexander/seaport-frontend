@@ -1,6 +1,6 @@
 # Seaport implementation
 
-[Seaport][seaport-link] is a marketplace protocol for safely and efficiently buying and selling NFTs. This is an example implementation for educational purpose.
+[Seaport](https://github.com/ProjectOpenSea/seaport) is a marketplace protocol for safely and efficiently buying and selling NFTs. This is an example implementation for educational purpose.
 
 ## Installation
 
