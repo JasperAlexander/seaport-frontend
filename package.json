@@ -1,6 +1,18 @@
 {
   "name": "seaport-implementation",
-  "version": "0.1.0",
+  "description": "An example implementation of the Seaport marketplace protocol for educational purpose.",
+  "author": {
+    "name": "Jasper Alexander"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JasperAlexander/seaport-implementation.git"
+  },
+  "homepage": "https://github.com/JasperAlexander/seaport-implementation#readme",
+  "bugs": {
+    "url" : "https://github.com/JasperAlexander/seaport-implementation/issues"
+  },
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,11 +21,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "crypto": "^1.0.1",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.1.0",
@@ -23,11 +33,13 @@
     "@types/node": "18.0.3",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
+    "crypto": "^1.0.1",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.2",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.9",
     "hardhat": "^2.10.0",
-    "typescript": "4.7.4"
+    "typescript": "4.7.4",
+    "zustand": "^4.0.0-rc.1"
   }
 }
