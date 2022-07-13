@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 export const Header: React.FC = () => {
   return (
@@ -16,6 +17,10 @@ export const Header: React.FC = () => {
             <Link href='/create'>
                 <a>Create NFT</a>
             </Link>
+            <Link href='/profile'>
+                <a>Profile</a>
+            </Link>
+            <ConnectButton />
         </section>
       </nav>
     </header>

@@ -6,33 +6,47 @@ import { randomBN } from '../utils/encoding'
 
 const contractAddresses = require('../utils/contractAddresses.json')
 
-export const mintERC721 = async(nftID?: BigNumber | string | undefined) => {
+export const mintERC721 = async(signer: ethers.Signer, address: string, nftID?: BigNumber | string | undefined) => {
     if(typeof window !== 'undefined' && typeof contractAddresses.TestERC721 !== 'undefined') {
-        await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-        const web3provider = new ethers.providers.Web3Provider((window as any).ethereum);
-        const signer = web3provider.getSigner()
-        const signerAddress = await signer.getAddress()
         const contract = new ethers.Contract(contractAddresses.TestERC721, TestERC721.abi, signer)
         if(typeof nftID === 'undefined') {
             nftID = randomBN()
         }
-        const mintTransaction = await contract.mint(signerAddress, nftID)
+        const mintTransaction = await contract.mint(address, nftID)
         await mintTransaction.wait()
         return nftID.toString()
     }
 }
 
-export const mintERC20 = async(mintAmount: string) => {
+export const mintERC20 = async(signer: ethers.Signer, address: string, mintAmount: string) => {
     if(typeof window !== 'undefined' && typeof contractAddresses.TestERC20 !== 'undefined') {
-        await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-        const web3provider = new ethers.providers.Web3Provider((window as any).ethereum);
-        const signer = web3provider.getSigner()
-        const signerAddress = await signer.getAddress()
         const contract = new ethers.Contract(contractAddresses.TestERC20, TestERC20.abi, signer)
         const mintTransaction = await contract.mint(
-            signerAddress, 
+            address, 
             parseEther(mintAmount).toString()
         )
         await mintTransaction.wait()
     }
 }
+
+// export const ownerOfERC721 = async(signer: ethers.Signer, nftID?: BigNumber | string) => {
+//     if(typeof window !== 'undefined' && typeof contractAddresses.TestERC721 !== 'undefined') {
+//         const contract = new ethers.Contract(contractAddresses.TestERC721, TestERC721.abi, signer)
+
+//         let nftid
+//         if(typeof nftID === 'string') {
+//             nftid = ethers.BigNumber.from(nftID)
+//         } else {
+//             nftid = nftID
+//         }
+//         console.log('nftid before ownerOf', nftid)
+//         try {
+//             const owner = await contract.ownerOf(nftid)
+//             await owner.wait()
+//             console.log(owner)
+//             return owner
+//         } catch {
+//             return undefined
+//         }
+//     }
+// }

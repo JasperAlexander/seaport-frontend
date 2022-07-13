@@ -3,18 +3,12 @@ import Head from 'next/head'
 import React from 'react'
 import { useStore } from '../hooks/useStore'
 import { Order } from '../components/Order'
-import { ethers } from 'ethers'
+import { Orders } from '../components/Orders'
+import { useAccount } from 'wagmi'
 
 const Home: NextPage = () => {
   const { orders } = useStore()
-  const [signerAddress, setSignerAddress] = React.useState<string | undefined>(undefined)
-  
-  if(typeof window !== 'undefined') {
-    (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-    const web3provider = new ethers.providers.Web3Provider((window as any).ethereum);
-    const signer = web3provider.getSigner()
-    signer.getAddress().then((a) => setSignerAddress(a))
-  }
+  const { address } = useAccount()
 
   return (
     <React.Fragment>
@@ -25,17 +19,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1>All NFTs</h1>
-        <div className='orders'>
-          {orders.length > 0
-          ? typeof signerAddress !== 'undefined'
-            ?
-              orders.map((order) => (
-                <Order order={order} signerAddress={signerAddress} />
-              ))
-            : ''
-          : <span>No orders available</span>}
-        </div>
+        <h1>Explore</h1>
+        <Orders filter={order => order.meta.NFTcreator !== address} />
       </main>
     </React.Fragment>
   )

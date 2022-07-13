@@ -7,18 +7,23 @@ import { Seaport } from '@opensea/seaport-js'
 import { ethers } from 'ethers'
 import { parseEther } from 'ethers/lib/utils'
 import { ItemType } from '../../types/orderTypes'
-import { mintERC721 } from '../../utils/minting'
+import { mintERC721 /* , ownerOfERC721 */ } from '../../utils/minting'
+import { useAccount, useSigner } from 'wagmi'
+import { randomBN } from '../../utils/encoding'
+import toast from 'react-hot-toast'
 
 const contractAddresses = require('../../utils/contractAddresses.json')
 
 const Sell: NextPage = () => {
     const { updateOrder, seaport, setSeaport } = useStore()
+    const { address, isConnected } = useAccount()
+    const { data: signer } = useSigner()
 
     const router = useRouter()
     const { nftid } = router.query
 
     const [inputState, setInputState] = React.useState({
-        price: undefined
+        price: ''
     })
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +34,6 @@ const Sell: NextPage = () => {
     }
 
     if(typeof window !== 'undefined' && typeof seaport === 'undefined') {
-        (window as any).ethereum.request({ method: 'eth_requestAccounts' });
         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
         const newSeaport = new Seaport(
             provider, {
@@ -43,19 +47,27 @@ const Sell: NextPage = () => {
     }
 
     const sell = async() => {
-        if(
+        if(inputState.price === '') {
+            toast('Enter a price')
+        } else if(
             typeof seaport !== 'undefined' && 
             typeof nftid === 'string' && 
-            typeof inputState.price !== 'undefined'
+            typeof signer !== 'undefined' &&
+            typeof address !== 'undefined' &&
+            inputState.price !== '' &&
+            signer !== null
         ) {
-            await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-            const web3provider = new ethers.providers.Web3Provider((window as any).ethereum);
-            const signer = web3provider.getSigner()
-            const signerAddress = await signer.getAddress()
-            
-            const nftID = await mintERC721(nftid)
+            // let nftID
+            // const test1 = await ownerOfERC721(signer, nftid)
+            // console.log(test1)
+            // if(typeof test1 === 'undefined') {
+            //     nftID = await mintERC721(signer, address, nftid)
+            // } else {
+            //     nftID = nftid
+            // }
+            const nftID = await mintERC721(signer, address, nftid)
 
-            if(typeof nftID !== 'undefined') {
+            if(typeof nftID !== 'undefined' && typeof address !== 'undefined') {
                 const { executeAllActions } = await seaport.createOrder({
                     offer: [
                     {
@@ -68,14 +80,14 @@ const Sell: NextPage = () => {
                     {
                         amount: parseEther(inputState.price).toString(),
                         token: contractAddresses.TestERC20,
-                        recipient: signerAddress
+                        recipient: address
                     }
                     ]
                 })
 
                 const executedOrder = await executeAllActions()
-                updateOrder(nftid, executedOrder)
-                router.push('/')
+                updateOrder(nftID, executedOrder)
+                router.push('/profile')
             }
         }
     }
@@ -92,7 +104,7 @@ const Sell: NextPage = () => {
             <h1>List NFT for sale</h1>
 
             <label>Price</label>
-            <input type='text' name='price' value={inputState.price} onChange={handleInputChange} />
+            <input type='number' min='0' name='price' value={inputState.price} onChange={handleInputChange} />
             
             <button type='button' onClick={() => sell()}>Sell</button>
         </main>

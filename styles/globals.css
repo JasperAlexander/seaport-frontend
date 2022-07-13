@@ -49,18 +49,53 @@ header {
 
 nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
   background-color: #FFFFFF;
   border-radius: 10px;
+  box-shadow:  10px 10px 20px #cacaca,
+             -10px -10px 20px #ffffff;
+}
+
+@media (min-width: 800px) {
+  nav > section:nth-child(1) {
+    flex-grow: 0;
+  }
+  nav > section:nth-child(2) {
+    flex-grow: 0;
+    justify-content: flex-end !important;
+  }
+}
+
+@media (min-width: 900px) {
+  nav > section:nth-child(1) {
+    justify-content: flex-start !important;
+  }
+  nav > section:nth-child(2) > a {
+    margin: 0px 10px;
+  }
 }
 
 nav > section:nth-child(1) {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
   font-weight: 600;
+  text-align: center;
+}
+
+nav > section:nth-child(2) {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: hidden;
 }
 
 nav > section:nth-child(2) > a {
-  margin-left: 20px;
   padding: 15px;
 }
 
@@ -68,12 +103,16 @@ nav > section:nth-child(2) > a:hover {
   font-weight: 600;
 }
 
-/* MAIN */
-main {
-  padding: 20px;
+[data-rk] .ju367vdr {
+  box-shadow: none !important;
 }
 
-main > h1 {
+/* MAIN */
+main {
+  padding: 20px 20px 100px 20px;
+}
+
+main > h1:nth-child(1) {
   margin-top: 0;
 }
 
@@ -94,8 +133,26 @@ main > button {
 
 .orders {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 10px;
+}
+
+@media (min-width: 340px) {
+  .orders {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 500px) {
+  .orders {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 800px) {
+  .orders {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .order {
@@ -106,6 +163,8 @@ main > button {
   overflow: hidden;
   border-radius: 10px;
   padding: 10px;
+  box-shadow:  10px 10px 20px #cacaca,
+             -10px -10px 20px #ffffff;
 }
 
 .order > span {
@@ -131,4 +190,21 @@ main > button {
 
 .order > button:hover {
   background-color: #EEEEEE;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  width: 120px;
+  font-size: 80px;
+  border-radius: 60px;
+  user-select: none;
+}
+
+.profile h2 {
+  text-overflow: ellipsis;
+  max-width: 100%;
+  overflow: hidden;
 }

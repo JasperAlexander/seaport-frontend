@@ -36,7 +36,7 @@ Then, spin up an instance of Hardhat Network:
 npx hardhat node
 ```
 
-Finally, deploy the contracts to the instance of Hardhat Network:
+Open a new Command Line Interface (terminal) and deploy the contracts to the instance of Hardhat Network:
 
 ```bash
 npx hardhat run scripts/deploy.js --network localhost

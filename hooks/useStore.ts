@@ -28,9 +28,18 @@ export const useStore = create<OrderState>((set) => ({
     updateOrder: (NFTID: string, order?: OrderWithCounter) => {
         set((state) => ({
             orders: state.orders.map((currentOrder) =>
-            currentOrder.meta.NFTID === NFTID
-                ? ({ ...currentOrder, order: order })
-                : currentOrder
+                currentOrder.meta.NFTID === NFTID
+                    ? ({ ...currentOrder, order: order })
+                    : currentOrder
+            ),
+        }));
+    },
+    updateOrderMeta: (NFTID: string, NFTcreator?: string) => {
+        set((state) => ({
+            orders: state.orders.map((currentOrder) =>
+                currentOrder.meta.NFTID === NFTID
+                    ? ({ ...currentOrder, meta: {...currentOrder.meta, NFTcreator: NFTcreator} })
+                    : currentOrder
             ),
         }));
     },

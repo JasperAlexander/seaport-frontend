@@ -1,21 +1,24 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { OrderWithMeta } from '../types/orderTypes'
 import { ethers } from 'ethers'
 import { Seaport } from '@opensea/seaport-js'
 import { useStore } from '../hooks/useStore'
+import { useAccount } from 'wagmi'
+import toast from 'react-hot-toast'
 
 const contractAddresses = require('../utils/contractAddresses.json')
 
 type Props = {
-    order: OrderWithMeta,
-    signerAddress: string
+    order: OrderWithMeta
 }
 
-export const Order: React.FC<Props> = ({ order, signerAddress }: Props) => {
-    const { orders, seaport, setSeaport } = useStore()
+export const Order: React.FC<Props> = ({ order }: Props) => {
+    const { orders, seaport, setSeaport, updateOrderMeta, updateOrder } = useStore()
+    const { address, isConnected } = useAccount()
+    const router = useRouter()
 
     if(typeof window !== 'undefined' && typeof seaport === 'undefined') {
-        (window as any).ethereum.request({ method: 'eth_requestAccounts' });
         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
         const newSeaport = new Seaport(
             provider, {
@@ -29,11 +32,6 @@ export const Order: React.FC<Props> = ({ order, signerAddress }: Props) => {
     }
     
     const buy = async(NFTID: string) => {
-        await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-        const web3provider = new ethers.providers.Web3Provider((window as any).ethereum);
-        const signer = web3provider.getSigner()
-        const signerAddress = await signer.getAddress()
-
         const selectedOrder = orders.find((order) => {
             return order.meta.NFTID === NFTID
         })
@@ -41,15 +39,24 @@ export const Order: React.FC<Props> = ({ order, signerAddress }: Props) => {
         if(
             typeof seaport !== 'undefined' && 
             typeof selectedOrder !== 'undefined' && 
-            typeof selectedOrder.order !== 'undefined'
+            typeof selectedOrder.order !== 'undefined' &&
+            isConnected &&
+            typeof address !== 'undefined'
         ) {
-            const { executeAllActions: executeAllFulfillActions } = await seaport.fulfillOrder({
-                order: selectedOrder.order,
-                accountAddress: signerAddress,
-            })
+            try {
+                const { executeAllActions: executeAllFulfillActions } = await seaport.fulfillOrder({
+                    order: selectedOrder.order,
+                    accountAddress: address,
+                })
+                const transaction = await executeAllFulfillActions()
+                await transaction.wait()
+                updateOrder(NFTID, undefined)
+                updateOrderMeta(NFTID, address)
+                router.push('/profile')
+            } catch(e: any) {
 
-            const transaction = await executeAllFulfillActions()
-            console.log(transaction)
+                toast.error(e.message)
+            }
         }
     }
 
@@ -61,19 +68,20 @@ export const Order: React.FC<Props> = ({ order, signerAddress }: Props) => {
         }
 
         <span>{order.meta.NFTname}</span>
+        {order.meta.NFTdescription ? <span>{order.meta.NFTdescription}</span> : ''}
 
         {typeof order.order === 'undefined'
             ? typeof order.meta.NFTcreator !== 'undefined'
-                ? order.meta.NFTcreator === signerAddress
+                ? order.meta.NFTcreator === address
                     ?
                         <Link href={'/sell/' + order.meta.NFTID}>
                             <a>Sell NFT</a>
                         </Link>
                     : <button type='button'>Not listed for sale</button>
                 : ''
-            : order.order.parameters.offerer !== signerAddress 
+            : order.meta.NFTcreator !== address 
                 ? <button type='button' onClick={() => buy(order.meta.NFTID)}>Buy NFT</button>
-                : <button type='button'>Cancel listing</button>
+                : <button type='button' onClick={() => updateOrder(order.meta.NFTID, undefined)}>Cancel listing</button>
         }
     </div>
   )

@@ -78,7 +78,8 @@ export interface OrderState {
         NFTcreator?: string,
         order?: OrderWithCounter
     ) => void
-    updateOrder: (NFTID: string, order: OrderWithCounter) => void
+    updateOrder: (NFTID: string, order?: OrderWithCounter) => void,
+    updateOrderMeta: (NFTID: string, NFTcreator?: string) => void,
     seaport: Seaport | undefined,
     setSeaport: (seaport: Seaport) => void
 }
