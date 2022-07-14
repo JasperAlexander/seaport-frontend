@@ -6,6 +6,7 @@ import { Seaport } from '@opensea/seaport-js'
 import { useStore } from '../hooks/useStore'
 import { useAccount } from 'wagmi'
 import toast from 'react-hot-toast'
+import { ETH } from './icons/ETH'
 
 const contractAddresses = require('../utils/contractAddresses.json')
 
@@ -15,7 +16,7 @@ type Props = {
 
 export const Order: React.FC<Props> = ({ order }: Props) => {
     const { orders, seaport, setSeaport, updateOrderMeta, updateOrder } = useStore()
-    const { address, isConnected } = useAccount()
+    const { address } = useAccount()
     const router = useRouter()
 
     if(typeof window !== 'undefined' && typeof seaport === 'undefined') {
@@ -40,7 +41,6 @@ export const Order: React.FC<Props> = ({ order }: Props) => {
             typeof seaport !== 'undefined' && 
             typeof selectedOrder !== 'undefined' && 
             typeof selectedOrder.order !== 'undefined' &&
-            isConnected &&
             typeof address !== 'undefined'
         ) {
             try {
@@ -54,7 +54,6 @@ export const Order: React.FC<Props> = ({ order }: Props) => {
                 updateOrderMeta(NFTID, address)
                 router.push('/profile')
             } catch(e: any) {
-
                 toast.error(e.message)
             }
         }
@@ -67,8 +66,23 @@ export const Order: React.FC<Props> = ({ order }: Props) => {
             : ''
         }
 
-        <span>{order.meta.NFTname}</span>
-        {order.meta.NFTdescription ? <span>{order.meta.NFTdescription}</span> : ''}
+        <div className='NFTmeta'>
+            <span className='NFTname'>{order.meta.NFTname}</span>
+            {/* {order.meta.NFTdescription ? <span>{order.meta.NFTdescription}</span> : ''} */}
+            {order.order 
+                ? <span className='NFTprice'>
+                    <ETH />
+                    {order.order.parameters.consideration[0].startAmount}
+                    ETH
+                </span>
+                // : <span>Not for sale</span>
+                : <span className='NFTprice'>
+                    <ETH />
+                    2
+                    ETH
+                </span>
+            }
+        </div>
 
         {typeof order.order === 'undefined'
             ? typeof order.meta.NFTcreator !== 'undefined'

@@ -162,26 +162,52 @@ main > button {
   height: auto;
   overflow: hidden;
   border-radius: 10px;
-  padding: 10px;
   box-shadow:  10px 10px 20px #cacaca,
              -10px -10px 20px #ffffff;
 }
 
-.order > span {
+.order:hover {
+  transform: scale(1.01);
+  transition: all ease-in-out 0.1s;
+}
+
+.order > img {
+  z-index: 999;
+  aspect-ratio: 1 / 1;
+}
+
+.order > .NFTmeta {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px;
+}
+
+.order > .NFTmeta > .NFTname {
   font-weight: 600;
-  padding: 5px 0px;
+  margin-bottom: 5px;
+}
+
+.order > .NFTmeta > .NFTprice {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  display: flex;
+  width: 10px;
+  margin-right: 5px;
 }
 
 .order > a {
-  border: 1px solid #000000;
-  padding: 5px;
-  border-radius: 5px;
+  border-top: 1px solid #EEEEEE;
+  padding: 10px;
   display: flex;
   justify-content: center;
 }
 
 .order > a:hover {
   background-color: #EEEEEE;
+  font-weight: 600;
 }
 
 .order > button {

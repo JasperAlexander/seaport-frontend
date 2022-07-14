@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 const Create: NextPage = () => {
     const { addOrder } = useStore()
     const router = useRouter()
-    const { address, isConnected } = useAccount()
+    const { address } = useAccount()
 
     const [inputState, setInputState] = React.useState({
         NFTname: '',
@@ -52,7 +52,7 @@ const Create: NextPage = () => {
             <label>Image</label>
             <input type='file' accept='image/png, image/jpeg' name='NFTimage' multiple={false} onChange={handleInputChange} />
 
-            <button type='button' onClick={() => { isConnected && inputState.NFTname 
+            <button type='button' onClick={() => { typeof address !== 'undefined' && inputState.NFTname 
                 ? ( 
                     addOrder(
                         randomBN().toString(), 

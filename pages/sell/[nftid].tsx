@@ -7,9 +7,8 @@ import { Seaport } from '@opensea/seaport-js'
 import { ethers } from 'ethers'
 import { parseEther } from 'ethers/lib/utils'
 import { ItemType } from '../../types/orderTypes'
-import { mintERC721 /* , ownerOfERC721 */ } from '../../utils/minting'
+import { mintERC721 , ownerOfERC721 } from '../../utils/minting'
 import { useAccount, useSigner } from 'wagmi'
-import { randomBN } from '../../utils/encoding'
 import toast from 'react-hot-toast'
 
 const contractAddresses = require('../../utils/contractAddresses.json')
@@ -57,15 +56,13 @@ const Sell: NextPage = () => {
             inputState.price !== '' &&
             signer !== null
         ) {
-            // let nftID
-            // const test1 = await ownerOfERC721(signer, nftid)
-            // console.log(test1)
-            // if(typeof test1 === 'undefined') {
-            //     nftID = await mintERC721(signer, address, nftid)
-            // } else {
-            //     nftID = nftid
-            // }
-            const nftID = await mintERC721(signer, address, nftid)
+            const owner = await ownerOfERC721(signer, nftid)
+            let nftID
+            if(typeof owner === 'undefined') {
+                nftID = await mintERC721(signer, address, nftid)
+            } else {
+                nftID = nftid
+            }
 
             if(typeof nftID !== 'undefined' && typeof address !== 'undefined') {
                 const { executeAllActions } = await seaport.createOrder({

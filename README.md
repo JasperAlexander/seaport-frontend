@@ -4,39 +4,37 @@
 
 ## Installation
 
-To interact with the protocol you need to have a web3-provider installed, like MetaMask.
+1. Install a web3-provider, like [MetaMask](https://github.com/MetaMask/metamask-extension).
 
-First, clone this repository:
+2. Open a [Command Line Interface (CLI)](https://en.wikipedia.org/wiki/Command-line_interface) and clone this repository:
 
 ```bash
 git clone https://github.com/JasperAlexander/seaport-implementation.git
 ```
 
-Then, in your project, install the dependencies:
+3. Inside the repository, run the following command to install the dependencies:
 
 ```bash
 yarn install
-# or
-npm install
 ```
 
 ## Getting Started
 
 ### Hardhat
 
-First, compile the contracts:
+1. Compile the Seaport marketplace contracts:
 
 ```bash
 npx hardhat compile
 ```
 
-Then, spin up an instance of Hardhat Network:
+2. Spin up an instance of Hardhat Network:
 
 ```bash
 npx hardhat node
 ```
 
-Open a new Command Line Interface (terminal) and deploy the contracts to the instance of Hardhat Network:
+3. Open a new CLI. Deploy the contracts to the instance of Hardhat Network:
 
 ```bash
 npx hardhat run scripts/deploy.js --network localhost
@@ -44,16 +42,20 @@ npx hardhat run scripts/deploy.js --network localhost
 
 ### Frontend
 
-First, run the development server:
+1. Run the development server:
 
 ```bash
 yarn dev
-# or
-npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the example implementation of the Seaport marketplace protocol.
 
 ## Contributing
 
 Contributions are welcome. Feel free to ask questions at the Discussions tab.
+
+## To do
+
+[ ] Clean the css mess
+[ ] Add auctions
+[ ] More...

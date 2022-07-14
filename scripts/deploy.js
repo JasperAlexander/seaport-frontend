@@ -33,7 +33,7 @@ async function main() {
         JSON.stringify({
             Seaport: seaportContract.address,
             TestERC721: testErc721.address,
-            TestERC20: testErc20.address,
+            TestERC20: testErc20.address
         }, undefined, 2)
     )
 }

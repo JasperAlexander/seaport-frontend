@@ -6,7 +6,7 @@ import { emojiAvatarForAddress } from '../utils/emojiAvatar'
 import { Orders } from '../components/Orders'
 
 const Profile: NextPage = () => {
-    const { address, isConnected } = useAccount()
+    const { address } = useAccount()
     const { data: EnsAvatar } = useEnsAvatar({
         addressOrName: address,
         chainId: 1337
@@ -18,7 +18,7 @@ const Profile: NextPage = () => {
     const { color: backgroundColor, emoji } = React.useMemo(
         () => emojiAvatarForAddress(address),
         [address]
-      );
+    )
     
     return (
         <React.Fragment>
@@ -29,26 +29,25 @@ const Profile: NextPage = () => {
         </Head>
 
         <main>
-            {typeof window !== 'undefined' && typeof isConnected !== 'undefined'
-                ? 
-                    <div className='profile'>
-                        {EnsAvatar 
-                            ? <div className='avatar'>{EnsAvatar}</div> 
-                            : 
-                                <div 
-                                    className='avatar'
-                                    style={{backgroundColor}}
-                                >
-                                    {emoji}
-                                </div> 
-                        }
-                        <h2>{EnsName ? EnsName : address}</h2>
-                        <span>Biography</span>
-                        <h2>My NFTs</h2>
-                        <Orders filter={order => order.meta.NFTcreator === address} />
-                    </div>
-                : <span>Not connected</span>
-            }
+            <div className='profile'>
+                {typeof EnsAvatar !== 'undefined'
+                    ? <div className='avatar'>{EnsAvatar}</div> 
+                    : 
+                        <div 
+                            className='avatar'
+                            style={{backgroundColor}}
+                        >
+                            {emoji}
+                        </div> 
+                }
+                <h2>{typeof EnsName !== 'undefined' ? EnsName : address}</h2>
+                <span>Biography</span>
+                <h2>My NFTs</h2>
+                {typeof address !== 'undefined'
+                    ? <Orders filter={order => order.meta.NFTcreator === address} />
+                    : <span>Not connected</span>
+                }
+            </div>
         </main>
         </React.Fragment>
     )

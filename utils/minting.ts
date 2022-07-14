@@ -29,24 +29,22 @@ export const mintERC20 = async(signer: ethers.Signer, address: string, mintAmoun
     }
 }
 
-// export const ownerOfERC721 = async(signer: ethers.Signer, nftID?: BigNumber | string) => {
-//     if(typeof window !== 'undefined' && typeof contractAddresses.TestERC721 !== 'undefined') {
-//         const contract = new ethers.Contract(contractAddresses.TestERC721, TestERC721.abi, signer)
+export const ownerOfERC721 = async(signer: ethers.Signer, nftID?: BigNumber | string) => {
+    if(typeof window !== 'undefined' && typeof contractAddresses.TestERC721 !== 'undefined') {
+       const contract = new ethers.Contract(contractAddresses.TestERC721, TestERC721.abi, signer)
 
-//         let nftid
-//         if(typeof nftID === 'string') {
-//             nftid = ethers.BigNumber.from(nftID)
-//         } else {
-//             nftid = nftID
-//         }
-//         console.log('nftid before ownerOf', nftid)
-//         try {
-//             const owner = await contract.ownerOf(nftid)
-//             await owner.wait()
-//             console.log(owner)
-//             return owner
-//         } catch {
-//             return undefined
-//         }
-//     }
-// }
+       let nftid
+        if(typeof nftID === 'string') {
+            nftid = ethers.BigNumber.from(nftID)
+        } else {
+            nftid = nftID
+        }
+        console.log('nftid before ownerOf', nftid)
+        try {
+            const owner = await contract.ownerOf(nftid)
+            return owner
+        } catch {
+            return undefined
+        }
+    }
+}
