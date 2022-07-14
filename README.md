@@ -56,6 +56,6 @@ Contributions are welcome. Feel free to ask questions at the Discussions tab.
 
 ## To do
 
-[ ] Clean the css mess
-[ ] Add auctions
-[ ] More...
+- [ ] Clean the css mess
+- [ ] Add auctions
+- [ ] More...
