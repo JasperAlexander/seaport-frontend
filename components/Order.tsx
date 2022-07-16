@@ -1,10 +1,9 @@
-import Link from 'next/link'
 import { OrderWithMeta } from '../types/orderTypes'
 import { ethers } from 'ethers'
 import { Seaport } from '@opensea/seaport-js'
 import { useStore } from '../hooks/useStore'
 import { useAccount } from 'wagmi'
-import { ETH } from './icons/ETH'
+import { ETH } from './Icons/ETH'
 import { useState, useCallback } from 'react'
 import { BuyModal } from './BuyModal'
 import { SellModal } from './SellModal'
@@ -81,9 +80,6 @@ export const Order: React.FC<Props> = ({ order }: Props) => {
             ? typeof order.meta.NFTcreator !== 'undefined'
                 ? order.meta.NFTcreator === address
                     ?
-                        // <Link href={'/sell/' + order.meta.NFTID}>
-                        //     <a>Sell NFT</a>
-                        // </Link>
                         <>
                         <button type='button' onClick={() => openSellModal()}>
                             Sell NFT
