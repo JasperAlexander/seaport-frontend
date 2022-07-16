@@ -1,27 +1,37 @@
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import Head from 'next/head'
-import React from 'react'
-import { useStore } from '../../hooks/useStore'
-import { Seaport } from '@opensea/seaport-js'
-import { ethers } from 'ethers'
-import { parseEther } from 'ethers/lib/utils'
-import { ItemType } from '../../types/orderTypes'
-import { mintERC721 , ownerOfERC721 } from '../../utils/minting'
+import { OrderWithMeta } from '../types/orderTypes'
+import { useStore } from '../hooks/useStore'
 import { useAccount, useSigner } from 'wagmi'
+import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
+import { Seaport } from '@opensea/seaport-js'
 import toast from 'react-hot-toast'
+import { Modal } from './Modal/Modal'
+import { useState } from 'react'
+import { parseEther } from 'ethers/lib/utils'
+import { ItemType } from '../types/orderTypes'
+import { mintERC721 , ownerOfERC721 } from '../utils/minting'
 
-const contractAddresses = require('../../utils/contractAddresses.json')
+const contractAddresses = require('../utils/contractAddresses.json')
 
-const Sell: NextPage = () => {
-    const { updateOrder, seaport, setSeaport } = useStore()
+type Props = {
+    nftid: string
+    order: OrderWithMeta,
+    onClose: () => void,
+    open: boolean
+}
+
+export const SellModal: React.FC<Props> = ({ 
+    nftid,
+    onClose,
+    open
+}: Props) => {
+
+    const { seaport, setSeaport, updateOrder } = useStore()
     const { address } = useAccount()
+    const router = useRouter()
     const { data: signer } = useSigner()
 
-    const router = useRouter()
-    const { nftid } = router.query
-
-    const [inputState, setInputState] = React.useState({
+    const [inputState, setInputState] = useState({
         price: ''
     })
 
@@ -44,7 +54,7 @@ const Sell: NextPage = () => {
         setSeaport(newSeaport)
         console.log('Seaport initialised')
     }
-
+    
     const sell = async() => {
         if(inputState.price === '') {
             toast('Enter a price')
@@ -88,25 +98,15 @@ const Sell: NextPage = () => {
             }
         }
     }
-    
-    return (
-        <React.Fragment>
-        <Head>
-            <title>List NFT | Seaport implementation</title>
-            <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
 
-        <main>
+    return (
+        <Modal onClose={onClose} open={open}>
             <h1>List NFT for sale</h1>
 
             <label>Price</label>
             <input type='number' min='0' name='price' value={inputState.price} onChange={handleInputChange} />
-            
+
             <button type='button' onClick={() => sell()}>Sell</button>
-        </main>
-        </React.Fragment>
+        </Modal>
     )
 }
-
-export default Sell

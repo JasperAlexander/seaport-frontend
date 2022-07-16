@@ -198,14 +198,17 @@ main > button {
   margin-right: 5px;
 }
 
-.order > a {
+.order > a, .order > button {
   border-top: 1px solid #EEEEEE;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
   padding: 10px;
   display: flex;
   justify-content: center;
 }
 
-.order > a:hover {
+.order > a:hover, .order > button:hover {
   background-color: #EEEEEE;
   font-weight: 600;
 }
@@ -233,4 +236,8 @@ main > button {
   text-overflow: ellipsis;
   max-width: 100%;
   overflow: hidden;
+}
+
+.sprinkles_borderRadius_modal__18szqf1p {
+  border-radius: 20px !important;
 }

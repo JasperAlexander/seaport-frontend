@@ -20,6 +20,12 @@ const Faucet: NextPage = () => {
             [e.target.name]: e.target.value
         })
     }
+
+    const [isLoadingDOM, setIsLoadingDOM] = React.useState(true)
+
+    React.useEffect(() => {
+        setIsLoadingDOM(false)
+    }, [])
     
     return (
         <React.Fragment>
@@ -38,6 +44,7 @@ const Faucet: NextPage = () => {
                 if(inputState.ERC20mintAmount === '') {
                     toast('Enter an amount')
                 } else if (
+                    !isLoadingDOM &&
                     inputState.ERC20mintAmount !== ''  && 
                     typeof address !== 'undefined' && 
                     typeof signer !== 'undefined' && 

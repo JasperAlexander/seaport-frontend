@@ -1,12 +1,13 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { OrderWithMeta } from '../types/orderTypes'
 import { ethers } from 'ethers'
 import { Seaport } from '@opensea/seaport-js'
 import { useStore } from '../hooks/useStore'
 import { useAccount } from 'wagmi'
-import toast from 'react-hot-toast'
 import { ETH } from './icons/ETH'
+import { useState, useCallback } from 'react'
+import { BuyModal } from './BuyModal'
+import { SellModal } from './SellModal'
 
 const contractAddresses = require('../utils/contractAddresses.json')
 
@@ -15,9 +16,8 @@ type Props = {
 }
 
 export const Order: React.FC<Props> = ({ order }: Props) => {
-    const { orders, seaport, setSeaport, updateOrderMeta, updateOrder } = useStore()
+    const { seaport, setSeaport, updateOrder } = useStore()
     const { address } = useAccount()
-    const router = useRouter()
 
     if(typeof window !== 'undefined' && typeof seaport === 'undefined') {
         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
@@ -31,33 +31,26 @@ export const Order: React.FC<Props> = ({ order }: Props) => {
         setSeaport(newSeaport)
         console.log('Seaport initialised')
     }
-    
-    const buy = async(NFTID: string) => {
-        const selectedOrder = orders.find((order) => {
-            return order.meta.NFTID === NFTID
-        })
 
-        if(
-            typeof seaport !== 'undefined' && 
-            typeof selectedOrder !== 'undefined' && 
-            typeof selectedOrder.order !== 'undefined' &&
-            typeof address !== 'undefined'
-        ) {
-            try {
-                const { executeAllActions: executeAllFulfillActions } = await seaport.fulfillOrder({
-                    order: selectedOrder.order,
-                    accountAddress: address,
-                })
-                const transaction = await executeAllFulfillActions()
-                await transaction.wait()
-                updateOrder(NFTID, undefined)
-                updateOrderMeta(NFTID, address)
-                router.push('/profile')
-            } catch(e: any) {
-                toast.error(e.message)
-            }
-        }
-    }
+    const useBooleanState = (initialValue: boolean) => {
+        const [value, setValue] = useState(initialValue)
+        const setTrue = useCallback(() => setValue(true), [])
+        const setFalse = useCallback(() => setValue(false), [])
+    
+        return { setFalse, setTrue, value }
+      }
+
+    const {
+        setFalse: closeBuyModal,
+        setTrue: openBuyModal,
+        value: buyModalOpen,
+    } = useBooleanState(false)
+
+    const {
+        setFalse: closeSellModal,
+        setTrue: openSellModal,
+        value: sellModalOpen,
+    } = useBooleanState(false)
 
     return (
     <div className='order'>
@@ -72,7 +65,7 @@ export const Order: React.FC<Props> = ({ order }: Props) => {
             {order.order 
                 ? <span className='NFTprice'>
                     <ETH />
-                    {order.order.parameters.consideration[0].startAmount}
+                    {ethers.utils.formatEther(order.order.parameters.consideration[0].startAmount)} 
                     ETH
                 </span>
                 // : <span>Not for sale</span>
@@ -88,13 +81,24 @@ export const Order: React.FC<Props> = ({ order }: Props) => {
             ? typeof order.meta.NFTcreator !== 'undefined'
                 ? order.meta.NFTcreator === address
                     ?
-                        <Link href={'/sell/' + order.meta.NFTID}>
-                            <a>Sell NFT</a>
-                        </Link>
+                        // <Link href={'/sell/' + order.meta.NFTID}>
+                        //     <a>Sell NFT</a>
+                        // </Link>
+                        <>
+                        <button type='button' onClick={() => openSellModal()}>
+                            Sell NFT
+                        </button>
+                        <SellModal nftid={order.meta.NFTID} order={order} onClose={closeSellModal} open={sellModalOpen} />
+                        </>
                     : <button type='button'>Not listed for sale</button>
                 : ''
             : order.meta.NFTcreator !== address 
-                ? <button type='button' onClick={() => buy(order.meta.NFTID)}>Buy NFT</button>
+                ? <>
+                    <button type='button' onClick={() => openBuyModal()}>
+                        Buy NFT
+                    </button>
+                    <BuyModal order={order} onClose={closeBuyModal} open={buyModalOpen} />
+                </>
                 : <button type='button' onClick={() => updateOrder(order.meta.NFTID, undefined)}>Cancel listing</button>
         }
     </div>

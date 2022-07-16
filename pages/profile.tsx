@@ -19,6 +19,12 @@ const Profile: NextPage = () => {
         () => emojiAvatarForAddress(address),
         [address]
     )
+
+    const [isLoadingDOM, setIsLoadingDOM] = React.useState(true)
+
+    React.useEffect(() => {
+        setIsLoadingDOM(false)
+    }, [])
     
     return (
         <React.Fragment>
@@ -30,20 +36,24 @@ const Profile: NextPage = () => {
 
         <main>
             <div className='profile'>
-                {typeof EnsAvatar !== 'undefined'
-                    ? <div className='avatar'>{EnsAvatar}</div> 
-                    : 
-                        <div 
-                            className='avatar'
-                            style={{backgroundColor}}
-                        >
-                            {emoji}
-                        </div> 
+                {isLoadingDOM
+                    ? ''
+                    : EnsAvatar
+                        ? <div className='avatar'>{EnsAvatar}</div> 
+                        : 
+                            <div 
+                                className='avatar'
+                                style={{backgroundColor}}
+                            >
+                                {emoji}
+                            </div>
                 }
-                <h2>{typeof EnsName !== 'undefined' ? EnsName : address}</h2>
+                <h2>{isLoadingDOM ? '' : EnsName ? EnsName : address}</h2>
                 <span>Biography</span>
                 <h2>My NFTs</h2>
-                {typeof address !== 'undefined'
+                {isLoadingDOM
+                ? ''
+                : address
                     ? <Orders filter={order => order.meta.NFTcreator === address} />
                     : <span>Not connected</span>
                 }

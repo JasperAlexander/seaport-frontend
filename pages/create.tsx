@@ -31,6 +31,12 @@ const Create: NextPage = () => {
             })
         }
     }
+
+    const [isLoadingDOM, setIsLoadingDOM] = React.useState(true)
+
+    React.useEffect(() => {
+        setIsLoadingDOM(false)
+    }, [])
     
     return (
         <React.Fragment>
@@ -52,7 +58,7 @@ const Create: NextPage = () => {
             <label>Image</label>
             <input type='file' accept='image/png, image/jpeg' name='NFTimage' multiple={false} onChange={handleInputChange} />
 
-            <button type='button' onClick={() => { typeof address !== 'undefined' && inputState.NFTname 
+            <button type='button' onClick={() => { !isLoadingDOM && inputState.NFTname 
                 ? ( 
                     addOrder(
                         randomBN().toString(), 

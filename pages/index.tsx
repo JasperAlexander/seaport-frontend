@@ -7,6 +7,12 @@ import { useAccount } from 'wagmi'
 const Home: NextPage = () => {
   const { address } = useAccount()
 
+  const [isLoadingDOM, setIsLoadingDOM] = React.useState(true)
+
+  React.useEffect(() => {
+      setIsLoadingDOM(false)
+  }, [])
+
   return (
     <React.Fragment>
       <Head>
@@ -17,9 +23,9 @@ const Home: NextPage = () => {
 
       <main>
         <h1>Explore</h1>
-        {typeof address !== 'undefined' 
-          ? <Orders filter={order => order.meta.NFTcreator !== address} />
-          : <span>Loading...</span>
+        {isLoadingDOM
+        ? ''
+        : <Orders filter={order => order.meta.NFTcreator !== address} />
         }
       </main>
     </React.Fragment>
