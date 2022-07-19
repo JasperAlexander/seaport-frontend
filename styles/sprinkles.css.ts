@@ -19,12 +19,8 @@ const themeContractValues = {
     actionButtonSecondaryBackground: '',
     closeButton: '',
     closeButtonBackground: '',
-    connectButtonBackground: '',
-    connectButtonBackgroundError: '',
-    connectButtonInnerBackground: '',
-    connectButtonText: '',
-    connectButtonTextError: '',
-    connectionIndicator: '',
+    defaultBackground: '',
+    defaultBackgroundBorder: '',
     error: '',
     generalBorder: '',
     generalBorderDim: '',
@@ -35,11 +31,46 @@ const themeContractValues = {
     modalText: '',
     modalTextDim: '',
     modalTextSecondary: '',
-    profileAction: '',
-    profileActionHover: '',
+    orderAction: '',
+    orderBackground: '',
     profileForeground: '',
     selectedOptionBorder: '',
     standby: '',
+    transparent: '',
+
+    alpha100: '',
+    alpha200: '',
+    alpha300: '',
+    alpha400: '',
+    alpha500: '',
+    alpha600: '',
+    alpha700: '',
+    alpha800: '',
+    alpha900: '',
+
+    black: '',
+
+    lightgray100: '',
+    lightgray200: '',
+    lightgray300: '',
+    lightgray400: '',
+    lightgray500: '',
+    lightgray600: '',
+    lightgray700: '',
+    lightgray800: '',
+    lightgray900: '',
+
+    white: '',
+
+    orange100: '',
+    orange200: '',
+    orange300: '',
+    orange400: '',
+    orange500: '',
+    orange600: '',
+    orange700: '',
+    orange800: '',
+    orange900: '',
   },
   fonts: {
     body: '',
@@ -52,12 +83,9 @@ const themeContractValues = {
     modalMobile: '',
   },
   shadows: {
-    connectButton: '',
+    default: '',
+    defaultSmall: '',
     dialog: '',
-    profileDetailsAction: '',
-    selectedOption: '',
-    selectedWallet: '',
-    walletLogo: '',
   },
   blurs: {
     modalOverlay: '',
@@ -68,11 +96,17 @@ export type ThemeVars = typeof themeContractValues
 
 export const themeVars = createGlobalThemeContract(
   themeContractValues,
-  (_, path) => `rk-${path.join('-')}`
+  (_, path) => `si-${path.join('-')}`
 )
 
 const spacing = {
-  '-1': '-1px',
+  '-120': '-120px',
+  '-100': '-100px',
+  '-80': '-80px',
+  '-60': '-60px',
+  '-40': '-40px',
+  '-20': '-20px',
+  '-10': '-10px',
   '0': '0',
   '1': '1px',
   '2': '2px',
@@ -91,11 +125,19 @@ const spacing = {
   '28': '28px',
   '32': '32px',
   '36': '36px',
+  '40': '40px',
   '44': '44px',
   '64': '64px',
 }
 
 const dimensions = {
+  '-120': '-120px',
+  '-100': '-100px',
+  '-80': '-80px',
+  '-60': '-60px',
+  '-40': '-40px',
+  '-20': '-20px',
+  '-10': '-10px',
   '1': '1px',
   '2': '2px',
   '4': '4px',
@@ -112,8 +154,12 @@ const dimensions = {
   '48': '48px',
   '54': '54px',
   '60': '60px',
+  '100': '100px',
+  '180': '180px',
+  '240': '240px',
   'full': '100%',
   'max': 'max-content',
+  'auto': 'auto',
 }
 
 const flexAlignment = ['flex-start', 'flex-end', 'center'] as const
@@ -132,7 +178,6 @@ const responsiveProperties = defineProperties({
   defaultCondition: 'smallScreen',
   properties: {
     alignItems: flexAlignment,
-    display: ['none', 'block', 'flex', 'inline'],
   },
 })
 
@@ -149,6 +194,7 @@ const unresponsiveProperties = defineProperties({
     backgroundSize: ['cover'] as const,
     borderRadius: {
       ...themeVars.radii,
+      '0': '0px',
       '1': '1px',
       '6': '6px',
       '10': '10px',
@@ -166,7 +212,11 @@ const unresponsiveProperties = defineProperties({
       '4': '4px',
     },
     cursor: ['pointer'],
+    display: ['none', 'block', 'flex', 'inline', 'grid'],
+    gridTemplateColumns: ['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)'],
     flexDirection: ['row', 'column'],
+    flexGrow: ['0', '1'],
+    flexWrap: ['wrap'],
     fontFamily: themeVars.fonts,
     fontSize: {
       '12': { fontSize: '12px', lineHeight: '18px' },
@@ -175,7 +225,8 @@ const unresponsiveProperties = defineProperties({
       '16': { fontSize: '16px', lineHeight: '20px' },
       '18': { fontSize: '18px', lineHeight: '24px' },
       '20': { fontSize: '20px', lineHeight: '24px' },
-      '23': { fontSize: '23px', lineHeight: '29px' },
+      '24': { fontSize: '24px', lineHeight: '29px' },
+      '32': { fontSize: '32px', lineHeight: '29px' },
     },
     fontWeight: {
       regular: '400',
@@ -194,7 +245,7 @@ const unresponsiveProperties = defineProperties({
     marginTop: spacing,
     maxWidth: dimensions,
     minWidth: dimensions,
-    overflow: ['hidden'] as const,
+    overflow: ['hidden', 'visible'] as const,
     paddingBottom: spacing,
     paddingLeft: spacing,
     paddingRight: spacing,

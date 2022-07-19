@@ -1,7 +1,8 @@
+import { Box } from '../Box/Box'
 
 export const ETH: React.FC = () => {
     return (
-        <div className='icon'>
+        <Box display='flex' width='12' marginRight='8'>
             <svg width="33" height="33" viewBox="0 0 33 53" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16.3576 0.666687L16.0095 1.85009V36.1896L16.3576 36.5371L32.2976 27.115L16.3576 0.666687Z" fill="#343434"/>
                 <path d="M16.3578 0.666687L0.417816 27.115L16.3578 36.5372V19.8699V0.666687Z" fill="#8C8C8C"/>
@@ -10,7 +11,7 @@ export const ETH: React.FC = () => {
                 <path d="M16.3575 36.537L32.2973 27.1151L16.3575 19.8699V36.537Z" fill="#141414"/>
                 <path d="M0.417816 27.1151L16.3576 36.537V19.8699L0.417816 27.1151Z" fill="#393939"/>
             </svg>
-        </div>
+        </Box>
     )
 }
   

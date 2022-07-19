@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Layout } from '../components/Layout'
+import { Layout } from '../components/Layout/Layout'
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
@@ -14,6 +14,8 @@ import {
   WagmiConfig,
 } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
+import { VanillaExtractProvider } from '../components/Providers/VanillaExtractProvider'
+import { lightSeaportTheme } from '../styles/lightSeaportTheme'
 
 const hardhatChain: Chain = {
   id: 1337,
@@ -66,9 +68,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           learnMoreUrl: 'https://github.com/JasperAlexander/seaport-implementation#readme',
         }}
       >
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <VanillaExtractProvider theme={lightSeaportTheme()}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </VanillaExtractProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   )

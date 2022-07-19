@@ -14,36 +14,47 @@ a {
   font-size: 16px;
 }
 
-input {
+/* input {
   background-color: inherit;
   outline: none;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #000000;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #d6d6d6;
+  -webkit-transition : border 100ms ease-out;
+  -moz-transition : border 100ms ease-out;
+  -o-transition : border 100ms ease-out;
+  transition : border 100ms ease-out;
 }
 
-input:hover {
-  background-color: #FFFFFF;
-}
+input:hover, input:focus {
+  border: 2px solid #a7a7a7;
+} */
 
-button {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #000000;
+/* button {
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 5px 0px;
   font-size: 16px;
+  background-color: #FA5B0F;
+  color: #FFFFFF;
+  -webkit-transition : background 100ms ease-out;
+  -moz-transition : background 100ms ease-out;
+  -o-transition : background 100ms ease-out;
+  transition : background 100ms ease-out;
 }
 
 button:hover {
-  background-color: #FFFFFF;
+  background-color: #fb6b27;
   cursor: pointer;
-}
+} */
 
 * {
   box-sizing: border-box;
 }
 
 /* HEADER */
-header {
+/* header {
   padding: 20px;
 }
 
@@ -57,9 +68,9 @@ nav {
   border-radius: 10px;
   box-shadow:  10px 10px 20px #cacaca,
              -10px -10px 20px #ffffff;
-}
+} */
 
-@media (min-width: 800px) {
+/* @media (min-width: 800px) {
   nav > section:nth-child(1) {
     flex-grow: 0;
   }
@@ -101,14 +112,14 @@ nav > section:nth-child(2) > a {
 
 nav > section:nth-child(2) > a:hover {
   font-weight: 600;
-}
+} */
 
 [data-rk] .ju367vdr {
   box-shadow: none !important;
 }
 
 /* MAIN */
-main {
+/* main {
   padding: 20px 20px 100px 20px;
 }
 
@@ -120,16 +131,17 @@ main > label {
   display: flex;
   align-items: center;
   padding: 10px 0px;
-}
+  font-weight: 600;
+} */
 
-main > input {
+/* main > input {
   margin-right: 10px;
-}
+} */
 
-main > button {
+/* main > button {
   display: flex;
   margin: 20px 0px;
-}
+} */
 
 .orders {
   display: grid;
@@ -166,62 +178,69 @@ main > button {
              -10px -10px 20px #ffffff;
 }
 
-.order:hover {
+/* .order:hover {
   transform: scale(1.01);
   transition: all ease-in-out 0.1s;
+} */
+
+@keyframes donut-spin {
+	0% {
+	  transform: rotate(0deg);
+	}
+	100% {
+	  transform: rotate(360deg);
+	}
 }
 
-.order > img {
+.spinner {
+  animation: donut-spin 1.2s linear infinite;
+}
+
+.NFTimg {
   z-index: 999;
   aspect-ratio: 1 / 1;
 }
 
-.order > .NFTmeta {
+.NFTmeta {
   display: flex;
   flex-direction: column;
   padding: 5px 10px;
 }
 
-.order > .NFTmeta > .NFTname {
+.NFTmeta > .NFTname {
   font-weight: 600;
   margin-bottom: 5px;
 }
 
-.order > .NFTmeta > .NFTprice {
+.NFTmeta > .NFTprice {
   display: flex;
   align-items: center;
 }
 
-.icon {
+/* .icon {
   display: flex;
   width: 10px;
   margin-right: 5px;
-}
+} */
 
-.order > a, .order > button {
+/* .orderBtn {
   border-top: 1px solid #EEEEEE;
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0px;
   padding: 10px;
   display: flex;
   justify-content: center;
-}
+  margin: 0px;
+  background-color: #FA5B0F;
+} */
 
-.order > a:hover, .order > button:hover {
-  background-color: #EEEEEE;
-  font-weight: 600;
-}
+/* .orderBtn:hover {
+  background-color: #fb6b27;
+} */
 
-.order > button {
-  background-color: inherit;
-}
-
-.order > button:hover {
-  background-color: #EEEEEE;
-}
-
-.avatar {
+/* .avatar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -230,14 +249,34 @@ main > button {
   font-size: 80px;
   border-radius: 60px;
   user-select: none;
-}
+} */
 
-.profile h2 {
+/* .profile h2 {
   text-overflow: ellipsis;
   max-width: 100%;
   overflow: hidden;
-}
+} */
 
 .sprinkles_borderRadius_modal__18szqf1p {
   border-radius: 20px !important;
 }
+
+.sprinkles_background_closeButtonBackground_base__18szqf19l:hover {
+  background-color: var(--rk-colors-closeButtonBackground) !important;
+}
+
+/* .modalTop {
+  text-align: center;
+  font-weight: 600;
+} */
+
+/* .modalColumn {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+}
+
+.modalColumn > span:nth-child(1) {
+  font-weight: 600;
+  padding-bottom: 5px;
+} */

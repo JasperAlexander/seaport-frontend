@@ -1,9 +1,9 @@
-import { Dialog } from './Dialog'
+import { Dialog } from '../Dialog/Dialog'
 import React, { ReactNode } from 'react'
-import { DialogContent } from './DialogContent'
-import { isMobile } from './isMobile'
-import { Box } from './Box'
-import { CloseButton } from './CloseButton'
+import { DialogContent } from '../Dialog/DialogContent'
+import { isMobile } from '../../utils/isMobile'
+import { Box } from '../Box/Box'
+import { CloseButton } from '../Buttons/CloseButton'
 
 interface ModalProps {
   onClose: () => void,
@@ -16,7 +16,7 @@ export const Modal = ({
   open,
   children
 }: ModalProps) => {
-  const titleId = 'rk_account_modal_title'
+  const titleId = 'si_account_modal_title'
 
   const mobile = isMobile()
 
@@ -31,7 +31,7 @@ export const Modal = ({
               flexDirection="column"
               gap={mobile ? '16' : '12'}
               justifyContent="center"
-              margin="8"
+              margin="0"
               style={{ textAlign: 'center' }}
             >
               <Box

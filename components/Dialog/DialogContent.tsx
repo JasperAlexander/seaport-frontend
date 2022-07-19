@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import { isMobile } from './isMobile'
-import { Box, BoxProps } from './Box'
+import { isMobile } from '../../utils/isMobile'
+import { Box, BoxProps } from '../Box/Box'
 import * as styles from './DialogContent.css'
 
 interface DialogContentProps {
@@ -15,7 +15,7 @@ export function DialogContent({
   bottomSheetOnMobile = false,
   children,
   marginTop,
-  padding = '16',
+  padding = '0',
   wide = false,
 }: DialogContentProps) {
   const mobile = isMobile()

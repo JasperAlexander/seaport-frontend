@@ -6,6 +6,11 @@ import { useRouter } from 'next/router'
 import { randomBN } from '../utils/encoding'
 import { useAccount } from 'wagmi'
 import toast from 'react-hot-toast'
+import { Button } from '../components/Buttons/Button'
+import { Text } from '../components/Text/Text'
+import { Box } from '../components/Box/Box'
+import { touchableStyles } from '../styles/touchableStyles'
+import { Input } from '../components/Input/Input'
 
 const Create: NextPage = () => {
     const { addOrder } = useStore()
@@ -47,30 +52,88 @@ const Create: NextPage = () => {
         </Head>
 
         <main>
-            <h1>Create NFT</h1>
+            <Box padding='44'>
+            {/* <h1>Create NFT</h1> */}
+            <Text as='h1' size='32' weight='bold'>Create NFT</Text>
 
-            <label>Name</label>
-            <input type='text' name='NFTname' value={inputState.NFTname} onChange={handleInputChange} />
-            
-            <label>Description</label>
-            <input type='text' name='NFTdescription' value={inputState.NFTdescription} onChange={handleInputChange} />
+            <Box display='flex' flexDirection='column' gap='12' alignItems='flex-start' marginTop='18'>
+                <Text as='label' weight='bold'>Name</Text>
+                {/* <input type='text' name='NFTname' value={inputState.NFTname} onChange={handleInputChange} /> */}
+                {/* <Box 
+                    as='input' 
+                    type='text'
+                    name='NFTname' 
+                    value={inputState.NFTname} 
+                    onChange={handleInputChange} 
+                    borderWidth='2'
+                    borderColor='defaultBackgroundBorder'
+                    borderStyle='solid'
+                    borderRadius='10'
+                    padding='10'
+                    background='defaultBackground'
+                    className={touchableStyles({ hoverBorderColor: 'gray', focusBorderColor: 'gray' })}
+                /> */}
+                <Input 
+                    type='text'
+                    name='NFTname' 
+                    value={inputState.NFTname} 
+                    onChange={handleInputChange} 
+                    // className={touchableStyles({ hoverBorderColor: 'gray', focusBorderColor: 'gray' })}
+                />
 
-            <label>Image</label>
-            <input type='file' accept='image/png, image/jpeg' name='NFTimage' multiple={false} onChange={handleInputChange} />
+                <Text as='label' weight='bold'>Description</Text>
+                {/* <input type='text' name='NFTdescription' value={inputState.NFTdescription} onChange={handleInputChange} /> */}
+                <Box 
+                    as='input' 
+                    type='text'
+                    name='NFTdescription' 
+                    value={inputState.NFTdescription} 
+                    onChange={handleInputChange} 
+                    borderWidth='2'
+                    borderColor='defaultBackgroundBorder'
+                    borderStyle='solid'
+                    borderRadius='10'
+                    padding='10'
+                    background='defaultBackground'
+                    className={touchableStyles({ hoverBorderColor: 'gray', focusBorderColor: 'gray' })}
+                />
 
-            <button type='button' onClick={() => { !isLoadingDOM && inputState.NFTname 
-                ? ( 
-                    addOrder(
-                        randomBN().toString(), 
-                        inputState.NFTname, 
-                        inputState.NFTdescription,
-                        inputState.NFTimage,
-                        address
-                    ), 
-                    router.push('/profile') 
-                )
-                : toast('Enter a name') 
-            }}>Create NFT</button>
+                <Text as='label' weight='bold'>Image</Text>
+                {/* <input type='file' accept='image/png, image/jpeg' name='NFTimage' multiple={false} onChange={handleInputChange} /> */}
+                <Box 
+                    as='input' 
+                    type='file'
+                    accept='image/png, image/jpeg'
+                    multiple={false}
+                    name='NFTimage' 
+                    onChange={handleInputChange} 
+                    borderWidth='2'
+                    borderColor='defaultBackgroundBorder'
+                    borderStyle='solid'
+                    borderRadius='10'
+                    padding='10'
+                    background='defaultBackground'
+                    className={touchableStyles({ hoverBorderColor: 'gray', focusBorderColor: 'gray' })}
+                />
+
+                <Button
+                    label='Create NFT'
+                    onClick={() => { !isLoadingDOM && inputState.NFTname 
+                        ? ( 
+                            addOrder(
+                                randomBN().toString(), 
+                                inputState.NFTname, 
+                                inputState.NFTdescription,
+                                inputState.NFTimage,
+                                address
+                            ), 
+                            router.push('/profile') 
+                        )
+                        : toast('Enter a name') 
+                    }}
+                />
+            </Box>
+            </Box>
         </main>
         </React.Fragment>
     )

@@ -1,8 +1,8 @@
 import React from 'react'
 import { touchableStyles } from '../../styles/touchableStyles'
-import { isMobile } from './isMobile'
-import { Box } from './Box'
-import { CloseIcon } from './Close'
+import { isMobile } from '../../utils/isMobile'
+import { Box } from '../Box/Box'
+import { CloseIcon } from '../Icons/Close'
 
 export const CloseButton = ({
   'aria-label': ariaLabel = 'Close',
@@ -18,11 +18,16 @@ export const CloseButton = ({
       aria-label={ariaLabel}
       as="button"
       background="closeButtonBackground"
-      borderColor="actionButtonBorder"
+      borderColor="defaultBackgroundBorder"
       borderRadius="full"
       borderStyle="solid"
       borderWidth={mobile ? '0' : '1'}
-      className={touchableStyles({ active: 'shrinkSm', hover: 'growLg' })}
+      className={touchableStyles({ 
+        hoverBackground: 'lightgray500', 
+        hoverBorderColor: 'gray', 
+        activeScale: 'shrinkSm', 
+        hoverScale: 'growLg' 
+      })}
       color="closeButton"
       display="flex"
       height={mobile ? '30' : '28'}

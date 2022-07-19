@@ -1,5 +1,5 @@
 import { Toaster } from 'react-hot-toast'
-import { Header } from './Header'
+import { Header } from '../Header/Header'
 
 type Props = {
     children: React.ReactNode
@@ -10,6 +10,11 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
         <div>
             <Toaster 
                 position='bottom-right'
+                toastOptions={{
+                    style: {
+                        zIndex: '21474836471'
+                    }
+                }}
             />
             <Header />
             { children }

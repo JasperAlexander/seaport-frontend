@@ -6,9 +6,9 @@ import React, {
   } from 'react'
   import { createPortal } from 'react-dom'
   import { RemoveScroll } from 'react-remove-scroll'
-  import { isMobile } from './isMobile'
-  import { Box } from './Box'
-  import { useThemeRootProps } from './RainbowKitProvider'
+  import { isMobile } from '../../utils/isMobile'
+  import { Box } from '../Box/Box'
+  import { useThemeRootProps } from '../Providers/VanillaExtractProvider'
   import * as styles from './Dialog.css'
   import { FocusTrap } from './FocusTrap'
   

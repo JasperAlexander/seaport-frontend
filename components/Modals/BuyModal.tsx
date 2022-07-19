@@ -1,13 +1,16 @@
-import { OrderWithMeta } from '../types/orderTypes'
-import { useStore } from '../hooks/useStore'
+import { OrderWithMeta } from '../../types/orderTypes'
+import { useStore } from '../../hooks/useStore'
 import { useAccount } from 'wagmi'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { Seaport } from '@opensea/seaport-js'
 import toast from 'react-hot-toast'
-import { Modal } from './Modal/Modal'
+import { Modal } from './Modal'
+import { Button } from '../Buttons/Button'
+import { Text } from '../Text/Text'
+import { Box } from '../Box/Box'
 
-const contractAddresses = require('../utils/contractAddresses.json')
+const contractAddresses = require('../../utils/contractAddresses.json')
 
 type Props = {
     order: OrderWithMeta,
@@ -67,7 +70,14 @@ export const BuyModal: React.FC<Props> = ({
 
     return (
         <Modal onClose={onClose} open={open}>
-            <button type='button' onClick={() => buy(order.meta.NFTID)}>Buy NFT</button>
+            <Box marginTop='2'>
+                <Text textAlign='center' weight='bold'>Complete checkout</Text>
+            </Box>
+            <Box display='flex' flexDirection='column' padding='10'>
+                <Text as='span' weight='bold'>Item</Text>
+                <Text as='span'>{order.meta.NFTname}</Text>
+            </Box>
+            <Button label='Buy NFT' onClick={() => buy(order.meta.NFTID)} />
         </Modal>
     )
 }
