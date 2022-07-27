@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Layout } from '../components/Layout/Layout'
+import { BodyLayout } from '../components/Layouts/BodyLayout'
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
@@ -69,9 +69,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <VanillaExtractProvider theme={lightSeaportTheme()}>
-          <Layout>
+          <BodyLayout>
             <Component {...pageProps} />
-          </Layout>
+          </BodyLayout>
         </VanillaExtractProvider>
       </RainbowKitProvider>
     </WagmiConfig>

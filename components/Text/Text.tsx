@@ -20,6 +20,7 @@ export type TextProps = {
   font?: BoxProps['fontFamily']
   // lineHeight?: BoxProps['lineHeight']
   size?: BoxProps['fontSize']
+  maxWidth?: BoxProps['maxWidth']
   // transform?: BoxProps['textTransform']
   weight?: BoxProps['fontWeight']
   className?: string
@@ -40,6 +41,7 @@ export const Text = React.forwardRef(
       font = 'body',
       id,
       overflow,
+      maxWidth,
       size = '16',
       tabIndex,
       textAlign = 'inherit',
@@ -58,6 +60,7 @@ export const Text = React.forwardRef(
         fontWeight={weight}
         id={id}
         overflow={overflow}
+        maxWidth={maxWidth}
         ref={ref}
         tabIndex={tabIndex}
         textAlign={textAlign}

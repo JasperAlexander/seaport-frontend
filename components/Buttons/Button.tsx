@@ -1,6 +1,5 @@
 import React from 'react'
-import { touchableStyles } from '../../styles/touchableStyles'
-import { isMobile } from '../../utils/isMobile'
+import { sprinkles } from '../../styles/sprinkles.css'
 import { Box, BoxProps } from '../Box/Box'
 import { Text, TextProps } from '../Text/Text'
 
@@ -34,7 +33,7 @@ const sizeVariants: Record<
 }
 
 export function Button({
-    children,
+  children,
   href,
   label,
   onClick,
@@ -43,7 +42,7 @@ export function Button({
   target = '_blank',
   type = 'primary',
 }: {
-    children?: React.ReactNode
+  children?: React.ReactNode
   href?: string
   label?: string
   onClick?: () => void
@@ -54,38 +53,27 @@ export function Button({
 }) {
   const isPrimary = type === 'primary'
   const isNotLarge = size !== 'large'
-  const mobile = isMobile()
   const background = isPrimary
     ? 'accentColor'
     : isNotLarge
     ? 'actionButtonSecondaryBackground'
     : null
   const { fontSize, height, paddingX, paddingY } = sizeVariants[size]
-  const hasBorder = !mobile || !isNotLarge
   return (
     <Box
       {...(href
         ? { as: 'a', href, rel, target }
         : { as: 'button', type: 'button' })}
       onClick={onClick}
-      {...(hasBorder
-        ? {
-            borderColor:
-              mobile && !isNotLarge && !isPrimary
-                ? 'actionButtonBorderMobile'
-                : 'actionButtonBorder',
-            borderStyle: 'solid',
-            borderWidth: '1',
-          }
-        : {})}
-      borderRadius="actionButton"
+      borderRadius='10'
       boxShadow='default'
-      className={touchableStyles({ 
-        hoverBackground: 'orange', 
-        hoverShadow: 'default', 
-        hoverBorderColor: 'actionButtonBorderMobile',
-        focusBorderColor: 'actionButtonBorderMobile',
-        hoverScale: 'grow'
+    className={sprinkles({
+        background: {
+          hover: 'accentColorHover'
+        },
+        boxShadow: {
+          hover: 'default'
+        },
     })}
       display="block"
       paddingX={paddingX}
@@ -97,7 +85,7 @@ export function Button({
       {...(height ? { height } : {})}
     >
       <Text
-        color={isPrimary ? 'accentColorForeground' : 'accentColor'}
+        color={isPrimary ? 'accentColorText' : 'accentColor'}
         size={fontSize}
         weight="bold"
       >

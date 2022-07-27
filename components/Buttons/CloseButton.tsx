@@ -1,15 +1,15 @@
 import React from 'react'
-import { touchableStyles } from '../../styles/touchableStyles'
+import { sprinkles } from '../../styles/sprinkles.css'
 import { isMobile } from '../../utils/isMobile'
 import { Box } from '../Box/Box'
 import { CloseIcon } from '../Icons/Close'
 
 export const CloseButton = ({
-  'aria-label': ariaLabel = 'Close',
+  ariaLabel = 'Close',
   onClose,
 }: {
-  'aria-label'?: string
-  'onClose': () => void
+  ariaLabel?: string
+  onClose: () => void
 }) => {
   const mobile = isMobile()
   return (
@@ -22,11 +22,17 @@ export const CloseButton = ({
       borderRadius="full"
       borderStyle="solid"
       borderWidth={mobile ? '0' : '1'}
-      className={touchableStyles({ 
-        hoverBackground: 'lightgray500', 
-        hoverBorderColor: 'gray', 
-        activeScale: 'shrinkSm', 
-        hoverScale: 'growLg' 
+      className={sprinkles({
+        background: {
+          hover: 'lightgray500'
+        },
+        borderColor: {
+          hover: 'lightgray200'
+        },
+        scale: {
+          hover: 'growLg',
+          active: 'shrinkSm'
+        }
       })}
       color="closeButton"
       display="flex"

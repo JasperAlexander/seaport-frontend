@@ -1,73 +1,23 @@
-import { OrderWithMeta } from '../../types/orderTypes'
-import { useStore } from '../../hooks/useStore'
-import { useAccount } from 'wagmi'
-import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
-import { Seaport } from '@opensea/seaport-js'
-import toast from 'react-hot-toast'
+import { OrderWithCounter } from '../../types/orderTypes'
 import { Modal } from './Modal'
-import { Button } from '../Buttons/Button'
 import { Text } from '../Text/Text'
 import { Box } from '../Box/Box'
-
-const contractAddresses = require('../../utils/contractAddresses.json')
+import { AssetType } from '../../types/assetTypes'
+import { BuyAssetButton } from '../Buttons/BuyAssetButton'
 
 type Props = {
-    order: OrderWithMeta,
+    asset: AssetType,
+    order: OrderWithCounter,
     onClose: () => void,
     open: boolean
 }
 
 export const BuyModal: React.FC<Props> = ({ 
+    asset,
     order,
     onClose,
     open
 }: Props) => {
-
-    const { orders, seaport, setSeaport, updateOrderMeta, updateOrder } = useStore()
-    const { address } = useAccount()
-    const router = useRouter()
-
-    if(typeof window !== 'undefined' && typeof seaport === 'undefined') {
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-        const newSeaport = new Seaport(
-            provider, {
-                overrides: {
-                    contractAddress: contractAddresses.Seaport
-                }
-            }
-        )
-        setSeaport(newSeaport)
-        console.log('Seaport initialised')
-    }
-    
-    const buy = async(NFTID: string) => {
-        const selectedOrder = orders.find((order) => {
-            return order.meta.NFTID === NFTID
-        })
-
-        if(
-            typeof seaport !== 'undefined' && 
-            typeof selectedOrder !== 'undefined' && 
-            typeof selectedOrder.order !== 'undefined' &&
-            typeof address !== 'undefined'
-        ) {
-            try {
-                const { executeAllActions: executeAllFulfillActions } = await seaport.fulfillOrder({
-                    order: selectedOrder.order,
-                    accountAddress: address,
-                })
-                const transaction = await executeAllFulfillActions()
-                await transaction.wait()
-                updateOrder(NFTID, undefined)
-                updateOrderMeta(NFTID, address)
-                router.push('/profile')
-            } catch(e: any) {
-                toast.error(e.message)
-            }
-        }
-    }
-
     return (
         <Modal onClose={onClose} open={open}>
             <Box marginTop='2'>
@@ -75,9 +25,10 @@ export const BuyModal: React.FC<Props> = ({
             </Box>
             <Box display='flex' flexDirection='column' padding='10'>
                 <Text as='span' weight='bold'>Item</Text>
-                <Text as='span'>{order.meta.NFTname}</Text>
+                <Text as='span'>{asset.name}</Text>
             </Box>
-            <Button label='Buy NFT' onClick={() => buy(order.meta.NFTID)} />
+            <BuyAssetButton order={order} onClose={onClose} />
+            {/* <Button label='Buy NFT' onClick={() => buy()} /> */}
         </Modal>
     )
 }

@@ -6,46 +6,46 @@ import {
 } from './baseSeaportTheme'
 
 const accentColors: Record<AccentColorPreset, AccentColor> = {
-  blue: { accentColor: '#0FAEFA', accentColorForeground: '#FFF' },
-  green: { accentColor: '#70FA02', accentColorForeground: '#FFF' },
-  orange: { accentColor: '#FA5B0F', accentColorForeground: '#FFF' },
-  pink: { accentColor: '#EB28FA', accentColorForeground: '#FFF' },
-  red: { accentColor: '#FA541B', accentColorForeground: '#FFF' },
+  blue: { accentColor: '#0FAEFA', accentColorText: '#FFF', accentColorHover: '' },
+  green: { accentColor: '#70FA02', accentColorText: '#FFF', accentColorHover: '' },
+  orange: { accentColor: '#FA5B0F', accentColorText: '#FFF', accentColorHover: '#FB7C3F' },
+  pink: { accentColor: '#EB28FA', accentColorText: '#FFF', accentColorHover: '' },
+  red: { accentColor: '#FA541B', accentColorText: '#FFF', accentColorHover: '' },
 }
 
 const defaultAccentColor = accentColors.orange
 
 export const lightSeaportTheme = ({
   accentColor = defaultAccentColor.accentColor,
-  accentColorForeground = defaultAccentColor.accentColorForeground,
+  accentColorText = defaultAccentColor.accentColorText,
+  accentColorHover = defaultAccentColor.accentColorHover,
   ...baseSeaportThemeOptions
 }: SeaportThemeOptions = {}) => ({
   ...baseSeaportTheme(baseSeaportThemeOptions),
   colors: {
     accentColor,
-    accentColorForeground,
+    accentColorText,
+    accentColorHover,
     actionButtonBorder: 'rgba(0, 0, 0, 0.04)',
     actionButtonBorderMobile: 'rgba(0, 0, 0, 0.06)',
     actionButtonSecondaryBackground: 'rgba(0, 0, 0, 0.06)',
+    box: 'rgb(229, 232, 235)',
+    boxText: 'rgb(112, 122, 131)',
     closeButton: 'rgba(60, 66, 66, 0.8)',
     closeButtonBackground: 'rgba(0, 0, 0, 0.06)',
-    defaultBackground: '#EEEEEE',
+    // defaultBackground: '#EEEEEE',
+    defaultBackground: '#FFFFFF',
     defaultBackgroundBorder: '#D6D6D6',
+    defaultText: 'rgb(53, 56, 64)',
+    defaultTextHover: 'rgb(0, 0, 0)',
+    defaultTextPlaceholder: 'rgb(138, 147, 155)',
     error: '#FF494A',
-    generalBorder: 'rgba(0, 0, 0, 0.06)',
-    generalBorderDim: 'rgba(0, 0, 0, 0.03)',
-    menuItemBackground: 'rgba(60, 66, 66, 0.1)',
     modalBackdrop: 'rgba(0, 0, 0, 0.3)',
     modalBackground: '#FFF',
     modalBorder: 'transparent',
-    modalText: '#25292E',
-    modalTextDim: 'rgba(60, 66, 66, 0.3)',
-    modalTextSecondary: 'rgba(60, 66, 66, 0.6)',
     orderAction: '#FA5B0F',
     orderBackground: '#FFFFFF',
     profileForeground: 'rgba(60, 66, 66, 0.06)',
-    selectedOptionBorder: 'rgba(60, 66, 66, 0.1)',
-    standby: '#FFD641',
     transparent: 'transparent',
 
     alpha100: 'rgba(0, 0, 0, 0.02)',
@@ -84,9 +84,13 @@ export const lightSeaportTheme = ({
 
   },
   shadows: {
+    box: 'rgba(0, 0, 0, 0.08) 0px 4px 15px',
+    boxHover: 'rgba(0, 0, 0, 0.15) 0px 6px 25px',
     default: '10px 10px 20px #cacaca, -10px -10px 20px #ffffff',
-    defaultSmall: 'rgba(4, 17, 29, 0.25) 0px 0px 8px 0px',
+    header: 'rgba(4, 17, 29, 0.25) 0px 0px 8px 0px',
+    subHeader: 'rgba(0, 0, 0, 0.1) 0px 2px 10px',
     dialog: '0px 8px 32px rgba(0, 0, 0, 0.32)',
+    none: 'none !important'
   },
 })
 

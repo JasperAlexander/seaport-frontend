@@ -1,13 +1,18 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import React from 'react'
+import { useMemo, useEffect, useState, Fragment } from 'react'
 import { useAccount, useEnsAvatar, useEnsName } from 'wagmi'
 import { emojiAvatarForAddress } from '../utils/emojiAvatar'
-import { Orders } from '../components/Orders/Orders'
+import { AssetsLayout } from '../components/Layouts/AssetsLayout'
 import { Box } from '../components/Box/Box'
 import { Text } from '../components/Text/Text'
 import { Button } from '../components/Buttons/Button'
-import { touchableStyles } from '../styles/touchableStyles'
+import { sprinkles } from '../styles/sprinkles.css'
+
+enum Tabs {
+    Created,
+    Collected
+}
 
 const Profile: NextPage = () => {
     const { address } = useAccount()
@@ -19,19 +24,20 @@ const Profile: NextPage = () => {
         address: address,
         chainId: 1337
     })
-    const { color: backgroundColor, emoji } = React.useMemo(
+    const { color: backgroundColor, emoji } = useMemo(
         () => emojiAvatarForAddress(address),
         [address]
     )
 
-    const [isLoadingDOM, setIsLoadingDOM] = React.useState(true)
+    const [currentTab, setCurrentTab] = useState<Tabs>(Tabs.Created)
 
-    React.useEffect(() => {
+    const [isLoadingDOM, setIsLoadingDOM] = useState(true)
+    useEffect(() => {
         setIsLoadingDOM(false)
     }, [])
     
     return (
-        <React.Fragment>
+        <Fragment>
         <Head>
             <title>Profile | Seaport implementation</title>
             <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
@@ -44,8 +50,10 @@ const Profile: NextPage = () => {
                     height='180' 
                     background='lightgray400' 
                     style={{position: 'initial'}}
-                    className={touchableStyles({ 
-                        hoverBackground: 'alpha600', 
+                    className={sprinkles({ 
+                        background: {
+                            hover: 'alpha600'
+                        } 
                     })}
                 />
                 {isLoadingDOM
@@ -61,7 +69,7 @@ const Profile: NextPage = () => {
                             display='flex'
                             alignItems='center'
                             justifyContent='center'
-                            boxShadow='defaultSmall'
+                            boxShadow='box'
                             style={{
                                 backgroundColor, 
                                 aspectRatio: '1 / 1', 
@@ -82,19 +90,70 @@ const Profile: NextPage = () => {
                         <Text as='span'>Biography</Text>
                     </Box>
 
-                    <Box display='flex' flexDirection='column' gap='20'>
-                        <Text as='h2' size='24' weight='bold'>My NFTs</Text>
+                    <Box display='flex' flexDirection='column'>
+                        {/* <Text as='h2' size='24' weight='bold'>My NFTs</Text> */}
+                        <Box
+                            display='flex'
+                            alignItems='center'
+                            gap='48'
+                            width='full'
+                            marginTop='32'
+                            marginBottom='24'
+                        >
+                            <Box
+                                as='button'
+                                display='flex'
+                                alignItems='center'
+                                paddingBottom='10'
+                                fontWeight='semibold'
+                                onClick={() => setCurrentTab(Tabs.Created)}
+                                color={currentTab === Tabs.Created ? 'defaultTextHover' : 'boxText'}
+                                style={{borderBottom: currentTab === Tabs.Created ? '2px solid rgb(4, 17, 29)' : '2px solid transparent'}}
+                            >
+                                <Box>
+                                    Created
+                                </Box>
+                                <Box
+                                    as='span'
+                                    fontWeight='regular'
+                                    marginLeft='8'
+                                >
+                                    8
+                                </Box>
+                            </Box>
+                            <Box
+                                as='button'
+                                display='flex'
+                                alignItems='center'
+                                paddingBottom='10'
+                                fontWeight='semibold'
+                                onClick={() => setCurrentTab(Tabs.Collected)}
+                                color={currentTab === Tabs.Collected ? 'defaultTextHover' : 'boxText'}
+                                style={{borderBottom: currentTab === Tabs.Collected ? '2px solid rgb(4, 17, 29)' : '2px solid transparent'}}
+                            >
+                                <Box>
+                                    Collected
+                                </Box>
+                                <Box
+                                    as='span'
+                                    fontWeight='regular'
+                                    marginLeft='8'
+                                >
+                                    5
+                                </Box>
+                            </Box>
+                        </Box>
                         {isLoadingDOM
                         ? ''
                         : address
-                            ? <Orders filter={order => order.meta.NFTcreator === address} />
+                            ? <AssetsLayout />
                             : <Text as='span'>Not connected</Text>
                         }
                     </Box>
                 </Box>
             </Box>
         </main>
-        </React.Fragment>
+        </Fragment>
     )
 }
 

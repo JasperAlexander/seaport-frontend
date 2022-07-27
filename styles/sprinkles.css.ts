@@ -13,29 +13,27 @@ import './reset.css'
 const themeContractValues = {
   colors: {
     accentColor: '',
-    accentColorForeground: '',
+    accentColorText: '',
+    accentColorHover: '',
     actionButtonBorder: '',
     actionButtonBorderMobile: '',
     actionButtonSecondaryBackground: '',
+    box: '',
+    boxText: '',
     closeButton: '',
     closeButtonBackground: '',
     defaultBackground: '',
     defaultBackgroundBorder: '',
+    defaultText: '',
+    defaultTextHover: '',
+    defaultTextPlaceholder: '',
     error: '',
-    generalBorder: '',
-    generalBorderDim: '',
-    menuItemBackground: '',
     modalBackdrop: '',
     modalBackground: '',
     modalBorder: '',
-    modalText: '',
-    modalTextDim: '',
-    modalTextSecondary: '',
     orderAction: '',
     orderBackground: '',
     profileForeground: '',
-    selectedOptionBorder: '',
-    standby: '',
     transparent: '',
 
     alpha100: '',
@@ -75,20 +73,14 @@ const themeContractValues = {
   fonts: {
     body: '',
   },
-  radii: {
-    actionButton: '',
-    connectButton: '',
-    menuButton: '',
-    modal: '',
-    modalMobile: '',
-  },
   shadows: {
+    box: '',
+    boxHover: '',
     default: '',
-    defaultSmall: '',
+    header: '',
+    subHeader: '',
     dialog: '',
-  },
-  blurs: {
-    modalOverlay: '',
+    none: ''
   },
 }
 
@@ -107,6 +99,7 @@ const spacing = {
   '-40': '-40px',
   '-20': '-20px',
   '-10': '-10px',
+  '-6': '-6px',
   '0': '0',
   '1': '1px',
   '2': '2px',
@@ -118,16 +111,20 @@ const spacing = {
   '10': '10px',
   '12': '12px',
   '14': '14px',
+  '15': '15px',
   '16': '16px',
   '18': '18px',
   '20': '20px',
   '24': '24px',
   '28': '28px',
+  '30': '30px',
   '32': '32px',
   '36': '36px',
   '40': '40px',
   '44': '44px',
+  '48': '48px',
   '64': '64px',
+  'auto': 'auto',
 }
 
 const dimensions = {
@@ -138,95 +135,107 @@ const dimensions = {
   '-40': '-40px',
   '-20': '-20px',
   '-10': '-10px',
+  '0': '0px',
   '1': '1px',
   '2': '2px',
   '4': '4px',
   '8': '8px',
   '12': '12px',
+  '15': '15px',
+  '16': '16px',
   '20': '20px',
   '24': '24px',
   '28': '28px',
   '30': '30px',
+  '30p': '30%',
   '32': '32px',
   '34': '34px',
   '36': '36px',
   '40': '40px',
+  '42': '42px',
+  '43p': '43%',
   '48': '48px',
   '54': '54px',
   '60': '60px',
+  '66': '66px',
+  '72': '72px',
   '100': '100px',
   '180': '180px',
+  '200': '200px',
   '240': '240px',
+  '330': '330px',
+  '420': '420px',
+  '588': '588px',
+  '600': '600px',
+  '710': '710px',
+  '772': '772px',
+  '1000': '1000px',
+  '1280': '1280px',
   'full': '100%',
+  'fullvw': '100vw',
   'max': 'max-content',
   'auto': 'auto',
+  'fit': 'fitContent',
 }
 
 const flexAlignment = ['flex-start', 'flex-end', 'center'] as const
+const displayOptions = ['none', 'block', 'flex', 'inline', 'inline-flex', 'grid', 'initial'] as const
 
-const textAlignments = ['left', 'center', 'inherit'] as const
-
-export const largeScreenMinWidth = 768
-
-const responsiveProperties = defineProperties({
-  conditions: {
-    smallScreen: {},
-    largeScreen: {
-      '@media': `screen and (min-width: ${largeScreenMinWidth}px)`,
-    },
-  },
-  defaultCondition: 'smallScreen',
-  properties: {
-    alignItems: flexAlignment,
-  },
-})
-
-export type ResponsiveValue<Value extends string | number | boolean> =
-  RequiredConditionalValue<typeof responsiveProperties, Value>
-
-export const mapResponsiveValue = createMapValueFn(responsiveProperties)
-export const normalizeResponsiveValue =
-  createNormalizeValueFn(responsiveProperties)
+const textAlignments = ['left', 'center', 'right', 'inherit'] as const
 
 const unresponsiveProperties = defineProperties({
   properties: {
     alignSelf: flexAlignment,
+    aspectRatio: { '1': '1 / 1' },
     backgroundSize: ['cover'] as const,
     borderRadius: {
-      ...themeVars.radii,
       '0': '0px',
       '1': '1px',
       '6': '6px',
       '10': '10px',
       '13': '13px',
+      '24': '24px',
+      '28': '28px',
       '25%': '25%',
       'full': '9999px',
     },
     borderStyle: {
       solid: 'solid',
+      dashed: 'dashed',
     },
     borderWidth: {
       '0': '0px',
       '1': '1px',
       '2': '2px',
+      '3': '3px',
       '4': '4px',
     },
+    bottom: dimensions,
     cursor: ['pointer'],
-    display: ['none', 'block', 'flex', 'inline', 'grid'],
+    // display: ['none', 'block', 'flex', 'inline', 'grid', 'initial'],
     gridTemplateColumns: ['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)'],
     flexDirection: ['row', 'column'],
-    flexGrow: ['0', '1'],
+    flexBasis: {
+      '0': '0%',
+      'auto': 'auto'
+    },
+    flexGrow: ['0', '1', '2', '3', '4'],
+    flexShrink: ['0', '1', '2', '3', '4'],
     flexWrap: ['wrap'],
     fontFamily: themeVars.fonts,
     fontSize: {
+      '8': { fontSize: '8px', lineHeight: '18px' },
       '12': { fontSize: '12px', lineHeight: '18px' },
       '13': { fontSize: '13px', lineHeight: '18px' },
       '14': { fontSize: '14px', lineHeight: '18px' },
+      '15': { fontSize: '15px', lineHeight: '20px' },
       '16': { fontSize: '16px', lineHeight: '20px' },
       '18': { fontSize: '18px', lineHeight: '24px' },
       '20': { fontSize: '20px', lineHeight: '24px' },
       '24': { fontSize: '24px', lineHeight: '29px' },
+      '30': { fontSize: '30px', lineHeight: '29px' },
       '32': { fontSize: '32px', lineHeight: '29px' },
+      '40': { fontSize: '40px', lineHeight: '29px' },
     },
     fontWeight: {
       regular: '400',
@@ -238,58 +247,122 @@ const unresponsiveProperties = defineProperties({
     gap: spacing,
     height: dimensions,
     justifyContent: [...flexAlignment, 'space-between', 'space-around'],
+    justifySelf: [...flexAlignment],
+    left: dimensions,
+    lineHeight: ['normal'],
     textAlign: textAlignments,
-    marginBottom: spacing,
-    marginLeft: spacing,
-    marginRight: spacing,
-    marginTop: spacing,
+    textOverflow: ['ellipsis'],
+    maxHeight: dimensions,
     maxWidth: dimensions,
+    minHeight: dimensions,
     minWidth: dimensions,
-    overflow: ['hidden', 'visible'] as const,
+    objectFit: ['cover', 'contain'] as const,
+    overflow: ['hidden', 'visible', 'scroll'] as const,
+    overflowX: ['hidden', 'visible', 'scroll'] as const,
+    overflowY: ['hidden', 'visible', 'scroll'] as const,
     paddingBottom: spacing,
     paddingLeft: spacing,
     paddingRight: spacing,
     paddingTop: spacing,
-    position: ['absolute', 'fixed', 'relative'],
-    right: {
-      '0': '0',
-    },
+    position: ['absolute', 'fixed', 'relative', 'sticky'],
+    right: dimensions,
+    top: dimensions,
     transition: {
       default: '0.125s ease',
+      inputBorderColor: 'border-color 0.25s ease-in-out 0s, background-color 0.25s ease-in-out 0s',
+      assetCardImage: 'scale 0.4s ease 0s'
     },
     userSelect: ['none'] as const,
-    width: dimensions,
-    backdropFilter: {
-      ...themeVars.blurs,
+    whiteSpace: ['nowrap'],
+    zIndex: {
+      '0': '0',
+      '1': '1',
+      '2': '2',
+      '3': '3',
+      '4': '4',
     },
   } as const,
   shorthands: {
-    margin: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],
-    marginX: ['marginLeft', 'marginRight'],
-    marginY: ['marginTop', 'marginBottom'],
     padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
     paddingX: ['paddingLeft', 'paddingRight'],
     paddingY: ['paddingTop', 'paddingBottom'],
   },
 })
 
-const colorProperties = defineProperties({
+export const largeScreenMinWidth = 1024
+
+const responsiveProperties = defineProperties({
   conditions: {
     base: {},
+    largeScreen: {
+      '@media': `screen and (min-width: ${largeScreenMinWidth}px)`,
+    },
     hover: { selector: '&:hover' },
     active: { selector: '&:active' },
+    focus: { selector: '&:focus' },
+    placeholder: { selector: '&::placeholder' },
   },
   defaultCondition: 'base',
   properties: {
+    alignItems: flexAlignment,
+    display: displayOptions,
+    marginBottom: spacing,
+    marginLeft: spacing,
+    marginRight: spacing,
+    marginTop: spacing,
+    opacity: {
+      '0': '0',
+      '1': '1',
+    },
+    width: dimensions,
+    scale: {
+      'grow': '1.025',
+      'growLg': '1.1',
+      'shrink': '0.95',
+      'shrinkSm': '0.9'
+    },
     background: themeVars.colors,
+    backdropFilter: {
+      'modal': 'blur(0px)'
+    },
     borderColor: themeVars.colors,
     boxShadow: themeVars.shadows,
     color: themeVars.colors,
+    visibility: ['visible', 'hidden'] as const,
   },
+  shorthands: {
+    margin: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],
+    marginX: ['marginLeft', 'marginRight'],
+    marginY: ['marginTop', 'marginBottom'],
+  }
 })
 
+export type ResponsiveValue<Value extends string | number | boolean> =
+  RequiredConditionalValue<typeof responsiveProperties, Value>
+
+export const mapResponsiveValue = createMapValueFn(responsiveProperties)
+export const normalizeResponsiveValue =
+  createNormalizeValueFn(responsiveProperties)
+
+// const dynamicProperties = defineProperties({
+//   conditions: {
+//     base: {},
+//     hover: { selector: '&:hover' },
+//     active: { selector: '&:active' },
+//     focus: { selector: '&:focus' },
+//     placeholder: { selector: '&::placeholder' },
+//   },
+//   defaultCondition: 'base',
+//   properties: {
+//     background: themeVars.colors,
+//     borderColor: themeVars.colors,
+//     boxShadow: themeVars.shadows,
+//     color: themeVars.colors,
+//   },
+// })
+
 export const sprinkles = createSprinkles(
-  colorProperties,
+  // dynamicProperties,
   responsiveProperties,
   unresponsiveProperties
 )

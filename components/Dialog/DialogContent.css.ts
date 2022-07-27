@@ -5,7 +5,7 @@ export const dialogContent = style([
   sprinkles({
     background: 'modalBackground',
     borderColor: 'modalBorder',
-    borderRadius: 'modal',
+    borderRadius: '24',
     borderStyle: 'solid',
     borderWidth: '1',
     boxShadow: 'dialog',
@@ -54,7 +54,7 @@ export const dialogContentWideDesktop = style([
 
 export const dialogContentMobile = style([
   sprinkles({
-    borderRadius: 'modalMobile',
+    borderRadius: '28',
   }),
   {
     borderWidth: '0px',

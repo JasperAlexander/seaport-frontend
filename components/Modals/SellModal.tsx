@@ -1,31 +1,32 @@
-import { OrderWithMeta } from '../../types/orderTypes'
-import { useStore } from '../../hooks/useStore'
-import { ethers } from 'ethers'
+import { useSeaport } from '../../hooks/useSeaport'
+import { BigNumber, ethers } from 'ethers'
 import { Seaport } from '@opensea/seaport-js'
 import { Modal } from './Modal'
 import { useState } from 'react'
-import { touchableStyles } from '../../styles/touchableStyles'
 import { Box } from '../Box/Box'
 import { Text } from '../Text/Text'
-import { SellButton } from '../Buttons/SellButton'
+import { SellAssetButton } from '../Buttons/SellAssetButton'
 import { Input } from '../Input/Input'
+import { AssetType } from '../../types/assetTypes'
+import { sprinkles } from '../../styles/sprinkles.css'
 
 const contractAddresses = require('../../utils/contractAddresses.json')
 
 type Props = {
-    nftid: string
-    order: OrderWithMeta,
+    nftid: BigNumber
+    asset: AssetType,
     onClose: () => void,
     open: boolean
 }
 
 export const SellModal: React.FC<Props> = ({ 
     nftid,
+    asset,
     onClose,
     open
 }: Props) => {
 
-    const { seaport, setSeaport } = useStore()
+    const { seaport, setSeaport } = useSeaport()
 
     const [inputState, setInputState] = useState({
         price: ''
@@ -54,7 +55,7 @@ export const SellModal: React.FC<Props> = ({
     return (
         <Modal onClose={onClose} open={open}>
             <Box marginTop='2'>
-                <Text textAlign='center' weight='bold'>List NFT for sale</Text>
+                <Text textAlign='center' weight='bold'>List asset for sale</Text>
             </Box>
             <Text as='label'>Price</Text>
             <Input
@@ -63,13 +64,17 @@ export const SellModal: React.FC<Props> = ({
                 value={inputState.price} 
                 onChange={handleInputChange} 
                 min='0'
-                className={touchableStyles({ 
-                    hoverBackground: 'lightgray500', 
-                    hoverBorderColor: 'gray', 
-                    focusBorderColor: 'gray' 
-                })}
+                // className={sprinkles({
+                //     background: {
+                //       hover: 'lightgray500'
+                //     },
+                //     borderColor: {
+                //       hover: 'lightgray200',
+                //       focus: 'lightgray200'
+                //     }
+                // })}
             />
-            <SellButton nftid={nftid} price={inputState.price} onClose={onClose} />
+            <SellAssetButton nftid={nftid} price={inputState.price} onClose={onClose} />
         </Modal>
     )
 }

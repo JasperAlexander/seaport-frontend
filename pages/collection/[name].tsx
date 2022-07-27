@@ -3,24 +3,24 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import React from 'react'
 
-const Asset: NextPage = () => {
+const Collection: NextPage = () => {
 
     const router = useRouter()
-    const { address, id } = router.query
+    const { name } = router.query
     
     return (
         <React.Fragment>
         <Head>
-            <title>List NFT | Seaport implementation</title>
+            <title>Collection | Seaport implementation</title>
             <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
             <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <main>
-            <h1>Page of token {address} with id {id}</h1>
+            <h1>Page of collection {name}</h1>
         </main>
         </React.Fragment>
     )
 }
 
-export default Asset
+export default Collection

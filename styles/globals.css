@@ -5,13 +5,24 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #EEEEEE;
+  /* background-color: #EEEEEE; */
+  height: 100%;
+}
+
+#__next {
+  height: 100%;
+  width: 100%;
 }
 
 a {
   color: inherit;
   text-decoration: none;
   font-size: 16px;
+}
+
+::selection {
+  background-color: #FA5B0F;
+  color: #FFFFFF;
 }
 
 /* input {
@@ -114,9 +125,9 @@ nav > section:nth-child(2) > a:hover {
   font-weight: 600;
 } */
 
-[data-rk] .ju367vdr {
+/* [data-rk] button.ju367vdr {
   box-shadow: none !important;
-}
+} */
 
 /* MAIN */
 /* main {
@@ -280,3 +291,7 @@ main > label {
   font-weight: 600;
   padding-bottom: 5px;
 } */
+
+input.sprinkles_borderColor_defaultBackgroundBorder_base__18szqf1lt :has(:invalid) {
+  background-color: red !important;
+}

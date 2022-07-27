@@ -1,5 +1,4 @@
 import { BigNumberish } from 'ethers'
-import { Seaport } from '@opensea/seaport-js'
 
 export enum ItemType {
     NATIVE = 0,
@@ -53,33 +52,4 @@ export type OrderComponents = OrderParameters & { counter: number }
 export type OrderWithCounter = {
     parameters: OrderComponents
     signature: string
-}
-
-export type OrderMeta = {
-    NFTID: string,
-    NFTname: string,
-    NFTdescription?: string,
-    NFTimage?: File,
-    NFTcreator?: string
-}
-
-export type OrderWithMeta = {
-    meta: OrderMeta
-    order?: OrderWithCounter
-}
-
-export interface OrderState {
-    orders: OrderWithMeta[]
-    addOrder: (
-        NFTID: string, 
-        NFTname: string, 
-        NFTdescription?: string, 
-        NFTimage?: File, 
-        NFTcreator?: string,
-        order?: OrderWithCounter
-    ) => void
-    updateOrder: (NFTID: string, order?: OrderWithCounter) => void,
-    updateOrderMeta: (NFTID: string, NFTcreator?: string) => void,
-    seaport: Seaport | undefined,
-    setSeaport: (seaport: Seaport) => void
 }

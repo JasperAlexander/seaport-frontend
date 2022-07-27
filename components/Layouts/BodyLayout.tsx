@@ -1,13 +1,18 @@
 import { Toaster } from 'react-hot-toast'
+import { Box } from '../Box/Box'
 import { Header } from '../Header/Header'
+import { MenuSidebar } from '../Sidebars/MenuSidebar'
+import { WalletSidebar } from '../Sidebars/WalletSidebar'
 
 type Props = {
     children: React.ReactNode
 }
 
-export const Layout: React.FC<Props> = ({ children }: Props) => {
+export const BodyLayout: React.FC<Props> = ({ children }: Props) => {
     return (
-        <div>
+        <Box
+            minHeight='full'
+        >
             <Toaster 
                 position='bottom-right'
                 toastOptions={{
@@ -17,8 +22,10 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
                 }}
             />
             <Header />
+            <MenuSidebar />
+            <WalletSidebar />
             { children }
-        </div>
+        </Box>
     )
 }
   

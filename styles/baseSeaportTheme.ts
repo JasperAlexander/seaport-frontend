@@ -10,89 +10,22 @@ const fontStacks = {
 } as const
 type FontStack = keyof typeof fontStacks
 
-type RadiusScale = 'large' | 'medium' | 'small' | 'none'
-const radiusScales: Record<
-  RadiusScale,
-  {
-    actionButton: string
-    connectButton: string
-    modal: string
-    modalMobile: string
-  }
-> = {
-  large: {
-    actionButton: '10px',
-    connectButton: '12px',
-    modal: '24px',
-    modalMobile: '28px',
-  },
-  medium: {
-    actionButton: '10px',
-    connectButton: '8px',
-    modal: '16px',
-    modalMobile: '18px',
-  },
-  none: {
-    actionButton: '0px',
-    connectButton: '0px',
-    modal: '0px',
-    modalMobile: '0px',
-  },
-  small: {
-    actionButton: '4px',
-    connectButton: '4px',
-    modal: '8px',
-    modalMobile: '8px',
-  },
-}
-
-type Blurs = 'large' | 'small' | 'none'
-const blurs: Record<
-  Blurs,
-  {
-    modalOverlay: string
-  }
-> = {
-  large: {
-    modalOverlay: 'blur(20px)',
-  },
-  none: {
-    modalOverlay: 'blur(0px)',
-  },
-  small: {
-    modalOverlay: 'blur(4px)',
-  },
-}
-
 interface BaseSeaportThemeOptions {
-  borderRadius?: RadiusScale
   fontStack?: FontStack
-  overlayBlur?: Blurs
 }
 
 export const baseSeaportTheme = ({
-  borderRadius = 'large',
   fontStack = 'rounded',
-  overlayBlur = 'none',
-}: BaseSeaportThemeOptions): Pick<ThemeVars, 'radii' | 'fonts' | 'blurs'> => ({
-  blurs: {
-    modalOverlay: blurs[overlayBlur].modalOverlay,
-  },
+}: BaseSeaportThemeOptions): Pick<ThemeVars, 'fonts'> => ({
   fonts: {
     body: fontStacks[fontStack],
-  },
-  radii: {
-    actionButton: radiusScales[borderRadius].actionButton,
-    connectButton: radiusScales[borderRadius].connectButton,
-    menuButton: radiusScales[borderRadius].connectButton,
-    modal: radiusScales[borderRadius].modal,
-    modalMobile: radiusScales[borderRadius].modalMobile,
   },
 })
 
 export interface AccentColor {
   accentColor: string
-  accentColorForeground: string
+  accentColorText: string
+  accentColorHover: string
 }
 
 export type AccentColorPreset =
@@ -104,5 +37,6 @@ export type AccentColorPreset =
 
 export interface SeaportThemeOptions extends BaseSeaportThemeOptions {
   accentColor?: string
-  accentColorForeground?: string
+  accentColorText?: string
+  accentColorHover?: string
 }

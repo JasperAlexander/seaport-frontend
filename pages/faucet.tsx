@@ -7,7 +7,6 @@ import { toast } from 'react-hot-toast'
 import { Button } from '../components/Buttons/Button'
 import { Text } from '../components/Text/Text'
 import { Box } from '../components/Box/Box'
-import { touchableStyles } from '../styles/touchableStyles'
 import { Input } from '../components/Input/Input'
 
 const Faucet: NextPage = () => {
@@ -50,7 +49,6 @@ const Faucet: NextPage = () => {
                         name='ERC20mintAmount' 
                         value={inputState.ERC20mintAmount} 
                         onChange={handleInputChange} 
-                        className={touchableStyles({ hoverBorderColor: 'gray', focusBorderColor: 'gray' })}
                     />
                     <Button
                         label='Mint ERC20'

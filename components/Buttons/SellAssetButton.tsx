@@ -1,30 +1,34 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAccount, useSigner } from 'wagmi'
-import { useStore } from '../../hooks/useStore'
+import { useSeaport } from '../../hooks/useSeaport'
 import { Button } from './Button'
 import { mintERC721 , ownerOfERC721 } from '../../utils/minting'
 import { parseEther } from 'ethers/lib/utils'
 import { ItemType } from '../../types/orderTypes'
+import { EventTypes } from '../../types/eventTypes'
 import { Spinner } from '../Spinner/Spinner'
 import { Text } from '../Text/Text'
+import { useEvents } from '../../hooks/useEvents'
+import { BigNumber } from 'ethers'
 
 const contractAddresses = require('../../utils/contractAddresses.json')
 
 type Props = {
-    nftid: string
+    nftid: BigNumber
     price: string
     onClose: () => void
 }
 
-export const SellButton: React.FC<Props> = ({ 
+export const SellAssetButton: React.FC<Props> = ({ 
     nftid,
     price,
     onClose,
 }: Props) => {
     const [sellingStatus, setSellingStatus] = useState(0)
-    const { seaport, updateOrder } = useStore()
+    const { seaport } = useSeaport()
     const { address } = useAccount()
+    const { addEvent } = useEvents()
     const { data: signer } = useSigner()
     
     const sell = async() => {
@@ -32,7 +36,6 @@ export const SellButton: React.FC<Props> = ({
             toast('Enter a price')
         } else if(
             typeof seaport !== 'undefined' && 
-            typeof nftid === 'string' && 
             typeof signer !== 'undefined' &&
             typeof address !== 'undefined' &&
             price !== '' &&
@@ -40,6 +43,7 @@ export const SellButton: React.FC<Props> = ({
         ) {
             try {
                 setSellingStatus(1)
+                console.log(nftid)
                 const owner = await ownerOfERC721(signer, nftid)
                 let nftID
                 if(typeof owner === 'undefined') {
@@ -47,14 +51,17 @@ export const SellButton: React.FC<Props> = ({
                 } else {
                     nftID = nftid
                 }
+                console.log('After minting NFT')
 
                 if(typeof nftID !== 'undefined' && typeof address !== 'undefined') {
+                    console.log('Before createOrder')
+                    console.log(price)
                     const { executeAllActions } = await seaport.createOrder({
                         offer: [
                         {
                             itemType: ItemType.ERC721,
                             token: contractAddresses.TestERC721,
-                            identifier: nftID
+                            identifier: nftID.toString()
                         }
                         ],
                         consideration: [
@@ -67,8 +74,25 @@ export const SellButton: React.FC<Props> = ({
                     })
                     setSellingStatus(2)
 
+                    console.log('Before executeAllActions')
                     const executedOrder = await executeAllActions()
-                    updateOrder(nftID, executedOrder)
+                    console.log('After executedOrder')
+                    // updateOrder(nftID, executedOrder)
+                    addEvent(
+                        EventTypes.created,
+                        {
+                            contract_address: contractAddresses.TestERC721,
+                            token_id: BigNumber.from(nftID)
+                        },
+                        '',
+                        address,
+                        '',
+                        false,
+                        'ETH',
+                        1,
+                        price,
+                        executedOrder
+                    )
                     // router.push('/profile')
                     setSellingStatus(3)
                 }
@@ -89,7 +113,7 @@ export const SellButton: React.FC<Props> = ({
         {sellingStatus === 0
             ?
                 <Text
-                    color='accentColorForeground'
+                    color='accentColorText'
                     size='16'
                     weight='bold'
                 >
@@ -98,7 +122,7 @@ export const SellButton: React.FC<Props> = ({
             : sellingStatus === 3
                 ? 
                     <Text
-                        color='accentColorForeground'
+                        color='accentColorText'
                         size='16'
                         weight='bold'
                     >
@@ -110,7 +134,7 @@ export const SellButton: React.FC<Props> = ({
             ? <Spinner /> 
             : 
                 <Text
-                    color='accentColorForeground'
+                    color='accentColorText'
                     size='16'
                     weight='bold'
                 >

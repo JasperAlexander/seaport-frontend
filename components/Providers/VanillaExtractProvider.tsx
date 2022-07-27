@@ -53,7 +53,7 @@ export function VanillaExtractProvider({
   return (
     <ThemeIdContext.Provider value={id}>
         {theme ? (
-        <div {...createThemeRootProps(id)}>
+        <div {...createThemeRootProps(id)} >
             <style
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
