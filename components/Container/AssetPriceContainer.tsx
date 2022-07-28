@@ -2,7 +2,6 @@ import { Fragment, useCallback, useState } from 'react'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { AssetType } from '../../types/assetTypes'
 import { EventType } from '../../types/eventTypes'
-import { OrderWithCounter } from '../../types/orderTypes'
 import { Box } from '../Box/Box'
 import { ETH } from '../Icons/ETH'
 import { BuyModal } from '../Modals/BuyModal'
@@ -12,7 +11,7 @@ interface Props {
     assetEventsCreated: EventType[]
 }
 
-export const CardContainer: React.FC<Props> = ({
+export const AssetPriceContainer: React.FC<Props> = ({
     asset,
     assetEventsCreated
 }: Props) => {
@@ -97,7 +96,7 @@ export const CardContainer: React.FC<Props> = ({
                                 <Box
                                     paddingY='20'
                                     paddingX='40'
-                                    background='orange500'
+                                    background='accentColor'
                                     borderRadius='10'
                                     cursor='pointer'
                                     color='white'

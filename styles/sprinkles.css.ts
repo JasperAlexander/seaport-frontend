@@ -18,8 +18,11 @@ const themeContractValues = {
     actionButtonBorder: '',
     actionButtonBorderMobile: '',
     actionButtonSecondaryBackground: '',
+    black: '',
     box: '',
     boxText: '',
+    buttonBackgroundHover: '',
+    buttonBorderHover: '',
     closeButton: '',
     closeButtonBackground: '',
     defaultBackground: '',
@@ -34,41 +37,10 @@ const themeContractValues = {
     orderAction: '',
     orderBackground: '',
     profileForeground: '',
+    profileTop: '',
+    profileTopHover: '',
     transparent: '',
-
-    alpha100: '',
-    alpha200: '',
-    alpha300: '',
-    alpha400: '',
-    alpha500: '',
-    alpha600: '',
-    alpha700: '',
-    alpha800: '',
-    alpha900: '',
-
-    black: '',
-
-    lightgray100: '',
-    lightgray200: '',
-    lightgray300: '',
-    lightgray400: '',
-    lightgray500: '',
-    lightgray600: '',
-    lightgray700: '',
-    lightgray800: '',
-    lightgray900: '',
-
-    white: '',
-
-    orange100: '',
-    orange200: '',
-    orange300: '',
-    orange400: '',
-    orange500: '',
-    orange600: '',
-    orange700: '',
-    orange800: '',
-    orange900: '',
+    white: ''
   },
   fonts: {
     body: '',
@@ -77,10 +49,10 @@ const themeContractValues = {
     box: '',
     boxHover: '',
     default: '',
-    header: '',
-    subHeader: '',
     dialog: '',
-    none: ''
+    header: '',
+    none: '',
+    subHeader: ''
   },
 }
 
@@ -91,7 +63,7 @@ export const themeVars = createGlobalThemeContract(
   (_, path) => `si-${path.join('-')}`
 )
 
-const spacing = {
+const dimensions = {
   '-120': '-120px',
   '-100': '-100px',
   '-80': '-80px',
@@ -100,7 +72,7 @@ const spacing = {
   '-20': '-20px',
   '-10': '-10px',
   '-6': '-6px',
-  '0': '0',
+  '0': '0px',
   '1': '1px',
   '2': '2px',
   '3': '3px',
@@ -110,39 +82,9 @@ const spacing = {
   '8': '8px',
   '10': '10px',
   '12': '12px',
-  '14': '14px',
   '15': '15px',
   '16': '16px',
   '18': '18px',
-  '20': '20px',
-  '24': '24px',
-  '28': '28px',
-  '30': '30px',
-  '32': '32px',
-  '36': '36px',
-  '40': '40px',
-  '44': '44px',
-  '48': '48px',
-  '64': '64px',
-  'auto': 'auto',
-}
-
-const dimensions = {
-  '-120': '-120px',
-  '-100': '-100px',
-  '-80': '-80px',
-  '-60': '-60px',
-  '-40': '-40px',
-  '-20': '-20px',
-  '-10': '-10px',
-  '0': '0px',
-  '1': '1px',
-  '2': '2px',
-  '4': '4px',
-  '8': '8px',
-  '12': '12px',
-  '15': '15px',
-  '16': '16px',
   '20': '20px',
   '24': '24px',
   '28': '28px',
@@ -154,6 +96,7 @@ const dimensions = {
   '40': '40px',
   '42': '42px',
   '43p': '43%',
+  '44': '44px',
   '48': '48px',
   '54': '54px',
   '60': '60px',
@@ -183,36 +126,32 @@ const displayOptions = ['none', 'block', 'flex', 'inline', 'inline-flex', 'grid'
 
 const textAlignments = ['left', 'center', 'right', 'inherit'] as const
 
-const unresponsiveProperties = defineProperties({
+const overflowOptions = ['hidden', 'visible', 'scroll'] as const
+
+const staticProperties = defineProperties({
   properties: {
     alignSelf: flexAlignment,
     aspectRatio: { '1': '1 / 1' },
     backgroundSize: ['cover'] as const,
-    borderRadius: {
-      '0': '0px',
-      '1': '1px',
-      '6': '6px',
-      '10': '10px',
-      '13': '13px',
-      '24': '24px',
-      '28': '28px',
-      '25%': '25%',
-      'full': '9999px',
-    },
-    borderStyle: {
-      solid: 'solid',
-      dashed: 'dashed',
-    },
-    borderWidth: {
-      '0': '0px',
-      '1': '1px',
-      '2': '2px',
-      '3': '3px',
-      '4': '4px',
-    },
+
+    borderBottomLeftRadius: dimensions,
+    borderBottomRightRadius: dimensions,
+    borderTopLeftRadius: dimensions,
+    borderTopRightRadius: dimensions,
+
+    borderStyle: ['solid', 'dashed'] as const,
+
+    borderBottomWidth: dimensions,
+    borderLeftWidth: dimensions,
+    borderRightWidth: dimensions,
+    borderTopWidth: dimensions,
+
     bottom: dimensions,
+    left: dimensions,
+    top: dimensions,
+    right: dimensions,
+
     cursor: ['pointer'],
-    // display: ['none', 'block', 'flex', 'inline', 'grid', 'initial'],
     gridTemplateColumns: ['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)'],
     flexDirection: ['row', 'column'],
     flexBasis: {
@@ -222,6 +161,7 @@ const unresponsiveProperties = defineProperties({
     flexGrow: ['0', '1', '2', '3', '4'],
     flexShrink: ['0', '1', '2', '3', '4'],
     flexWrap: ['wrap'],
+
     fontFamily: themeVars.fonts,
     fontSize: {
       '8': { fontSize: '8px', lineHeight: '18px' },
@@ -238,35 +178,38 @@ const unresponsiveProperties = defineProperties({
       '40': { fontSize: '40px', lineHeight: '29px' },
     },
     fontWeight: {
-      regular: '400',
-      medium: '500',
-      semibold: '600',
-      bold: '700',
-      heavy: '800',
+      'regular': '400',
+      'medium': '500',
+      'semibold': '600',
+      'bold': '700',
+      'heavy': '800',
     },
-    gap: spacing,
+
+    gap: dimensions,
     height: dimensions,
     justifyContent: [...flexAlignment, 'space-between', 'space-around'],
     justifySelf: [...flexAlignment],
-    left: dimensions,
     lineHeight: ['normal'],
     textAlign: textAlignments,
     textOverflow: ['ellipsis'],
+
     maxHeight: dimensions,
     maxWidth: dimensions,
     minHeight: dimensions,
     minWidth: dimensions,
+
     objectFit: ['cover', 'contain'] as const,
-    overflow: ['hidden', 'visible', 'scroll'] as const,
-    overflowX: ['hidden', 'visible', 'scroll'] as const,
-    overflowY: ['hidden', 'visible', 'scroll'] as const,
-    paddingBottom: spacing,
-    paddingLeft: spacing,
-    paddingRight: spacing,
-    paddingTop: spacing,
-    position: ['absolute', 'fixed', 'relative', 'sticky'],
-    right: dimensions,
-    top: dimensions,
+
+    overflow: overflowOptions,
+    overflowX: overflowOptions,
+    overflowY: overflowOptions,
+
+    paddingBottom: dimensions,
+    paddingLeft: dimensions,
+    paddingRight: dimensions,
+    paddingTop: dimensions,
+
+    position: ['absolute', 'fixed', 'relative', 'sticky'] as const,
     transition: {
       default: '0.125s ease',
       inputBorderColor: 'border-color 0.25s ease-in-out 0s, background-color 0.25s ease-in-out 0s',
@@ -286,12 +229,14 @@ const unresponsiveProperties = defineProperties({
     padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
     paddingX: ['paddingLeft', 'paddingRight'],
     paddingY: ['paddingTop', 'paddingBottom'],
+    borderRadius: ['borderBottomLeftRadius', 'borderBottomRightRadius', 'borderTopLeftRadius', 'borderTopRightRadius'],
+    borderWidth: ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth']
   },
 })
 
 export const largeScreenMinWidth = 1024
 
-const responsiveProperties = defineProperties({
+const dynamicProperties = defineProperties({
   conditions: {
     base: {},
     largeScreen: {
@@ -306,10 +251,10 @@ const responsiveProperties = defineProperties({
   properties: {
     alignItems: flexAlignment,
     display: displayOptions,
-    marginBottom: spacing,
-    marginLeft: spacing,
-    marginRight: spacing,
-    marginTop: spacing,
+    marginBottom: dimensions,
+    marginLeft: dimensions,
+    marginRight: dimensions,
+    marginTop: dimensions,
     opacity: {
       '0': '0',
       '1': '1',
@@ -338,32 +283,14 @@ const responsiveProperties = defineProperties({
 })
 
 export type ResponsiveValue<Value extends string | number | boolean> =
-  RequiredConditionalValue<typeof responsiveProperties, Value>
+  RequiredConditionalValue<typeof dynamicProperties, Value>
 
-export const mapResponsiveValue = createMapValueFn(responsiveProperties)
+export const mapResponsiveValue = createMapValueFn(dynamicProperties)
 export const normalizeResponsiveValue =
-  createNormalizeValueFn(responsiveProperties)
-
-// const dynamicProperties = defineProperties({
-//   conditions: {
-//     base: {},
-//     hover: { selector: '&:hover' },
-//     active: { selector: '&:active' },
-//     focus: { selector: '&:focus' },
-//     placeholder: { selector: '&::placeholder' },
-//   },
-//   defaultCondition: 'base',
-//   properties: {
-//     background: themeVars.colors,
-//     borderColor: themeVars.colors,
-//     boxShadow: themeVars.shadows,
-//     color: themeVars.colors,
-//   },
-// })
+  createNormalizeValueFn(dynamicProperties)
 
 export const sprinkles = createSprinkles(
-  // dynamicProperties,
-  responsiveProperties,
-  unresponsiveProperties
+  dynamicProperties,
+  staticProperties
 )
 export type Sprinkles = Parameters<typeof sprinkles>[0]

@@ -4,10 +4,10 @@ import Head from 'next/head'
 import React, { useState, useEffect } from 'react'
 import { Box } from '../../../components/Box/Box'
 import { sprinkles } from '../../../styles/sprinkles.css'
-import { AssetContainer } from '../../../components/Container/AssetContainer'
+import { AssetCardLarge } from '../../../components/Cards/AssetCardLarge'
 import { AssetAccordion } from '../../../components/Accordions/AssetAccordion/AssetAccordion'
-import { CardContainer } from '../../../components/Container/CardContainer'
-import { AssetHeader } from '../../../components/Container/AssetHeader'
+import { AssetPriceContainer } from '../../../components/Container/AssetPriceContainer'
+import { AssetHeader } from '../../../components/Headers/AssetHeader'
 import { AssetMeta } from '../../../components/Container/AssetMeta'
 import { AssetAccordionTable } from '../../../components/Accordions/AssetAccordion/AssetAccordionTable'
 import { useAssets } from '../../../hooks/useAssets'
@@ -83,7 +83,7 @@ const Asset: NextPage = () => {
                             maxWidth='43p'
                             width='0'
                         >
-                            <AssetContainer asset={asset} />
+                            <AssetCardLarge asset={asset} />
                             <AssetAccordion asset={asset} title='Description'>
                                 <Box
                                     padding='30'
@@ -103,7 +103,7 @@ const Asset: NextPage = () => {
                         >
                             <AssetHeader asset={asset} />
                             <AssetMeta asset={asset} />
-                            <CardContainer asset={asset} assetEventsCreated={assetEventsCreated} />
+                            <AssetPriceContainer asset={asset} assetEventsCreated={assetEventsCreated} />
                             <AssetAccordion asset={asset} title='Listings'>
                                 <AssetAccordionTable 
                                     header={['Price', 'USD Price', 'Expiration', '']} 
@@ -169,9 +169,9 @@ const Asset: NextPage = () => {
                     justifyContent='space-between'
                 >
                     <AssetHeader asset={asset} />
-                    <AssetContainer asset={asset} />
+                    <AssetCardLarge asset={asset} />
                     <AssetMeta asset={asset} />
-                    <CardContainer asset={asset} assetEventsCreated={assetEventsCreated} />
+                    <AssetPriceContainer asset={asset} assetEventsCreated={assetEventsCreated} />
                 </Box>
             </Box>
         </Box>

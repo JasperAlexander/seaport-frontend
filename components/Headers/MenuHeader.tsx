@@ -8,7 +8,7 @@ import { useSidebars } from '../../hooks/useSidebars'
 import { CloseMenu } from '../Icons/CloseMenu'
 import { CustomConnectButton } from '../Buttons/CustomConnectButton'
 
-export const Header: React.FC = () => {
+export const MenuHeader: React.FC = () => {
   const { isMenuSidebarOpen, toggleMenuSidebar, closeWalletSidebar } = useSidebars()
 
   return (

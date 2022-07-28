@@ -1,6 +1,6 @@
 import { Toaster } from 'react-hot-toast'
 import { Box } from '../Box/Box'
-import { Header } from '../Header/Header'
+import { MenuHeader } from '../Headers/MenuHeader'
 import { MenuSidebar } from '../Sidebars/MenuSidebar'
 import { WalletSidebar } from '../Sidebars/WalletSidebar'
 
@@ -21,7 +21,7 @@ export const BodyLayout: React.FC<Props> = ({ children }: Props) => {
                     }
                 }}
             />
-            <Header />
+            <MenuHeader />
             <MenuSidebar />
             <WalletSidebar />
             { children }

@@ -24,10 +24,10 @@ export const CloseButton = ({
       borderWidth={mobile ? '0' : '1'}
       className={sprinkles({
         background: {
-          hover: 'lightgray500'
+          hover: 'buttonBackgroundHover'
         },
         borderColor: {
-          hover: 'lightgray200'
+          hover: 'buttonBorderHover'
         },
         scale: {
           hover: 'growLg',

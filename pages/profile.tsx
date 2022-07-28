@@ -48,11 +48,11 @@ const Profile: NextPage = () => {
             <Box display='flex' flexDirection='column' gap='12'>
                 <Box 
                     height='180' 
-                    background='lightgray400' 
+                    background='profileTop' 
                     style={{position: 'initial'}}
                     className={sprinkles({ 
                         background: {
-                            hover: 'alpha600'
+                            hover: 'profileTopHover'
                         } 
                     })}
                 />

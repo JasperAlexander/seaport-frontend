@@ -31,7 +31,6 @@ export interface AccentColor {
 export type AccentColorPreset =
   | 'blue'
   | 'green'
-  | 'red'
   | 'pink'
   | 'orange'
 

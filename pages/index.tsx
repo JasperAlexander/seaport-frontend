@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { AssetsLayout } from '../components/Layouts/AssetsLayout'
 import { Box } from '../components/Box/Box'
 
 const Home: NextPage = () => {
-  const [isLoadingDOM, setIsLoadingDOM] = React.useState(true)
+  const [isLoadingDOM, setIsLoadingDOM] = useState(true)
 
-  React.useEffect(() => {
+  useEffect(() => {
       setIsLoadingDOM(false)
   }, [])
 

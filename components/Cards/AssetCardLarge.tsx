@@ -8,7 +8,7 @@ interface Props {
     asset: AssetType | undefined
 }
 
-export const AssetContainer: React.FC<Props> = ({
+export const AssetCardLarge: React.FC<Props> = ({
     asset,
 }: Props) => {
   return (

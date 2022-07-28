@@ -64,15 +64,6 @@ export const SellModal: React.FC<Props> = ({
                 value={inputState.price} 
                 onChange={handleInputChange} 
                 min='0'
-                // className={sprinkles({
-                //     background: {
-                //       hover: 'lightgray500'
-                //     },
-                //     borderColor: {
-                //       hover: 'lightgray200',
-                //       focus: 'lightgray200'
-                //     }
-                // })}
             />
             <SellAssetButton nftid={nftid} price={inputState.price} onClose={onClose} />
         </Modal>
