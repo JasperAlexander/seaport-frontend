@@ -8,12 +8,14 @@ import { CloseButton } from '../Buttons/CloseButton'
 interface ModalProps {
   onClose: () => void,
   open: boolean,
+  wide?: boolean,
   children: ReactNode
 }
 
 export const Modal = ({
   onClose,
   open,
+  wide = false,
   children
 }: ModalProps) => {
   const titleId = 'si_account_modal_title'
@@ -22,9 +24,14 @@ export const Modal = ({
 
   return (
     <Dialog onClose={onClose} open={open} titleId={titleId}>
-      <DialogContent bottomSheetOnMobile padding="0">
+      <DialogContent 
+        bottomSheetOnMobile 
+        paddingX="10" 
+        paddingY="0" 
+        wide={wide}
+      >
         <Box display="flex" flexDirection="column">
-          <Box background="profileForeground" padding="16">
+          <Box padding="16">
             <Box
               alignItems="center"
               display="flex"

@@ -2,21 +2,21 @@ import { AssetIdType } from "./assetTypes"
 import { OrderWithCounter } from "./orderTypes"
 
 export enum EventTypes {
-    created,
-    succesful,
-    cancelled,
-    bid_entered,
-    bid_withdrawn,
-    transfer,
-    offer_entered,
-    approve,
-    order
+    created = 'Created',
+    listed = 'Listed',
+    succesful = 'Sold',
+    cancelled = 'Cancelled',
+    bid_entered = 'Entered',
+    bid_withdrawn = 'Withdrawn',
+    transfer = 'Transfered',
+    offer_entered = 'Entered',
+    approve = 'Approved'
 }
 
 export type EventType = {
     event_type: EventTypes,
     asset: AssetIdType,
-    created_date: string,
+    created_date: Date,
     from_account: string,
     to_account?: string,
     is_private?: boolean,

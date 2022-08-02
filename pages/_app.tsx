@@ -16,6 +16,9 @@ import {
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { VanillaExtractProvider } from '../components/Providers/VanillaExtractProvider'
 import { lightSeaportTheme } from '../styles/lightSeaportTheme'
+import LoadingBar from 'react-top-loading-bar'
+import { useState } from 'react'
+import { Router } from 'next/router'
 
 const hardhatChain: Chain = {
   id: 1337,
@@ -55,6 +58,12 @@ const wagmiClient = createClient({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [progress, setProgress] = useState<number>(0)
+
+  Router.events.on('routeChangeStart', () => setProgress(10))
+  Router.events.on('routeChangeComplete', () => setProgress(100))
+  Router.events.on('routeChangeError', () => setProgress(100))
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider 
@@ -69,6 +78,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <VanillaExtractProvider theme={lightSeaportTheme()}>
+          <LoadingBar 
+            color='#FA5B0F'
+            progress={progress}
+            onLoaderFinished={() => setProgress(0)}
+          />
           <BodyLayout>
             <Component {...pageProps} />
           </BodyLayout>

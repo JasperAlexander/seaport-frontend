@@ -76,7 +76,6 @@ export const AssetCardLarge: React.FC<Props> = ({
                   as='img'
                   objectFit='cover'
                   height='full'
-                  width='600'
                   display='flex'
                   alignItems='center'
                   justifyContent='center'

@@ -23,10 +23,13 @@ const Home: NextPage = () => {
         <Box 
           display='flex' 
           flexDirection='column' 
+          // id='stickyroot'
+          // position='absolute'
+          // top='72'
         >
           {isLoadingDOM
             ? ''
-            : <AssetsLayout />
+            : <AssetsLayout displayFilters={true} />
           }
         </Box>
       </main>

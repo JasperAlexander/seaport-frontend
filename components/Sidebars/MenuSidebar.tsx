@@ -28,7 +28,7 @@ export const MenuSidebar: React.FC = () => {
                 transform: isMenuSidebarOpen ? 'translate3d(0px, 0px, 0px) translate3d(0px, 0px, 0px)' : 'translate3d(100%, 0px, 0px) translate3d(0px, 0px, 0px)',
                 height: 'calc(100% - 72px)',
                 filter: 'drop-shadow(rgba(0, 0, 0, 0.25) 0px 4px 4px)',
-                zIndex: '2',
+                zIndex: '3',
                 border: '1px solid rgb(229, 232, 235)'
             }}
             bottom='0'
@@ -43,6 +43,7 @@ export const MenuSidebar: React.FC = () => {
                 display='flex'
                 flexDirection='column'
                 height='full'
+                overflow='scroll'
             >
                 <Link href='/faucet'>
                     <Box
@@ -52,6 +53,7 @@ export const MenuSidebar: React.FC = () => {
                         alignItems='center'
                         justifyContent='space-between'
                         height='72'
+                        minHeight='72'
                         color='defaultText'
                         paddingX='10'
                         fontWeight='semibold'
@@ -74,6 +76,7 @@ export const MenuSidebar: React.FC = () => {
                         alignItems='center'
                         justifyContent='space-between'
                         height='72'
+                        minHeight='72'
                         color='defaultText'
                         paddingX='10'
                         fontWeight='semibold'
@@ -96,6 +99,7 @@ export const MenuSidebar: React.FC = () => {
                         alignItems='center'
                         justifyContent='space-between'
                         height='72'
+                        minHeight='72'
                         color='defaultText'
                         paddingX='10'
                         fontWeight='semibold'
@@ -119,6 +123,7 @@ export const MenuSidebar: React.FC = () => {
                     color='defaultText'
                     paddingX='10'
                     height='72'
+                    minHeight='72'
                     className={sprinkles({
                         color: {
                         hover: 'defaultTextHover'

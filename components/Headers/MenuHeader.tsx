@@ -14,14 +14,15 @@ export const MenuHeader: React.FC = () => {
   return (
     <Box 
       as='header' 
+      id='stuckedHeader'
       background='white'
       color='defaultText'
       boxShadow='header'
       position='sticky'
       height='72'
       maxWidth='fullvw'
-      top='0'
-      style={{zIndex: '3'}}
+      top='-1'
+      zIndex='3'
     >
       <Box 
         as='nav' 
@@ -50,7 +51,7 @@ export const MenuHeader: React.FC = () => {
               alignItems='center'
             >
               <Logo />
-              Seaport implementation
+              OpenFish
             </Box>
           </Link>
         </Box>

@@ -17,7 +17,7 @@ const sizeVariants: Record<
   large: {
     fontSize: '16',
     paddingX: '24',
-    paddingY: '10',
+    paddingY: '20',
   },
   medium: {
     fontSize: '14',

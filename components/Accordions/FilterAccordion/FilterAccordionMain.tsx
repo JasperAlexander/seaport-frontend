@@ -14,7 +14,7 @@ export const FilterAccordionMain: React.FC<Props> = ({
             display='flex'
             flexDirection='column'
             maxHeight={height}
-            overflow='hidden'
+            overflow='scroll'
             fontSize='15'
             // style={{
             //     transition: 'max-height 250ms ease-in-out'

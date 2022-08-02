@@ -63,7 +63,7 @@ export const BuyAssetButton: React.FC<Props> = ({
                         contract_address: order.parameters.consideration[0].token,
                         token_id: BigNumber.from(order.parameters.offer[0].identifierOrCriteria)
                     },
-                    '',
+                    new Date(),
                     address,
                     order.parameters.offerer,
                     false
@@ -76,6 +76,9 @@ export const BuyAssetButton: React.FC<Props> = ({
     }
 
     return (
-        <Button label='Buy NFT' onClick={() => buy()} /> 
+        <Button 
+            label='Complete purchase' 
+            onClick={() => buy()} 
+        /> 
     )
 }

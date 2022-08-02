@@ -18,17 +18,11 @@ export const CloseButton = ({
       aria-label={ariaLabel}
       as="button"
       background="closeButtonBackground"
-      borderColor="defaultBackgroundBorder"
+      borderColor='actionButtonBorder'
       borderRadius="full"
       borderStyle="solid"
       borderWidth={mobile ? '0' : '1'}
       className={sprinkles({
-        background: {
-          hover: 'buttonBackgroundHover'
-        },
-        borderColor: {
-          hover: 'buttonBorderHover'
-        },
         scale: {
           hover: 'growLg',
           active: 'shrinkSm'

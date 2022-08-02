@@ -111,6 +111,7 @@ export const AssetPriceContainer: React.FC<Props> = ({
                 : 
                     <Box
                         padding='20'
+                        overflow='hidden'
                     >
                         Not for sale
                     </Box>

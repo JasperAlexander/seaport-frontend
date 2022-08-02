@@ -8,7 +8,7 @@ interface EventState {
     addEvent: (
         event_type: EventTypes,
         asset: AssetIdType,
-        created_date: string,
+        created_date: Date,
         from_account: string,
         to_account?: string,
         is_private?: boolean,
@@ -22,16 +22,16 @@ interface EventState {
 export const useEvents = create<EventState>((set) => ({
     events: [],
     addEvent: (
-        event_type: EventTypes,
-        asset: AssetIdType,
-        created_date: string,
-        from_account: string,
-        to_account?: string,
-        is_private?: boolean,
-        payment_token?: string,
-        quantity?: number,
-        total_price?: string,
-        order?: OrderWithCounter
+        event_type,
+        asset,
+        created_date,
+        from_account,
+        to_account,
+        is_private,
+        payment_token,
+        quantity,
+        total_price,
+        order
     ) => { 
         set((state) => ({ 
             events: [

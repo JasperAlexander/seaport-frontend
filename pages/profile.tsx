@@ -146,7 +146,7 @@ const Profile: NextPage = () => {
                         {isLoadingDOM
                         ? ''
                         : address
-                            ? <AssetsLayout />
+                            ? <AssetsLayout displayFilters={false} />
                             : <Text as='span'>Not connected</Text>
                         }
                     </Box>

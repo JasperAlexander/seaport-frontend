@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { Seaport } from '@opensea/seaport-js'
 import { useSeaport } from '../../hooks/useSeaport'
 import { useAccount } from 'wagmi'
@@ -13,6 +13,8 @@ import { EventType, EventTypes } from '../../types/eventTypes'
 import { useEvents } from '../../hooks/useEvents'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { AssetCardButton } from '../Buttons/AssetCardButton'
+import LazyLoad from 'react-lazyload'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 const contractAddresses = require('../../utils/contractAddresses.json')
 
@@ -29,12 +31,27 @@ export const AssetCardSmall: React.FC<Props> = ({
     const { events, addEvent } = useEvents()
     const { address } = useAccount()
 
-    const assetEventsCreated = events.filter((event) => {
+    const assetEventsListed = events.filter((event) => {
         return (
             event.asset.contract_address === asset.asset_contract.address && 
-            event.asset.token_id === asset.token_id &&
-            event.event_type === EventTypes.created
+            event.asset.token_id.toString() === asset.token_id.toString() &&
+            event.event_type === EventTypes.listed
         )
+    })
+
+    const assetEventsCancelled = events.filter((event) => {
+        return (
+            event.asset.contract_address === asset.asset_contract.address && 
+            event.asset.token_id.toString() === asset.token_id.toString() &&
+            event.event_type === EventTypes.cancelled
+        )
+    })
+
+    const lastEvent = [
+        ...assetEventsListed,
+        ...assetEventsCancelled
+    ].sort((a, b) => {
+        return new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
     })
 
     if(typeof window !== 'undefined' && typeof seaport === 'undefined') {
@@ -73,6 +90,7 @@ export const AssetCardSmall: React.FC<Props> = ({
     return (
         <Box
             display='flex'
+            id='assetCard'
             flexDirection='column'
             background='orderBackground'
             height='auto'
@@ -100,22 +118,31 @@ export const AssetCardSmall: React.FC<Props> = ({
                         aspectRatio='1'
                         overflow='hidden'
                     >
-                    {asset.image_url
-                        ? <Box
-                            as='img' 
-                            src={URL.createObjectURL(asset.image_url)} 
-                            alt='NFT image' 
-                            height='full'
-                            width='full'
-                            className={sprinkles({
-                                transition: 'assetCardImage',
-                                scale: {
-                                    hover: 'growLg'
+                        <LazyLoad
+                            height={document.querySelector('#assetCard')?.getBoundingClientRect().height}
+                            offset={50}
+                        >
+                            {/* Skeleton and lazyload not tested yet */}
+                            <SkeletonTheme baseColor="#202020" highlightColor="#444">
+                                {asset.image_url
+                                    ? 
+                                        <Box
+                                            as='img' 
+                                            src={URL.createObjectURL(asset.image_url)} 
+                                            alt='NFT image' 
+                                            height='full'
+                                            width='full'
+                                            className={sprinkles({
+                                                transition: 'assetCardImage',
+                                                scale: {
+                                                    hover: 'growLg'
+                                                }
+                                            })} 
+                                        />
+                                    : <Skeleton count={3} />
                                 }
-                            })} 
-                        />
-                        : ''
-                    }
+                            </SkeletonTheme>
+                        </LazyLoad>
                     </Box>
 
                     <Box 
@@ -143,7 +170,7 @@ export const AssetCardSmall: React.FC<Props> = ({
 
             
 
-            {assetEventsCreated.length === 0
+            {lastEvent.length === 0 || lastEvent[0].event_type !== EventTypes.listed
                 ? asset.owner === address
                     ?
                     <>
@@ -164,8 +191,8 @@ export const AssetCardSmall: React.FC<Props> = ({
                             title='Buy Asset'
                             onClick={() => openBuyModal()}
                         />
-                        {assetEventsCreated[0].order 
-                            ? <BuyModal asset={asset} order={assetEventsCreated[0].order} onClose={closeBuyModal} open={buyModalOpen} />
+                        {lastEvent[0].order
+                            ? <BuyModal asset={asset} order={lastEvent[0].order} onClose={closeBuyModal} open={buyModalOpen} />
                             : ''
                         }
                     </>
@@ -180,7 +207,7 @@ export const AssetCardSmall: React.FC<Props> = ({
                                         contract_address: asset.asset_contract.address,
                                         token_id: asset.token_id
                                     },
-                                    '',
+                                    new Date(),
                                     address,
                                     '',
                                     false,

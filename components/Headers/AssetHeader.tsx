@@ -30,15 +30,17 @@ export const AssetHeader: React.FC<Props> = ({
             maxWidth='full'
         >
             <Box
+                as='a'
+                cursor='pointer'
                 display='flex'
                 alignItems='center'
-                width='420'
                 maxWidth='full'
                 overflow='hidden'
                 textOverflow='ellipsis'
                 whiteSpace='nowrap'
+                color='accentColor'
             >
-                Collectionlink
+                {typeof asset !== 'undefined' ? asset.asset_contract.name : ''}
             </Box>
             <Box
                 maxWidth='fit'

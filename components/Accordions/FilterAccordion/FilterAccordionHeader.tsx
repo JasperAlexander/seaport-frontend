@@ -1,3 +1,4 @@
+import { sprinkles } from '../../../styles/sprinkles.css'
 import { Box } from '../../Box/Box'
 import { ExpandLess } from '../../Icons/ExpandLess'
 import { ExpandMore } from '../../Icons/ExpandMore'
@@ -23,6 +24,12 @@ export const FilterAccordionHeader: React.FC<Props> = ({
             height='48'
             paddingX='10'
             fontWeight='semibold'
+            borderRadius='10'
+            className={sprinkles({
+                background: {
+                    hover: 'filterHover'
+                }
+            })}
             onClick={() => toggleExpand()}
           >
             {title}

@@ -13,7 +13,7 @@ export const Checkbox: React.FC<Props> = ({
     checked,
     name,
     onChange,
-}: Props ) => {
+}) => {
     return (
         <Box
             alignItems='center'
@@ -26,12 +26,12 @@ export const Checkbox: React.FC<Props> = ({
             width='24'
             height='24'
             className={sprinkles({
-            color: {
-                placeholder: 'defaultTextPlaceholder'
-            },
-            borderColor: {
-                focus: 'defaultTextPlaceholder'
-            }
+                color: {
+                    placeholder: 'defaultTextPlaceholder'
+                },
+                borderColor: {
+                    focus: 'defaultTextPlaceholder'
+                }
             })}
             transition='inputBorderColor'
             overflow='hidden'

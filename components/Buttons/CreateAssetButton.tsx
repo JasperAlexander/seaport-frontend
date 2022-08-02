@@ -7,6 +7,9 @@ import { useAccount } from 'wagmi'
 import toast from 'react-hot-toast'
 import router from 'next/router'
 import { randomBN } from '../../utils/encoding'
+import { useEvents } from '../../hooks/useEvents'
+import { EventTypes } from '../../types/eventTypes'
+import { BigNumber } from 'ethers'
 
 const contractAddresses = require(('../../utils/contractAddresses.json'))
 
@@ -17,7 +20,9 @@ export function CreateAssetButton({
 }) {
     const [isLoadingDOM, setIsLoadingDOM] = useState(true)
     const { assets, addAsset } = useAssets()
+    const { addEvent } = useEvents()
     const { address } = useAccount()
+    const tempTokenID = randomBN()
 
     useEffect(() => {
         setIsLoadingDOM(false)
@@ -29,7 +34,7 @@ export function CreateAssetButton({
             onClick={() => { !isLoadingDOM && inputState.name 
                 ? ( 
                     addAsset(
-                        randomBN(),
+                        tempTokenID,
                         inputState.image_url,
                         inputState.background_color,
                         inputState.name,
@@ -45,6 +50,21 @@ export function CreateAssetButton({
                         },
                         address ? address : '',
                         'test'
+                    ),
+                    addEvent(
+                        EventTypes.created,
+                        {
+                            contract_address: contractAddresses.TestERC721,
+                            token_id: tempTokenID
+                        },
+                        new Date(),
+                        '',
+                        address ? address : '',
+                        false,
+                        '',
+                        1,
+                        '',
+                        undefined
                     ),
                     router.push('/profile') 
                 )

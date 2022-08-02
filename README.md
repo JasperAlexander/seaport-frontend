@@ -61,6 +61,7 @@ Contributions are welcome. Feel free to ask questions at the Discussions tab.
 ## To do
 
 - [ ] Clean the code
+- [ ] Add event based asset state
 - [ ] Add auctions
 - [ ] Add lazy minting
 - [ ] More...

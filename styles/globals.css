@@ -207,6 +207,15 @@ main > label {
   animation: donut-spin 1.2s linear infinite;
 }
 
+.stuck {
+  box-shadow: rgba(4, 17, 29, 0.25) 0px 0px 8px 0px;
+}
+
+.unstuck {
+  /* box-shadow: none !important; */
+  box-shadow: rgba(229, 232, 235, 0.25) 0px 1px 0px 0px !important;
+}
+
 .NFTimg {
   z-index: 999;
   aspect-ratio: 1 / 1;

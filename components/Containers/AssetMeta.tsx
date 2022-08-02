@@ -13,13 +13,16 @@ export const AssetMeta: React.FC<Props> = ({
     <Box
         marginY='20'
         display='flex'
-        flexWrap='wrap'
+        maxWidth='full'
+        overflow='hidden'
+        textOverflow='ellipsis'
         color='boxText'
         className={sprinkles({
             marginX: {
               largeScreen: '20'
             }
         })}
+        style={{wordBreak: 'break-all'}}
     >
         Owned by {asset ? asset.owner : ''}
     </Box>

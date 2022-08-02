@@ -1,16 +1,16 @@
 {
-  "name": "seaport-implementation",
-  "description": "An example implementation of the Seaport marketplace protocol for educational purpose.",
+  "name": "seaport-frontend",
+  "description": "The frontend of an example implementation of the Seaport marketplace protocol for educational purpose.",
   "author": {
     "name": "Jasper Alexander"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JasperAlexander/seaport-implementation.git"
+    "url": "https://github.com/JasperAlexander/seaport-frontend.git"
   },
-  "homepage": "https://github.com/JasperAlexander/seaport-implementation#readme",
+  "homepage": "https://github.com/JasperAlexander/seaport-frontend#readme",
   "bugs": {
-    "url": "https://github.com/JasperAlexander/seaport-implementation/issues"
+    "url": "https://github.com/JasperAlexander/seaport-frontend/issues"
   },
   "version": "1.0.0",
   "private": true,
@@ -33,7 +33,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.3.0",
+    "react-intersection-observer-hook": "^2.0.4",
+    "react-lazyload": "^3.2.0",
+    "react-loading-skeleton": "^3.1.0",
     "react-remove-scroll": "^2.5.5",
+    "react-top-loading-bar": "^2.1.0",
     "wagmi": "^0.5.9"
   },
   "devDependencies": {
@@ -44,6 +48,7 @@
     "@types/node": "18.0.3",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
+    "@types/react-lazyload": "^3.2.0",
     "crypto": "^1.0.1",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.2",

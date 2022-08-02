@@ -43,7 +43,6 @@ export const SellAssetButton: React.FC<Props> = ({
         ) {
             try {
                 setSellingStatus(1)
-                console.log(nftid)
                 const owner = await ownerOfERC721(signer, nftid)
                 let nftID
                 if(typeof owner === 'undefined') {
@@ -77,14 +76,13 @@ export const SellAssetButton: React.FC<Props> = ({
                     console.log('Before executeAllActions')
                     const executedOrder = await executeAllActions()
                     console.log('After executedOrder')
-                    // updateOrder(nftID, executedOrder)
                     addEvent(
-                        EventTypes.created,
+                        EventTypes.listed,
                         {
                             contract_address: contractAddresses.TestERC721,
                             token_id: BigNumber.from(nftID)
                         },
-                        '',
+                        new Date(),
                         address,
                         '',
                         false,
@@ -117,7 +115,7 @@ export const SellAssetButton: React.FC<Props> = ({
                     size='16'
                     weight='bold'
                 >
-                    Sell
+                    Complete listing
                 </Text>
             : sellingStatus === 3
                 ? 
@@ -126,7 +124,7 @@ export const SellAssetButton: React.FC<Props> = ({
                         size='16'
                         weight='bold'
                     >
-                        Sell
+                        Complete listing
                     </Text>
                 : <Spinner /> 
         }

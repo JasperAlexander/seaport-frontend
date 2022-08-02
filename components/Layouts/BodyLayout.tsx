@@ -12,6 +12,7 @@ export const BodyLayout: React.FC<Props> = ({ children }: Props) => {
     return (
         <Box
             minHeight='full'
+            // position='absolute'
         >
             <Toaster 
                 position='bottom-right'

@@ -1,5 +1,5 @@
 import { Box } from '../../Box/Box'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { FilterAccordionHeader } from './FilterAccordionHeader'
 import { FilterAccordionMain } from './FilterAccordionMain'
 import { FilterAccordionMainItem } from './FilterAccordionMainItem'
@@ -7,19 +7,40 @@ import { FilterAccordionMainItem } from './FilterAccordionMainItem'
 interface Props {
     initialExpandedState?: boolean,
     headerTitle: string,
-    items: string[]
+    items: string[],
+    filterState: { filter: string[] },
+    setFilterState: Dispatch<SetStateAction<{
+        filter: string[]
+    }>>,
+    display?: boolean
 }
 
 export const FilterAccordion: React.FC<Props> = ({
     initialExpandedState = false,
     headerTitle,
-    items
+    items,
+    filterState,
+    setFilterState,
+    display = true
 }) => {
     const [isExpanded, setIsExpanded] = useState(initialExpandedState)
 
+    const handleFilterChange = async(key: string) => {
+        let fil = filterState.filter
+        let find = fil.indexOf(key)
+
+        if(find > -1) {
+            fil = fil.filter((f) => { return f !== key })
+        } else {
+            fil.push(key)
+        }
+
+        setFilterState({filter: fil})
+    }
+
     return (
         <Box
-          position='sticky'
+            display={display ? 'initial' : 'none'}
           marginLeft='-10'
           marginRight='16'
           paddingRight='16'
@@ -34,8 +55,13 @@ export const FilterAccordion: React.FC<Props> = ({
             {items.length > 0
             ?
                 <FilterAccordionMain height={isExpanded ? '330' : '0'}>
-                    {items.map((i) => (
-                        <FilterAccordionMainItem title={i} />
+                    {items.map((item) => (
+                        <FilterAccordionMainItem 
+                            title={item} 
+                            key={item}
+                            checked={filterState.filter.includes(item)}
+                            handleFilterChange={() => handleFilterChange(item)} 
+                        />
                     ))}
                 </FilterAccordionMain>
             : ''

@@ -6,9 +6,9 @@ import { Box } from '../../../components/Box/Box'
 import { sprinkles } from '../../../styles/sprinkles.css'
 import { AssetCardLarge } from '../../../components/Cards/AssetCardLarge'
 import { AssetAccordion } from '../../../components/Accordions/AssetAccordion/AssetAccordion'
-import { AssetPriceContainer } from '../../../components/Container/AssetPriceContainer'
+import { AssetPriceContainer } from '../../../components/Containers/AssetPriceContainer'
 import { AssetHeader } from '../../../components/Headers/AssetHeader'
-import { AssetMeta } from '../../../components/Container/AssetMeta'
+import { AssetMeta } from '../../../components/Containers/AssetMeta'
 import { AssetAccordionTable } from '../../../components/Accordions/AssetAccordion/AssetAccordionTable'
 import { useAssets } from '../../../hooks/useAssets'
 import { AssetType } from '../../../types/assetTypes'
@@ -33,8 +33,26 @@ const Asset: NextPage = () => {
         return (
             asset &&
             event.asset.contract_address === asset.asset_contract.address && 
-            event.asset.token_id === asset.token_id &&
+            event.asset.token_id.toString() === asset.token_id.toString() &&
             event.event_type === EventTypes.created
+        )
+    })
+
+    const assetEventsListed = events.filter((event) => {
+        return (
+            asset &&
+            event.asset.contract_address === asset.asset_contract.address && 
+            event.asset.token_id.toString() === asset.token_id.toString() &&
+            event.event_type === EventTypes.listed
+        )
+    })
+
+    const assetEventsCancelled = events.filter((event) => {
+        return (
+            asset &&
+            event.asset.contract_address === asset.asset_contract.address && 
+            event.asset.token_id.toString() === asset.token_id.toString() &&
+            event.event_type === EventTypes.cancelled
         )
     })
     
@@ -48,7 +66,6 @@ const Asset: NextPage = () => {
 
         <Box
             as='main'
-            width='full'
             marginTop='8'
             marginBottom='16'
             marginX='8'
@@ -64,13 +81,13 @@ const Asset: NextPage = () => {
                 className={sprinkles({
                     display: {
                         largeScreen: 'flex'
-                    },
+                    }
                 })}
             >
                 <Box
-                display='flex'
-                flexDirection='column'
-                width='full'
+                    display='flex'
+                    flexDirection='column'
+                    width='full'
                 >
                     <Box
                         display='flex'
@@ -103,8 +120,14 @@ const Asset: NextPage = () => {
                         >
                             <AssetHeader asset={asset} />
                             <AssetMeta asset={asset} />
-                            <AssetPriceContainer asset={asset} assetEventsCreated={assetEventsCreated} />
-                            <AssetAccordion asset={asset} title='Listings'>
+                            <AssetPriceContainer 
+                                asset={asset} 
+                                assetEventsCreated={assetEventsCreated}
+                            />
+                            <AssetAccordion 
+                                asset={asset} 
+                                title='Listings'
+                            >
                                 <AssetAccordionTable 
                                     header={['Price', 'USD Price', 'Expiration', '']} 
                                     data={[
@@ -113,9 +136,18 @@ const Asset: NextPage = () => {
                                     ]}
                                 />
                             </AssetAccordion>
-                            <AssetAccordion asset={asset} title='Offers'>
+                            <AssetAccordion 
+                                asset={asset} 
+                                title='Offers'
+                            >
                                 <AssetAccordionTable 
-                                    header={['Price', 'USD Price', 'Floor Difference', 'Expiration', 'From']} 
+                                    header={[
+                                        'Price', 
+                                        'USD Price', 
+                                        'Floor Difference', 
+                                        'Expiration', 
+                                        'From'
+                                    ]} 
                                     data={[
                                         ['1', '2', '3', '4', '5'], 
                                         ['1', '2', '3', '4', '5'],
@@ -135,13 +167,26 @@ const Asset: NextPage = () => {
                         flexDirection='column'
                         width='full'
                     >
-                        <AssetAccordion asset={asset} title='Activity' marginTop='0'>
+                        <AssetAccordion 
+                            asset={asset} 
+                            title='Activity' 
+                            marginTop='0'
+                        >
                             <AssetAccordionTable 
-                                header={['Event', 'Price', 'From', 'To', 'Date']} 
-                                data={[
-                                    ['Transfer', '', '', '', ''], 
-                                    ['Transfer', '', '', '', '']
-                                ]}
+                                header={[
+                                    'Event', 
+                                    'Price', 
+                                    'From', 
+                                    'To', 
+                                    'Date'
+                                ]} 
+                                // data={[
+                                //     ['Transfer', '', '', '', ''], 
+                                //     ['Transfer', '', '', '', '']
+                                // ]}
+                                data={assetEventsCreated.map((e) => (
+                                    [e.event_type, '', '', '', '']
+                                ))}
                             />
                         </AssetAccordion>
                     </Box>
@@ -171,7 +216,10 @@ const Asset: NextPage = () => {
                     <AssetHeader asset={asset} />
                     <AssetCardLarge asset={asset} />
                     <AssetMeta asset={asset} />
-                    <AssetPriceContainer asset={asset} assetEventsCreated={assetEventsCreated} />
+                    <AssetPriceContainer 
+                        asset={asset} 
+                        assetEventsCreated={assetEventsCreated} 
+                    />
                 </Box>
             </Box>
         </Box>

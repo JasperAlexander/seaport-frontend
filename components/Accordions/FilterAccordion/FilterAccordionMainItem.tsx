@@ -1,25 +1,19 @@
-import React, { useState } from 'react'
+import React, { ChangeEventHandler } from 'react'
+import { sprinkles } from '../../../styles/sprinkles.css'
 import { Box } from '../../Box/Box'
 import { Checkbox } from '../../Input/Checkbox'
 
 interface Props {
-    title: string
+    title: string,
+    checked: boolean,
+    handleFilterChange: ChangeEventHandler
 }
 
 export const FilterAccordionMainItem: React.FC<Props> = ({
-    title
+    title,
+    checked,
+    handleFilterChange
 }) => {
-    const [inputState, setInputState] = useState({
-        filter: false,
-    })
-
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputState({
-            ...inputState,
-            [e.target.name]: e.target.checked
-        })
-    }
-
     return (
         <Box
             as='button'
@@ -29,12 +23,19 @@ export const FilterAccordionMainItem: React.FC<Props> = ({
             width='full'
             height='48'
             paddingX='10'
+            borderRadius='10'
+            className={sprinkles({
+                background: {
+                    hover: 'filterHover'
+                }
+            })}
         >
             {title}
             <Checkbox 
-                name='filter'
-                checked={inputState.filter}
-                onChange={handleCheckboxChange}
+                name={title}
+                key={title}
+                checked={checked}
+                onChange={handleFilterChange}
             />
         </Box>
     )

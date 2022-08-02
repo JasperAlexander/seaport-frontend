@@ -5,12 +5,18 @@ import { ethers } from 'ethers'
 import { useEvents } from '../../hooks/useEvents'
 import { EventTypes } from '../../types/eventTypes'
 import { AssetType } from '../../types/assetTypes'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Refresh } from '../Icons/Refresh'
 import { FilterAccordion } from '../Accordions/FilterAccordion/FilterAccordion'
 import { AssetsHeader } from '../Headers/AssetsHeader'
 
-export const AssetsLayout: React.FC = () => {
+interface Props {
+  displayFilters: boolean
+}
+
+export const AssetsLayout: React.FC<Props> = ({
+  displayFilters
+}) => {
   const { assets } = useAssets()
   const { events } = useEvents()
 
@@ -19,16 +25,81 @@ export const AssetsLayout: React.FC = () => {
       return (
           asset &&
           event.asset.contract_address === asset.asset_contract.address && 
-          event.asset.token_id === asset.token_id &&
+          event.asset.token_id.toString() === asset.token_id.toString() &&
           event.event_type === EventTypes.created
       )
     })
     return assetEventsCreated[0]
   }
 
+  const [sortState, setSortState] = useState<{sort: string}>({
+    sort: ''
+  })
+
+  const [filterState, setFilterState] = useState<{filter: string[]}>({
+    filter: []
+  })
+
+  const filteredAssets = assets.filter((asset) => {
+    const assetEventsListed = events.filter((event) => {
+      return (
+          event.asset.contract_address === asset.asset_contract.address && 
+          event.asset.token_id.toString() === asset.token_id.toString() &&
+          event.event_type === EventTypes.listed
+      )
+    })
+
+    const assetEventsCancelled = events.filter((event) => {
+        return (
+            event.asset.contract_address === asset.asset_contract.address && 
+            event.asset.token_id.toString() === asset.token_id.toString() &&
+            event.event_type === EventTypes.cancelled
+        )
+    })
+
+    const lastEvent = [
+      ...assetEventsListed,
+      ...assetEventsCancelled
+    ].sort((a, b) => {
+        return new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
+    })
+
+    if(filterState.filter.includes('Buy now')) {
+      if(lastEvent.length > 0) {
+        return lastEvent[0].event_type === EventTypes.listed
+      } else if(filterState.filter.includes('Not listed') && lastEvent.length === 0) {
+        return true
+      } else {
+        return false
+      }
+    }
+
+    if(filterState.filter.includes('Not listed')) {
+      if(lastEvent.length === 0) {
+        return true
+      } else if(lastEvent.length > 0) {
+        return lastEvent[0].event_type !== EventTypes.listed
+      } else {
+        return false
+      }
+    }
+
+    // Show all assets if no filter is selected
+    return true
+  })
+
+  const [showFilters, setShowFilters] = useState<boolean>(displayFilters)
+  const toggleShowFilters = () => {
+    setShowFilters(!showFilters)
+  }
+
     return (
       <Fragment>
-        <AssetsHeader />
+        <AssetsHeader 
+          sortState={sortState}
+          setSortState={setSortState}
+          toggleShowFilters={toggleShowFilters}
+        />
         <Box
           display='flex'
           width='full'
@@ -39,6 +110,9 @@ export const AssetsLayout: React.FC = () => {
             initialExpandedState={true} 
             headerTitle='Status'
             items={['Buy now', 'Not listed']}
+            filterState={filterState}
+            setFilterState={setFilterState}
+            display={showFilters}
           />
           <Box
             flexGrow='1'
@@ -67,7 +141,7 @@ export const AssetsLayout: React.FC = () => {
                 >
                   <Refresh width='24' color='black' />
                 </Box>
-                {assets.length} items
+                {filteredAssets.length} items
               </Box>
             </Box>
             <Box
@@ -77,38 +151,16 @@ export const AssetsLayout: React.FC = () => {
               paddingBottom='16'
               width='full'
             >
-              {assets.map(asset => (
-                <AssetCardSmall 
-                  asset={asset} 
-                  event={getAssetEventsCreated(asset)}
-                  key={ethers.utils.formatEther(asset.token_id)} 
-                />
+              {filteredAssets.map(asset => (
+                    <AssetCardSmall 
+                      asset={asset} 
+                      event={getAssetEventsCreated(asset)}
+                      key={ethers.utils.formatEther(asset.token_id)} 
+                    />
               ))}
             </Box>
           </Box>
         </Box>
       </Fragment>
     )
-
-    // if(assets.length > 0) {
-    //   return(
-    //     <Box
-    //       display='grid'
-    //       gridTemplateColumns='repeat(4, 1fr)'
-    //       gap='10'
-    //     >
-    //       {assets.map(asset => (
-    //         <AssetCard 
-    //           asset={asset} 
-    //           event={getAssetEventsCreated(asset)}
-    //           key={ethers.utils.formatEther(asset.token_id)} 
-    //         />
-    //       ))}
-    //     </Box>
-    //   )
-    // } else {
-    //   return(
-    //     <Text as='span'>No assets available</Text>
-    //   )
-    // }
 }

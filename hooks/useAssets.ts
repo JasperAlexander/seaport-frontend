@@ -20,15 +20,15 @@ interface AssetState {
 export const useAssets = create<AssetState>((set) => ({
     assets: [],
     addAsset: (
-        token_id: BigNumber, 
-        image_url: File | undefined, 
-        background_color: string, 
-        name: string, 
-        description: string,
-        external_link: string,
-        asset_contract: AssetContractType,
-        owner: string,
-        last_sale: string
+        token_id, 
+        image_url, 
+        background_color, 
+        name, 
+        description,
+        external_link,
+        asset_contract,
+        owner,
+        last_sale
     ) => { 
         set((state) => ({ 
             assets: [

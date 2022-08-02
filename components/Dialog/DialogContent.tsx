@@ -6,7 +6,8 @@ import * as styles from './DialogContent.css'
 interface DialogContentProps {
   children: ReactNode
   bottomSheetOnMobile?: boolean
-  padding?: BoxProps['padding']
+  paddingX?: BoxProps['paddingX']
+  paddingY?: BoxProps['paddingX']
   marginTop?: BoxProps['marginTop']
   wide?: boolean
 }
@@ -15,7 +16,8 @@ export function DialogContent({
   bottomSheetOnMobile = false,
   children,
   marginTop,
-  padding = '0',
+  paddingX = '0',
+  paddingY = '0',
   wide = false,
 }: DialogContentProps) {
   const mobile = isMobile()
@@ -32,7 +34,12 @@ export function DialogContent({
           mobile && bottomSheetOnMobile ? styles.bottomSheetOverrides : null,
         ].join(' ')}
       >
-        <Box padding={padding}>{children}</Box>
+        <Box 
+          paddingX={paddingX}
+          paddingY={paddingY}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   )
