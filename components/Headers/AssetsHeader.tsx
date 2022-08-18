@@ -57,206 +57,145 @@ export const AssetsHeader: FC<Props> = ({
                     wideScreen: 'none'
                 }
             })}
-        >
-            <Box
-                display='flex'
-                width='full'
-                alignItems='center'
-                gap='8'
-                paddingTop='16'
             >
                 <Box
-                    as='button'
-                    onClick={toggleFilterSidebar}
                     display='flex'
+                    width='full'
                     alignItems='center'
-                    justifyContent='center'
-                    width='50p'
-                    borderRadius='10'
-                    borderStyle='solid'
-                    borderWidth='2'
-                    borderColor='box'
-                    paddingY='12'
-                    fontWeight='600'
                     gap='8'
-                    className={sprinkles({
-                        boxShadow: {
-                            hover: 'subHeader'
-                        },
-                        background: {
-                            active: 'buttonBackgroundActive'
-                        }
-                    })}
+                    paddingTop='16'
                 >
                     <Box
+                        as='button'
+                        onClick={toggleFilterSidebar}
                         display='flex'
                         alignItems='center'
+                        justifyContent='center'
+                        width='50p'
+                        borderRadius='10'
+                        borderStyle='solid'
+                        borderWidth='2'
+                        borderColor='box'
+                        paddingY='12'
+                        fontWeight='600'
                         gap='8'
+                        className={sprinkles({
+                            boxShadow: {
+                                hover: 'subHeader'
+                            },
+                            background: {
+                                active: 'buttonBackgroundActive'
+                            }
+                        })}
                     >
-                        <FilterListIcon />
-                        Filters
+                        <Box
+                            display='flex'
+                            alignItems='center'
+                            gap='8'
+                        >
+                            <FilterListIcon />
+                            Filters
+                        </Box>
                     </Box>
-                </Box>
-                <Box
-                    as='button'
-                    display='flex'
-                    alignItems='center'
-                    justifyContent='center'
-                    width='50p'
-                    borderRadius='10'
-                    borderStyle='solid'
-                    borderWidth='2'
-                    borderColor='box'
-                    paddingY='12'
-                    fontWeight='600'
-                    className={sprinkles({
-                        boxShadow: {
-                            hover: 'subHeader'
-                        },
-                        background: {
-                            active: 'buttonBackgroundActive'
-                        }
-                    })}
-                >
                     <Box
+                        as='button'
                         display='flex'
                         alignItems='center'
-                        gap='8'
+                        justifyContent='center'
+                        width='50p'
+                        borderRadius='10'
+                        borderStyle='solid'
+                        borderWidth='2'
+                        borderColor='box'
+                        paddingY='12'
+                        fontWeight='600'
+                        className={sprinkles({
+                            boxShadow: {
+                                hover: 'subHeader'
+                            },
+                            background: {
+                                active: 'buttonBackgroundActive'
+                            }
+                        })}
                     >
-                        <SortIcon />
-                        Sort
+                        <Box
+                            display='flex'
+                            alignItems='center'
+                            gap='8'
+                        >
+                            <SortIcon />
+                            Sort
+                        </Box>
                     </Box>
                 </Box>
             </Box>
-        </Box>
 
-        <Box
-            position='sticky'
-            id='unstuckedHeader'
-            height='66'
-            style={{marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)'}}
-            top='71'
-            // display='flex'
-            alignItems='center'
-            width='full'
-            paddingX='32'
-            background='defaultBackground'
-            zIndex='200'
-            className={sprinkles({
-                display: {
-                    largeScreen: 'flex',
-                    wideScreen: 'flex'
-                }
-            })}
-            display='none'
-        >
-            {/* <Box
-                display='flex'
-                width='full'
+            <Box
+                position='sticky'
+                height='66'
+                top='71'
                 alignItems='center'
-                gap='8'
-                paddingTop='16'
+                width='full'
+                background='defaultBackground'
+                zIndex='200'
                 className={sprinkles({
                     display: {
-                        largeScreen: 'none',
-                        wideScreen: 'none'
+                        largeScreen: 'flex',
+                        wideScreen: 'flex'
                     }
                 })}
+                display='none'
             >
                 <Box
-                    as='button'
-                    onClick={toggleFilterSidebar}
-                    display='flex'
-                    alignItems='center'
-                    justifyContent='center'
-                    width='50p'
-                    borderRadius='10'
-                    borderStyle='solid'
-                    borderWidth='2'
-                    borderColor='box'
-                    paddingY='12'
-                    fontWeight='600'
+                    position='absolute'
+                    id='unstuckedHeader'
+                    style={{width: '100vw', left: 'calc(50% + 0px - 50vw)', right: 'calc(50% + 0px - 50vw)'}}
+                    height='full'
+                    top='0'
                 >
                     <Box
                         display='flex'
                         alignItems='center'
-                        gap='8'
+                        width='full'
+                        height='full'
+                        paddingX='32'
                     >
-                        <FilterListIcon />
-                        Filters
+                        <Box
+                            as='button'
+                            display='flex'
+                            alignItems='center'
+                            justifyContent='center'
+                            padding='12'
+                            borderRadius='24'
+                            className={sprinkles({
+                                boxShadow: {
+                                    hover: 'subHeader'
+                                },
+                                background: {
+                                    active: 'buttonBackgroundActive'
+                                }
+                            })}
+                            onClick={toggleShowFilters}
+                        >
+                            <FilterListIcon />
+                        </Box>
+                        <Box
+                            marginLeft='auto'
+                            flexShrink='0'
+                        >
+                            <SortMenu 
+                                options={[
+                                    { key: 'recentlycreated', name: 'Recently created' },
+                                    { key: 'recentlylisted', name: 'Recently listed' }
+                                ]}
+                                defaultOptionName={'Recently created'}
+                                mutateData={mutate}
+                            />
+                        </Box>
+                        {/* View mode */}
                     </Box>
-                </Box>
-                <Box
-                    as='button'
-                    display='flex'
-                    alignItems='center'
-                    justifyContent='center'
-                    width='50p'
-                    borderRadius='10'
-                    borderStyle='solid'
-                    borderWidth='2'
-                    borderColor='box'
-                    paddingY='12'
-                    fontWeight='600'
-                >
-                    <Box
-                        display='flex'
-                        alignItems='center'
-                        gap='8'
-                    >
-                        <SortIcon />
-                        Sort
-                    </Box>
-                </Box>
-            </Box> */}
-            {/* <Box
-                // display='none'
-                // width='full'
-                // alignItems='center'
-                // className={sprinkles({
-                //     display: {
-                //         largeScreen: 'flex',
-                //         wideScreen: 'flex'
-                //     }
-                // })}
-            > */}
-                <Box
-                    as='button'
-                    display='flex'
-                    alignItems='center'
-                    justifyContent='center'
-                    padding='12'
-                    borderRadius='24'
-                    className={sprinkles({
-                        boxShadow: {
-                            hover: 'subHeader'
-                        },
-                        background: {
-                            active: 'buttonBackgroundActive'
-                        }
-                    })}
-                    onClick={toggleShowFilters}
-                >
-                    <FilterListIcon />
-                </Box>
-                <Box
-                    marginLeft='auto'
-                    flexShrink='0'
-                >
-                    <SortMenu 
-                        options={[
-                            { key: 'recentlycreated', name: 'Recently created' },
-                            { key: 'recentlylisted', name: 'Recently listed' }
-                        ]}
-                        defaultOptionName={'Recently created'}
-                        mutateData={mutate}
-                    />
-                </Box>
-                <Box>
-                {/* View mode */}
                 </Box>
             </Box>
-        {/* </Box> */}
         </Fragment>
     )
 }
