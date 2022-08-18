@@ -1,42 +1,24 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useState, Fragment } from 'react'
-import { Text } from '../../components/Text/Text'
 import { Box } from '../../components/Box/Box'
 import { Input } from '../../components/Input/Input'
 import { CreateCollectionButton } from '../../components/Buttons/CreateCollectionButton'
+import { CollectionInputType } from '../../types/collectionTypes'
 
-export type CollectionInputState = {
-    name: string,
-    external_link: string,
-    description: string,
-    slug: string,
-    image_url: string,
-    banner_image_url: string,
-    dev_seller_fee_basis_points: string,
-    safelist_request_status: string,
-    payout_address: string,
-    primary_asset_contracts: string,
-    payment_tokens: string,
-    editors: string,
-    stats: string
-}
-
-const CreateCollection: NextPage = () => {
-    const [inputState, setInputState] = useState<CollectionInputState>({
+const CreateCollectionPage: NextPage = () => {
+    const [inputState, setInputState] = useState<CollectionInputType>({
         name: '',
-        external_link: '',
         description: '',
         slug: '',
-        image_url: '',
         banner_image_url: '',
-        dev_seller_fee_basis_points: '',
-        safelist_request_status: '',
-        payout_address: '',
-        primary_asset_contracts: '',
-        payment_tokens: '',
-        editors: '',
-        stats: ''
+        image_url: '',
+        external_url: '',
+        twitter_username: '',
+        instagram_username: '',
+        medium_username: '',
+        is_nsfw: false,
+        payment_tokens: null
     })
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,11 +46,12 @@ const CreateCollection: NextPage = () => {
             <Box
                 as='main'
             >
-                <Box padding='44'>
-                    <Text as='h1' size='32' weight='bold'>Create Collection</Text>
+                test
+                {/* <Box padding='44'>
+                    <Box as='h1' size='32' weight='700'>Create Collection</Text>
 
                     <Box display='flex' flexDirection='column' gap='12' alignItems='flex-start' marginTop='18'>
-                        <Text as='label' weight='bold'>Name</Text>
+                        <Text as='label' weight='700'>Name</Text>
                         <Input 
                             type='text'
                             name='name' 
@@ -76,15 +59,15 @@ const CreateCollection: NextPage = () => {
                             onChange={handleInputChange} 
                         />
 
-                        <Text as='label' weight='bold'>URL</Text>
+                        <Text as='label' weight='700'>URL</Text>
                         <Input 
                             type='text'
-                            name='external_link' 
-                            value={inputState.external_link} 
+                            name='external_url' 
+                            value={inputState.external_url} 
                             onChange={handleInputChange} 
                         />
 
-                        <Text as='label' weight='bold'>Description</Text>
+                        <Text as='label' weight='700'>Description</Text>
                         <Input 
                             type='text'
                             name='description' 
@@ -94,10 +77,10 @@ const CreateCollection: NextPage = () => {
 
                         <CreateCollectionButton inputState={inputState} />
                     </Box>
-                </Box>
+                </Box> */}
             </Box>
         </Fragment>
     )
 }
 
-export default CreateCollection
+export default CreateCollectionPage

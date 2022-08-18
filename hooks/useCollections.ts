@@ -1,61 +1,66 @@
-import create from 'zustand'
-import { CollectionType } from '../types/collectionTypes'
+import fetcher from '../utils/fetcher'
+import setParams from '../utils/params'
+import { NextRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
+import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
+import { CollectionsType } from '../types/collectionTypes'
 
-interface CollectionState {
-    collections: CollectionType[]
-    addCollection: (
-        name: string,
-        external_link: string,
-        description: string,
-        slug?: string,
-        image_url?: string,
-        banner_image_url?: string,
-        dev_seller_fee_basis_points?: string,
-        safelist_request_status?: string,
-        payout_address?: string,
-        primary_asset_contracts?: string,
-        payment_tokens?: string,
-        editors?: string,
-        stats?: string
-    ) => void
+export default function useCollections(
+    router: NextRouter,
+    fallback?: CollectionsType
+) {
+    const { ref, inView } = useInView()
+
+    const pathname = `http://localhost:8000/api/v1/collections/`
+    const sortBy = router.query['sort']?.toString()
+
+    const collections = useSWRInfinite(
+        (index, previousPageData) => getKey(pathname, sortBy, index, previousPageData),
+        fetcher,
+        {
+            revalidateFirstPage: false,
+            fallbackData: [
+                {
+                    collections: fallback?.collections,
+                }
+            ]
+        }
+    )
+
+  // Fetch more data when component is visible
+    useEffect(() => {
+        if (inView) {
+            collections.setSize(collections.size + 1)
+        }
+    }, [inView])
+
+  return { collections, ref }
 }
 
-export const useCollections = create<CollectionState>((set) => ({
-    collections: [],
-    addCollection: (
-        name: string,
-        external_link: string,
-        description: string,
-        slug?: string,
-        image_url?: string,
-        banner_image_url?: string,
-        dev_seller_fee_basis_points?: string,
-        safelist_request_status?: string,
-        payout_address?: string,
-        primary_asset_contracts?: string,
-        payment_tokens?: string,
-        editors?: string,
-        stats?: string
-    ) => { 
-        set((state) => ({ 
-            collections: [
-                ...state.collections, 
-                { 
-                    name: name,
-                    external_link: external_link,
-                    description: description,
-                    slug: slug,
-                    image_url: image_url,
-                    banner_image_url: banner_image_url,
-                    dev_seller_fee_basis_points: dev_seller_fee_basis_points,
-                    safelist_request_status: safelist_request_status,
-                    payout_address: payout_address,
-                    primary_asset_contracts: primary_asset_contracts,
-                    payment_tokens: payment_tokens,
-                    editors: editors,
-                    stats: stats
-                },
-            ] 
-        }))
-    },
-}))
+const getKey: (
+    pathname: string,
+    sortBy: string | undefined,
+    ...base: Parameters<SWRInfiniteKeyLoader>
+) => ReturnType<SWRInfiniteKeyLoader> = (
+    pathname: string,
+    sortBy: string | undefined,
+    index: number,
+    previousPageData: CollectionsType
+) => {
+    // End
+    if (previousPageData && !previousPageData.next) return null
+
+    let query = {
+        // limit: 20,
+        // sortBy: '1DayVolume',
+    }
+
+    // if (sortBy === '30DayVolume' || sortBy === '7DayVolume') query.sortBy = sortBy
+
+    // Start
+    if(index === 0) return setParams(pathname, query)
+
+    // Middle
+    if(previousPageData.next) return setParams(previousPageData.next, query)
+}

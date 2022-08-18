@@ -1,23 +1,19 @@
+import { FC } from 'react'
 import { Box } from '../Box/Box'
 import { useSidebars } from '../../hooks/useSidebars'
-import { ChevronRight } from '../Icons/ChevronRight'
+import { ChevronRightIcon } from '../Icons/ChevronRightIcon'
 import Link from 'next/link'
 import { sprinkles } from '../../styles/sprinkles.css'
-import { useEffect, useReducer, useState } from 'react'
 import { useAccount, useNetwork } from 'wagmi'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import useMounted from '../../hooks/useMounted'
 
-export const MenuSidebar: React.FC = () => {
+export const MenuSidebar: FC = () => {
     const { isMenuSidebarOpen, toggleMenuSidebar, closeMenuSidebar, toggleWalletSidebar } = useSidebars()
     const { chain } = useNetwork()
     const { address } = useAccount()
     const { openConnectModal } = useConnectModal()
-
-    const [mounted, setMounted] = useReducer(() => true, false);
-    useEffect (
-        setMounted, 
-        [setMounted]
-    )
+    const { mounted } = useMounted()
 
     return (
         <Box
@@ -28,7 +24,7 @@ export const MenuSidebar: React.FC = () => {
                 transform: isMenuSidebarOpen ? 'translate3d(0px, 0px, 0px) translate3d(0px, 0px, 0px)' : 'translate3d(100%, 0px, 0px) translate3d(0px, 0px, 0px)',
                 height: 'calc(100% - 72px)',
                 filter: 'drop-shadow(rgba(0, 0, 0, 0.25) 0px 4px 4px)',
-                zIndex: '3',
+                zIndex: '300',
                 border: '1px solid rgb(229, 232, 235)'
             }}
             bottom='0'
@@ -45,7 +41,7 @@ export const MenuSidebar: React.FC = () => {
                 height='full'
                 overflow='scroll'
             >
-                <Link href='/faucet'>
+                <Link href='/faucet' passHref={true}>
                     <Box
                         as='a'
                         cursor='pointer'
@@ -56,7 +52,7 @@ export const MenuSidebar: React.FC = () => {
                         minHeight='72'
                         color='defaultText'
                         paddingX='10'
-                        fontWeight='semibold'
+                        fontWeight='600'
                         onClick={toggleMenuSidebar}
                         className={sprinkles({
                             color: {
@@ -65,10 +61,10 @@ export const MenuSidebar: React.FC = () => {
                         })}
                     >
                         Faucet
-                        <ChevronRight width='24' color='black' />
+                        <ChevronRightIcon />
                     </Box>
                 </Link>
-                <Link href='/create'>
+                <Link href='/create' passHref={true}>
                     <Box
                         as='a'
                         cursor='pointer'
@@ -79,7 +75,7 @@ export const MenuSidebar: React.FC = () => {
                         minHeight='72'
                         color='defaultText'
                         paddingX='10'
-                        fontWeight='semibold'
+                        fontWeight='600'
                         onClick={toggleMenuSidebar}
                         className={sprinkles({
                             color: {
@@ -88,10 +84,10 @@ export const MenuSidebar: React.FC = () => {
                         })}
                     >
                         Create
-                        <ChevronRight width='24' color='black' />
+                        <ChevronRightIcon />
                     </Box>
                 </Link>
-                <Link href='/profile'>
+                <Link href='/profile' passHref={true}>
                     <Box
                         as='a'
                         cursor='pointer'
@@ -102,7 +98,7 @@ export const MenuSidebar: React.FC = () => {
                         minHeight='72'
                         color='defaultText'
                         paddingX='10'
-                        fontWeight='semibold'
+                        fontWeight='600'
                         onClick={toggleMenuSidebar}
                         className={sprinkles({
                             color: {
@@ -111,7 +107,7 @@ export const MenuSidebar: React.FC = () => {
                         })}
                     >
                         Profile
-                        <ChevronRight width='24' color='black' />
+                        <ChevronRightIcon />
                     </Box>
                 </Link>
                 <Box
@@ -119,7 +115,7 @@ export const MenuSidebar: React.FC = () => {
                     display='flex'
                     alignItems='center'
                     justifyContent='space-between'
-                    fontWeight='semibold'
+                    fontWeight='600'
                     color='defaultText'
                     paddingX='10'
                     height='72'
@@ -138,7 +134,7 @@ export const MenuSidebar: React.FC = () => {
                         ? 'Connect'
                         : 'Wallet'
                     }
-                    <ChevronRight width='24' color='black' />
+                    <ChevronRightIcon />
                 </Box>
             </Box>
         </Box>

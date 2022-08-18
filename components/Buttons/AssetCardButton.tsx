@@ -1,15 +1,16 @@
+import { FC } from 'react'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { Box } from '../Box/Box'
 
 type Props = {
-    title: string,
+    title: string
     onClick: () => void
 }
 
-export const AssetCardButton: React.FC<Props> = ({ 
+export const AssetCardButton: FC<Props> = ({ 
     title,
     onClick
-}: Props) => {
+}) => {
     return (
         <Box
             as='button'
@@ -24,24 +25,24 @@ export const AssetCardButton: React.FC<Props> = ({
             transition='default'
             className={sprinkles({
                 background: {
-                hover: 'accentColorHover'
+                    hover: 'accentColorHover'
                 },
                 boxShadow: {
-                hover: 'default'
+                    hover: 'default'
                 },
                 borderColor: {
-                hover: 'actionButtonBorderMobile',
-                focus: 'actionButtonBorderMobile'
+                    hover: 'actionButtonBorderMobile',
+                    focus: 'actionButtonBorderMobile'
                 }
             })}
             cursor='pointer'
             onClick={onClick}
+            zIndex='100'
             style={{ 
                 borderTop: '1px solid #EEEEEE', 
                 borderBottom: 'none !important', 
                 borderLeft: 'none !important', 
                 borderRight: 'none !important',
-                zIndex: '1'
             }}
         >
             {title}

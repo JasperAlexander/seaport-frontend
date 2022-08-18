@@ -1,54 +1,66 @@
-import create from 'zustand'
-import { EventType, EventTypes } from '../types/eventTypes'
-import { AssetIdType } from '../types/assetTypes'
-import { OrderWithCounter } from '../types/orderTypes'
+import fetcher from '../utils/fetcher'
+import setParams from '../utils/params'
+import { NextRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
+import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
+import { EventsType, EventsQueryType } from '../types/eventTypes'
 
-interface EventState {
-    events: EventType[]
-    addEvent: (
-        event_type: EventTypes,
-        asset: AssetIdType,
-        created_date: Date,
-        from_account: string,
-        to_account?: string,
-        is_private?: boolean,
-        payment_token?: string,
-        quantity?: number,
-        total_price?: string,
-        order?: OrderWithCounter
-    ) => void
+export default function useEvents(
+    router: NextRouter,
+    fallback?: EventsType,
+    contract_address?: string,
+    token_id?: string
+) {
+    const { ref, inView } = useInView()
+
+    const pathname = `http://localhost:8000/api/v1/events/`
+
+    const query: EventsQueryType = {
+        ...(router.query['sort'] && { sortBy: router.query['sort']?.toString()}),
+        ...(contract_address && { asset_contract__address: contract_address }),
+        ...(token_id && { token_id: token_id })
+    }
+
+    const events = useSWRInfinite(
+        (index, previousPageData) => getKey(pathname, query, index, previousPageData),
+        fetcher,
+        {
+            revalidateFirstPage: false,
+            fallbackData: [
+                {
+                    events: fallback?.events,
+                }
+            ]
+        }
+    )
+
+  // Fetch more data when component is visible
+    useEffect(() => {
+        if (inView) {
+            events.setSize(events.size + 1)
+        }
+    }, [inView])
+
+  return { events, ref }
 }
 
-export const useEvents = create<EventState>((set) => ({
-    events: [],
-    addEvent: (
-        event_type,
-        asset,
-        created_date,
-        from_account,
-        to_account,
-        is_private,
-        payment_token,
-        quantity,
-        total_price,
-        order
-    ) => { 
-        set((state) => ({ 
-            events: [
-                ...state.events, 
-                { 
-                    event_type: event_type,
-                    asset: asset,
-                    created_date: created_date,
-                    from_account: from_account,
-                    to_account: to_account,
-                    is_private: is_private,
-                    payment_token: payment_token,
-                    quantity: quantity,
-                    total_price: total_price,
-                    order: order
-                },
-            ] 
-        }))
-    },
-}))
+const getKey: (
+    pathname: string,
+    query: EventsQueryType,
+    ...base: Parameters<SWRInfiniteKeyLoader>
+) => ReturnType<SWRInfiniteKeyLoader> = (
+    pathname: string,
+    query: EventsQueryType,
+    index: number,
+    previousPageData: EventsType
+) => {
+    // End
+    if (previousPageData && !previousPageData.next) return null
+
+    // Start
+    if(index === 0) return setParams(pathname, query)
+
+    // Middle
+    if(previousPageData.next) return setParams(previousPageData.next, query)
+}

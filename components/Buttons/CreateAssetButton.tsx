@@ -1,75 +1,90 @@
-import { useState, useEffect } from 'react'
-import { useAssets } from '../../hooks/useAssets'
-import { Box } from '../Box/Box'
-import { Button } from './Button'
-import { AssetInputState } from '../../pages/create'
+import { AssetInputType, AssetType } from '../../types/assetTypes'
 import { useAccount } from 'wagmi'
-import toast from 'react-hot-toast'
+// import toast from 'react-hot-toast'
 import router from 'next/router'
 import { randomBN } from '../../utils/encoding'
-import { useEvents } from '../../hooks/useEvents'
-import { EventTypes } from '../../types/eventTypes'
-import { BigNumber } from 'ethers'
+import { EventType, EventTypes } from '../../types/eventTypes'
+import useMounted from '../../hooks/useMounted'
+// import { useCurrentUser } from '../../hooks/useCurrentUser'
+// import { UserType } from '../../types/userTypes'
 
-const contractAddresses = require(('../../utils/contractAddresses.json'))
+const addAsset = async(inputState: AssetInputType, address: string) => {
+    const href = `http://localhost:8000/api/v1/assets/create/`
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token_id: randomBN().toString(),
+            name: inputState.name,
+            description: inputState.description,
+            image_url: inputState.image_url,
+            external_link: inputState.external_link,
+            asset_contract: inputState.asset_contract,
+            collection: inputState.collection,
+            owner: '2',
+            // creator: '2',
+            // owner: address.toString(),
+            creator: address.toString(),
+            last_sale: null,
+            transfer_fee: inputState.transfer_fee,
+            transfer_fee_payment_token: inputState.transfer_fee_payment_token,
+            orders: null,
+            is_nsfw: inputState.is_nsfw
+        })
+    }
+
+    const res = await fetch(href, options)
+
+    console.log('POST done with response: ', res)
+
+    return res.json()
+}
+
+const addEvent = async(inputState: AssetInputType) => {
+    const href = `http://localhost:8000/api/v1/events/create/`
+
+    const options = {
+        method: 'POST',
+        // headers: {
+
+        // },
+        body: JSON.stringify({
+            type: EventTypes.Created
+        })
+    }
+
+    const res = await fetch(href, options)
+
+    return res.json()
+}
 
 export function CreateAssetButton({
-    inputState
+    inputState,
+    // mutate
 }: {
-    inputState: AssetInputState
+    inputState: AssetInputType
+    // mutate: any
 }) {
-    const [isLoadingDOM, setIsLoadingDOM] = useState(true)
-    const { assets, addAsset } = useAssets()
-    const { addEvent } = useEvents()
+    const { mounted } = useMounted()
     const { address } = useAccount()
-    const tempTokenID = randomBN()
-
-    useEffect(() => {
-        setIsLoadingDOM(false)
-    }, [])
+    // const { user } = useCurrentUser()
 
     return (
-        <Button
-            label='Create Asset'
-            onClick={() => { !isLoadingDOM && inputState.name 
-                ? ( 
-                    addAsset(
-                        tempTokenID,
-                        inputState.image_url,
-                        inputState.background_color,
-                        inputState.name,
-                        inputState.description,
-                        inputState.external_link,
-                        {
-                            address: contractAddresses.TestERC721,
-                            name: 'Bored Ape Yacht Club',
-                            symbol: 'BAYC',
-                            image_url: 'https://img.seadn.io/files/282f2571f72e2f4c6597dc36885923b8.png?fit=max&w=600',
-                            description: 'testtt',
-                            external_link: 'https://google.com'
-                        },
-                        address ? address : '',
-                        'test'
-                    ),
-                    addEvent(
-                        EventTypes.created,
-                        {
-                            contract_address: contractAddresses.TestERC721,
-                            token_id: tempTokenID
-                        },
-                        new Date(),
-                        '',
-                        address ? address : '',
-                        false,
-                        '',
-                        1,
-                        '',
-                        undefined
-                    ),
-                    router.push('/profile') 
-                )
-                : toast('Enter a name') 
-            }}
-        />
+        // <Button
+        //     label='Create Asset'
+        //     onClick={() => { 
+        //         mounted && address && ( 
+        //             addAsset(inputState, address),
+        //             addEvent(inputState),
+        //             // mutate()
+        //             router.push(`/${address}`) 
+        //         )
+        //     }}
+        // />
+        <p>test</p>
     )
 }

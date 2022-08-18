@@ -1,14 +1,18 @@
+import { FC, ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Box } from '../Box/Box'
 import { MenuHeader } from '../Headers/MenuHeader'
+import { FilterSidebar } from '../Sidebars/FilterSidebar'
 import { MenuSidebar } from '../Sidebars/MenuSidebar'
 import { WalletSidebar } from '../Sidebars/WalletSidebar'
 
-type Props = {
-    children: React.ReactNode
+interface Props {
+    children: ReactNode
 }
 
-export const BodyLayout: React.FC<Props> = ({ children }: Props) => {
+export const BodyLayout: FC<Props> = ({ 
+    children 
+}) => {
     return (
         <Box
             minHeight='full'
@@ -25,6 +29,7 @@ export const BodyLayout: React.FC<Props> = ({ children }: Props) => {
             <MenuHeader />
             <MenuSidebar />
             <WalletSidebar />
+            <FilterSidebar />
             { children }
         </Box>
     )

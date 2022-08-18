@@ -1,21 +1,19 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAccount, useSigner } from 'wagmi'
-import { useSeaport } from '../../hooks/useSeaport'
-import { Button } from './Button'
+import useSeaport from '../../hooks/useSeaport'
 import { mintERC721 , ownerOfERC721 } from '../../utils/minting'
 import { parseEther } from 'ethers/lib/utils'
 import { ItemType } from '../../types/orderTypes'
 import { EventTypes } from '../../types/eventTypes'
 import { Spinner } from '../Spinner/Spinner'
-import { Text } from '../Text/Text'
-import { useEvents } from '../../hooks/useEvents'
 import { BigNumber } from 'ethers'
+import { Box } from '../Box/Box'
 
 const contractAddresses = require('../../utils/contractAddresses.json')
 
 type Props = {
-    nftid: BigNumber
+    nftid: BigNumber | string
     price: string
     onClose: () => void
 }
@@ -28,8 +26,9 @@ export const SellAssetButton: React.FC<Props> = ({
     const [sellingStatus, setSellingStatus] = useState(0)
     const { seaport } = useSeaport()
     const { address } = useAccount()
-    const { addEvent } = useEvents()
     const { data: signer } = useSigner()
+
+    const nftIDBN = BigNumber.from(nftid)
     
     const sell = async() => {
         if(price === '') {
@@ -43,12 +42,12 @@ export const SellAssetButton: React.FC<Props> = ({
         ) {
             try {
                 setSellingStatus(1)
-                const owner = await ownerOfERC721(signer, nftid)
+                const owner = await ownerOfERC721(signer, nftIDBN)
                 let nftID
                 if(typeof owner === 'undefined') {
-                    nftID = await mintERC721(signer, address, nftid)
+                    nftID = await mintERC721(signer, address, nftIDBN)
                 } else {
-                    nftID = nftid
+                    nftID = nftIDBN
                 }
                 console.log('After minting NFT')
 
@@ -73,24 +72,7 @@ export const SellAssetButton: React.FC<Props> = ({
                     })
                     setSellingStatus(2)
 
-                    console.log('Before executeAllActions')
                     const executedOrder = await executeAllActions()
-                    console.log('After executedOrder')
-                    addEvent(
-                        EventTypes.listed,
-                        {
-                            contract_address: contractAddresses.TestERC721,
-                            token_id: BigNumber.from(nftID)
-                        },
-                        new Date(),
-                        address,
-                        '',
-                        false,
-                        'ETH',
-                        1,
-                        price,
-                        executedOrder
-                    )
                     // router.push('/profile')
                     setSellingStatus(3)
                 }
@@ -101,44 +83,47 @@ export const SellAssetButton: React.FC<Props> = ({
     }
 
   return (
-    <Button onClick={() => { 
-        if(sellingStatus === 0) { 
-            sell() 
-        } else if(sellingStatus === 3) {
-            onClose()
-        } 
-    }}>
-        {sellingStatus === 0
-            ?
-                <Text
-                    color='accentColorText'
-                    size='16'
-                    weight='bold'
-                >
-                    Complete listing
-                </Text>
-            : sellingStatus === 3
-                ? 
-                    <Text
-                        color='accentColorText'
-                        size='16'
-                        weight='bold'
-                    >
-                        Complete listing
-                    </Text>
-                : <Spinner /> 
-        }
-        {/* {sellingStatus > 0 && sellingStatus < 3
-            ? <Spinner /> 
-            : 
-                <Text
-                    color='accentColorText'
-                    size='16'
-                    weight='bold'
-                >
-                    Sell
-                </Text>
-        } */}
-    </Button>
+    <p>
+        Test
+    </p>
+    // <Button onClick={() => { 
+    //     if(sellingStatus === 0) { 
+    //         sell() 
+    //     } else if(sellingStatus === 3) {
+    //         onClose()
+    //     } 
+    // }}>
+    //     {sellingStatus === 0
+    //         ?
+    //             <Box
+    //                 color='accentColorText'
+    //                 fontSize='16'
+    //                 weight='700'
+    //             >
+    //                 Complete listing
+    //             </Box>
+    //         : sellingStatus === 3
+    //             ? 
+    //                 <Box
+    //                     color='accentColorText'
+    //                     fontSize='16'
+    //                     weight='700'
+    //                 >
+    //                     Complete listing
+    //                 </Box>
+    //             : <Spinner /> 
+    //     }
+    //     {/* {sellingStatus > 0 && sellingStatus < 3
+    //         ? <Spinner /> 
+    //         : 
+    //             <Text
+    //                 color='accentColorText'
+    //                 size='16'
+    //                 weight='700'
+    //             >
+    //                 Sell
+    //             </Text>
+    //     } */}
+    // </Button>
   )
 }

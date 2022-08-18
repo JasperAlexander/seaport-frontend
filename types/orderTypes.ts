@@ -1,5 +1,3 @@
-import { BigNumberish } from 'ethers'
-
 export enum ItemType {
     NATIVE = 0,
     ERC20 = 1,
@@ -9,14 +7,14 @@ export enum ItemType {
     ERC1155_WITH_CRITERIA = 5,
 }
 
-export enum OrderType {
+export enum OrderTypes {
     FULL_OPEN = 0, // No partial fills, anyone can execute
     PARTIAL_OPEN = 1, // Partial fills supported, anyone can execute
     FULL_RESTRICTED = 2, // No partial fills, only offerer or zone can execute
     PARTIAL_RESTRICTED = 3, // Partial fills supported, only offerer or zone can execute
 }
 
-export type OfferItem = {
+export interface OfferItem {
     itemType: ItemType
     token: string
     identifierOrCriteria: string
@@ -24,7 +22,7 @@ export type OfferItem = {
     endAmount: string
 }
   
-export type ConsiderationItem = {
+export interface ConsiderationItem {
     itemType: ItemType
     token: string
     identifierOrCriteria: string
@@ -33,23 +31,22 @@ export type ConsiderationItem = {
     recipient: string
 }
 
-export type OrderParameters = {
+export interface OrderParametersType {
     offerer: string
     zone: string
-    orderType: OrderType
-    startTime: BigNumberish
-    endTime: BigNumberish
     zoneHash: string
-    salt: string
+    startTime: string
+    endTime: string
+    orderType: number
     offer: OfferItem[]
     consideration: ConsiderationItem[]
-    totalOriginalConsiderationItems: BigNumberish
+    totalOriginalConsiderationItems: number
+    salt: string
     conduitKey: string
+    counter: number
 }
 
-export type OrderComponents = OrderParameters & { counter: number }
-
-export type OrderWithCounter = {
-    parameters: OrderComponents
+export interface OrderType {
+    parameters: OrderParametersType
     signature: string
 }

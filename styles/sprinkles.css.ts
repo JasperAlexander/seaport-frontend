@@ -1,5 +1,5 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-import { createGlobalThemeContract } from '@vanilla-extract/css'
+import { createGlobalThemeContract, keyframes } from '@vanilla-extract/css'
 import {
   createMapValueFn,
   createNormalizeValueFn,
@@ -15,43 +15,62 @@ const themeContractValues = {
     accentColor: '',
     accentColorText: '',
     accentColorHover: '',
+
     actionButtonBorder: '',
     actionButtonBorderMobile: '',
     actionButtonSecondaryBackground: '',
+
+    accordionBackground: '',
+
     black: '',
+    white: '',
+    transparent: '',
+
     box: '',
     boxText: '',
+
     buttonBackgroundHover: '',
+    buttonBackgroundActive: '',
     buttonBorderHover: '',
     closeButton: '',
     closeButtonBackground: '',
+
     defaultBackground: '',
+    defaultBackgroundShadow: '',
     defaultBackgroundBorder: '',
     defaultText: '',
     defaultTextHover: '',
     defaultTextPlaceholder: '',
+
     error: '',
+
     filterHover: '',
+
     modalBackdrop: '',
     modalBackground: '',
     modalBorder: '',
+
     orderAction: '',
     orderBackground: '',
+
     profileTop: '',
     profileTopHover: '',
-    transparent: '',
-    white: ''
   },
   fonts: {
     body: '',
   },
   shadows: {
+    default: '',
+    none: '',
+
     box: '',
     boxHover: '',
-    default: '',
+
+    inputHover: '',
+
     dialog: '',
+
     header: '',
-    none: '',
     subHeader: ''
   },
 }
@@ -72,6 +91,7 @@ const dimensions = {
   '-20': '-20px',
   '-12': '-12px',
   '-10': '-10px',
+  '-8': '-8px',
   '-6': '-6px',
   '-1': '-1px',
   '0': '0px',
@@ -88,6 +108,7 @@ const dimensions = {
   '16': '16px',
   '18': '18px',
   '20': '20px',
+  '22': '22px',
   '24': '24px',
   '28': '28px',
   '30': '30px',
@@ -95,11 +116,13 @@ const dimensions = {
   '32': '32px',
   '34': '34px',
   '36': '36px',
+  '38': '38px',
   '40': '40px',
   '42': '42px',
   '43p': '43%',
   '44': '44px',
   '48': '48px',
+  '50p': '50%',
   '54': '54px',
   '60': '60px',
   '66': '66px',
@@ -107,9 +130,12 @@ const dimensions = {
   '71': '71px',
   '72': '72px',
   '73': '73px',
+  '80': '80px',
   '100': '100px',
+  '160': '160px',
   '180': '180px',
   '200': '200px',
+  '220': '220px',
   '240': '240px',
   '330': '330px',
   '420': '420px',
@@ -124,6 +150,19 @@ const dimensions = {
   'max': 'max-content',
   'auto': 'auto',
   'fit': 'fitContent',
+  'initial': 'initial'
+}
+
+const weights = {
+  '100': '100',
+  '200': '200',
+  '300': '300',
+  '400': '400',
+  '500': '500',
+  '600': '600',
+  '700': '700',
+  '800': '800',
+  '900': '900',
 }
 
 const flexAlignment = ['flex-start', 'flex-end', 'center'] as const
@@ -131,33 +170,37 @@ const displayOptions = ['none', 'block', 'flex', 'inline', 'inline-flex', 'grid'
 
 const textAlignments = ['left', 'center', 'right', 'inherit'] as const
 
-const overflowOptions = ['hidden', 'visible', 'scroll'] as const
+const overflowOptions = ['hidden', 'visible', 'scroll', 'auto'] as const
+
+const openAccordion = keyframes({
+  from: { height: 0 },
+  to: { height: 'var(--radix-accordion-content-height)' },
+})
+
+const closeAccordion = keyframes({
+  from: { height: 'var(--radix-accordion-content-height)' },
+  to: { height: 0 },
+})
+
+const progress = keyframes({
+  '0%': { rotate: '-90deg' },
+  '25%': { rotate: '0deg' },
+  '50%': { rotate: '90deg' },
+  '75%': { rotate: '180deg' },
+  '100%': { rotate: '270deg' },
+})
 
 const staticProperties = defineProperties({
   properties: {
     alignSelf: flexAlignment,
-    aspectRatio: { '1': '1 / 1' },
+    aspectRatio: { 
+      '1': '1 / 1',
+      '1.1': '1 / 1.1'
+    },
     backgroundSize: ['cover'] as const,
-
-    borderBottomLeftRadius: dimensions,
-    borderBottomRightRadius: dimensions,
-    borderTopLeftRadius: dimensions,
-    borderTopRightRadius: dimensions,
 
     borderStyle: ['solid', 'dashed'] as const,
 
-    borderBottomWidth: dimensions,
-    borderLeftWidth: dimensions,
-    borderRightWidth: dimensions,
-    borderTopWidth: dimensions,
-
-    bottom: dimensions,
-    left: dimensions,
-    top: dimensions,
-    right: dimensions,
-
-    cursor: ['pointer'],
-    gridTemplateColumns: ['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)'],
     flexDirection: ['row', 'column'],
     flexBasis: {
       '0': '0%',
@@ -183,16 +226,10 @@ const staticProperties = defineProperties({
       '32': { fontSize: '32px', lineHeight: '29px' },
       '40': { fontSize: '40px', lineHeight: '29px' },
     },
-    fontWeight: {
-      'regular': '400',
-      'medium': '500',
-      'semibold': '600',
-      'bold': '700',
-      'heavy': '800',
-    },
+    fontWeight: weights,
 
     gap: dimensions,
-    height: dimensions,
+    
     justifyContent: [...flexAlignment, 'space-between', 'space-around'],
     justifySelf: [...flexAlignment],
     lineHeight: ['normal'],
@@ -210,82 +247,148 @@ const staticProperties = defineProperties({
     overflowX: overflowOptions,
     overflowY: overflowOptions,
 
+    outline: ['none'] as const,
+    stroke: themeVars.colors,
+
     paddingBottom: dimensions,
     paddingLeft: dimensions,
     paddingRight: dimensions,
     paddingTop: dimensions,
 
     position: ['absolute', 'fixed', 'relative', 'sticky'] as const,
-    transition: {
-      default: '0.125s ease',
-      inputBorderColor: 'border-color 0.25s ease-in-out 0s, background-color 0.25s ease-in-out 0s',
-      assetCardImage: 'scale 0.4s ease 0s'
-    },
     userSelect: ['none'] as const,
     whiteSpace: ['nowrap'],
-    zIndex: {
-      '0': '0',
-      '1': '1',
-      '2': '2',
-      '3': '3',
-      '4': '4',
-    },
+
+    zIndex: weights,
   } as const,
   shorthands: {
     padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
     paddingX: ['paddingLeft', 'paddingRight'],
-    paddingY: ['paddingTop', 'paddingBottom'],
-    borderRadius: ['borderBottomLeftRadius', 'borderBottomRightRadius', 'borderTopLeftRadius', 'borderTopRightRadius'],
-    borderWidth: ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth']
+    paddingY: ['paddingTop', 'paddingBottom']
   },
 })
 
+export const wideScreenMinWidth = 1230
 export const largeScreenMinWidth = 1024
+export const mediumScreenMinWidth = 910
+export const smallScreenMinWidth = 615
 
 const dynamicProperties = defineProperties({
   conditions: {
     base: {},
-    largeScreen: {
-      '@media': `screen and (min-width: ${largeScreenMinWidth}px)`,
+    wideScreen: {
+      '@media': `screen and (min-width: ${wideScreenMinWidth}px)`,
     },
-    hover: { selector: '&:hover' },
+    largeScreen: {
+      '@media': `screen and (min-width: ${largeScreenMinWidth}px) and (max-width: ${wideScreenMinWidth}px)`,
+    },
+    mediumScreen: {
+      '@media': `screen and (min-width: ${mediumScreenMinWidth}px) and (max-width: ${largeScreenMinWidth}px)`,
+    },
+    smallScreen: {
+      '@media': `screen and (min-width: ${smallScreenMinWidth}px) and (max-width: ${mediumScreenMinWidth}px)`,
+    },
+    
+    hover: { selector: '&:hover:not(:active):not(:disabled)' },
     active: { selector: '&:active' },
     focus: { selector: '&:focus' },
+    disabled: { selector: '&:disabled' },
+
     placeholder: { selector: '&::placeholder' },
+
+    firstchild: { selector: '&:first-child' },
+    notfirstchild: { selector: '&:not(:first-child)' },
+    lastchild: { selector: '&:last-child' },
+
+    open: { selector: '[data-state=open] &' },
+    closed: { selector: '[data-state=closed] &' }
   },
   defaultCondition: 'base',
   properties: {
+    animation: {
+      openAccordion: `${openAccordion} 300ms ease-out`,
+      closeAccordion: `${closeAccordion} 300ms ease-out`,
+      progress: `0.75s linear 0s infinite normal none running ${progress}`
+    },
+    transformOrigin: {
+      progress: '19px 19px 0px'
+    },
     alignItems: flexAlignment,
+
+    backdropFilter: {
+      'modal': 'blur(0px)'
+    },
+    background: themeVars.colors,
+    borderColor: themeVars.colors,
+    boxShadow: themeVars.shadows,
+    color: themeVars.colors,
+    fill: themeVars.colors,
+
+    borderBottomLeftRadius: dimensions,
+    borderBottomRightRadius: dimensions,
+    borderTopLeftRadius: dimensions,
+    borderTopRightRadius: dimensions,
+
+    borderBottomWidth: dimensions,
+    borderLeftWidth: dimensions,
+    borderRightWidth: dimensions,
+    borderTopWidth: dimensions,
+
+    bottom: dimensions,
+    left: dimensions,
+    top: dimensions,
+    right: dimensions,
+
+    cursor: ['pointer', 'default'],
+
     display: displayOptions,
+
+    gridTemplateColumns: ['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)'],
+
+    height: dimensions,
+    width: dimensions,
+
     marginBottom: dimensions,
     marginLeft: dimensions,
     marginRight: dimensions,
     marginTop: dimensions,
+
     opacity: {
       '0': '0',
+      'disabled': '0.4',
       '1': '1',
     },
-    width: dimensions,
     scale: {
       'grow': '1.025',
       'growLg': '1.1',
       'shrink': '0.95',
       'shrinkSm': '0.9'
     },
-    background: themeVars.colors,
-    backdropFilter: {
-      'modal': 'blur(0px)'
+    
+    transform: ['rotate(180deg)'] as const,
+    transition: {
+      default: '0.125s ease',
+      inputBorderColor: 'border-color 0.25s ease-in-out 0s, background-color 0.25s ease-in-out 0s',
+      assetCardImage: 'scale 0.4s ease 0s',
+      transform: 'transform 300ms',
+      borderRadius: 'border-radius 300ms ease-in-out',
+      progress: 'fill 0.4s ease-in 0s'
     },
-    borderColor: themeVars.colors,
-    boxShadow: themeVars.shadows,
-    color: themeVars.colors,
-    visibility: ['visible', 'hidden'] as const,
+    transitionDelay: {
+      borderRadius: '100ms'
+    },
+
+    visibility: ['visible', 'hidden'] as const
   },
   shorthands: {
     margin: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],
     marginX: ['marginLeft', 'marginRight'],
     marginY: ['marginTop', 'marginBottom'],
-  }
+    inset: ['top', 'right', 'bottom', 'left'],
+    dimension: ['width', 'height'],
+    borderRadius: ['borderBottomLeftRadius', 'borderBottomRightRadius', 'borderTopLeftRadius', 'borderTopRightRadius'],
+    borderWidth: ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth']
+  },
 })
 
 export type ResponsiveValue<Value extends string | number | boolean> =

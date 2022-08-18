@@ -1,16 +1,20 @@
+import { FC } from 'react'
+import useMounted from '../../hooks/useMounted'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { AssetType } from '../../types/assetTypes'
 import { Box } from '../Box/Box'
-import { ETH } from '../Icons/ETH'
-import { Favorite } from '../Icons/Favorite'
+import { EthIcon } from '../Icons/EthIcon'
+import { FavoriteOutlinedIcon } from '../Icons/FavoriteOutlinedIcon'
 
 interface Props {
     asset: AssetType | undefined
 }
 
-export const AssetCardLarge: React.FC<Props> = ({
+export const AssetCardLarge: FC<Props> = ({
     asset,
-}: Props) => {
+}) => {
+    const { mounted } = useMounted()
+
   return (
     <Box
       marginY='20'
@@ -21,7 +25,8 @@ export const AssetCardLarge: React.FC<Props> = ({
       overflow='hidden'
       className={sprinkles({
         marginX: {
-          largeScreen: '20'
+            wideScreen: '20',
+            largeScreen: '20'
         }
       })}
   >
@@ -37,7 +42,7 @@ export const AssetCardLarge: React.FC<Props> = ({
               display='flex'
               alignItems='center'
           >
-              <ETH width='12px' color='gray' />
+              <EthIcon width='18' />
           </Box>
           <Box
               display='flex'
@@ -49,29 +54,28 @@ export const AssetCardLarge: React.FC<Props> = ({
                     paddingX='8'
                     color='boxText'
                     fontSize='12'
-                    fontWeight='semibold'
+                    fontWeight='600'
               >
                   0
               </Box>
-              <Favorite width='20' color='rgb(112, 122, 131)' />
+              <FavoriteOutlinedIcon width='20' fill='boxText' />
           </Box>
       </Box>
       <Box
           minHeight='200'
           maxHeight='1000'
-          height='full'
           cursor='pointer'
-          width='full'
+          dimension='full'
       >
           <Box
               display='flex'
               alignItems='center'
               justifyContent='center'
               flexDirection='column'
-              height='full'
-              width='full'
+              dimension='full'
               position='relative'
           >
+            {mounted ?
               <Box
                   as='img'
                   objectFit='cover'
@@ -83,11 +87,9 @@ export const AssetCardLarge: React.FC<Props> = ({
                   maxWidth='full'
                   overflow='hidden'
                   position='relative'
-                  src={asset && asset.image_url
-                          ? URL.createObjectURL(asset.image_url)
-                          : ''
-                      }
+                  src={asset?.image_url}
               />
+              : ''}
           </Box>
       </Box>
     </Box>

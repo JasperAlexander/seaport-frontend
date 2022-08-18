@@ -1,71 +1,106 @@
+// To do: 
+// 1. Add posibility to add searchbar inside accordion item
+// 2. Add posibility to add radio input inside accordion item
+// 3. Add check if checkedState is same as router.query
+
+import { CheckIcon } from '../../Icons/CheckIcon'
+import * as Accordion from '@radix-ui/react-accordion'
+import * as Checkbox from '@radix-ui/react-checkbox'
+import { useState } from 'react'
 import { Box } from '../../Box/Box'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { FilterAccordionHeader } from './FilterAccordionHeader'
-import { FilterAccordionMain } from './FilterAccordionMain'
-import { FilterAccordionMainItem } from './FilterAccordionMainItem'
+import { toggleOnItem } from '../../../utils/router'
+import { useRouter } from 'next/router'
+import { ChevronIcon } from '../../Icons/ChevronIcon'
+import * as styles from './FilterAccordion.css'
 
 interface Props {
-    initialExpandedState?: boolean,
-    headerTitle: string,
-    items: string[],
-    filterState: { filter: string[] },
-    setFilterState: Dispatch<SetStateAction<{
-        filter: string[]
-    }>>,
+    items: {
+        header: {
+            name: string
+            key: string
+        },
+        content: {
+            name: string
+            key: string
+        }[]
+    }[]
     display?: boolean
 }
 
 export const FilterAccordion: React.FC<Props> = ({
-    initialExpandedState = false,
-    headerTitle,
     items,
-    filterState,
-    setFilterState,
     display = true
 }) => {
-    const [isExpanded, setIsExpanded] = useState(initialExpandedState)
+    const router = useRouter()
 
-    const handleFilterChange = async(key: string) => {
-        let fil = filterState.filter
-        let find = fil.indexOf(key)
+    const [checkedState, setCheckedState] = useState<boolean[][]>(
+        new Array(6).fill(new Array(6).fill(false)) // Max amount of AccordionItemContent
+    )
 
-        if(find > -1) {
-            fil = fil.filter((f) => { return f !== key })
-        } else {
-            fil.push(key)
-        }
-
-        setFilterState({filter: fil})
+    const handleOnChange = (itemIndex: number, itemContentIndex: number) => {
+        const updatedCheckedState = checkedState.map((item, index) => (
+            item.map((_, i) =>
+                i === itemContentIndex && index === itemIndex ? !item[i] : item[i]
+            )
+        ))
+    
+        setCheckedState(updatedCheckedState)
     }
 
+    if (items.length === 0) return null
+
     return (
-        <Box
-            display={display ? 'initial' : 'none'}
-          marginLeft='-10'
-          marginRight='16'
-          paddingRight='16'
-          paddingTop='8'
-          style={{top: '138px', height: 'calc(-138px + 100vh)', width: '340px'}}
-        >
-            <FilterAccordionHeader 
-                title={headerTitle}
-                toggleExpand={() => setIsExpanded(!isExpanded)} 
-                isExpanded={isExpanded} 
-            />
-            {items.length > 0
-            ?
-                <FilterAccordionMain height={isExpanded ? '330' : '0'}>
-                    {items.map((item) => (
-                        <FilterAccordionMainItem 
-                            title={item} 
-                            key={item}
-                            checked={filterState.filter.includes(item)}
-                            handleFilterChange={() => handleFilterChange(item)} 
-                        />
+        <Accordion.Root type="multiple" defaultValue={[items[0].header.key]}>
+            {items.map((item, itemIndex) => (
+                <Accordion.Item 
+                    value={item.header.key}
+                    key={item.header.key}
+                >
+                    <Accordion.Header>
+                        <Accordion.Trigger className={styles.trigger}>
+                            <Box
+                                as='span'
+                                fontSize='16'
+                                fontWeight='600'
+                            >
+                                {item.header.name}
+                            </Box>
+                            <ChevronIcon />
+                        </Accordion.Trigger>
+                    </Accordion.Header>
+                    {item.content.map((itemContent, itemContentIndex) => (
+                        <Accordion.Content
+                            key={itemContent.key}
+                            className={styles.content}
+                            onClick={() => {
+                                handleOnChange(itemIndex, itemContentIndex),
+                                toggleOnItem(router, itemContent.key, (!checkedState[itemIndex][itemContentIndex]).toString())
+                            }}
+                        >
+                            <Box className={styles.item}>
+                                <Box
+                                    display='flex'
+                                    alignItems='center'
+                                >
+                                    <Box as='span'>{itemContent.name}</Box>
+                                </Box>
+                                <Checkbox.Root
+                                    checked={checkedState[itemIndex][itemContentIndex]} 
+                                    onCheckedChange={() => {
+                                        handleOnChange(itemIndex, itemContentIndex)
+                                        toggleOnItem(router, itemContent.key, (!checkedState[itemIndex][itemContentIndex]).toString())
+                                    }}
+                                    className={styles.checkbox}
+                                >
+                                    <Checkbox.Indicator>
+                                        {checkedState[itemIndex][itemContentIndex] ? <CheckIcon width='18' /> : ''}
+                                    </Checkbox.Indicator>
+                                </Checkbox.Root>
+                            </Box>
+                        </Accordion.Content>
                     ))}
-                </FilterAccordionMain>
-            : ''
-            }
-        </Box>
+                </Accordion.Item>
+            ))}
+        </Accordion.Root>
     )
 }

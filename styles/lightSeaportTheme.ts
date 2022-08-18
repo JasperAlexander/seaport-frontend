@@ -25,40 +25,59 @@ export const lightSeaportTheme = ({
     accentColor,
     accentColorText,
     accentColorHover,
+
     actionButtonBorder: 'rgba(0, 0, 0, 0.04)',
     actionButtonBorderMobile: 'rgba(0, 0, 0, 0.06)',
     actionButtonSecondaryBackground: 'rgba(0, 0, 0, 0.06)',
+
     box: 'rgb(229, 232, 235)',
     boxText: 'rgb(112, 122, 131)',
+
+    accordionBackground: 'rgb(255, 253, 251)', // Based on orange accentColor
+
     black: '#000000',
+    white: '#ffffff',
+    transparent: 'transparent',
+
     buttonBackgroundHover: '#eeeeee',
+    buttonBackgroundActive: 'rgba(229, 232, 235, 0.4)',
     buttonBorderHover: '#a7a7a7',
     closeButton: 'rgba(60, 66, 66, 0.8)',
     closeButtonBackground: 'rgba(0, 0, 0, 0.06)',
+
     defaultBackground: '#FFFFFF',
+    defaultBackgroundShadow: 'rgba(0, 0, 0, 0.15)',
     defaultBackgroundBorder: '#D6D6D6',
     defaultText: 'rgb(53, 56, 64)',
     defaultTextHover: 'rgb(0, 0, 0)',
     defaultTextPlaceholder: 'rgb(138, 147, 155)',
+
     error: '#FF494A',
+    
     filterHover: 'rgba(229, 232, 235, 0.2) none repeat scroll 0% 0%',
+
     modalBackdrop: 'rgba(0, 0, 0, 0.3)',
     modalBackground: '#FFF',
     modalBorder: 'transparent',
+
     orderAction: '#FA5B0F',
     orderBackground: '#FFFFFF',
+
     profileTop: '#d6d6d6',
-    profileTopHover: 'rgba(0, 0, 0, 0.2)',
-    transparent: 'transparent',
-    white: '#ffffff'
+    profileTopHover: 'rgba(0, 0, 0, 0.2)'
   },
   shadows: {
+    default: '10px 10px 20px #cacaca, -10px -10px 20px #ffffff',
+    none: 'none !important',
+
     box: 'rgba(0, 0, 0, 0.08) 0px 4px 15px',
     boxHover: 'rgba(0, 0, 0, 0.15) 0px 6px 25px',
-    default: '10px 10px 20px #cacaca, -10px -10px 20px #ffffff',
+
+    inputHover: 'rgba(0, 0, 0, 0.05) 0px 2px 10px',
+
     dialog: '0px 8px 32px rgba(0, 0, 0, 0.32)',
+
     header: 'rgba(4, 17, 29, 0.25) 0px 0px 8px 0px',
-    none: 'none !important',
     subHeader: 'rgba(0, 0, 0, 0.1) 0px 2px 10px'
   },
 })

@@ -1,71 +1,27 @@
 import Link from 'next/link'
-import { BigNumber, ethers } from 'ethers'
-import { Seaport } from '@opensea/seaport-js'
-import { useSeaport } from '../../hooks/useSeaport'
-import { useAccount } from 'wagmi'
-import { ETH } from '../Icons/ETH'
-import { useState, useCallback } from 'react'
+import useSeaport from '../../hooks/useSeaport'
+import { EthIcon } from '../Icons/EthIcon'
+import { FC, useState, useCallback } from 'react'
 import { BuyModal } from '../Modals/BuyModal'
 import { SellModal } from '../Modals/SellModal'
 import { Box } from '../Box/Box'
 import { AssetType } from '../../types/assetTypes'
-import { EventType, EventTypes } from '../../types/eventTypes'
-import { useEvents } from '../../hooks/useEvents'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { AssetCardButton } from '../Buttons/AssetCardButton'
-import LazyLoad from 'react-lazyload'
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-
-const contractAddresses = require('../../utils/contractAddresses.json')
+import LoadingCard from './LoadingCard'
 
 type Props = {
     asset: AssetType
-    event: EventType
+    mutate: () => void
+    isOwner?: boolean
 }
 
-export const AssetCardSmall: React.FC<Props> = ({
+export const AssetCardSmall: FC<Props> = ({
     asset,
-    event 
-}: Props) => {
-    const { seaport, setSeaport } = useSeaport()
-    const { events, addEvent } = useEvents()
-    const { address } = useAccount()
-
-    const assetEventsListed = events.filter((event) => {
-        return (
-            event.asset.contract_address === asset.asset_contract.address && 
-            event.asset.token_id.toString() === asset.token_id.toString() &&
-            event.event_type === EventTypes.listed
-        )
-    })
-
-    const assetEventsCancelled = events.filter((event) => {
-        return (
-            event.asset.contract_address === asset.asset_contract.address && 
-            event.asset.token_id.toString() === asset.token_id.toString() &&
-            event.event_type === EventTypes.cancelled
-        )
-    })
-
-    const lastEvent = [
-        ...assetEventsListed,
-        ...assetEventsCancelled
-    ].sort((a, b) => {
-        return new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
-    })
-
-    if(typeof window !== 'undefined' && typeof seaport === 'undefined') {
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-        const newSeaport = new Seaport(
-            provider, {
-                overrides: {
-                    contractAddress: contractAddresses.Seaport
-                }
-            }
-        )
-        setSeaport(newSeaport)
-        console.log('Seaport initialised')
-    }
+    mutate,
+    isOwner
+}) => {
+    const { seaport } = useSeaport()
 
     const useBooleanState = (initialValue: boolean) => {
         const [value, setValue] = useState(initialValue)
@@ -90,7 +46,6 @@ export const AssetCardSmall: React.FC<Props> = ({
     return (
         <Box
             display='flex'
-            id='assetCard'
             flexDirection='column'
             background='orderBackground'
             height='auto'
@@ -106,43 +61,33 @@ export const AssetCardSmall: React.FC<Props> = ({
             transition='default'
             cursor='pointer'
         >
-            <Link href={`/assets/${contractAddresses.TestERC721}/${asset.token_id}`}>
+            <Link href={`/assets/${asset.asset_contract.address}/${asset.token_id}`} passHref={true}>
                 <Box
                     as='a' 
                     display='flex'
                     flexDirection='column'
-                    zIndex='1'
+                    zIndex='100'
                     position='relative'
                 >
                     <Box
                         aspectRatio='1'
                         overflow='hidden'
                     >
-                        <LazyLoad
-                            height={document.querySelector('#assetCard')?.getBoundingClientRect().height}
-                            offset={50}
-                        >
-                            {/* Skeleton and lazyload not tested yet */}
-                            <SkeletonTheme baseColor="#202020" highlightColor="#444">
-                                {asset.image_url
-                                    ? 
-                                        <Box
-                                            as='img' 
-                                            src={URL.createObjectURL(asset.image_url)} 
-                                            alt='NFT image' 
-                                            height='full'
-                                            width='full'
-                                            className={sprinkles({
-                                                transition: 'assetCardImage',
-                                                scale: {
-                                                    hover: 'growLg'
-                                                }
-                                            })} 
-                                        />
-                                    : <Skeleton count={3} />
-                                }
-                            </SkeletonTheme>
-                        </LazyLoad>
+                        {asset.image_url
+                            ? 
+                                <Box
+                                    as='img' 
+                                    src={asset.image_url}
+                                    dimension='full'
+                                    className={sprinkles({
+                                        transition: 'assetCardImage',
+                                        scale: {
+                                            hover: 'growLg'
+                                        }
+                                    })} 
+                                />
+                            : <LoadingCard />
+                        }
                     </Box>
 
                     <Box 
@@ -151,72 +96,54 @@ export const AssetCardSmall: React.FC<Props> = ({
                         display='flex' 
                         flexDirection='column' 
                         gap='8'
-                        style={{zIndex: '2'}}
+                        style={{zIndex: '200'}}
                     >
                         <Box display='flex' flexDirection='column'>
-                            <Box as='span' fontSize='16' fontWeight='semibold'>{asset.name}</Box>
-                            <Box as='span' fontSize='14'>{asset.description}</Box>
+                            <Box as='span' fontSize='12' fontWeight='600'>{asset.name}</Box>
+                            <Box as='span' fontSize='12'>{asset.description}</Box>
                         </Box>
-                        <Box as='span' fontSize='14' fontWeight='semibold'>Price</Box>
-                        <Box display='flex' alignItems='center' height='20'>
-                            <ETH width='12' color='black' />
-                            <Box as='span' fontSize='16' fontWeight='semibold'>
-                                2
+                        <Box>
+                            <Box as='span' fontSize='12' fontWeight='600'>Price</Box>
+                            <Box display='flex' alignItems='center' height='20' gap='5'>
+                                <EthIcon width='16' />
+                                <Box as='span' fontSize='16' fontWeight='600'>
+                                    0,01
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
                 </Box>
             </Link>
 
-            
-
-            {lastEvent.length === 0 || lastEvent[0].event_type !== EventTypes.listed
-                ? asset.owner === address
+            {isOwner
+                ? asset.last_sale // should be .listing_date but not yet implemented
                     ?
-                    <>
                         <AssetCardButton 
-                            title='Sell Asset' 
-                            onClick={() => openSellModal()}
+                            title='Cancel listing'  // Or accept bid
+                            onClick={() => { return }}
                         />
-                        <SellModal nftid={asset.token_id} asset={asset} onClose={closeSellModal} open={sellModalOpen} />
-                    </>
-                : 
-                    <AssetCardButton
-                        title='Not listed for sale'
-                        onClick={() => { return }}
-                    />
-            : asset.owner !== address
-                    ? <>
+                    :
+                        <>
+                            <AssetCardButton 
+                                title='Sell asset' 
+                                onClick={() => openSellModal()}
+                            />
+                            <SellModal nftid={asset.token_id} asset={asset} onClose={closeSellModal} open={sellModalOpen} />
+                        </>
+                : asset.last_sale // should be .listing_date but not yet implemented
+                    ?
+                        <>
+                            <AssetCardButton
+                                title='Buy asset'
+                                onClick={() => openBuyModal()}
+                            />
+                            {/* <BuyModal asset={asset} order={} onClose={closeBuyModal} open={buyModalOpen} /> */}
+                        </>
+                    :
                         <AssetCardButton
-                            title='Buy Asset'
-                            onClick={() => openBuyModal()}
+                            title='Not listed'
+                            onClick={() => { return }}
                         />
-                        {lastEvent[0].order
-                            ? <BuyModal asset={asset} order={lastEvent[0].order} onClose={closeBuyModal} open={buyModalOpen} />
-                            : ''
-                        }
-                    </>
-                    : 
-                    <AssetCardButton
-                        title='Cancel listing'
-                        onClick={() => {
-                            if(asset.owner === address) 
-                                addEvent(
-                                    EventTypes.cancelled,
-                                    {
-                                        contract_address: asset.asset_contract.address,
-                                        token_id: asset.token_id
-                                    },
-                                    new Date(),
-                                    address,
-                                    '',
-                                    false,
-                                    'ETH',
-                                    2,
-                                    ''
-                                )
-                        }}
-                    />
             }
         </Box>
     )

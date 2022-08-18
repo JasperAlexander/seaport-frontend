@@ -1,14 +1,15 @@
+import { FC } from 'react'
 import Link from 'next/link'
 import { Box } from '../Box/Box'
 import { isMobile } from '../../utils/isMobile'
 import { Logo } from '../Icons/Logo'
 import { sprinkles } from '../../styles/sprinkles.css'
-import { Menu } from '../Icons/Menu'
+import { MenuIcon } from '../Icons/MenuIcon'
 import { useSidebars } from '../../hooks/useSidebars'
-import { CloseMenu } from '../Icons/CloseMenu'
 import { CustomConnectButton } from '../Buttons/CustomConnectButton'
+import { CloseIcon } from '../Icons/CloseIcon'
 
-export const MenuHeader: React.FC = () => {
+export const MenuHeader: FC = () => {
   const { isMenuSidebarOpen, toggleMenuSidebar, closeWalletSidebar } = useSidebars()
 
   return (
@@ -22,7 +23,7 @@ export const MenuHeader: React.FC = () => {
       height='72'
       maxWidth='fullvw'
       top='-1'
-      zIndex='3'
+      zIndex='400'
     >
       <Box 
         as='nav' 
@@ -30,7 +31,7 @@ export const MenuHeader: React.FC = () => {
         justifyContent='space-between' 
         alignItems='center'
         gap='18'
-        fontWeight='bold'
+        fontWeight='700'
         height='full'
       >
         <Box 
@@ -42,7 +43,7 @@ export const MenuHeader: React.FC = () => {
           height='full'
           alignItems='center'
         >
-          <Link href='/'>
+          <Link href='/' passHref={true}>
             <Box
               as='a'
               cursor='pointer'
@@ -66,11 +67,12 @@ export const MenuHeader: React.FC = () => {
             display='none'
             className={sprinkles({
               display: {
+                wideScreen: 'flex',
                 largeScreen: 'flex'
               }
             })}
           >
-            <Link href='/faucet'>
+            <Link href='/faucet' passHref={true}>
               <Box 
                 as='a'
                 cursor='pointer'
@@ -87,7 +89,7 @@ export const MenuHeader: React.FC = () => {
                 Faucet
               </Box>
             </Link>
-            <Link href='/create'>
+            <Link href='/create' passHref={true}>
               <Box 
                 as='a'
                 cursor='pointer'
@@ -104,7 +106,7 @@ export const MenuHeader: React.FC = () => {
                 Create
               </Box>
             </Link>
-            <Link href='/profile'>
+            <Link href='/profile' passHref={true}>
               <Box 
                 as='a'
                 cursor='pointer'
@@ -131,13 +133,14 @@ export const MenuHeader: React.FC = () => {
             paddingX='10'
             className={sprinkles({
               display: {
+                wideScreen: 'none',
                 largeScreen: 'none'
               }
             })}
           >
             {isMenuSidebarOpen 
-              ? <CloseMenu width='32' color='black' /> 
-              : <Menu width='32' color='black' />
+              ? <CloseIcon width='32' />
+              : <MenuIcon width='32' />
             }
           </Box>
         </Box>

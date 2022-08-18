@@ -1,27 +1,44 @@
-import { AssetIdType } from "./assetTypes"
-import { OrderWithCounter } from "./orderTypes"
+import { SWRInfiniteResponse } from 'swr/infinite'
+import { EventAssetType } from './assetTypes'
+import { UserType } from './userTypes'
+import { TokenType } from './tokenTypes'
 
 export enum EventTypes {
-    created = 'Created',
-    listed = 'Listed',
-    succesful = 'Sold',
-    cancelled = 'Cancelled',
-    bid_entered = 'Entered',
-    bid_withdrawn = 'Withdrawn',
-    transfer = 'Transfered',
-    offer_entered = 'Entered',
-    approve = 'Approved'
+    Created = 'created',
+    Succesfull = 'succesfull',
+    Cancelled = 'cancelled',
+    BidEntered = 'bid_entered',
+    BidWithdrawn = 'bid_withdrawn',
+    Transfer = 'transfer',
+    OfferEntered = 'offer_entered',
+    Approve = 'approve'
 }
 
 export type EventType = {
-    event_type: EventTypes,
-    asset: AssetIdType,
-    created_date: Date,
-    from_account: string,
-    to_account?: string,
-    is_private?: boolean,
-    payment_token?: string,
-    quantity?: number,
-    total_price?: string,
-    order?: OrderWithCounter
+    type: EventTypes
+    asset: EventAssetType
+    created_timestamp: string
+    from_account: UserType
+    to_account: UserType
+    is_private: boolean
+    payment_token: TokenType
+    quantity: number
+    total_price: number
+}
+
+export interface EventsType {
+    next: string | null
+    previous: string | null
+    events: EventType[]
+}
+
+export interface EventsStateType {
+    events: SWRInfiniteResponse<EventsType, any>
+    ref: (node?: Element | null | undefined) => void
+}
+
+export interface EventsQueryType {
+    sortBy?: string
+    asset_contract__address?: string
+    token_id?: string
 }

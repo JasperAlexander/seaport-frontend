@@ -2,7 +2,7 @@ import React from 'react'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { isMobile } from '../../utils/isMobile'
 import { Box } from '../Box/Box'
-import { CloseIcon } from '../Icons/Close'
+import { CloseIcon } from '../Icons/CloseIcon'
 
 export const CloseButton = ({
   ariaLabel = 'Close',
@@ -38,7 +38,7 @@ export const CloseButton = ({
       type="button"
       width={mobile ? '30' : '28'}
     >
-      <CloseIcon />
+      <CloseIcon width='24' color='black' />
     </Box>
   )
 }

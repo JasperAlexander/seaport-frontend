@@ -1,15 +1,17 @@
+import { FC } from 'react'
+import Link from 'next/link'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { AssetType } from '../../types/assetTypes'
 import { Box } from '../Box/Box'
-import { Flag } from '../Icons/Flag'
+import { FlagIcon } from '../Icons/FlagIcon'
 
 interface Props {
     asset: AssetType | undefined
 }
 
-export const AssetHeader: React.FC<Props> = ({
+export const AssetHeader: FC<Props> = ({
     asset,
-}: Props) => {
+}) => {
   return (
     <Box
         display='flex'
@@ -18,6 +20,7 @@ export const AssetHeader: React.FC<Props> = ({
         justifyContent='space-between'
         className={sprinkles({
             margin: {
+                wideScreen: '20',
                 largeScreen: '20'
             }
         })}
@@ -29,19 +32,23 @@ export const AssetHeader: React.FC<Props> = ({
             marginBottom='5'
             maxWidth='full'
         >
-            <Box
-                as='a'
-                cursor='pointer'
-                display='flex'
-                alignItems='center'
-                maxWidth='full'
-                overflow='hidden'
-                textOverflow='ellipsis'
-                whiteSpace='nowrap'
-                color='accentColor'
-            >
-                {typeof asset !== 'undefined' ? asset.asset_contract.name : ''}
-            </Box>
+            <Link href={`/collection/${asset?.collection?.slug}/`}>
+                <a
+                    className={sprinkles({
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        maxWidth: 'full',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        color: 'accentColor'
+                    })}
+                    
+                >
+                    {asset?.collection?.name}
+                </a>
+            </Link>
             <Box
                 maxWidth='fit'
                 display='flex'
@@ -57,21 +64,18 @@ export const AssetHeader: React.FC<Props> = ({
                     borderStyle='solid'
                     cursor='pointer'
                 >
-                    <Flag width='20' color='black' />
+                    <FlagIcon width='20' />
                 </Box>
             </Box>
         </Box>
         <Box
         as='h1'
         fontSize='32'
-        fontWeight='semibold'
+        fontWeight='600'
         overflow='hidden'
         textOverflow='ellipsis'
         >
-            {asset
-                ? asset.name
-                : ''
-            }
+            {asset?.name}
         </Box>
     </Box>
   )

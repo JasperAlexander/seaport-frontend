@@ -1,15 +1,22 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'
-import React, { Fragment, useEffect, useState } from 'react'
-import { AssetsLayout } from '../components/Layouts/AssetsLayout'
+import React, { Fragment } from 'react'
+import { AssetsList } from '../components/Lists/AssetsList'
 import { Box } from '../components/Box/Box'
+import setParams from '../utils/params'
+import { AssetsType } from '../types/assetTypes'
+import { useRouter } from 'next/router'
+import useAssets from '../hooks/useAssets'
+import useMounted from '../hooks/useMounted'
 
-const Home: NextPage = () => {
-  const [isLoadingDOM, setIsLoadingDOM] = useState(true)
+type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-  useEffect(() => {
-      setIsLoadingDOM(false)
-  }, [])
+const HomePage: NextPage<Props> = ({ 
+  fallbackAssets 
+}) => {
+  const router = useRouter()
+  const assets = useAssets(router, fallbackAssets)
+  const { mounted } = useMounted()
 
   return (
     <Fragment>
@@ -23,13 +30,15 @@ const Home: NextPage = () => {
         <Box 
           display='flex' 
           flexDirection='column' 
-          // id='stickyroot'
-          // position='absolute'
-          // top='72'
+          paddingX='32'
         >
-          {isLoadingDOM
-            ? ''
-            : <AssetsLayout displayFilters={true} />
+          {mounted
+            ?
+              <AssetsList 
+                data={assets}
+                displayFilters={true} 
+              />
+            : ''
           }
         </Box>
       </main>
@@ -37,4 +46,32 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default HomePage
+
+export const getStaticProps: GetStaticProps<{
+  fallbackAssets: AssetsType
+}> = async ({ params }) => {
+  const assetsOptions: RequestInit | undefined = {}
+
+  const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
+
+  const assetsQuery = {}
+
+  const assetsHref = setParams(assetsUrl, assetsQuery)
+
+  const assetsData = await fetch(assetsHref, assetsOptions)
+
+  const fallbackAssets = (await assetsData.json()) as AssetsType
+
+  if (!fallbackAssets) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+      props: { 
+          fallbackAssets
+      }
+  }
+}

@@ -1,21 +1,20 @@
-import { OrderWithCounter } from '../../types/orderTypes'
 import { Modal } from './Modal'
-import { Text } from '../Text/Text'
 import { Box } from '../Box/Box'
 import { AssetType } from '../../types/assetTypes'
 import { BuyAssetButton } from '../Buttons/BuyAssetButton'
-import { ETH } from '../Icons/ETH'
+import { EthIcon } from '../Icons/EthIcon'
+import { FC } from 'react'
 
 type Props = {
     asset: AssetType,
-    order: OrderWithCounter,
+    // order: OrderWithCounter,
     onClose: () => void,
     open: boolean
 }
 
-export const BuyModal: React.FC<Props> = ({ 
+export const BuyModal: FC<Props> = ({ 
     asset,
-    order,
+    // order,
     onClose,
     open
 }: Props) => {
@@ -28,12 +27,12 @@ export const BuyModal: React.FC<Props> = ({
             <Box 
                 marginTop='-12'
             >
-                <Text 
+                <Box 
                     textAlign='center' 
-                    weight='bold'
+                    fontWeight='700'
                 >
                     Complete checkout
-                </Text>
+                </Box>
             </Box>
             <Box 
                 display='flex' 
@@ -46,7 +45,7 @@ export const BuyModal: React.FC<Props> = ({
                     alignItems='center'
                     justifyContent='space-between'
                     paddingBottom='6'
-                    fontWeight='semibold'
+                    fontWeight='600'
                 >
                     <Box 
                         as='span' 
@@ -73,7 +72,7 @@ export const BuyModal: React.FC<Props> = ({
                         ?
                             <Box
                                 as='img' 
-                                src={URL.createObjectURL(asset.image_url)} 
+                                src={asset.image_url} 
                                 alt='NFT image'
                                 width='100'
                                 height='100'
@@ -100,7 +99,7 @@ export const BuyModal: React.FC<Props> = ({
                         </Box>
                         <Box
                             as='span'
-                            fontWeight='semibold'
+                            fontWeight='600'
                         >
                             {asset.name}
                         </Box>
@@ -121,10 +120,10 @@ export const BuyModal: React.FC<Props> = ({
                             display='flex'
                             alignItems='center'
                             justifyContent='flex-end'
-                            fontWeight='semibold'
+                            fontWeight='600'
                             gap='4'
                         >
-                            <ETH width='12' color='black' />
+                            <EthIcon width='12' />
                             0,035
                         </Box>
                         <Box
@@ -136,10 +135,10 @@ export const BuyModal: React.FC<Props> = ({
                     </Box>
                 </Box>
             </Box>
-            <BuyAssetButton 
+            {/* <BuyAssetButton 
                 order={order} 
                 onClose={onClose} 
-            />
+            /> */}
             {/* <Button label='Buy NFT' onClick={() => buy()} /> */}
         </Modal>
     )

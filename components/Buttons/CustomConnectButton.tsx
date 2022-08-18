@@ -36,7 +36,7 @@ export const CustomConnectButton = () => {
                     paddingX='10'
                     display='flex'
                     alignItems='center'
-                    fontWeight='semibold'
+                    fontWeight='600'
                     color='defaultText'
                     height='72'
                     className={sprinkles({
@@ -58,7 +58,7 @@ export const CustomConnectButton = () => {
                     paddingX='10'
                     display='flex'
                     alignItems='center'
-                    fontWeight='semibold'
+                    fontWeight='600'
                     color='defaultText'
                     height='72'
                     className={sprinkles({
@@ -85,7 +85,7 @@ export const CustomConnectButton = () => {
                 >
                   <Box
                     as='button'
-                    fontWeight='semibold'
+                    fontWeight='600'
                     color='defaultText'
                     paddingX='10'
                     className={sprinkles({
@@ -122,7 +122,7 @@ export const CustomConnectButton = () => {
                   </Box>
                   {/* <Box 
                     as='button'
-                    fontWeight='semibold'
+                    fontWeight='600'
                     color='defaultText'
                     paddingX='10'
                     className={sprinkles({
