@@ -1,4 +1,3 @@
-/* GLOBAL */
 html,
 body {
   padding: 0;
@@ -29,6 +28,7 @@ button, input, optgroup, select, textarea {
   font: inherit;
 }
 
+/* To do: find out if this can be based on current accentColor */
 ::selection {
   background-color: #FA5B0F;
   color: #FFFFFF;
@@ -42,60 +42,15 @@ table, tr, td, th, tbody, theader {
   vertical-align: middle !important;
 }
 
-.order {
-  display: flex;
-  flex-direction: column;
-  background-color: #FFFFFF;
-  height: auto;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow:  10px 10px 20px #cacaca,
-             -10px -10px 20px #ffffff;
-}
-
-@keyframes donut-spin {
-	0% {
-	  transform: rotate(0deg);
-	}
-	100% {
-	  transform: rotate(360deg);
-	}
-}
-
-.spinner {
-  animation: donut-spin 1.2s linear infinite;
-}
-
 .stuck {
   box-shadow: rgba(4, 17, 29, 0.25) 0px 0px 8px 0px;
 }
 
 .unstuck {
-  /* box-shadow: none !important; */
   box-shadow: rgba(229, 232, 235, 0.25) 0px 1px 0px 0px !important;
 }
 
-.NFTimg {
-  z-index: 999;
-  aspect-ratio: 1 / 1;
-}
-
-.NFTmeta {
-  display: flex;
-  flex-direction: column;
-  padding: 5px 10px;
-}
-
-.NFTmeta > .NFTname {
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.NFTmeta > .NFTprice {
-  display: flex;
-  align-items: center;
-}
-
+/* RainbowKit styles */
 .sprinkles_borderRadius_modal__18szqf1p {
   border-radius: 20px !important;
 }

@@ -6,7 +6,7 @@ _Currently this project is in maintenance, so it may not work._
 
 ## Installation
 
-1. Install and run [seaport-backend](https://github.com/JasperAlexander/seaport-backend).
+1. Install [seaport-backend](https://github.com/JasperAlexander/seaport-backend).
 
 2. Install a web3-provider, like [MetaMask](https://github.com/MetaMask/metamask-extension).
 
@@ -26,7 +26,7 @@ yarn install
 
 ### Backend
 
-1. Spin up an instance of seaport-backend. Instructions can be found in it's repository.
+1. Run [seaport-backend](https://github.com/JasperAlexander/seaport-backend).
 
 ### Hardhat
 
