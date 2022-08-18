@@ -131,7 +131,6 @@ export const MakeOfferDialogContent: FC<Props> = ({
 
                     <Box as='footer' padding='24' width='full'>
                         <MainButton
-                            onClick={() => { return null }}
                             width='full'
                             disabled={Object.keys(errors).length > 0}
                         >

@@ -18,7 +18,6 @@ export const MakeOfferDialogTrigger: FC<Props> = ({
             <Dialog.Trigger asChild={true}>
                 <MainButton
                     variant='secondary'
-                    onClick={() => { return null }}
                     width='50p'
                 >
                     <PriceTagIcon width='22' fill='accentColor' />

@@ -190,7 +190,6 @@ export const CompleteListingDialogContent: FC<Props> = ({
 
                     <Box as='footer' padding='24' width='full'>
                         <MainButton
-                            onClick={() => { return null }}
                             width='full'
                         >
                             {listingStatus < 3 

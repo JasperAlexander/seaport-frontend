@@ -88,13 +88,11 @@ const AssetPage: NextPage<Props> = ({
                                 >
                                     <MainButton 
                                         variant='secondary'
-                                        onClick={() => {return null}}
                                         width='160'
                                     >
                                         Edit
                                     </MainButton>
                                     <MainButton 
-                                        onClick={() => {return null}}
                                         href={`/assets/${asset?.data?.asset_contract?.address}/${asset?.data?.token_id}/sell`}
                                         width='160'
                                     >

@@ -209,14 +209,12 @@ export const EditAssetForm: FC<Props> = ({
                     justifyContent='space-between'
                 >
                     <MainButton
-                        onClick={() => { return null }}
                         disabled={Object.keys(errors).length > 0}
                     >
                         Submit changes
                     </MainButton>
                     <MainButton
                         variant='secondary'
-                        onClick={() => { return null }}
                     >
                         Delete asset
                     </MainButton>

@@ -114,7 +114,6 @@ export const AssetPriceAccordion: FC<Props> = ({
                                     gap='8'
                                 >
                                     <MainButton
-                                        onClick={() => { return null }}
                                         width='50p'
                                     >
                                         <WalletIcon width='22' fill='white' />

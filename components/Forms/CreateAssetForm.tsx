@@ -199,7 +199,6 @@ export const CreateAssetForm: FC<Props> = ({
                 />
 
                 <MainButton
-                    onClick={() => { return null }}
                     disabled={Object.keys(errors).length > 0}
                 >
                     Create

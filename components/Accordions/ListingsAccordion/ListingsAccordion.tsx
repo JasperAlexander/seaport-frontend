@@ -138,7 +138,6 @@ export const ListingsAccordion: FC<Props> = ({
                                                 {/* Only buy now when listing is not cancelled */}
                                                 <MainButton 
                                                     variant='secondary' 
-                                                    onClick={() => {return null}}
                                                     size='small'
                                                 >
                                                     Buy

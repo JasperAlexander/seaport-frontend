@@ -25,7 +25,6 @@ export const CompletePurchaseDialogTrigger: FC<Props> = ({
             <Dialog.Trigger asChild={true}>
                 {variant === 'button' &&
                     <MainButton
-                        onClick={() => {return null}}
                         disabled={disabled}
                     >
                         Buy now

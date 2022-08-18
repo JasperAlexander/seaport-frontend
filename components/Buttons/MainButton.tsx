@@ -61,7 +61,7 @@ const typeVariants: Record<
 
 interface Props {
     children: ReactNode
-    onClick: () => void
+    onClick?: () => void
     href?: string
     disabled?: boolean
     size?: 'small' | 'medium' | 'large'
@@ -71,7 +71,7 @@ interface Props {
 
 export const MainButton: FC<Props> = ({ 
     children,
-    onClick,
+    onClick = () => { return null },
     href,
     disabled = false,
     size = 'medium',
