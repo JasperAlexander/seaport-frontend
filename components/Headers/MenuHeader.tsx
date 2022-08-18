@@ -10,7 +10,7 @@ import { CustomConnectButton } from '../Buttons/CustomConnectButton'
 import { CloseIcon } from '../Icons/CloseIcon'
 
 export const MenuHeader: FC = () => {
-  const { isMenuSidebarOpen, toggleMenuSidebar, closeWalletSidebar } = useSidebars()
+  const { isMenuSidebarOpen, toggleMenuSidebar } = useSidebars()
 
   return (
     <Box 
@@ -127,7 +127,7 @@ export const MenuHeader: FC = () => {
           </Box>
           <Box
             as='button'
-            onClick={() => { toggleMenuSidebar(), closeWalletSidebar() }}
+            onClick={() => { toggleMenuSidebar() }}
             display='flex'
             alignItems='center'
             paddingX='10'

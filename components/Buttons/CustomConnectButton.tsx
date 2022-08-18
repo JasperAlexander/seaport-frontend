@@ -1,10 +1,11 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { useSidebars } from '../../hooks/useSidebars'
+import { useState } from 'react'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { Box } from '../Box/Box'
+import { WalletSideDialogTrigger } from '../DialogTriggers/WalletSideDialogTrigger'
 
 export const CustomConnectButton = () => {
-  const { toggleWalletSidebar } = useSidebars()
+  const [walletSideDialogOpen, setWalletSideDialogOpen] = useState<boolean>(false)
 
   return (
     <ConnectButton.Custom>
@@ -83,7 +84,11 @@ export const CustomConnectButton = () => {
                     }
                   })}
                 >
-                  <Box
+                  <WalletSideDialogTrigger 
+                    open={walletSideDialogOpen}
+                    setOpen={setWalletSideDialogOpen}
+                  />
+                  {/* <Box
                     as='button'
                     fontWeight='600'
                     color='defaultText'
@@ -96,7 +101,7 @@ export const CustomConnectButton = () => {
                     // onClick={openChainModal}
                     onClick={toggleWalletSidebar}
                     style={{ display: 'flex', alignItems: 'center' }}
-                  >
+                  > */}
                     {/* {chain.hasIcon && (
                       <Box
                         style={{
@@ -118,8 +123,8 @@ export const CustomConnectButton = () => {
                       </Box>
                     )}
                     {chain.name} */}
-                    Wallet
-                  </Box>
+                    {/* Wallet
+                  </Box> */}
                   {/* <Box 
                     as='button'
                     fontWeight='600'
