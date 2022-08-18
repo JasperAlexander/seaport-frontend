@@ -2,8 +2,6 @@
 
 [Seaport](https://github.com/ProjectOpenSea/seaport) is a marketplace protocol for safely and efficiently buying and selling NFTs. This is the frontend of an example implementation for educational purpose.
 
-_Currently this project is in maintenance, so it may not work._
-
 ## Installation
 
 1. Install [seaport-backend](https://github.com/JasperAlexander/seaport-backend).
