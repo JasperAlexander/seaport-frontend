@@ -6,7 +6,7 @@ import * as Accordion from '@radix-ui/react-accordion'
 import { Box } from '../../Box/Box'
 import { ChevronIcon } from '../../Icons/ChevronIcon'
 import * as styles from './ActivityAccordion.css'
-import { EventsStateType } from '../../../types/eventTypes'
+import { EventsStateType, EventTypes } from '../../../types/eventTypes'
 import { VerticalSwapIcon } from '../../Icons/VerticalSwapIcon'
 import { MintedIcon } from '../../Icons/MintedIcon'
 import { OfferIcon } from '../../Icons/OfferIcon'
@@ -20,6 +20,10 @@ import { BidWithdrawnIcon } from '../../Icons/BidWithdrawnIcon'
 import { CancelIcon } from '../../Icons/CancelIcon'
 import { VerifiedIcon } from '../../Icons/VerifiedIcon'
 import { AccordionItem } from '../AccordionItem/AccordionItem'
+import useUser from '../../../hooks/useUser'
+import { useRouter } from 'next/router'
+import useUsers from '../../../hooks/useUsers'
+import useToken from '../../../hooks/useToken'
 
 interface Props {
     data: EventsStateType
@@ -30,15 +34,21 @@ export const ActivityAccordion: FC<Props> = ({
     data: { events, ref },
     open = false
 }) => {
+    const router = useRouter()
+    
     const { data, isValidating, size } = events
     const mappedEvents = data ? data.map(({ events }) => events).flat() : []
+    const mappedSortedEvents = mappedEvents.sort((a, b) => a.created_timestamp < b.created_timestamp ? 1 : -1 )
 
     const columns = [
         'Event', 'Price', 'From', 'To', 'Date' // Last column can include actions
     ]
 
     return (
-        <Accordion.Root type="multiple" defaultValue={open ? ['activity']: []}>
+        <Accordion.Root 
+            type="multiple" 
+            defaultValue={open ? ['activity']: []}
+        >
                 <AccordionItem value='activity'>
                     <Accordion.Header>
                         <Accordion.Trigger className={styles.trigger}>
@@ -66,7 +76,10 @@ export const ActivityAccordion: FC<Props> = ({
                             as='table'
                             width='full'
                         >
-                            <Box as='thead' fontSize='15'>
+                            <Box 
+                                as='thead' 
+                                fontSize='15'
+                            >
                                 <Box as='tr'>
                                     {columns.map((column, columnIndex) => (
                                         <Box 
@@ -81,8 +94,12 @@ export const ActivityAccordion: FC<Props> = ({
                                     ))}
                                 </Box>
                             </Box>
-                            <Box as='tbody' background='accordionBackground' fontSize='15'>
-                                {mappedEvents?.map((event) => (
+                            <Box 
+                                as='tbody' 
+                                background='accordionBackground' 
+                                fontSize='15'
+                            >
+                                {mappedSortedEvents?.map((event) => (
                                     <Fragment>
                                         <Box 
                                             as='tr'
@@ -194,7 +211,8 @@ export const ActivityAccordion: FC<Props> = ({
                                                             maxWidth='12'
                                                             src={event.payment_token.image_url}
                                                         />
-                                                        {event.total_price}
+                                                        {/* Should be a calculation based on start amount, end and start time */}
+                                                        {event.end_amount}
                                                     </Box>
                                                 }
                                             </Box>
@@ -202,30 +220,55 @@ export const ActivityAccordion: FC<Props> = ({
                                                 as='td' 
                                                 padding='16'
                                             >
-                                                <Link href={`/${event.from_account?.username ? event.from_account.username : event.from_account?.address}`} passHref={true}>
-                                                    <Box as='a' display='flex' alignItems='center' gap='4' color='accentColor'>
-                                                        {event.from_account?.username ? truncateEns(event.from_account.username) : event.from_account?.address ? truncateAddress(event.from_account.address) : ''}
-                                                        {event.from_account?.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
-                                                    </Box>
-                                                </Link>
+                                                {event.from_account &&
+                                                    <Link 
+                                                        href={`/${event.from_account.username ? event.from_account.username : event.from_account.address}`} 
+                                                        passHref={true}
+                                                    >
+                                                        <Box 
+                                                            as='a' 
+                                                            display='flex' 
+                                                            alignItems='center' 
+                                                            gap='4' 
+                                                            color='accentColor'
+                                                        >
+                                                            {event.from_account.username ? truncateEns(event.from_account.username) : event.from_account.address ? truncateAddress(event.from_account.address) : ''}
+                                                            {event.from_account.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
+                                                        </Box>
+                                                    </Link>
+                                                }
                                             </Box>
                                             <Box
                                                 as='td' 
                                                 padding='16'
                                             >
-                                                <Link href={`/${event.to_account?.username ? event.to_account.username : event.to_account?.address}`} passHref={true}>
-                                                    <Box as='a' display='flex' alignItems='center' gap='4' color='accentColor'> 
-                                                        {event.to_account?.username ? event.to_account.username : event.to_account?.address ? truncateAddress(event.to_account.address) : ''}
-                                                        {event.to_account?.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
-                                                    </Box>
-                                                </Link>
+                                                {event.to_account &&
+                                                    <Link 
+                                                        href={`/${event.to_account.username ? event.to_account.username : event.to_account.address}`} 
+                                                        passHref={true}
+                                                    >
+                                                        <Box 
+                                                            as='a' 
+                                                            display='flex'
+                                                            alignItems='center' 
+                                                            gap='4' 
+                                                            color='accentColor'
+                                                        >
+                                                            {event.to_account.username ? truncateEns(event.to_account.username) : event.to_account.address ? truncateAddress(event.to_account.address) : ''}
+                                                            {event.to_account.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
+                                                        </Box>
+                                                    </Link>
+                                                }
                                             </Box>
                                             <Box
                                                 as='td' 
                                                 padding='16'
                                             >
                                                 <Box as='a'>
-                                                    <TimeAgo date={event.created_timestamp} formatter={(value, unit) => `${value} ${unit} ago`} />
+                                                    <TimeAgo 
+                                                        date={event.created_timestamp} 
+                                                        formatter={(value, unit) => `${value} ${unit} ago`} 
+                                                    />
                                                 </Box>
                                             </Box>
                                         </Box>
