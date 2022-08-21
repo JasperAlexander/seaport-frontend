@@ -62,3 +62,21 @@ table, tr, td, th, tbody, theader {
 input.sprinkles_borderColor_defaultBackgroundBorder_base__18szqf1lt :has(:invalid) {
   background-color: red !important;
 }
+
+/* AssetCard styles, unknown yet how to implement this using vanilla-extract */
+#assetCard:hover #assetCardButton {
+  bottom: 0 !important;
+  visibility: visible !important;
+}
+
+#assetCard:hover #assetCardImg {
+  scale: 1.1;
+}
+
+#assetCard:hover #assetCardText {
+  opacity: 0;
+}
+
+#assetCard {
+  transition: 'all 0.1s ease 0s';
+}

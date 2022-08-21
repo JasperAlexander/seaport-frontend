@@ -372,7 +372,9 @@ const dynamicProperties = defineProperties({
       assetCardImage: 'scale 0.4s ease 0s',
       transform: 'transform 300ms',
       borderRadius: 'border-radius 300ms ease-in-out',
-      progress: 'fill 0.4s ease-in 0s'
+      progress: 'fill 0.4s ease-in 0s',
+      bottom: 'bottom 0.25s ease-in-out 0s, visibility 0s ease 0.25s',
+      opacity: 'opacity 0.25s ease-in-out 0s'
     },
     transitionDelay: {
       borderRadius: '100ms'

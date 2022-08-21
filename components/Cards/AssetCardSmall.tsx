@@ -2,13 +2,16 @@ import Link from 'next/link'
 import useSeaport from '../../hooks/useSeaport'
 import { EthIcon } from '../Icons/EthIcon'
 import { FC, useState, useCallback } from 'react'
-import { BuyModal } from '../Modals/BuyModal'
-import { SellModal } from '../Modals/SellModal'
 import { Box } from '../Box/Box'
 import { AssetType } from '../../types/assetTypes'
 import { sprinkles } from '../../styles/sprinkles.css'
-import { AssetCardButton } from '../Buttons/AssetCardButton'
+import { CardButton } from '../Buttons/CardButton'
 import LoadingCard from './LoadingCard'
+import { LoginSideDialogTrigger } from '../DialogTriggers/LoginSideDialogTrigger'
+import { useAccount } from 'wagmi'
+import useMounted from '../../hooks/useMounted'
+import { CompletePurchaseDialogTrigger } from '../DialogTriggers/CompletePurchaseDialogTrigger'
+import { CancelListingDialogTrigger } from '../DialogTriggers/CancelListingDialogTrigger'
 
 type Props = {
     asset: AssetType
@@ -21,30 +24,21 @@ export const AssetCardSmall: FC<Props> = ({
     mutate,
     isOwner
 }) => {
+    const { mounted } = useMounted()
     const { seaport } = useSeaport()
+    const { isConnected, address } = useAccount()
 
-    const useBooleanState = (initialValue: boolean) => {
-        const [value, setValue] = useState(initialValue)
-        const setTrue = useCallback(() => setValue(true), [])
-        const setFalse = useCallback(() => setValue(false), [])
-    
-        return { setFalse, setTrue, value }
-    }
+    const [loginSideDialogOpen, setLoginSideDialogOpen] = useState<boolean>(false)
+    const [completePurchaseDialogOpen, setCompletePurchaseDialogOpen] = useState<boolean>(false)
+    const [cancelListingDialogOpen, setCancelListingDialogOpen] = useState<boolean>(false)
 
-    const {
-        setFalse: closeBuyModal,
-        setTrue: openBuyModal,
-        value: buyModalOpen,
-    } = useBooleanState(false)
-
-    const {
-        setFalse: closeSellModal,
-        setTrue: openSellModal,
-        value: sellModalOpen,
-    } = useBooleanState(false)
+    if (!isOwner && mounted)
+        isOwner = address === asset.owner.address
 
     return (
         <Box
+            id='assetCard'
+            position='relative'
             display='flex'
             flexDirection='column'
             background='orderBackground'
@@ -61,90 +55,143 @@ export const AssetCardSmall: FC<Props> = ({
             transition='default'
             cursor='pointer'
         >
-            <Link href={`/assets/${asset.asset_contract.address}/${asset.token_id}`} passHref={true}>
-                <Box
-                    as='a' 
-                    display='flex'
-                    flexDirection='column'
-                    zIndex='100'
-                    position='relative'
-                >
+            <Box>
+                <Link href={`/assets/${asset.asset_contract.address}/${asset.token_id}`} passHref={true}>
                     <Box
-                        aspectRatio='1'
-                        overflow='hidden'
+                        as='a' 
+                        display='flex'
+                        flexDirection='column'
+                        zIndex='100'
+                        position='relative'
                     >
-                        {asset.image_url
-                            ? 
-                                <Box
-                                    as='img' 
-                                    src={asset.image_url}
-                                    dimension='full'
-                                    className={sprinkles({
-                                        transition: 'assetCardImage',
-                                        scale: {
-                                            hover: 'growLg'
-                                        }
-                                    })} 
-                                />
-                            : <LoadingCard />
-                        }
-                    </Box>
-
-                    <Box 
-                        paddingY='8' 
-                        paddingX='10' 
-                        display='flex' 
-                        flexDirection='column' 
-                        gap='8'
-                        style={{zIndex: '200'}}
-                    >
-                        <Box display='flex' flexDirection='column'>
-                            <Box as='span' fontSize='12' fontWeight='600'>{asset.name}</Box>
-                            <Box as='span' fontSize='12'>{asset.description}</Box>
+                        <Box
+                            aspectRatio='1'
+                            overflow='hidden'
+                        >
+                            {asset.image_url
+                                ? 
+                                    <Box
+                                        as='img' 
+                                        id='assetCardImg'
+                                        src={asset.image_url}
+                                        dimension='full'
+                                        transition='assetCardImage'
+                                        // Added hover effect here for readability, effect is also defined in globals.css
+                                        className={sprinkles({
+                                            scale: {
+                                                hover: 'growLg'
+                                            }
+                                        })} 
+                                    />
+                                : <LoadingCard />
+                            }
                         </Box>
-                        <Box>
-                            <Box as='span' fontSize='12' fontWeight='600'>Price</Box>
-                            <Box display='flex' alignItems='center' height='20' gap='5'>
-                                <EthIcon width='16' />
-                                <Box as='span' fontSize='16' fontWeight='600'>
-                                    0,01
+
+                        <Box 
+                            paddingY='12' 
+                            paddingX='16' 
+                            display='flex' 
+                            flexDirection='column' 
+                            gap='8'
+                            style={{zIndex: '200'}}
+                        >
+                            <Box display='flex' flexDirection='column'>
+                                <Box as='span' fontSize='12' fontWeight='600'>{asset.name}</Box>
+                                <Box 
+                                    as='span' 
+                                    fontSize='12'
+                                    overflow='hidden'
+                                    textOverflow='ellipsis'
+                                    whiteSpace='nowrap'
+                                    height='18'
+                                >
+                                    {asset.description}
                                 </Box>
                             </Box>
+                            <Box>
+                                <Box as='span' fontSize='12' fontWeight='600'>Price</Box>
+                                <Box display='flex' alignItems='center' height='20' gap='5'>
+                                    <EthIcon width='16' />
+                                    <Box as='span' fontSize='16' fontWeight='600'>
+                                        0,01
+                                    </Box>
+                                </Box>
+                            </Box>
+                            
                         </Box>
                     </Box>
+                </Link>
+                <Box 
+                    paddingY='12' 
+                    paddingX='16' 
+                    display='flex' 
+                    flexDirection='column' 
+                    gap='8'
+                    style={{zIndex: '200'}}
+                >
+                    <Box
+                        display='flex'
+                        alignItems='center'
+                        height='20'
+                        width='full'
+                        marginTop='4'
+                        fontWeight='500'
+                        fontSize='12'
+                        color='boxText'
+                    >
+                        <Box
+                            id='assetCardText'
+                            // Added hover effect here for readability, effect is also defined in globals.css
+                            opacity={{
+                                base: '1',
+                                hover: '0'
+                            }}
+                            transition='opacity'
+                            marginRight='8'
+                        >
+                            Ends in ...
+                        </Box>
+                        {mounted && !isConnected &&
+                            <LoginSideDialogTrigger 
+                                open={loginSideDialogOpen}
+                                setOpen={setLoginSideDialogOpen}
+                            >
+                                <CardButton 
+                                    onClick={() => {return null}}
+                                >
+                                    Buy now
+                                </CardButton>
+                            </LoginSideDialogTrigger>
+                        }
+                        {mounted && isConnected && !isOwner &&
+                            <CompletePurchaseDialogTrigger
+                                open={completePurchaseDialogOpen}
+                                setOpen={setCompletePurchaseDialogOpen}
+                                data={asset}
+                            >    
+                                <CardButton 
+                                    onClick={() => {return null}}
+                                >
+                                    Buy now
+                                </CardButton>
+                            </CompletePurchaseDialogTrigger>
+                        }
+                        {mounted && isConnected && isOwner &&
+                            <CancelListingDialogTrigger
+                                open={cancelListingDialogOpen}
+                                setOpen={setCancelListingDialogOpen}
+                                data={asset}
+                            >    
+                                <CardButton 
+                                    onClick={() => {return null}}
+                                >
+                                    Cancel listing
+                                </CardButton>
+                            </CancelListingDialogTrigger>
+                        }
+                    </Box>
                 </Box>
-            </Link>
-
-            {isOwner
-                ? asset.last_sale // should be .listing_date but not yet implemented
-                    ?
-                        <AssetCardButton 
-                            title='Cancel listing'  // Or accept bid
-                            onClick={() => { return }}
-                        />
-                    :
-                        <>
-                            <AssetCardButton 
-                                title='Sell asset' 
-                                onClick={() => openSellModal()}
-                            />
-                            <SellModal nftid={asset.token_id} asset={asset} onClose={closeSellModal} open={sellModalOpen} />
-                        </>
-                : asset.last_sale // should be .listing_date but not yet implemented
-                    ?
-                        <>
-                            <AssetCardButton
-                                title='Buy asset'
-                                onClick={() => openBuyModal()}
-                            />
-                            {/* <BuyModal asset={asset} order={} onClose={closeBuyModal} open={buyModalOpen} /> */}
-                        </>
-                    :
-                        <AssetCardButton
-                            title='Not listed'
-                            onClick={() => { return }}
-                        />
-            }
+            </Box>
         </Box>
     )
 }
