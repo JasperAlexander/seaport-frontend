@@ -1,22 +1,27 @@
-import { Dispatch, FC, Fragment, SetStateAction } from 'react'
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { CompletePurchaseDialogContent } from '../DiaglogContents/CompletePurchaseDialogContent'
-import { AssetType } from '../../types/assetTypes'
+import { LoginSideDialogContent } from '../DiaglogContents/LoginSideDialogContent'
 
 interface Props {
+    children: ReactNode
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
-    data: AssetType
 }
 
-export const CompletePurchaseDialog: FC<Props> = ({
+export const LoginSideDialogTrigger: FC<Props> = ({
+    children,
     open,
-    setOpen,
-    data
+    setOpen
 }) => {
     return (
-        <Fragment>
+        <Dialog.Root 
+            open={open} 
+            onOpenChange={setOpen}
+        >
+            <Dialog.Trigger asChild={true}>
+                {children}
+            </Dialog.Trigger>
             <Dialog.Overlay asChild={true}>
                 <Box 
                     position='fixed'
@@ -24,11 +29,10 @@ export const CompletePurchaseDialog: FC<Props> = ({
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.15)', zIndex: '800'}}
                 />
             </Dialog.Overlay>
-            <CompletePurchaseDialogContent 
+            <LoginSideDialogContent 
                 open={open} 
                 setOpen={setOpen} 
-                data={data}
             />
-        </Fragment>
+        </Dialog.Root>
     )
 }

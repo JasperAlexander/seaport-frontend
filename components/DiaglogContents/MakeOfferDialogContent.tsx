@@ -4,7 +4,6 @@ import { Box } from '../Box/Box'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { MainButton } from '../Buttons/MainButton'
 import { useForm } from '../../hooks/useForm'
-import { Input } from '../Input/Input'
 import { OfferAmountFormSection } from '../FormSections/OfferAmountFormSection'
 import { OfferExpirationFormSection } from '../FormSections/OfferExpirationFormSection'
 import * as styles from './DialogContent.css'
@@ -71,17 +70,9 @@ export const MakeOfferDialogContent: FC<Props> = ({
                 style={{
                     transform: 'translate(-50%, -50%)',
                     width: '700px', 
-                    height: '450px',
-                    backgroundColor: 'white',
-                    zIndex: '900'
+                    height: '450px'
                 }}
-                position='fixed'
-                top='50p'
-                left='50p'
-                // background='defaultBackground'
-                borderRadius='16'
-                maxWidth='full'
-                maxHeight='full'
+                className={styles.dialogContentContainer}
             >
                 <Box
                     display='flex'

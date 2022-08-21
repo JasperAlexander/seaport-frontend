@@ -7,6 +7,7 @@ import { LoadingIcon } from '../Icons/LoadingIcon'
 import * as styles from './DialogContent.css'
 import useSeaport from '../../hooks/useSeaport'
 import { AssetType } from '../../types/assetTypes'
+import Link from 'next/link'
 
 interface Props {
     open: boolean
@@ -28,16 +29,8 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                     transform: 'translate(-50%, -50%)',
                     width: '700px', 
                     height: '450px',
-                    backgroundColor: 'white',
-                    zIndex: '900'
                 }}
-                position='fixed'
-                top='50p'
-                left='50p'
-                // background='defaultBackground'
-                borderRadius='16'
-                maxWidth='full'
-                maxHeight='full'
+                className={styles.dialogContentContainer}
             >
                 <Box
                     display='flex'
@@ -71,97 +64,99 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                         <Box
                             display='flex'
                             alignItems='center'
-                            justifyContent='space-between'
-                            padding='24'
+                            flexDirection='column'
+                            padding='38'
                             width='full'
                             fontSize='14'
-                        >
-                                <Box
-                                    display='flex'
-                                    height='48'
-                                    width='48'
-                                    borderRadius='10'
-                                    marginRight='16'
-                                    background='accentColor'
-                                >
-                                    img
-                                </Box>
-                                <Box
-                                    display='flex'
-                                    flexGrow='1'
-                                    flexDirection='column'
-                                    marginRight='16'
-                                    style={{alignSelf: 'stretch'}}
-                                    textAlign='left'
-                                >
-                                    <Box
-                                        as='span'
-                                        color='boxText'
-                                        fontWeight='400'
-                                    >
-                                        collection name
-                                    </Box>
-                                    <Box
-                                        as='span'
-                                        fontWeight='600'
-                                    >
-                                        item name
-                                    </Box>
-                                    <Box
-                                        as='span'
-                                        color='boxText'
-                                        fontWeight='400'
-                                    >
-                                        quantity
-                                    </Box>
-                                </Box>
-                                <Box
-                                    display='flex'
-                                    flexDirection='column'
-                                    marginRight='16'
-                                >
-                                    <Box
-                                        as='span'
-                                        color='boxText'
-                                        fontWeight='400'
-                                        textAlign='right'
-                                    >
-                                        Price
-                                    </Box>
-                                    <Box
-                                        as='span'
-                                        fontWeight='600'
-                                        textAlign='right'
-                                    >
-                                        price amount
-                                    </Box>
-                                    <Box
-                                        as='span'
-                                        color='boxText'
-                                        fontWeight='400'
-                                        textAlign='right'
-                                    >
-                                        usd value
-                                    </Box>
-                                </Box>
-                        </Box>
-                        <Box
-                            display='flex'
-                            alignItems='center'
-                            justifyContent='space-between'
-                            padding='24'
-                            width='full'
-                            fontSize='14'
-                            borderTopWidth='1'
-                            borderStyle='solid'
-                            borderColor='box'
+                            color='defaultText'
                         >
                             <Box
+                                width='full'
                                 display='flex'
+                                alignItems='center'
+                                justifyContent='space-between'
+                                fontSize='16'
+                                fontWeight='600'
+                                paddingBottom='4'
                             >
-                                <LoadingIcon />
-                                test
+                                <Box as='span'>Item</Box>
+                                <Box as='span'>Total</Box>
                             </Box>
+                                <Box
+                                    display='flex'
+                                    width='full'
+                                    alignItems='center'
+                                    gap='8'
+                                    paddingY='16'
+                                    borderBottomWidth='1'
+                                    borderTopWidth='1'
+                                    borderStyle='solid'
+                                    borderColor='box'
+                                >
+                                    <Box 
+                                        as='img'
+                                        src={data.image_url}
+                                        width='80'
+                                        aspectRatio='1'
+                                    />
+                                    <Box
+                                        display='flex'
+                                        flexGrow='1'
+                                        flexDirection='column'
+                                    >
+                                        <Link 
+                                            href={`/collection/${data.collection?.slug}`}
+                                            passHref={true}
+                                        >
+                                            <Box
+                                                as='a'
+                                                color='accentColor'
+                                                fontSize='14'
+                                            >
+                                                {data.collection?.name}
+                                            </Box>
+                                        </Link>
+                                        <Box
+                                            as='span'
+                                            fontWeight='600'
+                                            fontSize='16'
+                                        >
+                                            {data.name}
+                                        </Box>
+                                        <Box
+                                            as='span'
+                                            color='boxText'
+                                            fontSize='14'
+                                        >
+                                            Creator Fees: ..%
+                                        </Box>
+                                    </Box>
+                                    <Box
+                                        display='flex'
+                                        flexDirection='column'
+                                        alignItems='flex-end'
+                                    >
+                                        <Box
+                                            display='flex'
+                                            alignItems='center'
+                                            gap='3'
+                                        >
+                                            {/* Payment token */}
+                                            <Box
+                                                as='span'
+                                                fontWeight='600'
+                                                fontSize='16'
+                                            >
+                                                {/* Payment price */}
+                                                2.5
+                                            </Box>
+                                        </Box>
+                                        <Box>
+                                            {/* USD price */}
+                                            $1.000
+                                        </Box>
+                                    </Box>
+                                </Box>
                         </Box>
                     </Box>
 

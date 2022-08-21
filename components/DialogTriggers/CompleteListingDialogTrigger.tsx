@@ -1,38 +1,38 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react'
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { MainButton } from '../Buttons/MainButton'
-import { CompleteListingDialog } from '../Dialogs/CompleteListingDialog'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
 import useSeaport from '../../hooks/useSeaport'
+import { Box } from '../Box/Box'
+import { CompleteListingDialogContent } from '../DiaglogContents/CompleteListingDialogContent'
 
 interface Props {
+    children: ReactNode
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
-    disabled: boolean
     data: ListAssetFormType
 }
 
 export const CompleteListingDialogTrigger: FC<Props> = ({
+    children,
     open,
     setOpen,
-    disabled,
     data
 }) => {
-    const { listingStatus, createOrder } = useSeaport()
+    const { listingStatus } = useSeaport()
 
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild={true}>
-                <MainButton
-                    onClick={async() => { 
-                        await createOrder(data)
-                    }}
-                    disabled={disabled || listingStatus > 0}
-                >
-                    Complete listing
-                </MainButton>
+                {children}
             </Dialog.Trigger>
-            <CompleteListingDialog 
+            <Dialog.Overlay asChild={true}>
+                <Box 
+                    position='fixed'
+                    inset='0'
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.15)', zIndex: '800'}}
+                />
+            </Dialog.Overlay>
+            <CompleteListingDialogContent 
                 open={open} 
                 setOpen={setOpen} 
                 asset={data?.asset}

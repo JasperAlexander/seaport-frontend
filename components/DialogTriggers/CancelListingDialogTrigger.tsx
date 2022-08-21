@@ -1,24 +1,25 @@
 import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { MakeOfferDialogContent } from '../DiaglogContents/MakeOfferDialogContent'
+import { CancelListingDialogContent } from '../DiaglogContents/CancelListingDialogContent'
+import { AssetType } from '../../types/assetTypes'
+import { OrderType } from '../../types/orderTypes'
 
 interface Props {
     children: ReactNode
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
+    data: OrderType
 }
 
-export const MakeOfferDialogTrigger: FC<Props> = ({
+export const CancelListingDialogTrigger: FC<Props> = ({
     children,
     open,
-    setOpen
+    setOpen,
+    data
 }) => {
     return (
-        <Dialog.Root 
-            open={open} 
-            onOpenChange={setOpen}
-        >
+        <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild={true}>
                 {children}
             </Dialog.Trigger>
@@ -26,12 +27,14 @@ export const MakeOfferDialogTrigger: FC<Props> = ({
                 <Box 
                     position='fixed'
                     inset='0'
-                    style={{backgroundColor: 'rgba(0, 0, 0, 0.15)', zIndex: '800'}}
+                    zIndex='800'
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.15)'}}
                 />
             </Dialog.Overlay>
-            <MakeOfferDialogContent 
+            <CancelListingDialogContent 
                 open={open} 
                 setOpen={setOpen} 
+                order={data}
             />
         </Dialog.Root>
     )

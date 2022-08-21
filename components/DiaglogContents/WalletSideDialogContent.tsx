@@ -9,6 +9,7 @@ import { DoneIcon } from '../Icons/DoneIcon'
 import { EthIcon } from '../Icons/EthIcon'
 import { WethIcon } from '../Icons/WethIcon'
 import * as Dialog from '@radix-ui/react-dialog'
+import * as styles from './DialogContent.css'
 
 interface Props {
     open: boolean
@@ -61,15 +62,10 @@ export const WalletSideDialogContent: FC<Props> = ({
             <Box
                 as='aside'
                 style={{
-                    overflowY: 'scroll',
                     height: 'calc(100% - 72px)'
                 }}
-                background='defaultBackground'
-                zIndex='900'
                 width='420'
-                position='fixed'
-                top='72'
-                right='0'
+                className={styles.sideDialogContentContainer}
             >
                 <Box
                     display='flex'

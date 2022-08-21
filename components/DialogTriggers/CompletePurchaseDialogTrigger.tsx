@@ -1,37 +1,38 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react'
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { MainButton } from '../Buttons/MainButton'
 import { AssetType } from '../../types/assetTypes'
-import { CompletePurchaseDialog } from '../Dialogs/CompletePurchase'
+import { Box } from '../Box/Box'
+import { CompletePurchaseDialogContent } from '../DiaglogContents/CompletePurchaseDialogContent'
 
 interface Props {
-    variant?: 'button' | 'card'
+    children: ReactNode
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
-    disabled: boolean
     data: AssetType
 }
 
 export const CompletePurchaseDialogTrigger: FC<Props> = ({
-    variant = 'button',
+    children,
     open,
     setOpen,
-    disabled,
     data
 }) => {
     return (
-        // Use for button in list as wel as in asset view using conditions
-        <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Root 
+            open={open} 
+            onOpenChange={setOpen}
+        >
             <Dialog.Trigger asChild={true}>
-                {variant === 'button' &&
-                    <MainButton
-                        disabled={disabled}
-                    >
-                        Buy now
-                    </MainButton>
-                }
+                {children}
             </Dialog.Trigger>
-            <CompletePurchaseDialog 
+            <Dialog.Overlay asChild={true}>
+                <Box 
+                    position='fixed'
+                    inset='0'
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.15)', zIndex: '800'}}
+                />
+            </Dialog.Overlay>
+            <CompletePurchaseDialogContent 
                 open={open} 
                 setOpen={setOpen} 
                 data={data}

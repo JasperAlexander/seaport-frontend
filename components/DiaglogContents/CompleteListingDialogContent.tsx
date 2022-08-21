@@ -26,17 +26,9 @@ export const CompleteListingDialogContent: FC<Props> = ({
                 style={{
                     transform: 'translate(-50%, -50%)',
                     width: '700px', 
-                    height: '450px',
-                    backgroundColor: 'white',
-                    zIndex: '900'
+                    height: '450px'
                 }}
-                position='fixed'
-                top='50p'
-                left='50p'
-                // background='defaultBackground'
-                borderRadius='16'
-                maxWidth='full'
-                maxHeight='full'
+                className={styles.dialogContentContainer}
             >
                 <Box
                     display='flex'
@@ -192,8 +184,8 @@ export const CompleteListingDialogContent: FC<Props> = ({
                         <MainButton
                             width='full'
                         >
-                            {listingStatus < 3 
-                                ? 'Waiting for approval'
+                            {listingStatus !== 10 
+                                ? 'Waiting for approval' // To do: make listingStatus objects instead of nrs
                                 : 'Continue' // if not completed yet
                             }
                         </MainButton>
