@@ -74,7 +74,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         })}
         appInfo={{
           appName: 'Seaport implementation',
-          learnMoreUrl: 'https://github.com/JasperAlexander/seaport-implementation#readme',
+          learnMoreUrl: 'https://github.com/JasperAlexander/seaport-frontend#readme',
         }}
       >
         <VanillaExtractProvider theme={lightSeaportTheme()}>

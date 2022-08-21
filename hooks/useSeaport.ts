@@ -5,9 +5,10 @@ import useMounted from './useMounted'
 import { useEffect, useState } from 'react'
 import { mintERC721, ownerOfERC721 } from '../utils/minting'
 import { parseEther } from 'ethers/lib/utils'
-import { ItemType } from '../types/orderTypes'
+import { ItemType, OrderType } from '../types/orderTypes'
 import { ListAssetFormType } from '../components/Forms/ListAssetForm'
 import useApi from './useApi'
+import { EventTypes } from '../types/eventTypes'
 
 export default function useSeaport() {
     const { mounted } = useMounted()
@@ -41,25 +42,19 @@ export default function useSeaport() {
     }, [mounted])
 
     
-    const [listingStatus, setListingStatus] = useState<number>(0)
+    const [listingStatus, setListingStatus] = useState<number>(1)
     const createOrder = async ({
         asset,
+        from_account,
+        signer,
         price,
-        payment_token
+        payment_token,
+        duration
     }: ListAssetFormType) => {
         try {
-            setListingStatus(1)
-            
-            // const owner = await ownerOfERC721(signer, nftIDBN)
-            // let nftID
-            // if(typeof owner === 'undefined') {
-            //     nftID = await mintERC721(signer, address, nftIDBN)
-            // } else {
-            //     nftID = nftIDBN
-            // }
-
-            // Add some checks
+            console.log('inside createOrder with seaport: ', seaport)
             const { executeAllActions } = await seaport.createOrder({
+                endTime: (Math.floor(Date.now() / 1000) + Number(duration)).toString(),
                 offer: [
                     {
                         itemType: ItemType.ERC721,
@@ -70,26 +65,54 @@ export default function useSeaport() {
                 consideration: [
                     {
                         amount: price.toString(), // parseEther? Don't forget floats (using Number())
-                        token: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9', // payment_token,
+                        token: payment_token, // payment_token,
                         recipient: asset.owner.address
                     }
                 ]
             })
-            setListingStatus(2)
-            const executedOrder = await executeAllActions()
-            saveOrder(executedOrder)
-            setListingStatus(3)
+
+            console.log('executeAllActions', executeAllActions)
+            let receipt
+            try {
+                receipt = await executeAllActions()
+            } catch(err) {
+                console.log(err)
+            }
+            console.log('receipt', receipt)
+            saveOrder(receipt)
+            saveEvent({
+                type: EventTypes.Created,
+                asset: asset,
+                from_account: from_account,
+                start_time: Math.floor(Date.now() / 1000).toString(),
+                end_time: (Math.floor(Date.now() / 1000) + Number(duration)).toString(),
+                start_amount: price.toString(),
+                end_amount: price.toString(),
+                payment_token: payment_token,
+                is_private: false
+            })
         } catch {
-            setListingStatus(0)
+            setListingStatus(-1)
+        } finally {
+            setListingStatus(10)
         }
     }
 
     const [fulfillingStatus, setFulfillingStatus] = useState<number>(0)
-    const fulfillOrder = async ({
-        
-    }) => {
+    const fulfillOrder = async () => {
         try {
 
+        } catch {
+            
+        }
+    }
+
+    const [cancellingStatus, setCancellingStatus] = useState<number>(0)
+    const cancelOrder = async (
+        // order: FlatOrderType
+    ) => {
+        try {
+            // const orderParameters = {orderParameters: (delete order['signature'], order)}
         } catch {
             
         }
@@ -101,6 +124,7 @@ export default function useSeaport() {
         loading,
         listingStatus,
         createOrder,
-        fulfillOrder
+        fulfillOrder,
+        cancelOrder
     }
 }

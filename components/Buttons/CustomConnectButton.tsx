@@ -87,7 +87,14 @@ export const CustomConnectButton = () => {
                   <WalletSideDialogTrigger 
                     open={walletSideDialogOpen}
                     setOpen={setWalletSideDialogOpen}
-                  />
+                  >
+                    <Box
+                      paddingX='10'
+                      cursor='pointer'
+                    >
+                      Wallet
+                    </Box>
+                  </WalletSideDialogTrigger>
                   {/* <Box
                     as='button'
                     fontWeight='600'

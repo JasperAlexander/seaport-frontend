@@ -1,8 +1,11 @@
+import { EventPostType } from "../types/eventTypes"
 import { OrderType } from "../types/orderTypes"
 
 
 export default function useApi() {
-    const saveEvent = async () => {
+    const saveEvent = async (
+        event: EventPostType
+    ) => {
         const href = `http://localhost:8000/api/v1/events/create/`
 
         const options = {
@@ -11,9 +14,7 @@ export default function useApi() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                
-            })
+            body: JSON.stringify(event)
         }
 
         const res = await fetch(href, options)
@@ -21,11 +22,9 @@ export default function useApi() {
         return res.json()
     }
 
-    const saveOrder = async ({
-        parameters,
-        signature
-    }: OrderType) => {
-        console.log('Inside saveOrder with parameters: ', parameters)
+    const saveOrder = async (
+        order: OrderType
+    ) => {
         const href = `http://localhost:8000/api/v1/orders/create/`
 
         const options = {
@@ -34,18 +33,13 @@ export default function useApi() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                parameters,
-                signature
-            })
+            body: JSON.stringify(order)
         }
 
         const res = await fetch(href, options)
-        console.log('Order saved in backend with result: ', res)
 
         return res.json()
     }
-
 
     return {
         saveEvent,

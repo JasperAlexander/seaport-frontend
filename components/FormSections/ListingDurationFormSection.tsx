@@ -4,19 +4,22 @@ import * as styles from './FormSection.css'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Input } from '../Input/Input'
+import { ListingDurationSelect } from '../Selects/ListingDurationSelect'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof ListAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
     validate: () => void
     errors: Partial<Record<keyof ListAssetFormType, string>>
     data: ListAssetFormType
+    setData: (e: any) => void
 }
 
 export const ListingDurationFormSection: FC<Props> = ({
     handleChange,
     validate,
     errors,
-    data
+    data,
+    setData
 }) => {
     return (
         <Box className={styles.formItem}>
@@ -31,14 +34,18 @@ export const ListingDurationFormSection: FC<Props> = ({
                 </Box>
             </Box>
             <Box>
-                <Input 
+                <ListingDurationSelect 
+                    data={data}
+                    setData={setData}
+                />
+                {/* <Input 
                     type='text'
                     name='duration'
                     placeholder='Duration'
                     value={data.duration || ''}
                     onChange={handleChange('duration')}
                     onBlur={() => validate()}
-                />
+                /> */}
                 {errors.duration &&
                     <Box
                         display='flex'

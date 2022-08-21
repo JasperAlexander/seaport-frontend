@@ -9,11 +9,13 @@ const contractAddresses = require('../utils/contractAddresses.json')
 export const mintERC721 = async(signer: ethers.Signer, address: string, nftID?: BigNumber | string | undefined) => {
     if(typeof window !== 'undefined' && typeof contractAddresses.TestERC721 !== 'undefined') {
         const contract = new ethers.Contract(contractAddresses.TestERC721, TestERC721.abi, signer)
+        console.log('inside minterc721')
         if(typeof nftID === 'undefined') {
             nftID = randomBN()
         }
         const mintTransaction = await contract.mint(address, nftID)
         await mintTransaction.wait()
+        console.log('after mintTransaction')
         return nftID.toString()
     }
 }

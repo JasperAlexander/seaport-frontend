@@ -8,10 +8,21 @@ import { ListingTypeFormSection } from '../FormSections/ListingTypeFormSection'
 import { ListingPriceFormSection } from '../FormSections/ListingPriceFormSection'
 import { ListingDurationFormSection } from '../FormSections/ListingDurationFormSection'
 import { ListingReserveFormSection } from '../FormSections/ListingReserveFormSection'
+import { MainButton } from '../Buttons/MainButton'
+import useSeaport from '../../hooks/useSeaport'
+import { ethers } from 'ethers'
+import { useAccount, useContractRead, useSigner } from 'wagmi'
+import useMounted from '../../hooks/useMounted'
+import contractAddresses from '../../utils/contractAddresses.json'
+import TestERC721 from '../../artifacts/contracts/test/TestERC721.sol/TestERC721.json'
+import { mintERC721 } from '../../utils/minting'
+import { useRouter } from 'next/router'
+import useUsers from '../../hooks/useUsers'
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface ListAssetFormType {
     asset: AssetType
+    signer: ethers.Signer
     token_id: string
     owner: string
     contract_address: string
@@ -19,7 +30,8 @@ export interface ListAssetFormType {
     payment_token: string
     price: number
     duration: string
-    to_address: string
+    from_account: string
+    to_account: string
 }
 
 interface Props {
@@ -30,6 +42,18 @@ export const ListAssetForm: FC<Props> = ({
     asset
 }) => {
     const [completeListingDialogOpen, setCompleteListingDialogOpen] = useState<boolean>(false)
+    const { listingStatus, createOrder } = useSeaport()
+    const router = useRouter()
+    const { address } = useAccount()
+    const users = useUsers(router, address)
+    const { data: signer } = useSigner()
+    const { data: owner } = useContractRead({
+        addressOrName: contractAddresses.TestERC721,
+        contractInterface: TestERC721.abi,
+        functionName: 'ownerOf',
+        args: asset?.data?.token_id
+    })
+    const { mounted } = useMounted()
 
     const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<ListAssetFormType>({
         validations: {
@@ -51,12 +75,14 @@ export const ListAssetForm: FC<Props> = ({
         onSubmit: () => { return null },
         initialValues: {
             asset: asset?.data,
+            signer: mounted && signer ? signer : undefined,
             type: '',
             // address of selected payment token, current is address of TestERC20
-            payment_token: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
+            payment_token: '1',
             price: 1,
             duration: '',
-            to_address: ''
+            from_account: '1', // users?.users?.data?.[0]?.id.toString(),
+            to_account: ''
         },
     })
 
@@ -110,6 +136,7 @@ export const ListAssetForm: FC<Props> = ({
                     validate={validate}
                     errors={errors}
                     data={data}
+                    setData={setData}
                 />
                 <ListingReserveFormSection
                     handleChange={handleChange}
@@ -157,12 +184,36 @@ export const ListAssetForm: FC<Props> = ({
                     </Box>
                 </Box>
 
+                <Box 
+                    height='0'
+                    marginY='30'
+                    borderBottomWidth='1'
+                    borderStyle='solid'
+                    borderColor='box'
+                />
+
                 <CompleteListingDialogTrigger
                     open={completeListingDialogOpen}
                     setOpen={setCompleteListingDialogOpen}
-                    disabled={Object.keys(errors).length > 0}
                     data={data}
-                />
+                >
+                    <MainButton
+                        onClick={async() => { 
+                            if (mounted && 
+                                owner !== address && // Make this line a comment if you've reset your account
+                                signer && address) await mintERC721(signer, address, asset?.data?.token_id)
+                            try {
+                                await createOrder(data)
+                            } catch(err) {
+                                console.log(err)
+                            }
+                            // router.back()
+                        }}
+                        // disabled={Object.keys(errors).length > 0 || listingStatus > 0}
+                    >
+                        Complete listing
+                    </MainButton>
+                </CompleteListingDialogTrigger>
             </Box>
         </Box>
     )

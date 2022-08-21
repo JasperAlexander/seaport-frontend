@@ -11,7 +11,7 @@ import useAsset from '../../../../hooks/useAsset'
 import { AssetType } from '../../../../types/assetTypes'
 import setParams from '../../../../utils/params'
 import useMounted from '../../../../hooks/useMounted'
-import { EventsQueryType, EventsType } from '../../../../types/eventTypes'
+import { EventsQueryType, EventsType, EventType, EventTypes } from '../../../../types/eventTypes'
 import useEvents from '../../../../hooks/useEvents'
 import { useRouter } from 'next/router'
 import { OffersAccordion } from '../../../../components/Accordions/OffersAccordion/OffersAccordion'
@@ -21,20 +21,22 @@ import { AssetInfoAccordion } from '../../../../components/Accordions/AssetInfoA
 import { MainLayout } from '../../../../components/Layouts/MainLayout'
 import { useAccount } from 'wagmi'
 import { MainButton } from '../../../../components/Buttons/MainButton'
+import { OrdersQueryType, OrdersType } from '../../../../types/orderTypes'
+import useOrders from '../../../../hooks/useOrders'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const AssetPage: NextPage<Props> = ({
     fallbackAsset,
     fallbackEvents,
+    fallbackOrders,
     contract_address,
     token_id
 }) => {
-    const { mounted } = useMounted()
-
     const router = useRouter()
     const asset = useAsset(fallbackAsset, contract_address, token_id)
     const events = useEvents(router, fallbackEvents, contract_address, token_id)
+    const orders = useOrders(router, fallbackOrders, contract_address, token_id)
 
     const { address } = useAccount()
     const [isOwner, setIsOwner] = useState<boolean>(false)
@@ -42,6 +44,21 @@ const AssetPage: NextPage<Props> = ({
         if (asset?.data?.owner?.address === address)
             setIsOwner(true)
     })
+
+    const { data: eventsData, isValidating, size } = events.events
+    const mappedEvents = eventsData ? eventsData.map(({ events }) => events).flat() : []
+    const listingEvents: EventType[] | undefined = mappedEvents?.filter((event: EventType) => (
+        event.type === EventTypes.Created || event.type === EventTypes.Cancelled
+    ))
+    const lastListingEvent: EventType | undefined = listingEvents.length > 0 ? listingEvents?.reduce((a, b) => (
+        a.created_timestamp > b.created_timestamp ? a : b
+    )) : undefined
+
+    useEffect(() => {
+        console.log('mappedEvents', mappedEvents)
+        console.log('listingEvents', listingEvents)
+        console.log('lastListingEvent', lastListingEvent)
+    }, [mappedEvents, listingEvents, lastListingEvent])
     
     return (
         <Fragment>
@@ -126,11 +143,12 @@ const AssetPage: NextPage<Props> = ({
                                 {!isOwner &&
                                     <AssetPriceAccordion 
                                         asset={asset?.data}
-                                        events={events}
+                                        lastListingEvent={lastListingEvent}
                                     />
                                 }
                                 <ListingsAccordion
-                                    data={events}
+                                    data={orders}
+                                    isOwner={isOwner}
                                 />
                                 <OffersAccordion
                                     data={events}
@@ -176,10 +194,10 @@ const AssetPage: NextPage<Props> = ({
                         <AssetHeader asset={asset?.data} />
                         <AssetCardLarge asset={asset?.data} />
                         <AssetMeta asset={asset?.data} />
-                        {!isOwner &&
+                        {!isOwner && 
                             <AssetPriceAccordion 
                                 asset={asset?.data}
-                                events={events}
+                                lastListingEvent={lastListingEvent}
                             />
                         }
                     </Box>
@@ -201,6 +219,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps<{
     fallbackAsset: AssetType
     fallbackEvents: EventsType
+    fallbackOrders: OrdersType
     contract_address: string
     token_id: string
 }> = async ({ params }) => {
@@ -247,12 +266,29 @@ export const getStaticProps: GetStaticProps<{
     const eventsRes = await fetch(eventsHref, eventsOptions)
   
     const fallbackEvents = (await eventsRes.json()) as EventsType
+
+    // ORDERS
+    const ordersOptions: RequestInit | undefined = {}
+
+    const ordersUrl = new URL(`/api/v1/orders/`, 'http://localhost:8000')
+
+    const ordersQuery: OrdersQueryType = {
+        ...(contract_address && { parameters__offer__token: contract_address }),
+        ...(token_id && { parameters__offer__identifierOrCriteria: token_id })
+    }
+  
+    const ordersHref = setParams(ordersUrl, ordersQuery)
+  
+    const ordersRes = await fetch(ordersHref, ordersOptions)
+  
+    const fallbackOrders = (await ordersRes.json()) as OrdersType
   
     // RETURN
     return {
         props: { 
             fallbackAsset,
             fallbackEvents,
+            fallbackOrders,
             contract_address,
             token_id
         }

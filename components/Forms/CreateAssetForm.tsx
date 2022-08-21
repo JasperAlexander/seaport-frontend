@@ -68,7 +68,7 @@ export const CreateAssetForm: FC<Props> = ({
             },
             description: {
                 pattern: {
-                    value: '^[A-Za-z]*$',
+                    value: '^[A-Za-z0-9 ]*$',
                     message: 'Description must only contain alphanumeric characters.'
                 },
                 custom: {

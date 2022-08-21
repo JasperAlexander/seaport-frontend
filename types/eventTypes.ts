@@ -14,16 +14,31 @@ export enum EventTypes {
     Approve = 'approve'
 }
 
-export type EventType = {
+export interface EventType {
     type: EventTypes
     asset: EventAssetType
-    created_timestamp: string
     from_account: UserType
     to_account: UserType
-    is_private: boolean
+    start_time: string
+    end_time: string
+    start_amount: string
+    end_amount: string
     payment_token: TokenType
-    quantity: number
-    total_price: number
+    is_private: Boolean
+    created_timestamp: string
+}
+
+export interface EventPostType {
+    type: EventTypes
+    asset: EventAssetType
+    from_account?: string // Username
+    to_account?: string // Username
+    start_time: string
+    end_time: string
+    start_amount: string
+    end_amount: string
+    payment_token?: string // Address
+    is_private: Boolean
 }
 
 export interface EventsType {

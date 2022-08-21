@@ -1,4 +1,5 @@
 export interface UserType {
+    id: number
     username: string
     address: string
     profile_img_url: string

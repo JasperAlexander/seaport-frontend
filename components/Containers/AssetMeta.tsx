@@ -6,6 +6,7 @@ import { Box } from '../Box/Box'
 import { FC } from 'react'
 import { VisibilityIcon } from '../Icons/VisibilityIcon'
 import { FavoriteFilledIcon } from '../Icons/FavoriteFilledIcon'
+import { truncateAddress, truncateEns } from '../../utils/truncateText'
 
 interface Props {
   asset: AssetType | undefined
@@ -53,7 +54,7 @@ export const AssetMeta: FC<Props> = ({
                 color: 'accentColor'
               })}
             >
-              {mounted ? asset?.owner?.username ? asset.owner.username : asset?.owner?.address : ''}
+              {mounted ? asset?.owner?.username ? truncateEns(asset.owner.username) : asset?.owner?.address ? truncateAddress(asset.owner.address) : '' : ''}
             </a>
           </Link>
         : ''}

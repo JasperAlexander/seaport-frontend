@@ -1,3 +1,5 @@
+import { SWRInfiniteResponse } from "swr/infinite"
+
 export enum ItemType {
     NATIVE = 0,
     ERC20 = 1,
@@ -14,7 +16,7 @@ export enum OrderTypes {
     PARTIAL_RESTRICTED = 3, // Partial fills supported, only offerer or zone can execute
 }
 
-export interface OfferItem {
+export interface OrderOfferType {
     itemType: ItemType
     token: string
     identifierOrCriteria: string
@@ -22,7 +24,7 @@ export interface OfferItem {
     endAmount: string
 }
   
-export interface ConsiderationItem {
+export interface OrderConsiderationType {
     itemType: ItemType
     token: string
     identifierOrCriteria: string
@@ -38,8 +40,8 @@ export interface OrderParametersType {
     startTime: string
     endTime: string
     orderType: number
-    offer: OfferItem[]
-    consideration: ConsiderationItem[]
+    offer: OrderOfferType[]
+    consideration: OrderConsiderationType[]
     totalOriginalConsiderationItems: number
     salt: string
     conduitKey: string
@@ -49,4 +51,21 @@ export interface OrderParametersType {
 export interface OrderType {
     parameters: OrderParametersType
     signature: string
+}
+
+export interface OrdersType {
+    next: string | null
+    previous: string | null
+    orders: OrderType[]
+}
+
+export interface OrdersQueryType {
+    sortBy?: string
+    parameters__offer__token?: string
+    parameters__offer__identifierOrCriteria?: string
+}
+
+export interface OrdersStateType {
+    orders: SWRInfiniteResponse<OrdersType, any>
+    ref: (node?: Element | null | undefined) => void
 }

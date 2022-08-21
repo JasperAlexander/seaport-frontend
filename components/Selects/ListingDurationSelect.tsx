@@ -2,23 +2,26 @@
 
 import { FC, useState } from 'react'
 import Select from 'react-select'
-import { CollectionType } from '../../types/collectionTypes'
-import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { ListAssetFormType } from '../Forms/ListAssetForm'
 
 interface Props {
-    mappedCollections: CollectionType[]
-    data: CreateAssetFormType
+    data: ListAssetFormType
     setData: (e: any) => void
 }
 
-export const CollectionSelect: FC<Props> = ({ 
-    mappedCollections,
+export const ListingDurationSelect: FC<Props> = ({ 
     data,
     setData
 }) => {
-    const [selectedOption, setSelectedOption] = useState<string>('')
-
-    const collectionSet = mappedCollections?.map((c) => ({['value']: c.slug, ['label']: c.name}))
+    const [selectedOption, setSelectedOption] = useState<any>({ value: '1', label: '1 day' })
+    const durationSet = [
+        { value: '86400', label: '1 day' },
+        { value: '259200', label: '3 days' },
+        { value: '604800', label: '7 days' },
+        { value: '2629743', label: '1 month' },
+        { value: '7889229', label: '3 months' },
+        { value: '15778458', label: '6 months' },
+    ]
 
     const customStyles = {
         container: (base: any) => ({
@@ -83,21 +86,21 @@ export const CollectionSelect: FC<Props> = ({
 
     return (
         <Select
-            key='collection'
-            name='selection'
-            placeholder='Select collection'
+            key='duration'
+            name='duration'
+            placeholder='Select duration'
             defaultValue={selectedOption}
             onChange={(e) => { 
                 setData({
                     ...data,
                     // @ts-ignore
-                    collection: e.value
-                })
-                // @ts-ignore
-                setSelectedOption(e.value) 
+                    duration: e.value
+              });
+              // @ts-ignore
+              setSelectedOption(e.value) 
             }}
             // @ts-ignore
-            options={collectionSet}
+            options={durationSet}
             styles={customStyles}
         />
     )
