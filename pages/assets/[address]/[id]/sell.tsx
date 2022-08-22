@@ -11,11 +11,14 @@ import setParams from '../../../../utils/params'
 import { ListAssetForm } from '../../../../components/Forms/ListAssetForm'
 import { Box } from '../../../../components/Box/Box'
 import { MainButton } from '../../../../components/Buttons/MainButton'
+import { TokensType } from '../../../../types/tokenTypes'
+import useTokens from '../../../../hooks/useTokens'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const SellAssetPage: NextPage<Props> = ({
     fallbackAsset,
+    fallbackTokens,
     contract_address,
     token_id
 }) => {
@@ -23,6 +26,7 @@ const SellAssetPage: NextPage<Props> = ({
 
     const router = useRouter()
     const asset = useAsset(fallbackAsset, contract_address, token_id)
+    const tokens = useTokens(router, fallbackTokens)
 
     const { address } = useAccount()
     const [isOwner, setIsOwner] = useState<boolean>(false)
@@ -70,6 +74,7 @@ const SellAssetPage: NextPage<Props> = ({
                         </Box>
                         <ListAssetForm 
                             asset={asset}
+                            tokens={tokens}
                         />
                     </Fragment>
                 }
@@ -89,9 +94,11 @@ export const getStaticPaths: GetStaticPaths = () => {
   
 export const getStaticProps: GetStaticProps<{
     fallbackAsset: AssetType
+    fallbackTokens: TokensType
     contract_address: string
     token_id: string
 }> = async ({ params }) => {
+    // ASSET
     const contract_address = params?.address?.toString()
     const token_id = params?.id?.toString()
   
@@ -118,10 +125,25 @@ export const getStaticProps: GetStaticProps<{
         notFound: true,
       }
     }
+
+    // TOKENS
+    const tokensOptions: RequestInit | undefined = {}
+
+    // Todo: add filter to only show tokens of user
+    const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
+
+    const tokensQuery = {}
+  
+    const tokensHref = setParams(tokensUrl, tokensQuery)
+  
+    const tokensRes = await fetch(tokensHref, tokensOptions)
+  
+    const fallbackTokens = (await tokensRes.json()) as TokensType
   
     return {
         props: { 
             fallbackAsset,
+            fallbackTokens,
             contract_address,
             token_id
         }

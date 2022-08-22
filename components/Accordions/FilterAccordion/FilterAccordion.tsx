@@ -34,7 +34,7 @@ export const FilterAccordion: React.FC<Props> = ({
     const router = useRouter()
 
     const [checkedState, setCheckedState] = useState<boolean[][]>(
-        new Array(6).fill(new Array(6).fill(false)) // Max amount of AccordionItemContent
+        new Array(6).fill(new Array(6).fill(false)) // Should be max amount of AccordionItemContent
     )
 
     const handleOnChange = (itemIndex: number, itemContentIndex: number) => {

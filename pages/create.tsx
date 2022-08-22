@@ -21,8 +21,6 @@ const CreateAssetPage: NextPage<Props> = ({
     const collections = useCollections(router, fallbackCollections)
     // const { client } = useIpfs()
     // const client = create({ host: '127.0.0.1', port: 5001, protocol: 'http' })
-
-    
     
     return (
         <Fragment>
@@ -32,8 +30,15 @@ const CreateAssetPage: NextPage<Props> = ({
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Box as='main' display='flex' alignItems='center' flexDirection='column'>
-                <CreateAssetForm collections={collections} />
+            <Box 
+                as='main' 
+                display='flex' 
+                alignItems='center' 
+                flexDirection='column'
+            >
+                <CreateAssetForm 
+                    collections={collections} 
+                />
             </Box>
         </Fragment>
     )

@@ -9,7 +9,7 @@ interface Props {
     children: ReactNode
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
-    data: OrderType
+    data: OrderType | AssetType
 }
 
 export const CancelListingDialogTrigger: FC<Props> = ({

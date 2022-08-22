@@ -21,7 +21,13 @@ export const ImageFormSection: FC<Props> = ({
                     fontSize='16'
                 >
                     Image
-                    <Box as='span' color='error' marginLeft='3'>*</Box>
+                    <Box 
+                        as='span' 
+                        color='error' 
+                        marginLeft='3'
+                    >
+                        *
+                    </Box>
                 </Box>
                 <Box
                     as='span'
@@ -48,7 +54,10 @@ export const ImageFormSection: FC<Props> = ({
                     // onBlur={() => validate()}
                     // onChangeCapture={}
                 />
-                <ImgIcon width='80' />
+                <ImgIcon 
+                    fill='defaultTextPlaceholder'
+                    width='80' 
+                />
                 <Box 
                     position='absolute'
                     inset='4'

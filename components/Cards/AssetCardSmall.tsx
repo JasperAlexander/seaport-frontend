@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import useSeaport from '../../hooks/useSeaport'
 import { EthIcon } from '../Icons/EthIcon'
-import { FC, useState, useCallback } from 'react'
+import { FC, useState } from 'react'
 import { Box } from '../Box/Box'
 import { AssetType } from '../../types/assetTypes'
 import { sprinkles } from '../../styles/sprinkles.css'
@@ -13,7 +13,7 @@ import useMounted from '../../hooks/useMounted'
 import { CompletePurchaseDialogTrigger } from '../DialogTriggers/CompletePurchaseDialogTrigger'
 import { CancelListingDialogTrigger } from '../DialogTriggers/CancelListingDialogTrigger'
 
-type Props = {
+interface Props {
     asset: AssetType
     mutate: () => void
     isOwner?: boolean

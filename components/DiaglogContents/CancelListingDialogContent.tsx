@@ -13,7 +13,7 @@ interface Props {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
     asset?: AssetType
-    order?: OrderType
+    order?: OrderType | AssetType
 }
 
 export const CancelListingDialogContent: FC<Props> = ({

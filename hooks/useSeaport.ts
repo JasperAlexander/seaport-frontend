@@ -3,9 +3,7 @@ import { Seaport } from '@opensea/seaport-js'
 import { ethers } from 'ethers'
 import useMounted from './useMounted'
 import { useEffect, useState } from 'react'
-import { mintERC721, ownerOfERC721 } from '../utils/minting'
-import { parseEther } from 'ethers/lib/utils'
-import { ItemType, OrderType } from '../types/orderTypes'
+import { ItemType } from '../types/orderTypes'
 import { ListAssetFormType } from '../components/Forms/ListAssetForm'
 import useApi from './useApi'
 import { EventTypes } from '../types/eventTypes'
@@ -46,13 +44,12 @@ export default function useSeaport() {
     const createOrder = async ({
         asset,
         from_account,
-        signer,
-        price,
+        startAmount,
+        endAmount,
         payment_token,
         duration
     }: ListAssetFormType) => {
         try {
-            console.log('inside createOrder with seaport: ', seaport)
             const { executeAllActions } = await seaport.createOrder({
                 endTime: (Math.floor(Date.now() / 1000) + Number(duration)).toString(),
                 offer: [
@@ -64,21 +61,14 @@ export default function useSeaport() {
                 ],
                 consideration: [
                     {
-                        amount: price.toString(), // parseEther? Don't forget floats (using Number())
-                        token: payment_token, // payment_token,
-                        recipient: asset.owner.address
+                        amount: startAmount,
+                        token: payment_token,
+                        recipient: from_account
                     }
                 ]
             })
+            const receipt = await executeAllActions()
 
-            console.log('executeAllActions', executeAllActions)
-            let receipt
-            try {
-                receipt = await executeAllActions()
-            } catch(err) {
-                console.log(err)
-            }
-            console.log('receipt', receipt)
             saveOrder(receipt)
             saveEvent({
                 type: EventTypes.Created,
@@ -86,8 +76,8 @@ export default function useSeaport() {
                 from_account: from_account,
                 start_time: Math.floor(Date.now() / 1000).toString(),
                 end_time: (Math.floor(Date.now() / 1000) + Number(duration)).toString(),
-                start_amount: price.toString(),
-                end_amount: price.toString(),
+                start_amount: startAmount,
+                end_amount: endAmount,
                 payment_token: payment_token,
                 is_private: false
             })

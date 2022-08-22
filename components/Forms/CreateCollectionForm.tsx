@@ -11,27 +11,37 @@ import { SupplyFormSection } from '../FormSections/SupplyFormSection'
 import { BlockchainFormSection } from '../FormSections/BlockchainFormSection'
 import { SpecialsFormSection } from '../FormSections/SpecialsFormSection'
 import { MainButton } from '../Buttons/MainButton'
+import { TokensStateType } from '../../types/tokenTypes'
 
-// To do: find out why this cannot be moved to assetTypes.ts
-export interface CreateAssetFormType {
+// To do: find out why this cannot be moved to collectionTypes.ts
+export interface CreateCollectionFormType {
     image_url: string
+    featured_image_url: string
+    banner_image_url: string
     name: string
-    external_link: string
+    slug: string
     description: string
-    collection: number
-    unlockable: string
-    supply: number
+    category: string
+    external_link: string
+    discord_link: string
+    instagram_link: string
+    medium_link: string
+    telegram_link: string
+    // Creator earnings
+    blockchain: string
+    payment_tokens: string[]
+    display_type: string
     is_nsfw: boolean
 }
 
 interface Props {
-    collections: CollectionsStateType
+    tokens: TokensStateType
 }
 
-export const CreateAssetForm: FC<Props> = ({
-    collections: { collections }
+export const CreateCollectionForm: FC<Props> = ({
+    tokens: { tokens }
 }) => {
-    const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<CreateAssetFormType>({
+    const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<CreateCollectionFormType>({
         validations: {
             // image_url: {
             //     pattern: {
@@ -76,41 +86,26 @@ export const CreateAssetForm: FC<Props> = ({
                     isValid: (value) => value?.length ? value.length < 2000 : true,
                     message: 'Description must not exceed 2000 characters.'
                 }
-            },
-            collection: {
-                pattern: {
-                    value: '^[A-Za-z0-9 ]*$',
-                    message: 'Collection name must only contain alphanumeric characters.'
-                },
-                custom: {
-                    isValid: (value) => value?.length ? value.length < 2000 : true,
-                    message: 'Collection name must not exceed 50 characters.'
-                }
-            },
-            supply: {
-                pattern: {
-                    value: '^[0-9]*$',
-                    message: 'Supply must be a number.'
-                },
-                required: {
-                    value: true,
-                    message: 'This field is required.'
-                },
-                custom: {
-                    isValid: (value) => value?.length ? value.length < 6 : true,
-                    message: 'Supply must not exceed 5 numbers.'
-                }
-            },
+            }
         },
         onSubmit: () => { alert('Asset submitted!'); console.log(data); }, // Open modal
         initialValues: {
             image_url: 'https://www.gaiazoo.nl/CropUp/800x600/media/1986228/giraffe-afb-website.jpg',
+            featured_image_url: 'https://www.gaiazoo.nl/CropUp/800x600/media/1986228/giraffe-afb-website.jpg',
+            banner_image_url: 'https://www.gaiazoo.nl/CropUp/800x600/media/1986228/giraffe-afb-website.jpg',
             name: '',
-            external_link: '',
+            slug: '',
             description: '',
-            collection: 0,
-            unlockable: '',
-            supply: 1,
+            category: '',
+            external_link: '',
+            discord_link: '',
+            instagram_link: '',
+            medium_link: '',
+            telegram_link: '',
+            // Creator earnings
+            blockchain: '',
+            payment_tokens: [''],
+            display_type: '',
             is_nsfw: false
         },
     })
@@ -131,7 +126,7 @@ export const CreateAssetForm: FC<Props> = ({
                     paddingBottom='16' 
                     fontWeight='600'
                 >
-                    Create new asset
+                    Create new collection
                 </Box>
             </Box>
             <Box
@@ -151,47 +146,22 @@ export const CreateAssetForm: FC<Props> = ({
                 <ImageFormSection />
                 
                 <NameFormSection 
-                    placeholder='Asset name'
+                    placeholder='Example: Treasures of the Sea'
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 
                     data={data} 
                 />
                
-                <ExternalLinkFormSection 
+                {/* <ExternalLinkFormSection 
                     handleChange={handleChange} 
                     validate={validate} 
                     setErrors={setErrors}
                     errors={errors} 
                     data={data} 
-                />
+                /> */}
 
                 <DescriptionFormSection 
-                    label={`The description will be included on the item's detail page underneath its image.`}
-                    handleChange={handleChange} 
-                    validate={validate} 
-                    errors={errors} 
-                    data={data} 
-                />
-                
-                <CollectionFormSection 
-                    handleChange={handleChange} 
-                    validate={validate} 
-                    errors={errors} 
-                    data={data} 
-                    collections={collections} 
-                    setData={setData} 
-                />
-                
-                <SpecialsFormSection 
-                    handleChange={handleChange} 
-                    validate={validate} 
-                    errors={errors} 
-                    data={data}
-                    setData={setData}
-                />
-
-                <SupplyFormSection 
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 

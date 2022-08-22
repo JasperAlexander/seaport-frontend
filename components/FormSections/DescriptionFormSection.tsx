@@ -4,15 +4,18 @@ import * as styles from './FormSection.css'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Textarea } from '../Textarea/Textarea'
 import { CloseIcon } from '../Icons/CloseIcon'
+import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 
 interface Props {
-    handleChange: <S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
+    label?: string
+    handleChange: (<S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) | (<S extends unknown>(key: keyof CreateCollectionFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void)
     validate: () => void
-    errors: Partial<Record<keyof CreateAssetFormType, string>>
-    data: CreateAssetFormType
+    errors: (Partial<Record<keyof CreateAssetFormType, string>>) | (Partial<Record<keyof CreateCollectionFormType, string>>)
+    data: CreateAssetFormType | CreateCollectionFormType
 }
 
 export const DescriptionFormSection: FC<Props> = ({
+    label,
     handleChange,
     validate,
     errors,
@@ -34,7 +37,7 @@ export const DescriptionFormSection: FC<Props> = ({
                     marginTop='4'
                     color='boxText'
                 >
-                    The description will be included on the item's detail page underneath its image. 
+                    {label}
                     <Box 
                         as='a' 
                         href='https://www.markdownguide.org/cheat-sheet/' 

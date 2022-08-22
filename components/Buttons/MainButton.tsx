@@ -12,9 +12,9 @@ const sizeVariants: Record<
     }
 > = {
     large: {
-        fontSize: '20',
-        paddingX: '28',
-        paddingY: '20'
+        fontSize: '16',
+        paddingX: '48',
+        paddingY: '16'
     },
     medium: {
         fontSize: '16',
@@ -111,7 +111,7 @@ export const MainButton: FC<Props> = ({
                 boxShadow={{ hover: 'subHeader' }}
                 background={background}
                 opacity={{ disabled: 'disabled' }}
-                cursor={{ disabled: 'default' }}
+                cursor={{ base: 'pointer', disabled: 'default' }}
 
                 borderRadius='10'
                 borderWidth='2'

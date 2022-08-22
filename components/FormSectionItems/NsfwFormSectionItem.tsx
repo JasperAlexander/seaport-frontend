@@ -1,14 +1,18 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Box } from '../Box/Box'
 import * as styles from './FormSectionItem.css'
 import { WarningIcon } from '../Icons/WarningIcon'
+import { FormToggle } from '../Toggles/FormToggle'
+import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 
 interface Props {
-    
+    data: CreateAssetFormType
+    setData: (e: any) => void
 }
 
 export const NsfwFormSectionItem: FC<Props> = ({
-    
+    data,
+    setData
 }) => {
     return (
         <Box className={styles.formItemSectionItem}>
@@ -33,13 +37,13 @@ export const NsfwFormSectionItem: FC<Props> = ({
                     </Box>
                 </Box>
                 <Box>
-                    <Box
-                        display='flex'
-                        alignItems='center'
-                        justifyContent='center'
-                    >
-                        {/* Input checkbox */}
-                    </Box>
+                    <FormToggle 
+                        active={data.is_nsfw}
+                        setActive={() => setData({
+                            ...data,
+                            is_nsfw: !data.is_nsfw
+                        })}
+                    />
                 </Box>
             </Box>
         </Box>

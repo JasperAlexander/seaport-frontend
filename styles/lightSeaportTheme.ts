@@ -34,6 +34,7 @@ export const lightSeaportTheme = ({
     boxText: 'rgb(112, 122, 131)',
 
     accordionBackground: 'rgb(255, 253, 251)', // Based on orange accentColor
+    tabBackground: 'rgb(254, 248, 243)', // Based on orange accentColor
 
     black: '#000000',
     white: '#ffffff',
@@ -51,6 +52,7 @@ export const lightSeaportTheme = ({
     defaultText: 'rgb(53, 56, 64)',
     defaultTextHover: 'rgb(0, 0, 0)',
     defaultTextPlaceholder: 'rgb(138, 147, 155)',
+    defaultTextPlaceholderHover: 'rgb(76, 80, 92)',
 
     error: '#FF494A',
     
@@ -78,7 +80,10 @@ export const lightSeaportTheme = ({
     dialog: '0px 8px 32px rgba(0, 0, 0, 0.32)',
 
     header: 'rgba(4, 17, 29, 0.25) 0px 0px 8px 0px',
-    subHeader: 'rgba(0, 0, 0, 0.1) 0px 2px 10px'
+    subHeader: 'rgba(0, 0, 0, 0.1) 0px 2px 10px',
+
+    featuredCard: 'rgba(4, 17, 29, 0.25) 0px 0px 10px 0px',
+    featuredCardHover: 'rgba(4, 17, 29, 0.25) 0px 0px 50px 0px'
   },
 })
 

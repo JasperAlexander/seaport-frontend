@@ -28,8 +28,6 @@ export const CollectionFormSection: FC<Props> = ({
 }) => {
     const { data: collectionsData, isValidating, size } = collections
     const mappedCollections = collectionsData ? collectionsData.map(({ collections }) => collections).flat() : []
-
-    const collectionInputRef = useRef<any>(null)
     
     return (
         <Box className={styles.formItem}>

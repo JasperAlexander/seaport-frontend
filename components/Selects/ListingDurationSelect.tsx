@@ -33,6 +33,7 @@ export const ListingDurationSelect: FC<Props> = ({
         }),
         control: (base: any, state: any) => ({
             ...base,
+            cursor: 'pointer',
             height: '48px',
             borderWidth: '2px',
             borderRadius: '10px',
@@ -73,6 +74,7 @@ export const ListingDurationSelect: FC<Props> = ({
         }),
         option: (base: any, state: any) => ({
             ...base,
+            cursor: 'pointer',
             borderBottom: '1px solid rgb(229, 232, 235)',
             padding: '16px',
             backgroundColor: state.isSelected ? 'white' : 'white',

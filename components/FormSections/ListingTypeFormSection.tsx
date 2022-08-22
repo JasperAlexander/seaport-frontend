@@ -11,13 +11,15 @@ interface Props {
     validate: () => void
     errors: Partial<Record<keyof ListAssetFormType, string>>
     data: ListAssetFormType
+    setData: (e: any) => void
 }
 
 export const ListingTypeFormSection: FC<Props> = ({
     handleChange,
     validate,
     errors,
-    data
+    data,
+    setData
 }) => {
     return (
         <Box className={styles.formItem}>
@@ -39,7 +41,17 @@ export const ListingTypeFormSection: FC<Props> = ({
                     style={{height: '108px'}}
                 >
                     <Box
+                        as='button'
+                        type='button'
                         display='inline-flex'
+                        onClick={() => {
+                            setData({
+                                ...data,
+                                // @ts-ignore
+                                listing_type: 'fixed'
+                            })
+                        }}
+                        background={data.listing_type === 'fixed' ? 'tabBackground' : 'defaultBackground'}
                         flexDirection='column'
                         gap='10'
                         alignItems='center'
@@ -66,12 +78,22 @@ export const ListingTypeFormSection: FC<Props> = ({
                         Fixed Price
                     </Box>
                     <Box
+                        as='button'
+                        type='button'
                         display='inline-flex'
+                        onClick={() => {
+                            setData({
+                                ...data,
+                                // @ts-ignore
+                                listing_type: 'timed'
+                            })
+                        }}
                         flexDirection='column'
                         gap='10'
                         alignItems='center'
                         justifyContent='center'
                         paddingY='16'
+                        background={data.listing_type === 'timed' ? 'tabBackground' : 'defaultBackground'}
                         paddingX='24'
                         fontWeight='600'
                         fontSize='16'
@@ -88,7 +110,7 @@ export const ListingTypeFormSection: FC<Props> = ({
                         Timed Auction
                     </Box>
                 </Box>
-                {errors.type &&
+                {errors.listing_type &&
                     <Box
                         display='flex'
                         alignItems='center'
@@ -100,7 +122,7 @@ export const ListingTypeFormSection: FC<Props> = ({
                             marginLeft='2'
                             fontSize='12'
                         >
-                            {errors.type}
+                            {errors.listing_type}
                         </Box>
                     </Box>
                 }

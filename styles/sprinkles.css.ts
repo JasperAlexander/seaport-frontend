@@ -21,6 +21,7 @@ const themeContractValues = {
     actionButtonSecondaryBackground: '',
 
     accordionBackground: '',
+    tabBackground: '',
 
     black: '',
     white: '',
@@ -41,6 +42,7 @@ const themeContractValues = {
     defaultText: '',
     defaultTextHover: '',
     defaultTextPlaceholder: '',
+    defaultTextPlaceholderHover: '',
 
     error: '',
 
@@ -71,7 +73,10 @@ const themeContractValues = {
     dialog: '',
 
     header: '',
-    subHeader: ''
+    subHeader: '',
+
+    featuredCard: '',
+    featuredCardHover: ''
   },
 }
 
@@ -104,6 +109,7 @@ const dimensions = {
   '8': '8px',
   '10': '10px',
   '12': '12px',
+  '14': '14px',
   '15': '15px',
   '16': '16px',
   '18': '18px',
@@ -165,7 +171,7 @@ const weights = {
   '900': '900',
 }
 
-const flexAlignment = ['flex-start', 'flex-end', 'center'] as const
+const flexAlignment = ['flex-start', 'flex-end', 'center', 'stretch'] as const
 const displayOptions = ['none', 'block', 'flex', 'inline', 'inline-flex', 'grid', 'initial'] as const
 
 const textAlignments = ['left', 'center', 'right', 'inherit'] as const
@@ -208,7 +214,7 @@ const staticProperties = defineProperties({
     },
     flexGrow: ['0', '1', '2', '3', '4'],
     flexShrink: ['0', '1', '2', '3', '4'],
-    flexWrap: ['wrap'],
+    flexWrap: ['wrap', 'nowrap'],
 
     fontFamily: themeVars.fonts,
     fontSize: {
@@ -295,6 +301,7 @@ const dynamicProperties = defineProperties({
     disabled: { selector: '&:disabled' },
 
     placeholder: { selector: '&::placeholder' },
+    after: { selector: '&::after' },
 
     firstchild: { selector: '&:first-child' },
     notfirstchild: { selector: '&:not(:first-child)' },
@@ -339,6 +346,10 @@ const dynamicProperties = defineProperties({
     top: dimensions,
     right: dimensions,
 
+    content: {
+      'empty': `''`
+    },
+
     cursor: ['pointer', 'default'],
 
     display: displayOptions,
@@ -365,7 +376,11 @@ const dynamicProperties = defineProperties({
       'shrinkSm': '0.9'
     },
     
-    transform: ['rotate(180deg)'] as const,
+    transform: [
+      'rotate(180deg)', 
+      'translateX(22px)',
+      'translateX(0px)'
+    ] as const,
     transition: {
       default: '0.125s ease',
       inputBorderColor: 'border-color 0.25s ease-in-out 0s, background-color 0.25s ease-in-out 0s',
@@ -374,7 +389,9 @@ const dynamicProperties = defineProperties({
       borderRadius: 'border-radius 300ms ease-in-out',
       progress: 'fill 0.4s ease-in 0s',
       bottom: 'bottom 0.25s ease-in-out 0s, visibility 0s ease 0.25s',
-      opacity: 'opacity 0.25s ease-in-out 0s'
+      opacity: 'opacity 0.25s ease-in-out 0s',
+      boxShadow: 'box-shadow 0.3s ease-in 0s',
+      toggle: 'all 0.3s ease-out 0s'
     },
     transitionDelay: {
       borderRadius: '100ms'

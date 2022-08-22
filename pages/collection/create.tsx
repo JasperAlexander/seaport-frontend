@@ -1,39 +1,20 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'
-import { useState, Fragment } from 'react'
+import { Fragment } from 'react'
 import { Box } from '../../components/Box/Box'
-import { Input } from '../../components/Input/Input'
-import { CreateCollectionButton } from '../../components/Buttons/CreateCollectionButton'
-import { CollectionInputType } from '../../types/collectionTypes'
+import { TokensType } from '../../types/tokenTypes'
+import setParams from '../../utils/params'
+import useTokens from '../../hooks/useTokens'
+import { useRouter } from 'next/router'
+import { CreateCollectionForm } from '../../components/Forms/CreateCollectionForm'
 
-const CreateCollectionPage: NextPage = () => {
-    const [inputState, setInputState] = useState<CollectionInputType>({
-        name: '',
-        description: '',
-        slug: '',
-        banner_image_url: '',
-        image_url: '',
-        external_url: '',
-        twitter_username: '',
-        instagram_username: '',
-        medium_username: '',
-        is_nsfw: false,
-        payment_tokens: null
-    })
+type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(e.target.files) {
-            setInputState({
-                ...inputState,
-                [e.target.name]: e.target.files[0]
-            })
-        } else {
-            setInputState({
-                ...inputState,
-                [e.target.name]: e.target.value
-            })
-        }
-    }
+const CreateCollectionPage: NextPage<Props> = ({
+    fallbackTokens
+}) => {
+    const router = useRouter()
+    const tokens = useTokens(router, fallbackTokens)
     
     return (
         <Fragment>
@@ -46,41 +27,34 @@ const CreateCollectionPage: NextPage = () => {
             <Box
                 as='main'
             >
-                test
-                {/* <Box padding='44'>
-                    <Box as='h1' size='32' weight='700'>Create Collection</Text>
-
-                    <Box display='flex' flexDirection='column' gap='12' alignItems='flex-start' marginTop='18'>
-                        <Text as='label' weight='700'>Name</Text>
-                        <Input 
-                            type='text'
-                            name='name' 
-                            value={inputState.name} 
-                            onChange={handleInputChange} 
-                        />
-
-                        <Text as='label' weight='700'>URL</Text>
-                        <Input 
-                            type='text'
-                            name='external_url' 
-                            value={inputState.external_url} 
-                            onChange={handleInputChange} 
-                        />
-
-                        <Text as='label' weight='700'>Description</Text>
-                        <Input 
-                            type='text'
-                            name='description' 
-                            value={inputState.description} 
-                            onChange={handleInputChange} 
-                        />
-
-                        <CreateCollectionButton inputState={inputState} />
-                    </Box>
-                </Box> */}
+                <CreateCollectionForm 
+                    tokens={tokens}
+                />
             </Box>
         </Fragment>
     )
 }
 
 export default CreateCollectionPage
+
+export const getStaticProps: GetStaticProps<{
+    fallbackTokens: TokensType
+}> = async () => {
+    const tokensOptions: RequestInit | undefined = {}
+
+    const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
+
+    const tokensQuery = {}
+  
+    const tokensHref = setParams(tokensUrl, tokensQuery)
+  
+    const tokensRes = await fetch(tokensHref, tokensOptions)
+  
+    const fallbackTokens = (await tokensRes.json()) as TokensType
+  
+    return {
+        props: { 
+            fallbackTokens
+        }
+    }
+}

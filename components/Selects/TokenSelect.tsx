@@ -2,26 +2,27 @@
 
 import { FC, useState } from 'react'
 import Select from 'react-select'
-import { CollectionType } from '../../types/collectionTypes'
-import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { TokenType } from '../../types/tokenTypes'
+import { Box } from '../Box/Box'
+import { ListAssetFormType } from '../Forms/ListAssetForm'
 
 interface Props {
-    mappedCollections: CollectionType[]
-    data: CreateAssetFormType
+    mappedTokens: TokenType[]
+    data: ListAssetFormType
     setData: (e: any) => void
 }
 
-export const CollectionSelect: FC<Props> = ({ 
-    mappedCollections,
+export const TokenSelect: FC<Props> = ({ 
+    mappedTokens,
     data,
     setData
 }) => {
-    const [selectedOption, setSelectedOption] = useState<string>('')
-
-    const collectionSet = mappedCollections?.map((c) => ({
-        ['value']: c.slug, 
-        ['label']: c.name
+    const tokenSet = mappedTokens?.map((t) => ({
+        ['value']: t.address, 
+        ['label']: t.symbol,
+        ['image_url']: t.image_url
     }))
+    const [selectedOption, setSelectedOption] = useState<any>(tokenSet.length > 0 ? tokenSet[0] : {})
 
     const customStyles = {
         container: (base: any) => ({
@@ -33,7 +34,10 @@ export const CollectionSelect: FC<Props> = ({
         }),
         control: (base: any, state: any) => ({
             ...base,
+            cursor: 'pointer',
             height: '48px',
+            width: '160px',
+            display: 'flex',
             borderWidth: '2px',
             borderRadius: '10px',
             borderColor: state.isFocused ? '#a7a7a7' : 'rgb(229, 232, 235)',
@@ -81,27 +85,61 @@ export const CollectionSelect: FC<Props> = ({
                 boxShadow: 'rgba(4, 17, 29, 0.25) 0px 0px 8px 0px',
                 backgroundColor: 'white'
             }
+        }),
+        noOptionsMessage: (base: any) => ({
+            ...base,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '48px'
         })
+    }
+
+    const TokenOption = (props: any) => {
+        const { innerProps, innerRef } = props
+
+        return (
+            <Box
+                display='flex'
+                alignItems='center'
+                height='48'
+                padding='12'
+                gap='4'
+                cursor='pointer'
+                {...innerProps}
+            >
+                <Box 
+                    as='img'
+                    width='24'
+                    aspectRatio='1'
+                    src={props.data?.image_url}
+                />
+                <Box>
+                    {props.data?.label}
+                </Box>
+            </Box>
+        )
     }
 
     return (
         <Select
-            key='collection'
-            name='selection'
-            placeholder='Select collection'
+            key='payment_token'
+            name='payment_token'
+            placeholder='Select token'
             defaultValue={selectedOption}
             onChange={(e) => { 
                 setData({
                     ...data,
                     // @ts-ignore
-                    collection: e.value
+                    duration: e.value
                 })
-                // @ts-ignore
-                setSelectedOption(e.value) 
+              // @ts-ignore
+              setSelectedOption(e.value) 
             }}
             // @ts-ignore
-            options={collectionSet}
-            noOptionsMessage={() => 'No collections found'}
+            options={tokenSet}
+            components={{Option: TokenOption}} // To do: add selected token image url to control (component)
+            noOptionsMessage={() => 'No tokens found'}
             styles={customStyles}
         />
     )

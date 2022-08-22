@@ -11,6 +11,7 @@ import { MainButton } from '../../Buttons/MainButton'
 import { MakeOfferDialogTrigger } from '../../DialogTriggers/MakeOfferDialogTrigger'
 import { useAccount } from 'wagmi'
 import { PriceTagIcon } from '../../Icons/PriceTagIcon'
+import useMounted from '../../../hooks/useMounted'
 
 interface Props {
     asset: AssetType | undefined
@@ -22,10 +23,11 @@ export const AssetPriceAccordion: FC<Props> = ({
     lastListingEvent
 }) => {
     const [makeOfferDialogOpen, setMakeOfferDialogOpen] = useState<boolean>(false)
+    const { mounted } = useMounted()
 
     const isListed: boolean = lastListingEvent?.type === EventTypes.Created
     const [lastListingFormattedTimeStamp, setLastListingFormattedTimeStamp] = useState<string | undefined>(undefined)
-    if (isListed) {
+    if (mounted && isListed) {
         const lastListingTimeStamp = new Date(lastListingEvent.created_timestamp)
         const formattedLastListingTimeStamp = new Intl.DateTimeFormat("en-GB", {
             year: 'numeric',

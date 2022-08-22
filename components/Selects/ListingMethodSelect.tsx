@@ -2,26 +2,22 @@
 
 import { FC, useState } from 'react'
 import Select from 'react-select'
-import { CollectionType } from '../../types/collectionTypes'
-import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { ListAssetFormType } from '../Forms/ListAssetForm'
 
 interface Props {
-    mappedCollections: CollectionType[]
-    data: CreateAssetFormType
+    data: ListAssetFormType
     setData: (e: any) => void
 }
 
-export const CollectionSelect: FC<Props> = ({ 
-    mappedCollections,
+export const ListingMethodSelect: FC<Props> = ({ 
     data,
     setData
 }) => {
-    const [selectedOption, setSelectedOption] = useState<string>('')
-
-    const collectionSet = mappedCollections?.map((c) => ({
-        ['value']: c.slug, 
-        ['label']: c.name
-    }))
+    const [selectedOption, setSelectedOption] = useState<any>({ value: 'english', label: 'Sell to highest bidder' })
+    const methodSet = [
+        { value: 'english', label: 'Sell to highest bidder' },
+        { value: 'dutch', label: 'Sell with declining price' }
+    ]
 
     const customStyles = {
         container: (base: any) => ({
@@ -86,22 +82,21 @@ export const CollectionSelect: FC<Props> = ({
 
     return (
         <Select
-            key='collection'
-            name='selection'
-            placeholder='Select collection'
+            key='method'
+            name='method'
+            placeholder='Select method'
             defaultValue={selectedOption}
             onChange={(e) => { 
                 setData({
                     ...data,
                     // @ts-ignore
-                    collection: e.value
-                })
-                // @ts-ignore
-                setSelectedOption(e.value) 
+                    method: e.value
+              });
+              // @ts-ignore
+              setSelectedOption(e.value) 
             }}
             // @ts-ignore
-            options={collectionSet}
-            noOptionsMessage={() => 'No collections found'}
+            options={methodSet}
             styles={customStyles}
         />
     )

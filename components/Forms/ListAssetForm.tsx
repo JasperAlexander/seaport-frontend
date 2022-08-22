@@ -18,6 +18,8 @@ import TestERC721 from '../../artifacts/contracts/test/TestERC721.sol/TestERC721
 import { mintERC721 } from '../../utils/minting'
 import { useRouter } from 'next/router'
 import useUsers from '../../hooks/useUsers'
+import { TokensStateType } from '../../types/tokenTypes'
+import { ListingMethodFormSection } from '../FormSections/ListingMethodFormSection'
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface ListAssetFormType {
@@ -26,9 +28,11 @@ export interface ListAssetFormType {
     token_id: string
     owner: string
     contract_address: string
-    type: string
+    listing_type: string
+    method: string
     payment_token: string
-    price: number
+    startAmount: string
+    endAmount: string
     duration: string
     from_account: string
     to_account: string
@@ -36,10 +40,12 @@ export interface ListAssetFormType {
 
 interface Props {
     asset: SWRResponse<AssetType, any> | undefined
+    tokens: TokensStateType
 }
 
 export const ListAssetForm: FC<Props> = ({
-    asset
+    asset,
+    tokens: { tokens }
 }) => {
     const [completeListingDialogOpen, setCompleteListingDialogOpen] = useState<boolean>(false)
     const { listingStatus, createOrder } = useSeaport()
@@ -57,9 +63,9 @@ export const ListAssetForm: FC<Props> = ({
 
     const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<ListAssetFormType>({
         validations: {
-            price: {
+            startAmount: {
                 pattern: {
-                    value: '^[0-9]*$',
+                    value: '^[0-9.]*$',
                     message: 'Price must be a number.'
                 },
                 required: {
@@ -71,18 +77,34 @@ export const ListAssetForm: FC<Props> = ({
                     message: 'Price must not exceed 5 numbers.'
                 }
             },
+            endAmount: {
+                pattern: {
+                    value: '^[0-9.]*$',
+                    message: 'Price must be a number.'
+                },
+                required: {
+                    value: true,
+                    message: 'This field is required.'
+                },
+                custom: {
+                    isValid: (value) => value?.length ? value.length < 6 : true,
+                    message: 'Price must not exceed 5 numbers.'
+                }
+            }
         },
         onSubmit: () => { return null },
         initialValues: {
             asset: asset?.data,
             signer: mounted && signer ? signer : undefined,
-            type: '',
+            listing_type: '',
+            method: 'english',
             // address of selected payment token, current is address of TestERC20
-            payment_token: '1',
-            price: 1,
+            payment_token: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
+            startAmount: '1',
+            endAmount: '1',
             duration: '',
-            from_account: '1', // users?.users?.data?.[0]?.id.toString(),
-            to_account: ''
+            from_account: asset?.data?.owner?.address, // users?.users?.data?.[0]?.id.toString(),
+            to_account: undefined
         },
     })
 
@@ -124,12 +146,25 @@ export const ListAssetForm: FC<Props> = ({
                     validate={validate}
                     errors={errors}
                     data={data}
+                    setData={setData}
                 />
+                {data.listing_type === 'timed' &&
+                    <ListingMethodFormSection 
+                        handleChange={handleChange}
+                        validate={validate}
+                        errors={errors}
+                        data={data}
+                        setData={setData}
+                    />
+                }
                 <ListingPriceFormSection
                     handleChange={handleChange}
                     validate={validate}
                     errors={errors}
                     data={data}
+                    tokens={tokens}
+                    setData={setData}
+                    label={data.listing_type === 'timed' ? 'Starting price' : 'Price'}
                 />
                 <ListingDurationFormSection
                     handleChange={handleChange}
@@ -138,12 +173,23 @@ export const ListAssetForm: FC<Props> = ({
                     data={data}
                     setData={setData}
                 />
-                <ListingReserveFormSection
+                {data.listing_type === 'timed' && data.method === 'dutch' &&
+                    <ListingPriceFormSection
+                        handleChange={handleChange}
+                        validate={validate}
+                        errors={errors}
+                        data={data}
+                        tokens={tokens}
+                        setData={setData}
+                        label='Ending price'
+                    />
+                }
+                {/* <ListingReserveFormSection
                     handleChange={handleChange}
                     validate={validate}
                     errors={errors}
                     data={data}
-                />
+                /> */}
 
                 <Box 
                     height='0'
@@ -202,12 +248,9 @@ export const ListAssetForm: FC<Props> = ({
                             if (mounted && 
                                 owner !== address && // Make this line a comment if you've reset your account
                                 signer && address) await mintERC721(signer, address, asset?.data?.token_id)
-                            try {
-                                await createOrder(data)
-                            } catch(err) {
-                                console.log(err)
-                            }
-                            // router.back()
+                            await createOrder(data)
+
+                            router.back()
                         }}
                         // disabled={Object.keys(errors).length > 0 || listingStatus > 0}
                     >
