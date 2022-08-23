@@ -2,7 +2,6 @@ import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage 
 import Head from 'next/head'
 import { Fragment, useEffect, useState } from 'react'
 import { Box } from '../../../../components/Box/Box'
-import { sprinkles } from '../../../../styles/sprinkles.css'
 import { AssetCardLarge } from '../../../../components/Cards/AssetCardLarge'
 import { AssetPriceAccordion } from '../../../../components/Accordions/AssetPriceAccordion/AssetPriceAccordion'
 import { AssetHeader } from '../../../../components/Headers/AssetHeader'
@@ -10,7 +9,6 @@ import { AssetMeta } from '../../../../components/Containers/AssetMeta'
 import useAsset from '../../../../hooks/useAsset'
 import { AssetType } from '../../../../types/assetTypes'
 import setParams from '../../../../utils/params'
-import useMounted from '../../../../hooks/useMounted'
 import { EventsQueryType, EventsType, EventType, EventTypes } from '../../../../types/eventTypes'
 import useEvents from '../../../../hooks/useEvents'
 import { useRouter } from 'next/router'
@@ -23,6 +21,8 @@ import { useAccount } from 'wagmi'
 import { MainButton } from '../../../../components/Buttons/MainButton'
 import { OrdersQueryType, OrdersType } from '../../../../types/orderTypes'
 import useOrders from '../../../../hooks/useOrders'
+import useTokens from '../../../../hooks/useTokens'
+import { TokensQueryType, TokensType } from '../../../../types/tokenTypes'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -30,6 +30,7 @@ const AssetPage: NextPage<Props> = ({
     fallbackAsset,
     fallbackEvents,
     fallbackOrders,
+    fallbackTokens,
     contract_address,
     token_id
 }) => {
@@ -37,6 +38,7 @@ const AssetPage: NextPage<Props> = ({
     const asset = useAsset(fallbackAsset, contract_address, token_id)
     const events = useEvents(router, fallbackEvents, contract_address, token_id)
     const orders = useOrders(router, fallbackOrders, contract_address, token_id)
+    const tokens = useTokens(router, fallbackTokens)
 
     const { address } = useAccount()
     const [isOwner, setIsOwner] = useState<boolean>(false)
@@ -70,14 +72,12 @@ const AssetPage: NextPage<Props> = ({
 
             <MainLayout>
                 <Box
-                    display='none'
+                    display={{
+                        base: 'none',
+                        wideScreen: 'flex',
+                        largeScreen: 'flex'
+                    }}
                     width='full'
-                    className={sprinkles({
-                        display: {
-                            wideScreen: 'flex',
-                            largeScreen: 'flex'
-                        }
-                    })}
                 >
                     <Box
                         display='flex'
@@ -129,8 +129,12 @@ const AssetPage: NextPage<Props> = ({
                                 maxWidth='43p'
                                 width='0'
                             >
-                                <AssetCardLarge asset={asset?.data} />
-                                <AssetInfoAccordion data={asset?.data} />
+                                <AssetCardLarge 
+                                    asset={asset?.data} 
+                                />
+                                <AssetInfoAccordion 
+                                    data={asset?.data} 
+                                />
                             </Box>
                             <Box
                                 flexGrow='4'
@@ -138,12 +142,17 @@ const AssetPage: NextPage<Props> = ({
                                 flexBasis='0'
                                 marginLeft='-20'
                             >
-                                <AssetHeader asset={asset?.data} />
-                                <AssetMeta asset={asset?.data} />
+                                <AssetHeader 
+                                    asset={asset?.data} 
+                                />
+                                <AssetMeta 
+                                    asset={asset?.data} 
+                                />
                                 {!isOwner &&
                                     <AssetPriceAccordion 
                                         asset={asset?.data}
                                         lastListingEvent={lastListingEvent}
+                                        tokens={tokens}
                                     />
                                 }
                                 <ListingsAccordion
@@ -175,15 +184,13 @@ const AssetPage: NextPage<Props> = ({
                     paddingBottom='16'
                     paddingX='8'
                     width='full'
-                    display='flex'
+                    display={{
+                        base: 'flex',
+                        wideScreen: 'none',
+                        largeScreen: 'none'
+                    }}
                     flexDirection='column'
                     alignItems='center'
-                    className={sprinkles({
-                        display: {
-                            wideScreen: 'none',
-                            largeScreen: 'none'
-                        }
-                    })}
                 >
                     <Box
                         display='flex'
@@ -191,13 +198,20 @@ const AssetPage: NextPage<Props> = ({
                         flexWrap='wrap'
                         justifyContent='space-between'
                     >
-                        <AssetHeader asset={asset?.data} />
-                        <AssetCardLarge asset={asset?.data} />
-                        <AssetMeta asset={asset?.data} />
+                        <AssetHeader 
+                            asset={asset?.data} 
+                        />
+                        <AssetCardLarge 
+                            asset={asset?.data} 
+                        />
+                        <AssetMeta 
+                            asset={asset?.data} 
+                        />
                         {!isOwner && 
                             <AssetPriceAccordion 
                                 asset={asset?.data}
                                 lastListingEvent={lastListingEvent}
+                                tokens={tokens}
                             />
                         }
                     </Box>
@@ -220,6 +234,7 @@ export const getStaticProps: GetStaticProps<{
     fallbackAsset: AssetType
     fallbackEvents: EventsType
     fallbackOrders: OrdersType
+    fallbackTokens: TokensType
     contract_address: string
     token_id: string
 }> = async ({ params }) => {
@@ -282,6 +297,22 @@ export const getStaticProps: GetStaticProps<{
     const ordersRes = await fetch(ordersHref, ordersOptions)
   
     const fallbackOrders = (await ordersRes.json()) as OrdersType
+
+    // TOKENS
+    const tokensOptions: RequestInit | undefined = {}
+
+    const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
+
+    const tokensQuery: TokensQueryType = {
+        // ...(contract_address && { parameters__offer__token: contract_address }),
+        // ...(token_id && { parameters__offer__identifierOrCriteria: token_id })
+    }
+  
+    const tokensHref = setParams(tokensUrl, tokensQuery)
+  
+    const tokensRes = await fetch(tokensHref, tokensOptions)
+  
+    const fallbackTokens = (await tokensRes.json()) as TokensType
   
     // RETURN
     return {
@@ -289,6 +320,7 @@ export const getStaticProps: GetStaticProps<{
             fallbackAsset,
             fallbackEvents,
             fallbackOrders,
+            fallbackTokens,
             contract_address,
             token_id
         }

@@ -1,17 +1,14 @@
 import { Box } from '../Box/Box'
 import { useSidebars } from '../../hooks/useSidebars'
-import { sprinkles } from '../../styles/sprinkles.css'
 import { FilterAccordion } from '../Accordions/FilterAccordion/FilterAccordion'
 import { toggleOffItems } from '../../utils/router'
 import { useRouter } from 'next/router'
-import useMounted from '../../hooks/useMounted'
 import { CloseIcon } from '../Icons/CloseIcon'
+import { Text } from '../Text/Text'
 
 export const FilterSidebar: React.FC = () => {
   const { isFilterSidebarOpen, toggleFilterSidebar } = useSidebars()
   const router = useRouter()
-
-  const { mounted } = useMounted()
 
     return (
         <Box
@@ -39,11 +36,14 @@ export const FilterSidebar: React.FC = () => {
                     alignItems='center'
                     justifyContent='center'
                     position='relative'
-                    fontSize='20'
-                    fontWeight='600'
                     height='48'
                 >
-                    Filters
+                    <Text
+                        fontSize='20'
+                        fontWeight='600'
+                    >
+                        Filters
+                    </Text>
                     <Box
                         as='button'
                         position='absolute'
@@ -53,14 +53,12 @@ export const FilterSidebar: React.FC = () => {
                         display='flex'
                         alignItems='center'
                         borderRadius='full'
-                        className={sprinkles({
-                            boxShadow: {
-                              hover: 'subHeader'
-                            },
-                            background: {
-                              active: 'buttonBackgroundActive'
-                            }
-                        })}
+                        boxShadow={{
+                            hover: 'subHeader'
+                        }}
+                        background={{
+                            active: 'buttonBackgroundActive'
+                        }}
                     >
                         <CloseIcon />
                     </Box>
@@ -94,7 +92,6 @@ export const FilterSidebar: React.FC = () => {
                     display='flex'
                     alignItems='center'
                     justifyContent='center'
-                    fontWeight='600'
                     padding='16'
                     borderWidth='2'
                     borderColor='box'
@@ -102,7 +99,11 @@ export const FilterSidebar: React.FC = () => {
                     borderRadius='10'
                     width='full'
                 >
-                    Clear all
+                    <Text
+                        fontWeight='600'
+                    >
+                        Clear all
+                    </Text>
                 </Box>
                 <Box
                     as='button'
@@ -110,7 +111,6 @@ export const FilterSidebar: React.FC = () => {
                     display='flex'
                     alignItems='center'
                     justifyContent='center'
-                    fontWeight='600'
                     padding='16'
                     borderWidth='2'
                     borderColor='box'
@@ -118,7 +118,11 @@ export const FilterSidebar: React.FC = () => {
                     borderRadius='10'
                     width='full'
                 >
-                    Done
+                    <Text
+                        fontWeight='600'
+                    >
+                        Done
+                    </Text>
                 </Box>
             </Box>
         </Box>

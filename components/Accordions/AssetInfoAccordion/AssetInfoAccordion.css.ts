@@ -105,7 +105,7 @@ export const collectionDescription = style([sprinkles({
 export const collectionImg = style([sprinkles({
     width: '80',
     borderRadius: '10',
-    aspectRatio: '1',
+    aspectRatio: 'square',
     marginRight: '10'
 })])
 

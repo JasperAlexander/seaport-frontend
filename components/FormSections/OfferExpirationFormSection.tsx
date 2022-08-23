@@ -1,8 +1,8 @@
 import { ChangeEvent, FC } from 'react'
 import { Box } from '../Box/Box'
 import * as styles from './FormSection.css'
-import { MakeOfferFormType } from '../DiaglogContents/MakeOfferDialogContent'
-import { Input } from '../Input/Input'
+import { MakeOfferFormType } from '../Forms/MakeOfferForm'
+import { Text } from '../Text/Text'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof MakeOfferFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -25,13 +25,12 @@ export const OfferExpirationFormSection: FC<Props> = ({
                 justifyContent='flex-start'
                 marginBottom='8'
             >
-                <Box
+                <Text
                     as='label'
-                    fontSize='16'
                     fontWeight='600'
                 >
                     Offer expiration
-                </Box>
+                </Text>
             </Box>
             <Box
                 display='flex'

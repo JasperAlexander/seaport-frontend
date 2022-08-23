@@ -9,6 +9,7 @@ import { Input } from '../components/Input/Input'
 import useMounted from '../hooks/useMounted'
 import { MainLayout } from '../components/Layouts/MainLayout'
 import { MainButton } from '../components/Buttons/MainButton'
+import { Text } from '../components/Text/Text'
 
 const FaucetPage: NextPage = () => {
     const { address } = useAccount()
@@ -37,10 +38,31 @@ const FaucetPage: NextPage = () => {
             </Head>
 
             <MainLayout>
-                <Box display='flex' flexDirection='column' alignItems='flex-start' padding='44'>
-                    <Box as='h1' color='black' fontWeight='700' fontSize='32'>Faucet</Box>
-                    <Box marginTop='18' display='flex' flexDirection='column' gap='12'>
-                        <Box as='p' color='black' fontWeight='700'>ERC20 token amount to be minted</Box>
+                <Box 
+                    display='flex' 
+                    flexDirection='column' 
+                    alignItems='flex-start' 
+                    padding='44'
+                >
+                    <Text 
+                        as='h1' 
+                        fontWeight='700' 
+                        fontSize='32'
+                    >
+                        Faucet
+                    </Text>
+                    <Box 
+                        marginTop='18' 
+                        display='flex' 
+                        flexDirection='column' 
+                        gap='12'
+                    >
+                        <Text 
+                            as='p' 
+                            fontWeight='700'
+                        >
+                            ERC20 token amount to be minted
+                        </Text>
                         <Input 
                             type='number'
                             name='ERC20mintAmount' 
@@ -65,14 +87,43 @@ const FaucetPage: NextPage = () => {
                             Mint ERC20
                         </MainButton>
                     </Box>
+                    <Box 
+                        marginTop='18' 
+                        display='flex' 
+                        flexDirection='column' 
+                        gap='12'
+                    >
+                        <Text 
+                            as='p' 
+                            fontWeight='700'
+                        >
+                            ERC721 NFT ID to be minted
+                        </Text>
+                        <Input 
+                            type='number'
+                            name='ERC721nftID' 
+                            value={inputState.ERC721nftID} 
+                            onChange={handleInputChange} 
+                        />
+                        <MainButton
+                            onClick={() => { 
+                                if(inputState.ERC20mintAmount === '') {
+                                    toast('Enter an amount')
+                                } else if (
+                                    mounted &&
+                                    inputState.ERC20mintAmount !== ''  && 
+                                    typeof address !== 'undefined' && 
+                                    typeof signer !== 'undefined' && 
+                                    signer !== null
+                                ) {
+                                    mintERC721(signer, address, inputState.ERC721nftID)
+                                }
+                            }}
+                        >
+                            Mint ERC721
+                        </MainButton>
+                    </Box>
                 </Box>
-
-                <label>ERC721 NFT ID to be minted</label>
-                <input type='number' name='ERC721nftID' value={inputState.ERC721nftID} onChange={handleInputChange} />
-                <button type='button' onClick={() => {
-                    if(typeof signer !== 'undefined' && signer !== null && typeof address !== 'undefined')
-                        mintERC721(signer, address, inputState.ERC721nftID)
-                }}>Mint ERC721</button>
             </MainLayout>
         </Fragment>
     )

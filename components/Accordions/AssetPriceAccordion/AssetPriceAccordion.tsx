@@ -12,15 +12,19 @@ import { MakeOfferDialogTrigger } from '../../DialogTriggers/MakeOfferDialogTrig
 import { useAccount } from 'wagmi'
 import { PriceTagIcon } from '../../Icons/PriceTagIcon'
 import useMounted from '../../../hooks/useMounted'
+import { Text } from '../../Text/Text'
+import { TokensStateType } from '../../../types/tokenTypes'
 
 interface Props {
     asset: AssetType | undefined
     lastListingEvent: any
+    tokens: TokensStateType
 }
 
 export const AssetPriceAccordion: FC<Props> = ({
     asset,
-    lastListingEvent
+    lastListingEvent,
+    tokens
 }) => {
     const [makeOfferDialogOpen, setMakeOfferDialogOpen] = useState<boolean>(false)
     const { mounted } = useMounted()
@@ -53,14 +57,11 @@ export const AssetPriceAccordion: FC<Props> = ({
                                     gap='10'
                                 >
                                     <ScheduleIcon fill='boxText' />
-                                    <Box
+                                    <Text
                                         as='span'
-                                        fontSize='16'
-                                        fontWeight='400'
-                                        color='defaultText'
                                     >
                                         Sale ends {lastListingFormattedTimeStamp}
-                                    </Box>
+                                    </Text>
                                 </Box>
                                 {/* <Box>
                                     Countdown when <24 hours
@@ -76,9 +77,12 @@ export const AssetPriceAccordion: FC<Props> = ({
                                 background='accordionBackground'
                             >
                                 
-                                <Box fontSize='15' color='boxText'>
+                                <Text 
+                                    fontSize='15' 
+                                    color='boxText'
+                                >
                                     Current price
-                                </Box>
+                                </Text>
                                 <Box
                                     display='flex'
                                     alignItems='center'
@@ -120,6 +124,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                                     <MakeOfferDialogTrigger 
                                         open={makeOfferDialogOpen} 
                                         setOpen={setMakeOfferDialogOpen} 
+                                        tokens={tokens}
                                     >
                                         <MainButton
                                             variant='secondary'
@@ -139,6 +144,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                                 <MakeOfferDialogTrigger 
                                     open={makeOfferDialogOpen} 
                                     setOpen={setMakeOfferDialogOpen} 
+                                    tokens={tokens}
                                 >
                                     <MainButton
                                         variant='secondary'
@@ -167,6 +173,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                 <MakeOfferDialogTrigger 
                     open={makeOfferDialogOpen} 
                     setOpen={setMakeOfferDialogOpen}
+                    tokens={tokens}
                 >
                     <MainButton
                         variant='secondary'

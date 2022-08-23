@@ -11,6 +11,7 @@ import { SupplyFormSection } from '../FormSections/SupplyFormSection'
 import { BlockchainFormSection } from '../FormSections/BlockchainFormSection'
 import { SpecialsFormSection } from '../FormSections/SpecialsFormSection'
 import { MainButton } from '../Buttons/MainButton'
+import { Text } from '../Text/Text'
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface CreateAssetFormType {
@@ -124,14 +125,17 @@ export const CreateAssetForm: FC<Props> = ({
             <Box
                 as='header'
             >
-                <Box 
-                    as='h1' 
-                    fontSize='40' 
+                <Box
                     paddingTop='32' 
-                    paddingBottom='16' 
-                    fontWeight='600'
+                    paddingBottom='16'
                 >
-                    Create new asset
+                    <Text 
+                        as='h1' 
+                        fontSize='40'  
+                        fontWeight='600'
+                    >
+                        Create new asset
+                    </Text>
                 </Box>
             </Box>
             <Box
@@ -140,12 +144,24 @@ export const CreateAssetForm: FC<Props> = ({
                 style={{marginBottom: '32px', maxWidth: '772px', width: '100%'}}
             >
                 <Box
-                    as='p'
+                    display='flex'
+                    alignItems='center'
+                    gap='3'
                     marginY='12'
-                    fontSize='12'
                 >
-                    <Box as='span' color='error' marginRight='3'>*</Box>
-                    Required fields
+                    <Text 
+                        as='span' 
+                        color='error'
+                        fontSize='12'
+                    >
+                        *
+                    </Text>
+                    <Text
+                        as='span'
+                        fontSize='12'
+                    >
+                        Required fields
+                    </Text>
                 </Box>
 
                 <ImageFormSection />
@@ -198,7 +214,10 @@ export const CreateAssetForm: FC<Props> = ({
                     data={data} 
                 />
 
-                <BlockchainFormSection />
+                <BlockchainFormSection 
+                    data={data}
+                    setData={setData}
+                />
 
                 <Box 
                     height='0'

@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { AssetType } from '../../types/assetTypes'
 import { truncateAddress, truncateEns } from '../../utils/truncateText'
 import { Box } from '../Box/Box'
+import { Text } from '../Text/Text'
 
 interface Props {
     asset: AssetType
@@ -127,35 +128,32 @@ export const FeaturedCard: FC<Props> = ({
                                 marginLeft: '-3px'
                             }}
                         >
-                            <Box 
+                            <Text 
+                                as='span'
                                 fontSize='14'
                                 fontWeight='600'
                             >
-                                <Box 
-                                    as='span'
-                                >
-                                    {asset?.collection.name}
-                                </Box>
-                            </Box>
+                                {asset?.collection.name}
+                            </Text>
                             <Box 
-                                fontSize='14' 
                                 display='flex' 
                                 alignItems='center'
+                                gap='4'
                             >
-                                <Box 
-                                    fontWeight='400'
-                                    marginRight='4'
+                                <Text
+                                    fontSize='14' 
                                 >
                                     by
-                                </Box>
-                                <Box 
+                                </Text>
+                                <Text
+                                    fontSize='14' 
                                     fontWeight='500'
                                 >
                                     {asset?.creator?.username 
                                         ? truncateEns(asset.creator.username)
                                         : asset?.creator?.address ? truncateAddress(asset.creator.address) : ''
                                     }
-                                </Box>
+                                </Text>
                             </Box>
                         </Box>
                     </Box>

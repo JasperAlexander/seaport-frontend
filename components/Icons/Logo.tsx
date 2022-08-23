@@ -11,7 +11,7 @@ export const Logo = () => {
       background='accentColor'
       alignItems='center'
       justifyContent='center'
-      aspectRatio='1'
+      aspectRatio='square'
       borderRadius='20'
       fontSize='28'
       style={{textShadow: '0 0 0 white'}}

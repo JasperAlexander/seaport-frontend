@@ -12,6 +12,7 @@ import { toggleOnItem } from '../../../utils/router'
 import { useRouter } from 'next/router'
 import { ChevronIcon } from '../../Icons/ChevronIcon'
 import * as styles from './FilterAccordion.css'
+import { Text } from '../../Text/Text'
 
 interface Props {
     items: {
@@ -58,13 +59,12 @@ export const FilterAccordion: React.FC<Props> = ({
                 >
                     <Accordion.Header>
                         <Accordion.Trigger className={styles.trigger}>
-                            <Box
+                            <Text
                                 as='span'
-                                fontSize='16'
                                 fontWeight='600'
                             >
                                 {item.header.name}
-                            </Box>
+                            </Text>
                             <ChevronIcon />
                         </Accordion.Trigger>
                     </Accordion.Header>

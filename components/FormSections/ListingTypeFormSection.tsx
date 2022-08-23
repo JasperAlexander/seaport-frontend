@@ -5,6 +5,7 @@ import { ListAssetFormType } from '../Forms/ListAssetForm'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { PriceIcon } from '../Icons/PriceIcon'
 import { TimeLapseIcon } from '../Icons/TimeLapseIcon'
+import { Text } from '../Text/Text'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof ListAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -25,12 +26,21 @@ export const ListingTypeFormSection: FC<Props> = ({
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
                 <Box
-                    as='label'
-                    fontWeight='600'
-                    fontSize='16'
+                    display='flex'
+                    gap='3'
                 >
-                    Type
-                    <Box as='span' color='error' marginLeft='3'>*</Box>
+                    <Text
+                        as='label'
+                        fontWeight='600'
+                    >
+                        Type
+                    </Text>
+                    <Text 
+                        as='span' 
+                        color='error' 
+                    >
+                        *
+                    </Text>
                 </Box>
             </Box>
             <Box>
@@ -58,8 +68,6 @@ export const ListingTypeFormSection: FC<Props> = ({
                         justifyContent='center'
                         paddingY='16'
                         paddingX='24'
-                        fontWeight='600'
-                        fontSize='16'
                         borderTopWidth='2'
                         borderLeftWidth='2'
                         borderBottomWidth='2'
@@ -75,7 +83,11 @@ export const ListingTypeFormSection: FC<Props> = ({
                         }}
                     >
                         <PriceIcon width='22' />
-                        Fixed Price
+                        <Text
+                            fontWeight='600'
+                        >
+                            Fixed Price
+                        </Text>
                     </Box>
                     <Box
                         as='button'
@@ -95,8 +107,6 @@ export const ListingTypeFormSection: FC<Props> = ({
                         paddingY='16'
                         background={data.listing_type === 'timed' ? 'tabBackground' : 'defaultBackground'}
                         paddingX='24'
-                        fontWeight='600'
-                        fontSize='16'
                         borderWidth='2'
                         borderStyle='solid'
                         borderColor='box'
@@ -107,23 +117,27 @@ export const ListingTypeFormSection: FC<Props> = ({
                         }}
                     >
                         <TimeLapseIcon width='22' />
-                        Timed Auction
+                        <Text
+                            fontWeight='600'
+                        >
+                            Timed Auction
+                        </Text>
                     </Box>
                 </Box>
                 {errors.listing_type &&
                     <Box
                         display='flex'
                         alignItems='center'
-                        color='error'
                         padding='4'
+                        gap='2'
                     >
                         <CloseIcon fill='error' />
-                        <Box
-                            marginLeft='2'
+                        <Text
                             fontSize='12'
+                            color='error'
                         >
                             {errors.listing_type}
-                        </Box>
+                        </Text>
                     </Box>
                 }
             </Box>

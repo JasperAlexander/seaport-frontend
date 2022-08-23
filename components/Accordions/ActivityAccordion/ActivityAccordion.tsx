@@ -24,6 +24,7 @@ import useUser from '../../../hooks/useUser'
 import { useRouter } from 'next/router'
 import useUsers from '../../../hooks/useUsers'
 import useToken from '../../../hooks/useToken'
+import { Text } from '../../Text/Text'
 
 interface Props {
     data: EventsStateType
@@ -58,13 +59,12 @@ export const ActivityAccordion: FC<Props> = ({
                                 gap='10'
                             >
                                 <VerticalSwapIcon />
-                                <Box
+                                <Text
                                     as='span'
-                                    fontSize='16'
                                     fontWeight='600'
                                 >
                                     Item Activity
-                                </Box>
+                                </Text>
                             </Box>
                             <ChevronIcon />
                         </Accordion.Trigger>

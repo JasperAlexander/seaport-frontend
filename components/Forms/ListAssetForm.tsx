@@ -20,6 +20,7 @@ import { useRouter } from 'next/router'
 import useUsers from '../../hooks/useUsers'
 import { TokensStateType } from '../../types/tokenTypes'
 import { ListingMethodFormSection } from '../FormSections/ListingMethodFormSection'
+import { Text } from '../Text/Text'
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface ListAssetFormType {
@@ -116,16 +117,16 @@ export const ListAssetForm: FC<Props> = ({
         >
             <Box
                 as='header'
+                paddingTop='32' 
+                paddingBottom='16' 
             >
-                <Box 
+                <Text 
                     as='h1' 
                     fontSize='40' 
-                    paddingTop='32' 
-                    paddingBottom='16' 
                     fontWeight='600'
                 >
                     List asset for sale
-                </Box>
+                </Text>
             </Box>
             <Box
                 as='form'
@@ -133,12 +134,24 @@ export const ListAssetForm: FC<Props> = ({
                 style={{marginBottom: '32px', maxWidth: '772px', width: '100%'}}
             >
                 <Box
-                    as='p'
+                    display='flex'
+                    alignItems='center'
+                    gap='3'
                     marginY='12'
-                    fontSize='12'
                 >
-                    <Box as='span' color='error' marginRight='3'>*</Box>
-                    Required fields
+                    <Text 
+                        as='span' 
+                        color='error'
+                        fontSize='12'
+                    >
+                        *
+                    </Text>
+                    <Text
+                        as='span'
+                        fontSize='12'
+                    >
+                        Required fields
+                    </Text>
                 </Box>
 
                 <ListingTypeFormSection 
@@ -208,25 +221,33 @@ export const ListAssetForm: FC<Props> = ({
                         display='flex'
                         alignItems='center'
                         justifyContent='space-between'
-                        fontWeight='600'
                     >
-                        Fees
+                        <Text
+                            fontWeight='600'
+                        >
+                            Fees
+                        </Text>
                     </Box>
                     <Box
                         display='flex'
                         alignItems='center'
                         justifyContent='space-between'
-                        color='boxText'
-                        fontSize='14'
-                        fontWeight='500'
                     >
-                        <Box>
+                        <Text
+                            color='boxText'
+                            fontSize='14'
+                            fontWeight='500'
+                        >
                             Service Fee
-                        </Box>
-                        <Box>
+                        </Text>
+                        <Text
+                            color='boxText'
+                            fontSize='14'
+                            fontWeight='500'
+                        >
                             {/* To do */}
                             2.5%
-                        </Box>
+                        </Text>
                     </Box>
                 </Box>
 

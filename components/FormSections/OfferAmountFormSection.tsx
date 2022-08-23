@@ -1,14 +1,20 @@
 import { ChangeEvent, FC } from 'react'
 import { Box } from '../Box/Box'
 import * as styles from './FormSection.css'
-import { MakeOfferFormType } from '../DiaglogContents/MakeOfferDialogContent'
+import { MakeOfferFormType } from '../Forms/MakeOfferForm'
 import { Input } from '../Input/Input'
+import { Text } from '../Text/Text'
+import { TokenSelect } from '../Selects/TokenSelect'
+import { SWRInfiniteResponse } from 'swr/infinite'
+import { TokensType } from '../../types/tokenTypes'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof MakeOfferFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
     validate: () => void
     errors: Partial<Record<keyof MakeOfferFormType, string>>
     data: MakeOfferFormType
+    tokens: SWRInfiniteResponse<TokensType, any>
+    setData: (e: any) => void
     wethValue: string
 }
 
@@ -17,8 +23,13 @@ export const OfferAmountFormSection: FC<Props> = ({
     validate,
     errors,
     data,
+    tokens,
+    setData,
     wethValue
 }) => {
+    const { data: tokensData, isValidating, size } = tokens
+    const mappedTokens = tokensData ? tokensData.map(({ tokens }) => tokens).flat() : []
+
     return (
         <Box className={styles.formItem}>
             <Box
@@ -27,14 +38,13 @@ export const OfferAmountFormSection: FC<Props> = ({
                 justifyContent='space-between'
                 marginBottom='8'
             >
-                <Box
+                <Text
                     as='label'
-                    fontSize='16'
                     fontWeight='600'
                 >
                     Offer amount
-                </Box>
-                <Box
+                </Text>
+                <Text
                     as='span'
                     fontSize='12'
                     color='boxText'
@@ -42,13 +52,18 @@ export const OfferAmountFormSection: FC<Props> = ({
                 >
                     {/* Should be based on payment token and account data */}
                     Balance: {wethValue} WETH
-                </Box>
+                </Text>
             </Box>
             <Box
                 display='flex'
                 gap='8'
             >
-                <Box
+                <TokenSelect 
+                    mappedTokens={mappedTokens}
+                    data={data}
+                    setData={setData}
+                />
+                {/* <Box
                     as='button'
                     style={{width: '250px'}}
                     borderRadius='10'
@@ -60,7 +75,7 @@ export const OfferAmountFormSection: FC<Props> = ({
                     fontSize='16'
                 >
                     WETH
-                </Box>
+                </Box> */}
                 <Input 
                     type='text'
                     name='offer_amount'
@@ -77,23 +92,26 @@ export const OfferAmountFormSection: FC<Props> = ({
                 marginTop='8'
             >
                 {errors.offer_amount &&
-                    <Box
+                    <Text
                         as='span'
                         fontSize='12'
                         color='error'
                     >
                         {errors.offer_amount}
-                    </Box>
+                    </Text>
                 }
                 <Box
-                    as='span'
-                    fontSize='12'
-                    color='boxText'
                     marginLeft='auto'
-                    fontWeight='500'
                 >
-                    {/* Should be based on input value, adding USD value onBlur */}
-                    Total offer amount: 0 WETH
+                    <Text
+                        as='span'
+                        fontSize='12'
+                        fontWeight='500'
+                        color='boxText'
+                    >
+                        {/* Should be based on input value, adding USD value onBlur */}
+                        Total offer amount: 0 WETH
+                    </Text>
                 </Box>
             </Box>
         </Box>

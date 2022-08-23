@@ -5,6 +5,7 @@ import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Textarea } from '../Textarea/Textarea'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
+import { Text } from '../Text/Text'
 
 interface Props {
     label?: string
@@ -22,31 +23,48 @@ export const DescriptionFormSection: FC<Props> = ({
     data
 }) => {
     return (
-        <Box className={styles.formItem}>
-            <Box className={styles.formItemTop}>
-                <Box
+        <Box 
+            className={styles.formItem}
+        >
+            <Box 
+                className={styles.formItemTop}
+            >
+                <Text
                     as='label'
                     fontWeight='600'
-                    fontSize='16'
                 >
                     Description
-                </Box>
+                </Text>
                 <Box
-                    as='span'
-                    fontSize='12'
                     marginTop='4'
-                    color='boxText'
                 >
-                    {label}
+                    <Text
+                        as='span'
+                        fontSize='12'
+                        color='boxText'
+                        display='inline-block'
+                    >
+                        {label}
+                    </Text>
                     <Box 
                         as='a' 
                         href='https://www.markdownguide.org/cheat-sheet/' 
-                        color='accentColor'
-                        marginX='3'
+                        display='inline-block'
                     >
-                        Markdown
+                        <Text
+                            fontSize='12'
+                            color='accentColor'
+                        >
+                            {'\u00a0'}Markdown{'\u00a0'}
+                        </Text>
                     </Box> 
-                    syntax is supported.
+                    <Text
+                        fontSize='12'
+                        color='boxText'
+                        display='inline-block'
+                    >
+                        syntax is supported.
+                    </Text>
                 </Box>
             </Box>
             <Textarea 
@@ -62,16 +80,16 @@ export const DescriptionFormSection: FC<Props> = ({
                 <Box
                     display='flex'
                     alignItems='center'
-                    color='error'
                     padding='4'
+                    gap='2'
                 >
                     <CloseIcon fill='error' />
-                    <Box
-                        marginLeft='2'
+                    <Text
                         fontSize='12'
+                        color='error'
                     >
                         {errors.description}
-                    </Box>
+                    </Text>
                 </Box>
             }
         </Box>

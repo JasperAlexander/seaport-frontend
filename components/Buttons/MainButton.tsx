@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { FC, ReactNode } from 'react'
 import { Box, BoxProps } from '../Box/Box'
-
+import { Text } from '../Text/Text'
 
 const sizeVariants: Record<
     'small' | 'medium' | 'large',
@@ -69,6 +69,17 @@ interface Props {
     width?: BoxProps['width']
 }
 
+/**
+ * Main button component, has a default padding of 12px, 
+ * boxShadow and background will change on hover
+ * @param children will be wrapped inside HTML span element which is wrapped inside HTML button or link element
+ * @param onClick defaults null
+ * @param href if this param is passed, button will be a link, wrapped inside a Next.js Link component
+ * @param disabled defaults to false
+ * @param size defaults to medium
+ * @param variant defaults to primary which has accentColor as background in contrast to secondary which has defaultBackground as background
+ * @param width defaults to initial
+ */
 export const MainButton: FC<Props> = ({ 
     children,
     onClick = () => { return null },
@@ -118,14 +129,17 @@ export const MainButton: FC<Props> = ({
                 borderStyle='solid'
                 borderColor={borderColor}
 
-                fontSize={fontSize}
-                fontWeight='600'
-                color={color}
-
                 paddingX={paddingX}
                 paddingY={paddingY}
             >
-                {children}
+                <Text
+                    as='span'
+                    fontSize={fontSize}
+                    fontWeight='600'
+                    color={color}
+                >
+                    {children}
+                </Text>
             </Box>
         </ConditionalLink>
     )

@@ -5,6 +5,7 @@ import { LockOpenIcon } from '../Icons/LockOpenIcon'
 import { Textarea } from '../Textarea/Textarea'
 import { FormToggle } from '../Toggles/FormToggle'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { Text } from '../Text/Text'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -22,26 +23,34 @@ export const UnlockableFormSectionItem: FC<Props> = ({
     const [unlockableActive, setUnlockableActive] = useState<boolean>(false)
 
     return (
-        <Box className={styles.formItemSectionItem}>
+        <Box 
+            className={styles.formSectionItem}
+        >
             <Box
                 display='flex'
                 justifyContent='space-between'
                 alignItems='center'
             >
-                <Box display='flex'>
+                <Box 
+                    display='flex'
+                >
                     <LockOpenIcon />
-                    <Box marginLeft='16'>
-                        <Box 
+                    <Box 
+                        marginLeft='16'
+                    >
+                        <Text 
                             as='span' 
                             fontWeight='600' 
-                            fontSize='16'
                             display='block'
                         >
                             Unlockable Content
-                        </Box>
-                        <Box as='span' fontSize='15'>
+                        </Text>
+                        <Text 
+                            as='span' 
+                            fontSize='15'
+                        >
                             Include unlockable content that can only be revealed by the owner of the item.
-                        </Box>
+                        </Text>
                     </Box>
                 </Box>
                 <Box>
@@ -52,7 +61,9 @@ export const UnlockableFormSectionItem: FC<Props> = ({
                 </Box>
             </Box>
             {unlockableActive &&
-                <Box paddingTop='16'>
+                <Box 
+                    paddingTop='16'
+                >
                     <Textarea 
                         name='unlockable'
                         placeholder='Enter content (access key, code to redeem, link to a file, etc.)'
@@ -62,9 +73,28 @@ export const UnlockableFormSectionItem: FC<Props> = ({
                         rows={4}
                         resize='vertical'
                     />
-                    <Box marginTop='8' marginBottom='5' fontSize='15'>
-                        <Box as='a' href='https://www.markdownguide.org/cheat-sheet/' color='accentColor'>Markdown </Box>
-                        syntax is supported.
+                    <Box 
+                        display='flex'
+                        gap='3'
+                        marginTop='8' 
+                        marginBottom='5' 
+                    >
+                        <Box 
+                            as='a' 
+                            href='https://www.markdownguide.org/cheat-sheet/' 
+                        >
+                            <Text
+                                color='accentColor'
+                                fontSize='15'
+                            >
+                                Markdown
+                            </Text> 
+                        </Box>
+                        <Text
+                            fontSize='15'
+                        >
+                            syntax is supported.
+                        </Text>
                     </Box>
                 </Box>
             }

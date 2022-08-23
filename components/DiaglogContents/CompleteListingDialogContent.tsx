@@ -6,6 +6,7 @@ import { MainButton } from '../Buttons/MainButton'
 import { LoadingIcon } from '../Icons/LoadingIcon'
 import * as styles from './DialogContent.css'
 import { AssetType } from '../../types/assetTypes'
+import { Text } from '../Text/Text'
 
 interface Props {
     open: boolean
@@ -160,20 +161,25 @@ export const CompleteListingDialogContent: FC<Props> = ({
                                 >
                                     <Box
                                         marginTop='8'
-                                        fontSize='16'
-                                        fontWeight='600'
                                     >
-                                        {listingStatus === 0 &&
-                                            'Confirm listing'
-                                        }
+                                        <Text
+                                            fontWeight='600'
+                                        >
+                                            {listingStatus === 0 &&
+                                                'Confirm listing'
+                                            }
+                                        </Text>
                                     </Box>
                                     <Box
                                         marginTop='20'
-                                        fontSize='15'
                                     >
-                                        {listingStatus === 0 &&
-                                            `You'll be asked to review and confirm this listing from your wallet.`
-                                        }
+                                        <Text
+                                            fontSize='15'
+                                        >
+                                            {listingStatus === 0 &&
+                                                `You'll be asked to review and confirm this listing from your wallet.`
+                                            }
+                                        </Text>
                                     </Box>
                                 </Box>
                             </Box>

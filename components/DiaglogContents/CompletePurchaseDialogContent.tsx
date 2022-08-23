@@ -8,6 +8,7 @@ import * as styles from './DialogContent.css'
 import useSeaport from '../../hooks/useSeaport'
 import { AssetType } from '../../types/assetTypes'
 import Link from 'next/link'
+import { Text } from '../Text/Text'
 
 interface Props {
     open: boolean
@@ -75,12 +76,20 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                 display='flex'
                                 alignItems='center'
                                 justifyContent='space-between'
-                                fontSize='16'
-                                fontWeight='600'
                                 paddingBottom='4'
                             >
-                                <Box as='span'>Item</Box>
-                                <Box as='span'>Total</Box>
+                                <Text 
+                                    as='span'
+                                    fontWeight='600'
+                                >
+                                    Item
+                                </Text>
+                                <Text 
+                                    as='span'
+                                    fontWeight='600'
+                                >
+                                    Total
+                                </Text>
                             </Box>
                                 <Box
                                     display='flex'
@@ -97,7 +106,7 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                         as='img'
                                         src={data.image_url}
                                         width='80'
-                                        aspectRatio='1'
+                                        aspectRatio='square'
                                     />
                                     <Box
                                         display='flex'
@@ -116,20 +125,19 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                                 {data.collection?.name}
                                             </Box>
                                         </Link>
-                                        <Box
+                                        <Text
                                             as='span'
                                             fontWeight='600'
-                                            fontSize='16'
                                         >
                                             {data.name}
-                                        </Box>
-                                        <Box
+                                        </Text>
+                                        <Text
                                             as='span'
                                             color='boxText'
                                             fontSize='14'
                                         >
                                             Creator Fees: ..%
-                                        </Box>
+                                        </Text>
                                     </Box>
                                     <Box
                                         display='flex'
@@ -142,14 +150,13 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                             gap='3'
                                         >
                                             {/* Payment token */}
-                                            <Box
+                                            <Text
                                                 as='span'
                                                 fontWeight='600'
-                                                fontSize='16'
                                             >
                                                 {/* Payment price */}
                                                 2.5
-                                            </Box>
+                                            </Text>
                                         </Box>
                                         <Box>
                                             {/* USD price */}

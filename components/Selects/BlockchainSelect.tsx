@@ -1,37 +1,30 @@
 // To do: fix type errors (temp. fixed with ts-ignore)
 
-import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import Select from 'react-select'
-import { toggleOnItem } from '../../utils/router'
+import { Box } from '../Box/Box'
+import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
+import { Text } from '../Text/Text'
 
 interface Props {
-    mutateData?: any
+    data: CreateAssetFormType | CreateCollectionFormType
+    setData: (e: any) => void
 }
 
-export const SortSelect: FC<Props> = ({
-    mutateData
+export const BlockchainSelect: FC<Props> = ({ 
+    data,
+    setData
 }) => {
-    const sortSet = [
-        { value: 'createdlast', label: 'Recently created' },
-        { value: 'listedlast', label: 'Recently listed' },
-        { value: 'soldlast', label: 'Recently sold' },
-        { value: 'ending', label: 'Ending soon' },
-        { value: 'priceup', label: 'Price low to high' },
-        { value: 'pricedown', label: 'Price high to low' },
+    const [selectedOption, setSelectedOption] = useState<any>(
+        // { value: 'ethereum', label: 'Ethereum', image_url: 'https://opensea.io/static/images/logos/ethereum.svg' }
+        { value: 'hardhat', label: 'Hardhat', image_url: 'https://chainstack.com/wp-content/uploads/2021/12/hardhat.png' }
+    )
+    const blockchainSet = [
+        { value: 'hardhat', label: 'Hardhat', image_url: 'https://chainstack.com/wp-content/uploads/2021/12/hardhat.png' },
+        // { value: 'ethereum', label: 'Ethereum', image_url: 'https://opensea.io/static/images/logos/ethereum.svg' },
+        // { value: 'polygon', label: 'Polygon', image_url: 'https://opensea.io/static/images/logos/polygon.svg' }
     ]
-
-    const router = useRouter()
-    useEffect(() => {
-        if (router.query['sort']) {
-            const foundSort = sortSet.find(sort => {
-                return sort.value === router.query['sort']
-            })
-            setSelectedOption(foundSort) 
-        }
-    }, [router.query])
-
-    const [selectedOption, setSelectedOption] = useState<any>()
 
     const customStyles = {
         container: (base: any) => ({
@@ -44,7 +37,6 @@ export const SortSelect: FC<Props> = ({
         control: (base: any, state: any) => ({
             ...base,
             height: '48px',
-            width: '240px',
             borderWidth: '2px',
             borderRadius: '10px',
             borderColor: state.isFocused ? '#a7a7a7' : 'rgb(229, 232, 235)',
@@ -95,20 +87,51 @@ export const SortSelect: FC<Props> = ({
         })
     }
 
+    const BlockchainOption = (props: any) => {
+        const { innerProps, innerRef } = props
+
+        return (
+            <Box
+                display='flex'
+                alignItems='center'
+                height='48'
+                padding='12'
+                gap='8'
+                cursor='pointer'
+                {...innerProps}
+            >
+                <Box 
+                    as='img'
+                    width='24'
+                    aspectRatio='square'
+                    src={props.data?.image_url}
+                />
+                <Text>
+                    {props.data?.label}
+                </Text>
+            </Box>
+        )
+    }
+
     return (
         <Select
-            key='method'
-            name='method'
-            placeholder='Sort by'
+            key='blockchain'
+            name='blockchain'
+            placeholder='Select blockchain'
             defaultValue={selectedOption}
             onChange={(e) => { 
-                mutateData()
-                toggleOnItem(router, 'sort', e.value)
+                setData({
+                    ...data,
+                    // @ts-ignore
+                    method: e.blockchain
+              });
               // @ts-ignore
               setSelectedOption(e.value) 
             }}
             // @ts-ignore
-            options={sortSet}
+            options={blockchainSet}
+            components={{Option: BlockchainOption}} // To do: add selected token image url to control (component)
+            noOptionsMessage={() => 'No blockchains found'}
             styles={customStyles}
         />
     )

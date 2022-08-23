@@ -5,10 +5,12 @@ import Select from 'react-select'
 import { TokenType } from '../../types/tokenTypes'
 import { Box } from '../Box/Box'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
+import { MakeOfferFormType } from '../Forms/MakeOfferForm'
+import { Text } from '../Text/Text'
 
 interface Props {
     mappedTokens: TokenType[]
-    data: ListAssetFormType
+    data: ListAssetFormType | MakeOfferFormType
     setData: (e: any) => void
 }
 
@@ -111,12 +113,12 @@ export const TokenSelect: FC<Props> = ({
                 <Box 
                     as='img'
                     width='24'
-                    aspectRatio='1'
+                    aspectRatio='square'
                     src={props.data?.image_url}
                 />
-                <Box>
+                <Text>
                     {props.data?.label}
-                </Box>
+                </Text>
             </Box>
         )
     }

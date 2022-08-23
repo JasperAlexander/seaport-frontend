@@ -4,6 +4,7 @@ import * as styles from './FormSection.css'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Input } from '../Input/Input'
+import { Text } from '../Text/Text'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof ListAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -22,23 +23,28 @@ export const ListingReserveFormSection: FC<Props> = ({
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
                 <Box
-                    as='label'
                     display='flex'
                     alignItems='center'
                     justifyContent='space-between'
-                    fontWeight='600'
-                    fontSize='16'
                 >
-                    Reserve for specific buyer
-                    {/* Toggle component */}
+                    <Text
+                        as='label'
+                        fontWeight='600'
+                    >
+                        Reserve for specific buyer
+                        {/* Toggle component */}
+                    </Text>
                 </Box>
                 <Box
-                    as='span'
-                    fontSize='12'
                     marginTop='4'
-                    color='boxText'
                 >
-                    This item can be purchased as soon as it's listed.
+                    <Text
+                        as='span'
+                        fontSize='12'
+                        color='boxText'
+                    >
+                        This item can be purchased as soon as it's listed.
+                    </Text>
                 </Box>
             </Box>
             <Box>
@@ -46,24 +52,24 @@ export const ListingReserveFormSection: FC<Props> = ({
                     type='text'
                     name='to_address'
                     placeholder='0x000000...'
-                    value={data.to_address || ''}
-                    onChange={handleChange('to_address')}
+                    value={data.to_account || ''}
+                    onChange={handleChange('to_account')}
                     onBlur={() => validate()}
                 />
-                {errors.to_address &&
+                {errors.to_account &&
                     <Box
                         display='flex'
                         alignItems='center'
-                        color='error'
                         padding='4'
+                        gap='2'
                     >
                         <CloseIcon fill='error' />
-                        <Box
-                            marginLeft='2'
+                        <Text
                             fontSize='12'
+                            color='error'
                         >
-                            {errors.to_address}
-                        </Box>
+                            {errors.to_account}
+                        </Text>
                     </Box>
                 }
             </Box>

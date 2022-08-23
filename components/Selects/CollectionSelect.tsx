@@ -3,7 +3,9 @@
 import { FC, useState } from 'react'
 import Select from 'react-select'
 import { CollectionType } from '../../types/collectionTypes'
+import { Box } from '../Box/Box'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { Text } from '../Text/Text'
 
 interface Props {
     mappedCollections: CollectionType[]
@@ -20,7 +22,8 @@ export const CollectionSelect: FC<Props> = ({
 
     const collectionSet = mappedCollections?.map((c) => ({
         ['value']: c.slug, 
-        ['label']: c.name
+        ['label']: c.name,
+        ['image_url']: c.image_url
     }))
 
     const customStyles = {
@@ -84,6 +87,50 @@ export const CollectionSelect: FC<Props> = ({
         })
     }
 
+    const CollectionOption = (props: any) => {
+        const { innerProps, innerRef } = props
+
+        return (
+            <Box
+                display='flex'
+                alignItems='center'
+                height='48'
+                padding='12'
+                gap='4'
+                cursor='pointer'
+                {...innerProps}
+            >
+                <Box 
+                    as='img'
+                    width='24'
+                    aspectRatio='square'
+                    src={props.data?.image_url}
+                />
+                <Text>
+                    {props.data?.label}
+                </Text>
+            </Box>
+        )
+    }
+
+    const NoCollectionOption = (props: any) => {
+        const { innerProps, innerRef } = props
+
+        return (
+            <Box
+                display='flex'
+                alignItems='center'
+                height='48'
+                padding='12'
+                gap='4'
+                cursor='pointer'
+                {...innerProps}
+            >
+                No collection found
+            </Box>
+        )
+    }
+
     return (
         <Select
             key='collection'
@@ -101,7 +148,10 @@ export const CollectionSelect: FC<Props> = ({
             }}
             // @ts-ignore
             options={collectionSet}
-            noOptionsMessage={() => 'No collections found'}
+            components={{
+                Option: CollectionOption,
+                NoOptionsMessage: NoCollectionOption
+            }} // To do: add selected collection image url to control (component)
             styles={customStyles}
         />
     )

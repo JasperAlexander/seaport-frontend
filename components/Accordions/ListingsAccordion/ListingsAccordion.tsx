@@ -89,7 +89,11 @@ export const ListingsAccordion: FC<Props> = ({
                                         ))}
                                     </Box>
                                 </Box>
-                                <Box as='tbody' background='accordionBackground' fontSize='14'>
+                                <Box 
+                                    as='tbody' 
+                                    background='accordionBackground' 
+                                    fontSize='14'
+                                >
                                     {currentListings?.map((listing) => { 
                                         const expiration = new Date(Number(listing?.parameters.endTime) * 1000)
 

@@ -9,7 +9,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import useMounted from '../../hooks/useMounted'
 
 export const MenuSidebar: FC = () => {
-    const { isMenuSidebarOpen, toggleMenuSidebar, closeMenuSidebar, toggleWalletSidebar } = useSidebars()
+    const { isMenuSidebarOpen, toggleMenuSidebar, closeMenuSidebar } = useSidebars()
     const { chain } = useNetwork()
     const { address } = useAccount()
     const { openConnectModal } = useConnectModal()
@@ -125,10 +125,10 @@ export const MenuSidebar: FC = () => {
                         hover: 'defaultTextHover'
                         }
                     })}
-                    onClick={!mounted || !address || !chain || chain.unsupported 
-                        ? () => { closeMenuSidebar(); openConnectModal ? openConnectModal() : '' }
-                        : toggleWalletSidebar
-                    }
+                    // onClick={!mounted || !address || !chain || chain.unsupported 
+                    //     ? () => { closeMenuSidebar(); openConnectModal ? openConnectModal() : '' }
+                    //     : toggleWalletSidebar
+                    // }
                 >
                     {!mounted || !address || !chain || chain.unsupported 
                         ? 'Connect'

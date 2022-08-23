@@ -8,6 +8,7 @@ import { CollectionsType } from '../../types/collectionTypes'
 import { SWRInfiniteResponse } from 'swr/infinite'
 import { CollectionSelect } from '../Selects/CollectionSelect'
 import { CloseIcon } from '../Icons/CloseIcon'
+import { Text } from '../Text/Text'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -101,7 +102,7 @@ export const CollectionFormSection: FC<Props> = ({
                                 <Box 
                                     as='img'
                                     src={collection.image_url}
-                                    aspectRatio='1'
+                                    aspectRatio='square'
                                     width='32'
                                     marginRight='16'
                                     style={{pointerEvents: 'none'}}
@@ -154,16 +155,16 @@ export const CollectionFormSection: FC<Props> = ({
                 <Box
                     display='flex'
                     alignItems='center'
-                    color='error'
                     padding='4'
+                    gap='2'
                 >
                     <CloseIcon fill='error' />
-                    <Box
-                        marginLeft='2'
+                    <Text
                         fontSize='12'
+                        color='error'
                     >
                         {errors.collection}
-                    </Box>
+                    </Text>
                 </Box>
             }
         </Box>

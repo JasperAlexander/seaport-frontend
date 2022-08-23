@@ -4,6 +4,7 @@ import { Box } from '../Box/Box'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { MainButton } from '../Buttons/MainButton'
 import * as styles from './DialogContent.css'
+import { Text } from '../Text/Text'
 
 interface Props {
     open: boolean
@@ -55,11 +56,10 @@ export const SwitchNetworkDialogContent: FC<Props> = ({
                     >
                         <Box
                             padding='24'
-                            color='defaultText'
-                            fontSize='16'
-                            fontWeight='400'
                         >
-                            In order to trade items, please switch to Ethereum network within your MetaMask wallet.
+                            <Text>
+                                In order to trade items, please switch to Ethereum network within your MetaMask wallet.
+                            </Text>
                         </Box>
                     </Box>
 

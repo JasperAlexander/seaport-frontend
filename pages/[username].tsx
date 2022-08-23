@@ -1,5 +1,3 @@
-// To do: making it possible to pass sprinkles to icons
-
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'
 import { Fragment, useMemo, useState } from 'react'
@@ -7,7 +5,6 @@ import { UserType } from '../types/userTypes'
 import setParams from '../utils/params'
 import useUser from '../hooks/useUser'
 import { Box } from '../components/Box/Box'
-import { sprinkles } from '../styles/sprinkles.css'
 import { useAccount, useEnsAvatar, useEnsName } from 'wagmi'
 import { emojiAvatarForAddress } from '../utils/emojiAvatar'
 import { AssetsList } from '../components/Lists/AssetsList'
@@ -17,6 +14,7 @@ import { AssetsType } from '../types/assetTypes'
 import useMounted from '../hooks/useMounted'
 import { ShareIcon } from '../components/Icons/ShareIcon'
 import { VerifiedIcon } from '../components/Icons/VerifiedIcon'
+import { Text } from '../components/Text/Text'
 
 enum Tabs {
     Created,
@@ -74,17 +72,21 @@ const UserPage: NextPage<Props> = ({
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main>
-                <Box display='flex' flexDirection='column' gap='12'>
+            <Box
+                as='main'
+            >
+                <Box 
+                    display='flex' 
+                    flexDirection='column' 
+                    gap='12'
+                >
                     <Box 
                         height='180' 
-                        background='profileTop' 
-                        style={{position: 'initial'}}
-                        className={sprinkles({ 
-                            background: {
-                                hover: 'profileTopHover'
-                            } 
-                        })}
+                        background={{
+                            base: 'profileTop',
+                            hover: 'profileTopHover'
+                        }}
+                        position='initial'
                     />
                     <Box 
                         margin='44'
@@ -97,9 +99,8 @@ const UserPage: NextPage<Props> = ({
                         alignItems='center'
                         justifyContent='center'
                         boxShadow='box'
+                        aspectRatio='square'
                         style={{
-                            backgroundColor, 
-                            aspectRatio: '1 / 1', 
                             width: '140px',
                             fontSize: '80px',
                             userSelect: 'none',
@@ -112,15 +113,33 @@ const UserPage: NextPage<Props> = ({
                             : ''
                         }
                     </Box>
-                    <Box paddingX='32' display='flex' flexDirection='column' gap='44' marginTop='-60'>
-                        <Box display='flex' flexDirection='column'>
-                            <Box display='flex' justifyContent='space-between' alignItems='center' gap='8'>
+                    <Box 
+                        paddingX='32' 
+                        display='flex' 
+                        flexDirection='column' 
+                        gap='44' 
+                        marginTop='-60'
+                    >
+                        <Box 
+                            display='flex' 
+                            flexDirection='column'
+                        >
+                            <Box 
+                                display='flex' 
+                                justifyContent='space-between' 
+                                alignItems='center' 
+                                gap='8'
+                            >
                                 <Box
                                     display='flex'
                                     alignItems='center'
                                     gap='4'
                                 >
-                                    <Box as='h2' fontSize='24' fontWeight='700' overflow='hidden'>
+                                    <Text 
+                                        as='h2' 
+                                        fontSize='24' 
+                                        fontWeight='700'
+                                    >
                                         {mounted 
                                             ? username
                                                 ? username
@@ -129,29 +148,34 @@ const UserPage: NextPage<Props> = ({
                                                     : address 
                                             : ''
                                         }
-                                    </Box>
+                                    </Text>
                                     {user.data?.config === 'verified' && <VerifiedIcon fill='accentColor' />}
                                 </Box>
                                 <Box
                                     as='button'
                                     padding='12'
                                     borderRadius='full'
-                                    className={sprinkles({
-                                        boxShadow: {
-                                            hover: 'subHeader'
-                                        },
-                                        background: {
-                                            active: 'buttonBackgroundActive'
-                                        }
-                                    })}
+                                    boxShadow={{
+                                        hover: 'subHeader'
+                                    }}
+                                    background={{
+                                        active: 'buttonBackgroundActive'
+                                    }}
                                 >
                                     <ShareIcon />
                                 </Box>
                             </Box>
-                            <Box as='span'>Biography</Box>
+                            <Text 
+                                as='span'
+                            >
+                                Biography
+                            </Text>
                         </Box>
 
-                        <Box display='flex' flexDirection='column'>
+                        <Box 
+                            display='flex' 
+                            flexDirection='column'
+                        >
                             {/* <Text as='h2' size='24' weight='700'>My NFTs</Text> */}
                             <Box
                                 display='flex'
@@ -166,42 +190,44 @@ const UserPage: NextPage<Props> = ({
                                     display='flex'
                                     alignItems='center'
                                     paddingBottom='10'
-                                    fontWeight='600'
+                                    gap='8'
                                     onClick={() => setCurrentTab(Tabs.Created)}
-                                    color={currentTab === Tabs.Created ? 'defaultTextHover' : 'boxText'}
                                     style={{borderBottom: currentTab === Tabs.Created ? '2px solid rgb(4, 17, 29)' : '2px solid transparent'}}
                                 >
-                                    <Box>
+                                    <Text
+                                        fontWeight='600'
+                                        color={currentTab === Tabs.Created ? 'defaultTextHover' : 'boxText'}
+                                    >
                                         Created
-                                    </Box>
-                                    <Box
+                                    </Text>
+                                    <Text
                                         as='span'
-                                        fontWeight='400'
-                                        marginLeft='8'
+                                        color={currentTab === Tabs.Created ? 'defaultTextHover' : 'boxText'}
                                     >
                                         8
-                                    </Box>
+                                    </Text>
                                 </Box>
                                 <Box
                                     as='button'
                                     display='flex'
                                     alignItems='center'
                                     paddingBottom='10'
-                                    fontWeight='600'
+                                    gap='8'
                                     onClick={() => setCurrentTab(Tabs.Collected)}
-                                    color={currentTab === Tabs.Collected ? 'defaultTextHover' : 'boxText'}
                                     style={{borderBottom: currentTab === Tabs.Collected ? '2px solid rgb(4, 17, 29)' : '2px solid transparent'}}
                                 >
-                                    <Box>
+                                    <Text
+                                        fontWeight='600'
+                                        color={currentTab === Tabs.Collected ? 'defaultTextHover' : 'boxText'}
+                                    >
                                         Collected
-                                    </Box>
-                                    <Box
+                                    </Text>
+                                    <Text
                                         as='span'
-                                        fontWeight='400'
-                                        marginLeft='8'
+                                        color={currentTab === Tabs.Collected ? 'defaultTextHover' : 'boxText'}
                                     >
                                         5
-                                    </Box>
+                                    </Text>
                                 </Box>
                             </Box>
                             {mounted 
@@ -212,13 +238,18 @@ const UserPage: NextPage<Props> = ({
                                             isOwner={isOwner}
                                             displayFilters={false} 
                                         />
-                                    : <Box as='span'>Not connected</Box>
+                                    : 
+                                        <Text 
+                                            as='span'
+                                        >
+                                            Not connected
+                                        </Text>
                                 : ''
                             }
                         </Box>
                     </Box>
                 </Box>
-            </main>
+            </Box>
         </Fragment>
     )
 }

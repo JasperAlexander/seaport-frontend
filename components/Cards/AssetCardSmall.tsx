@@ -12,6 +12,7 @@ import { useAccount } from 'wagmi'
 import useMounted from '../../hooks/useMounted'
 import { CompletePurchaseDialogTrigger } from '../DialogTriggers/CompletePurchaseDialogTrigger'
 import { CancelListingDialogTrigger } from '../DialogTriggers/CancelListingDialogTrigger'
+import { Text } from '../Text/Text'
 
 interface Props {
     asset: AssetType
@@ -65,7 +66,7 @@ export const AssetCardSmall: FC<Props> = ({
                         position='relative'
                     >
                         <Box
-                            aspectRatio='1'
+                            aspectRatio='square'
                             overflow='hidden'
                         >
                             {asset.image_url
@@ -96,25 +97,46 @@ export const AssetCardSmall: FC<Props> = ({
                             style={{zIndex: '200'}}
                         >
                             <Box display='flex' flexDirection='column'>
-                                <Box as='span' fontSize='12' fontWeight='600'>{asset.name}</Box>
-                                <Box 
+                                <Text 
                                     as='span' 
-                                    fontSize='12'
-                                    overflow='hidden'
-                                    textOverflow='ellipsis'
-                                    whiteSpace='nowrap'
+                                    fontSize='12' 
+                                    fontWeight='600'
+                                >
+                                    {asset.name}
+                                </Text>
+                                <Box 
                                     height='18'
                                 >
-                                    {asset.description}
+                                    <Text 
+                                        as='span' 
+                                        fontSize='12'
+                                        whiteSpace='nowrap'
+                                    >
+                                        {asset.description}
+                                    </Text>
                                 </Box>
                             </Box>
                             <Box>
-                                <Box as='span' fontSize='12' fontWeight='600'>Price</Box>
-                                <Box display='flex' alignItems='center' height='20' gap='5'>
+                                <Text 
+                                    as='span' 
+                                    fontSize='12' 
+                                    fontWeight='600'
+                                >
+                                    Price
+                                </Text>
+                                <Box 
+                                    display='flex' 
+                                    alignItems='center' 
+                                    height='20' 
+                                    gap='5'
+                                >
                                     <EthIcon width='16' />
-                                    <Box as='span' fontSize='16' fontWeight='600'>
+                                    <Text 
+                                        as='span' 
+                                        fontWeight='600'
+                                    >
                                         0,01
-                                    </Box>
+                                    </Text>
                                 </Box>
                             </Box>
                             

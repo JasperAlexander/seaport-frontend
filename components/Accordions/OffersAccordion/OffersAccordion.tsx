@@ -13,6 +13,7 @@ import { truncateAddress, truncateEns } from '../../../utils/truncateText'
 import Link from 'next/link'
 import { VerifiedIcon } from '../../Icons/VerifiedIcon'
 import { AccordionItem } from '../AccordionItem/AccordionItem'
+import { Text } from '../../Text/Text'
 
 interface Props {
     data: EventsStateType
@@ -46,13 +47,12 @@ export const OffersAccordion: FC<Props> = ({
                                 gap='10'
                             >
                                 <TocIcon />
-                                <Box
+                                <Text
                                     as='span'
-                                    fontSize='16'
                                     fontWeight='600'
                                 >
                                     Offers
-                                </Box>
+                                </Text>
                             </Box>
                             <ChevronIcon />
                         </Accordion.Trigger>
@@ -80,7 +80,11 @@ export const OffersAccordion: FC<Props> = ({
                                         ))}
                                     </Box>
                                 </Box>
-                                <Box as='tbody' background='accordionBackground' fontSize='14'>
+                                <Box 
+                                    as='tbody' 
+                                    background='accordionBackground' 
+                                    fontSize='14'
+                                >
                                     {offerEvents?.map((event) => (
                                         <Box 
                                             as='tr'
@@ -103,7 +107,7 @@ export const OffersAccordion: FC<Props> = ({
                                                         maxWidth='12'
                                                         src={event.payment_token.image_url}
                                                     />
-                                                    {event.total_price}
+                                                    {/* {event.total_price} */}
                                                 </Box>
                                             </Box>
                                             <Box

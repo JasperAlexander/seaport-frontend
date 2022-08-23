@@ -2,6 +2,7 @@ import { FC, useRef } from 'react'
 import { Box } from '../Box/Box'
 import { ImgIcon } from '../Icons/ImgIcon'
 import * as styles from './FormSection.css'
+import { Text } from '../Text/Text'
 
 interface Props {
     
@@ -16,25 +17,31 @@ export const ImageFormSection: FC<Props> = ({
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
                 <Box
-                    as='label'
-                    fontWeight='600'
-                    fontSize='16'
+                    display='flex'
+                    gap='3'
                 >
-                    Image
-                    <Box 
+                    <Text
+                        as='label'
+                        fontWeight='600'
+                    >
+                        Image
+                    </Text>
+                    <Text 
                         as='span' 
                         color='error' 
-                        marginLeft='3'
                     >
                         *
-                    </Box>
+                    </Text>
                 </Box>
                 <Box
-                    as='span'
-                    fontSize='12'
                     marginTop='4'
                 >
-                    File types supported: JPG, PNG. Max size: 100 MB
+                    <Text
+                        as='span'
+                        fontSize='12'
+                    >
+                        File types supported: JPG, PNG. Max size: 100 MB
+                    </Text>
                 </Box>
             </Box>
             <Box

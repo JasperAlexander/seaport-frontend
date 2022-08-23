@@ -127,6 +127,7 @@ const dimensions = {
   '42': '42px',
   '43p': '43%',
   '44': '44px',
+  '45': '45px',
   '48': '48px',
   '50p': '50%',
   '54': '54px',
@@ -172,7 +173,7 @@ const weights = {
 }
 
 const flexAlignment = ['flex-start', 'flex-end', 'center', 'stretch'] as const
-const displayOptions = ['none', 'block', 'flex', 'inline', 'inline-flex', 'grid', 'initial'] as const
+const displayOptions = ['none', 'block', 'flex', 'inline', 'inline-flex', 'inline-block', 'grid', 'initial'] as const
 
 const textAlignments = ['left', 'center', 'right', 'inherit'] as const
 
@@ -200,12 +201,12 @@ const staticProperties = defineProperties({
   properties: {
     alignSelf: flexAlignment,
     aspectRatio: { 
-      '1': '1 / 1',
+      'square': '1 / 1',
       '1.1': '1 / 1.1'
     },
-    backgroundSize: ['cover'] as const,
+    backgroundSize: ['cover'],
 
-    borderStyle: ['solid', 'dashed'] as const,
+    borderStyle: ['solid', 'dashed'],
 
     flexDirection: ['row', 'column'],
     flexBasis: {
@@ -217,21 +218,7 @@ const staticProperties = defineProperties({
     flexWrap: ['wrap', 'nowrap'],
 
     fontFamily: themeVars.fonts,
-    fontSize: {
-      '8': { fontSize: '8px', lineHeight: '18px' },
-      '12': { fontSize: '12px', lineHeight: '18px' },
-      '13': { fontSize: '13px', lineHeight: '18px' },
-      '14': { fontSize: '14px', lineHeight: '18px' },
-      '15': { fontSize: '15px', lineHeight: '20px' },
-      '16': { fontSize: '16px', lineHeight: '20px' },
-      '18': { fontSize: '18px', lineHeight: '24px' },
-      '20': { fontSize: '20px', lineHeight: '24px' },
-      '24': { fontSize: '24px', lineHeight: '29px' },
-      '28': { fontSize: '28px', lineHeight: '29px' },
-      '30': { fontSize: '30px', lineHeight: '29px' },
-      '32': { fontSize: '32px', lineHeight: '29px' },
-      '40': { fontSize: '40px', lineHeight: '29px' },
-    },
+    fontSize: dimensions,
     fontWeight: weights,
 
     gap: dimensions,
@@ -247,13 +234,13 @@ const staticProperties = defineProperties({
     minHeight: dimensions,
     minWidth: dimensions,
 
-    objectFit: ['cover', 'contain'] as const,
+    objectFit: ['cover', 'contain'],
 
     overflow: overflowOptions,
     overflowX: overflowOptions,
     overflowY: overflowOptions,
 
-    outline: ['none'] as const,
+    outline: ['none'],
     stroke: themeVars.colors,
 
     paddingBottom: dimensions,
@@ -261,8 +248,8 @@ const staticProperties = defineProperties({
     paddingRight: dimensions,
     paddingTop: dimensions,
 
-    position: ['absolute', 'fixed', 'relative', 'sticky'] as const,
-    userSelect: ['none'] as const,
+    position: ['absolute', 'fixed', 'relative', 'sticky', 'initial'],
+    userSelect: ['none'],
     whiteSpace: ['nowrap'],
 
     zIndex: weights,
@@ -375,12 +362,11 @@ const dynamicProperties = defineProperties({
       'shrink': '0.95',
       'shrinkSm': '0.9'
     },
-    
     transform: [
       'rotate(180deg)', 
       'translateX(22px)',
       'translateX(0px)'
-    ] as const,
+    ],
     transition: {
       default: '0.125s ease',
       inputBorderColor: 'border-color 0.25s ease-in-out 0s, background-color 0.25s ease-in-out 0s',
@@ -397,7 +383,7 @@ const dynamicProperties = defineProperties({
       borderRadius: '100ms'
     },
 
-    visibility: ['visible', 'hidden'] as const
+    visibility: ['visible', 'hidden']
   },
   shorthands: {
     margin: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],

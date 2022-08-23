@@ -1,16 +1,13 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'
 import React, { Fragment } from 'react'
-import { AssetsList } from '../components/Lists/AssetsList'
 import { Box } from '../components/Box/Box'
 import setParams from '../utils/params'
 import { AssetsType } from '../types/assetTypes'
 import { useRouter } from 'next/router'
 import useAssets from '../hooks/useAssets'
-import useMounted from '../hooks/useMounted'
 import { MainButton } from '../components/Buttons/MainButton'
-import * as AspectRatio from '@radix-ui/react-aspect-ratio'
-import Link from 'next/link'
+import { Text } from '../components/Text/Text'
 import { FeaturedCard } from '../components/Cards/FeaturedCard'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
@@ -76,20 +73,24 @@ const HomePage: NextPage<Props> = ({
             style={{padding: '110px 20px 44px 30px'}}
           >
             <Box
-              as='h1'
-              style={{fontSize: '45px'}}
               marginRight='10'
-              fontWeight='600'
             >
-              Discover, collect, and sell extraordinary NFTs
+              <Text
+                as='h1'
+                fontSize='45'
+                fontWeight='600'
+              >
+                Discover, collect, and sell extraordinary NFTs
+              </Text>
             </Box>
             <Box
-              fontSize='24'
               marginTop='20'
-              color='defaultText'
-              fontWeight='400'
             >
-              OpenFish is an example implementation of the Seaport marketplace protocol for educational purpose
+              <Text
+                fontSize='24'
+              >
+                OpenFish is an example implementation of the Seaport marketplace protocol for educational purpose
+              </Text>
             </Box>
             <Box
               marginTop='40'
@@ -118,9 +119,11 @@ const HomePage: NextPage<Props> = ({
             flexDirection='column'
             alignItems='flex-end'
           >
-            <FeaturedCard 
-              asset={mappedAssets[0]}
-            />
+            {mappedAssets.length > 0 &&
+              <FeaturedCard 
+                asset={mappedAssets[0]}
+              />
+            }
           </Box>
         </Box>
       </Box>

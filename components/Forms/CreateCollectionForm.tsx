@@ -12,6 +12,7 @@ import { BlockchainFormSection } from '../FormSections/BlockchainFormSection'
 import { SpecialsFormSection } from '../FormSections/SpecialsFormSection'
 import { MainButton } from '../Buttons/MainButton'
 import { TokensStateType } from '../../types/tokenTypes'
+import { Text } from '../Text/Text'
 
 // To do: find out why this cannot be moved to collectionTypes.ts
 export interface CreateCollectionFormType {
@@ -118,16 +119,16 @@ export const CreateCollectionForm: FC<Props> = ({
         >
             <Box
                 as='header'
+                paddingTop='32' 
+                paddingBottom='16' 
             >
-                <Box 
+                <Text 
                     as='h1' 
                     fontSize='40' 
-                    paddingTop='32' 
-                    paddingBottom='16' 
                     fontWeight='600'
                 >
                     Create new collection
-                </Box>
+                </Text>
             </Box>
             <Box
                 as='form'
@@ -135,12 +136,24 @@ export const CreateCollectionForm: FC<Props> = ({
                 style={{marginBottom: '32px', maxWidth: '772px', width: '100%'}}
             >
                 <Box
-                    as='p'
+                    display='flex'
+                    alignItems='center'
+                    gap='3'
                     marginY='12'
-                    fontSize='12'
                 >
-                    <Box as='span' color='error' marginRight='3'>*</Box>
-                    Required fields
+                    <Text 
+                        as='span' 
+                        color='error'
+                        fontSize='12'
+                    >
+                        *
+                    </Text>
+                    <Text
+                        as='span'
+                        fontSize='12'
+                    >
+                        Required fields
+                    </Text>
                 </Box>
 
                 <ImageFormSection />
@@ -168,7 +181,10 @@ export const CreateCollectionForm: FC<Props> = ({
                     data={data} 
                 />
 
-                <BlockchainFormSection />
+                <BlockchainFormSection 
+                    data={data}
+                    setData={setData}
+                />
 
                 <Box 
                     height='0'

@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import * as styles from './FormSectionItem.css'
 import { ListIcon } from '../Icons/ListIcon'
 import { AddIcon } from '../Icons/AddIcon'
+import { Text } from '../Text/Text'
 
 interface Props {
     
@@ -12,43 +13,44 @@ export const PropertiesFormSectionItem: FC<Props> = ({
     
 }) => {
     return (
-        <Box className={styles.formItemSectionItem}>
+        <Box 
+            className={styles.formSectionItem}
+        >
             <Box
                 display='flex'
                 justifyContent='space-between'
             >
-                <Box display='flex'>
+                <Box 
+                    display='flex'
+                >
                     <ListIcon />
-                    <Box marginLeft='16'>
-                        <Box 
+                    <Box 
+                        marginLeft='16'
+                    >
+                        <Text 
                             as='span' 
                             fontWeight='600' 
-                            fontSize='16'
                             display='block'
                         >
                             Properties
-                        </Box>
-                        <Box as='span' fontSize='15'>
+                        </Text>
+                        <Text 
+                            as='span' 
+                            fontSize='15'
+                        >
                             Textual traits that show up as rectangles
-                        </Box>
+                        </Text>
                     </Box>
                 </Box>
                 <Box>
                     <Box
                         as='button'
                         type='button'
-                        display='flex'
-                        alignItems='center'
-                        justifyContent='center'
-                        borderWidth='2'
-                        borderStyle='solid'
-                        borderColor='box'
-                        borderRadius='10'
-                        padding='16'
-                        boxShadow={{hover: 'subHeader'}}
-                        background={{active: 'buttonBackgroundActive'}}
+                        className={styles.formSectionItemButton}
                     >
-                        <AddIcon fill='orderAction' />
+                        <AddIcon 
+                            fill='orderAction' 
+                        />
                     </Box>
                 </Box>
             </Box>

@@ -5,6 +5,7 @@ import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Input } from '../Input/Input'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
+import { Text } from '../Text/Text'
 
 interface Props {
     placeholder: string
@@ -25,12 +26,21 @@ export const NameFormSection: FC<Props> = ({
     <Box className={styles.formItem}>
         <Box className={styles.formItemTop}>
             <Box
-                as='label'
-                fontWeight='600'
-                fontSize='16'
+                display='flex'
+                gap='3'
             >
-                Name
-                <Box as='span' color='error' marginLeft='3'>*</Box>
+                <Text
+                    as='label'
+                    fontWeight='600'
+                >
+                    Name
+                </Text>
+                <Text 
+                    as='span' 
+                    color='error' 
+                >
+                    *
+                </Text>
             </Box>
         </Box>
         <Box>
@@ -47,16 +57,16 @@ export const NameFormSection: FC<Props> = ({
                 <Box
                     display='flex'
                     alignItems='center'
-                    color='error'
                     padding='4'
+                    gap='2'
                 >
                     <CloseIcon fill='error' />
-                    <Box
-                        marginLeft='2'
+                    <Text
                         fontSize='12'
+                        color='error'
                     >
                         {errors.name}
-                    </Box>
+                    </Text>
                 </Box>
             }
         </Box>

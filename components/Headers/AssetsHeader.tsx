@@ -1,10 +1,10 @@
 import { FC, Fragment, useEffect, useRef } from 'react'
 import { useSidebars } from '../../hooks/useSidebars'
-import { sprinkles } from '../../styles/sprinkles.css'
 import { Box } from '../Box/Box'
+import { RoundButton } from '../Buttons/RoundButton'
 import { FilterListIcon } from '../Icons/FilterListIcon'
 import { SortIcon } from '../Icons/SortIcon'
-import SortMenu from '../Menus/SortMenu'
+import { SortSelect } from '../Selects/SortSelect'
 
 interface Props {
     toggleShowFilters: () => void
@@ -43,20 +43,21 @@ export const AssetsHeader: FC<Props> = ({
     return (
         <Fragment>
             <Box
-            height='66'
-            style={{marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)'}}
-            top='71'
-            display='flex'
-            alignItems='center'
-            paddingX='16'
-            background='defaultBackground'
-            zIndex='200'
-            className={sprinkles({
-                display: {
+                height='66'
+                style={{
+                    marginLeft: 'calc(50% - 50vw)', 
+                    marginRight: 'calc(50% - 50vw)'
+                }}
+                top='71'
+                alignItems='center'
+                paddingX='16'
+                background='defaultBackground'
+                zIndex='200'
+                display={{
+                    base: 'flex',
                     largeScreen: 'none',
                     wideScreen: 'none'
-                }
-            })}
+                }}
             >
                 <Box
                     display='flex'
@@ -79,14 +80,12 @@ export const AssetsHeader: FC<Props> = ({
                         paddingY='12'
                         fontWeight='600'
                         gap='8'
-                        className={sprinkles({
-                            boxShadow: {
-                                hover: 'subHeader'
-                            },
-                            background: {
-                                active: 'buttonBackgroundActive'
-                            }
-                        })}
+                        boxShadow={{
+                            hover: 'subHeader'
+                        }}
+                        background={{
+                            active: 'buttonBackgroundActive'
+                        }}
                     >
                         <Box
                             display='flex'
@@ -109,14 +108,12 @@ export const AssetsHeader: FC<Props> = ({
                         borderColor='box'
                         paddingY='12'
                         fontWeight='600'
-                        className={sprinkles({
-                            boxShadow: {
-                                hover: 'subHeader'
-                            },
-                            background: {
-                                active: 'buttonBackgroundActive'
-                            }
-                        })}
+                        boxShadow={{
+                            hover: 'subHeader'
+                        }}
+                        background={{
+                            active: 'buttonBackgroundActive'
+                        }}
                     >
                         <Box
                             display='flex'
@@ -138,13 +135,11 @@ export const AssetsHeader: FC<Props> = ({
                 width='full'
                 background='defaultBackground'
                 zIndex='200'
-                className={sprinkles({
-                    display: {
-                        largeScreen: 'flex',
-                        wideScreen: 'flex'
-                    }
-                })}
-                display='none'
+                display={{
+                    base: 'none',
+                    largeScreen: 'flex',
+                    wideScreen: 'flex'
+                }}
             >
                 <Box
                     position='absolute'
@@ -160,39 +155,20 @@ export const AssetsHeader: FC<Props> = ({
                         height='full'
                         paddingX='32'
                     >
-                        <Box
-                            as='button'
-                            display='flex'
-                            alignItems='center'
-                            justifyContent='center'
-                            padding='12'
-                            borderRadius='24'
-                            className={sprinkles({
-                                boxShadow: {
-                                    hover: 'subHeader'
-                                },
-                                background: {
-                                    active: 'buttonBackgroundActive'
-                                }
-                            })}
+                        <RoundButton
                             onClick={toggleShowFilters}
                         >
                             <FilterListIcon />
-                        </Box>
+                        </RoundButton>
                         <Box
                             marginLeft='auto'
                             flexShrink='0'
                         >
-                            <SortMenu 
-                                options={[
-                                    { key: 'recentlycreated', name: 'Recently created' },
-                                    { key: 'recentlylisted', name: 'Recently listed' }
-                                ]}
-                                defaultOptionName={'Recently created'}
+                            <SortSelect 
                                 mutateData={mutate}
                             />
                         </Box>
-                        {/* View mode */}
+                        {/* To do: add buttons to change view mode */}
                     </Box>
                 </Box>
             </Box>

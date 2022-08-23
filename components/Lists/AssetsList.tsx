@@ -8,6 +8,7 @@ import { AssetCardSmall } from '../Cards/AssetCardSmall'
 import { sprinkles } from '../../styles/sprinkles.css'
 import LoadingCard from '../Cards/LoadingCard'
 import TimeAgo from 'react-timeago'
+import { RoundButton } from '../Buttons/RoundButton'
 
 interface Props {
   data: AssetsStateType
@@ -94,27 +95,13 @@ export const AssetsList: React.FC<Props> = ({
                 display='flex'
                 alignItems='center'
                 color='boxText'
+                gap='8'
               >
-                <Box
-                  as='button'
-                  display='flex'
-                  alignItems='center'
-                  justifyContent='center'
-                  padding='12'
-                  marginRight='8'
-                  borderRadius='full'
+                <RoundButton
                   onClick={() => { assets.mutate(), setRefreshTime(Date.now() - 2000) }}
-                  className={sprinkles({
-                    boxShadow: {
-                      hover: 'subHeader'
-                    },
-                    background: {
-                      active: 'buttonBackgroundActive'
-                    }
-                  })}
                 >
                   <RefreshIcon />
-                </Box>
+                </RoundButton>
                 <Box
                   display='flex'
                   gap='6'

@@ -10,6 +10,7 @@ import { EthIcon } from '../Icons/EthIcon'
 import { WethIcon } from '../Icons/WethIcon'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as styles from './DialogContent.css'
+import { Text } from '../Text/Text'
 
 interface Props {
     open: boolean
@@ -128,17 +129,17 @@ export const WalletSideDialogContent: FC<Props> = ({
                                     gap='4'
                                     paddingY='20'
                                 >
-                                <Box
+                                <Text
                                     fontSize='14'
                                     color='boxText'
                                 >
                                     Total balance
-                                </Box>
-                                <Box
+                                </Text>
+                                <Text
                                     fontSize='20'
                                 >
                                     €0 EUR
-                                </Box>
+                                </Text>
                                 </Box>
                                 <Link href='/faucet' passHref={true}>
                                 <Box
@@ -171,7 +172,6 @@ export const WalletSideDialogContent: FC<Props> = ({
                                 borderStyle='solid'
                                 borderRadius='10'
                                 paddingY='20'
-                                fontSize='15'
                             >
                                 <Box
                                     display='flex'
@@ -195,31 +195,36 @@ export const WalletSideDialogContent: FC<Props> = ({
                                             display='flex'
                                             flexDirection='column'
                                         >
-                                            <Box
+                                            <Text
+                                                fontSize='15'
                                                 fontWeight='600'
                                             >
                                                 ETH
-                                            </Box>
-                                            <Box>
+                                            </Text>
+                                            <Text
+                                                fontSize='15'
+                                            >
                                                 Ethereum
-                                            </Box>
+                                            </Text>
                                         </Box>
                                     </Box>
                                     <Box
                                         display='flex'
                                         flexDirection='column'
                                     >
-                                        <Box
+                                        <Text
+                                            fontSize='15'
                                             fontWeight='600'
                                             textAlign='right'
                                         >
                                             {mounted ? ETHbalance.data ? ETHbalance.data.formatted.toString() : '?' : '?'}
-                                        </Box>
-                                        <Box
+                                        </Text>
+                                        <Text
+                                            fontSize='15'
                                             textAlign='right'
                                         >
                                             {mounted ? ETHbalance.data ? '€0,00 EUR' : '' : ''}
-                                        </Box>
+                                        </Text>
                                     </Box>
                                 </Box>
                             </Box>
@@ -232,7 +237,6 @@ export const WalletSideDialogContent: FC<Props> = ({
                                 borderStyle='solid'
                                 borderRadius='10'
                                 paddingY='20'
-                                fontSize='15'
                             >
                                 <Box
                                     display='flex'
@@ -256,31 +260,36 @@ export const WalletSideDialogContent: FC<Props> = ({
                                             display='flex'
                                             flexDirection='column'
                                         >
-                                            <Box
+                                            <Text
+                                                fontSize='15'
                                                 fontWeight='600'
                                             >
                                                 WETH
-                                            </Box>
-                                            <Box>
+                                            </Text>
+                                            <Text
+                                                fontSize='15'
+                                            >
                                                 Ethereum
-                                            </Box>
+                                            </Text>
                                         </Box>
                                     </Box>
                                     <Box
                                         display='flex'
                                         flexDirection='column'
                                     >
-                                        <Box
+                                        <Text
+                                            fontSize='15'
                                             fontWeight='600'
                                             textAlign='right'
                                         >
                                             {mounted ? WETHbalance.data ? WETHbalance.data.formatted.toString() : '?' : '?'}
-                                        </Box>
-                                        <Box
+                                        </Text>
+                                        <Text
+                                            fontSize='15'
                                             textAlign='right'
                                         >
                                             {mounted ? WETHbalance.data ? '€0,00 EUR' : '' : ''}
-                                        </Box>
+                                        </Text>
                                     </Box>
                                 </Box>
                             </Box>

@@ -6,6 +6,7 @@ import { Input } from '../../components/Input/Input'
 import { CreateCollectionButton } from '../../components/Buttons/CreateCollectionButton'
 import { CollectionInputType } from '../../types/collectionTypes'
 import { MainButton } from '../../components/Buttons/MainButton'
+import { Text } from '../../components/Text/Text'
 
 const CollectionsPage: NextPage = () => {
     return (
@@ -24,23 +25,21 @@ const CollectionsPage: NextPage = () => {
                 gap='16'
             >
                 <Box
-                    as='h1'
-                    minHeight='40'
-                    fontSize='40'
-                    fontWeight='600'
-                    color='defaultText'
                     marginTop='24'
                 >
-                    My collections
+                    <Text
+                        as='h1'
+                        fontSize='40'
+                        fontWeight='600'
+                    >
+                        My collections
+                    </Text>
                 </Box>
-                <Box
+                <Text
                     as='p'
-                    fontSize='16'
-                    fontWeight='400'
-                    color='defaultText'
                 >
                     Create, curate, and manage collections of unique NFTs to share and sell.
-                </Box>
+                </Text>
                 <Box>
                     <MainButton 
                         href='/collection/create'

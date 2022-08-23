@@ -4,6 +4,7 @@ import * as styles from './FormSectionItem.css'
 import { WarningIcon } from '../Icons/WarningIcon'
 import { FormToggle } from '../Toggles/FormToggle'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { Text } from '../Text/Text'
 
 interface Props {
     data: CreateAssetFormType
@@ -15,25 +16,33 @@ export const NsfwFormSectionItem: FC<Props> = ({
     setData
 }) => {
     return (
-        <Box className={styles.formItemSectionItem}>
+        <Box 
+            className={styles.formSectionItem}
+        >
             <Box
                 display='flex'
                 justifyContent='space-between'
             >
-                <Box display='flex'>
+                <Box 
+                    display='flex'
+                >
                     <WarningIcon />
-                    <Box marginLeft='16'>
-                        <Box 
+                    <Box 
+                        marginLeft='16'
+                    >
+                        <Text 
                             as='span' 
                             fontWeight='600' 
-                            fontSize='16'
                             display='block'
                         >
                             Explicit {'&'} Sensitive Content
-                        </Box>
-                        <Box as='span' fontSize='15'>
+                        </Text>
+                        <Text 
+                            as='span' 
+                            fontSize='15'
+                        >
                             Set this item as explicit and sensitive content
-                        </Box>
+                        </Text>
                     </Box>
                 </Box>
                 <Box>

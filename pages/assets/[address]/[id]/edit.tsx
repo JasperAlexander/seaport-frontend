@@ -2,7 +2,6 @@ import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage 
 import Head from 'next/head'
 import { Fragment, useEffect, useState } from 'react'
 import useAsset from '../../../../hooks/useAsset'
-import useMounted from '../../../../hooks/useMounted'
 import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import { MainLayout } from '../../../../components/Layouts/MainLayout'
@@ -22,8 +21,6 @@ const EditAssetPage: NextPage<Props> = ({
     contract_address,
     token_id
 }) => {
-    const { mounted } = useMounted()
-
     const router = useRouter()
     const asset = useAsset(fallbackAsset, contract_address, token_id)
     const collections = useCollections(router, fallbackCollections)

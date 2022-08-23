@@ -18,6 +18,7 @@ import { ContractSchemas } from '../../../types/contractTypes'
 import { TwitterIcon } from '../../Icons/TwitterIcon'
 import { InstagramIcon } from '../../Icons/InstagramIcon'
 import { MediumIcon } from '../../Icons/MediumIcon'
+import { Text } from '../../Text/Text'
 
 interface Props {
     data: AssetType | undefined // SWRResponse<AssetType, any> | undefined // AssetStateType
@@ -43,13 +44,12 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 gap='10'
                             >
                                 <SubjectIcon />
-                                <Box
+                                <Text
                                     as='span'
-                                    fontSize='16'
                                     fontWeight='600'
                                 >
                                     Description
-                                </Box>
+                                </Text>
                             </Box>
                             <ChevronIcon />
                         </Accordion.Trigger>
@@ -84,13 +84,12 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 gap='10'
                             >
                                 <LabelIcon />
-                                <Box
+                                <Text
                                     as='span'
-                                    fontSize='16'
                                     fontWeight='600'
                                 >
                                     Properties
-                                </Box>
+                                </Text>
                             </Box>
                             <ChevronIcon />
                         </Accordion.Trigger>
@@ -117,13 +116,12 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 gap='10'
                             >
                                 <VerticalSplitIcon />
-                                <Box
+                                <Text
                                     as='span'
-                                    fontSize='16'
                                     fontWeight='600'
                                 >
                                     About {data?.collection?.name}
-                                </Box>
+                                </Text>
                             </Box>
                             <ChevronIcon />
                         </Accordion.Trigger>
@@ -254,13 +252,12 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 gap='10'
                             >
                                 <BallotIcon />
-                                <Box
+                                <Text
                                     as='span'
-                                    fontSize='16'
                                     fontWeight='600'
                                 >
                                     Details
-                                </Box>
+                                </Text>
                             </Box>
                             <ChevronIcon />
                         </Accordion.Trigger>
@@ -293,35 +290,35 @@ export const AssetInfoAccordion: FC<Props> = ({
                             </Box>
                             <Box className={styles.detailsInfo}>
                                 <Box as='span'>Token Standard</Box>
-                                <Box 
+                                <Text 
                                     as='span' 
                                     fontWeight='600' 
                                     fontSize='14'
                                 >
                                     {data?.asset_contract?.schema_name === ContractSchemas.ERC721 && 'ERC-721'}
                                     {data?.asset_contract?.schema_name === ContractSchemas.ERC1155 && 'ERC-1155'}
-                                </Box>
+                                </Text>
                             </Box>
                             <Box className={styles.detailsInfo}>
                                 <Box as='span'>Blockchain</Box>
-                                <Box 
+                                <Text 
                                     as='span' 
                                     fontWeight='600' 
                                     fontSize='14'
                                 >
                                     {/* To do: find out where this is should be stored */}
                                     Hardhat
-                                </Box>
+                                </Text>
                             </Box>
                             <Box className={styles.detailsInfo}>
                                 <Box as='span'>Creator Earnings</Box>
-                                <Box 
+                                <Text 
                                     as='span'
                                     fontWeight='600' 
                                     fontSize='14'
                                 >
                                     {data?.transfer_fee ? data.transfer_fee / 100 + '%' : '0%'}
-                                </Box>
+                                </Text>
                             </Box>
                         </Box>
                     </Accordion.Content>

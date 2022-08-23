@@ -7,6 +7,7 @@ import { Input } from '../Input/Input'
 import { TokenSelect } from '../Selects/TokenSelect'
 import { TokensType } from '../../types/tokenTypes'
 import { SWRInfiniteResponse } from 'swr/infinite'
+import { Text } from '../Text/Text'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof ListAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -34,12 +35,21 @@ export const ListingPriceFormSection: FC<Props> = ({
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
                 <Box
-                    as='label'
-                    fontWeight='600'
-                    fontSize='16'
+                    display='flex'
+                    gap='3'
                 >
-                    {label}
-                    <Box as='span' color='error' marginLeft='3'>*</Box>
+                    <Text
+                        as='label'
+                        fontWeight='600'
+                    >
+                        {label}
+                    </Text>
+                    <Text 
+                        as='span' 
+                        color='error' 
+                    >
+                        *
+                    </Text>
                 </Box>
             </Box>
             <Box>
@@ -72,42 +82,47 @@ export const ListingPriceFormSection: FC<Props> = ({
                             <Box
                                 display='flex'
                                 alignItems='center'
-                                color='error'
                                 padding='4'
+                                gap='2'
                             >
-                                <CloseIcon fill='error' />
-                                <Box
-                                    marginLeft='2'
+                                <CloseIcon 
+                                    fill='error' 
+                                />
+                                <Text
                                     fontSize='12'
+                                    color='error'
                                 >
                                     {errors.startAmount}
-                                </Box>
+                                </Text>
                             </Box>
                         : errors.endAmount &&
                             <Box
                                 display='flex'
                                 alignItems='center'
-                                color='error'
                                 padding='4'
+                                gap='2'
                             >
                                 <CloseIcon fill='error' />
-                                <Box
-                                    marginLeft='2'
+                                <Text
                                     fontSize='12'
+                                    color='error'
                                 >
                                     {errors.endAmount}
-                                </Box>
+                                </Text>
                             </Box>
                         }
                     <Box
-                        as='span'
-                        fontSize='12'
-                        color='boxText'
                         marginLeft='auto'
-                        fontWeight='500'
                     >
-                        {/* Should be based on input value */}
-                        $1.000 Total
+                        <Text
+                            as='span'
+                            fontSize='12'
+                            fontWeight='500'
+                            color='boxText'
+                        >
+                            {/* Should be based on input value */}
+                            $1.000 Total
+                        </Text>
                     </Box>
                 </Box>
             </Box>

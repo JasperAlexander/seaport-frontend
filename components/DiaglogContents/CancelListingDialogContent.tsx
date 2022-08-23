@@ -8,6 +8,7 @@ import * as styles from './DialogContent.css'
 import { AssetType } from '../../types/assetTypes'
 import useSeaport from '../../hooks/useSeaport'
 import { OrderType } from '../../types/orderTypes'
+import { Text } from '../Text/Text'
 
 interface Props {
     open: boolean
@@ -65,11 +66,10 @@ export const CancelListingDialogContent: FC<Props> = ({
                     >
                         <Box
                             padding='24'
-                            color='defaultText'
-                            fontSize='16'
-                            fontWeight='400'
                         >
-                            This will cancel your listing. You will also be asked to confirm this cancelation from your wallet.
+                            <Text>
+                                This will cancel your listing. You will also be asked to confirm this cancelation from your wallet.
+                            </Text>
                         </Box>
                     </Box>
 

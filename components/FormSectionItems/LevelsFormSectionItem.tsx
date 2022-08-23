@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import * as styles from './FormSectionItem.css'
 import { AddIcon } from '../Icons/AddIcon'
 import { StarIcon } from '../Icons/StarIcon'
+import { Text } from '../Text/Text'
 
 interface Props {
     
@@ -12,43 +13,44 @@ export const LevelsFormSectionItem: FC<Props> = ({
     
 }) => {
     return (
-        <Box className={styles.formItemSectionItem}>
+        <Box 
+            className={styles.formSectionItem}
+        >
             <Box
                 display='flex'
                 justifyContent='space-between'
             >
-                <Box display='flex'>
+                <Box 
+                    display='flex'
+                >
                     <StarIcon />
-                    <Box marginLeft='16'>
-                        <Box 
+                    <Box 
+                        marginLeft='16'
+                    >
+                        <Text 
                             as='span' 
                             fontWeight='600' 
-                            fontSize='16'
                             display='block'
                         >
                             Levels
-                        </Box>
-                        <Box as='span' fontSize='15'>
+                        </Text>
+                        <Text 
+                            as='span' 
+                            fontSize='15'
+                        >
                             Numerical traits that show as a progress bar
-                        </Box>
+                        </Text>
                     </Box>
                 </Box>
                 <Box>
                     <Box
                         as='button'
                         type='button'
-                        display='flex'
-                        alignItems='center'
-                        justifyContent='center'
-                        borderWidth='2'
-                        borderStyle='solid'
-                        borderColor='box'
-                        borderRadius='10'
-                        padding='16'
-                        boxShadow={{hover: 'subHeader'}}
-                        background={{active: 'buttonBackgroundActive'}}
+                        className={styles.formSectionItemButton}
                     >
-                        <AddIcon fill='orderAction' />
+                        <AddIcon 
+                            fill='orderAction' 
+                        />
                     </Box>
                 </Box>
             </Box>

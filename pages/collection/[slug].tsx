@@ -5,6 +5,8 @@ import { CollectionType } from '../../types/collectionTypes'
 import setParams from '../../utils/params'
 import useCollection from '../../hooks/useCollection'
 import useMounted from '../../hooks/useMounted'
+import { Box } from '../../components/Box/Box'
+import { Text } from '../../components/Text/Text'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -17,15 +19,21 @@ const CollectionPage: NextPage<Props> = ({
     
     return (
         <Fragment>
-        <Head>
-            <title>Collection | Seaport implementation</title>
-            <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
+            <Head>
+                <title>Collection | Seaport implementation</title>
+                <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
-        <main>
-            <h1>Page of collection {mounted && collection?.data?.name}</h1>
-        </main>
+            <Box
+                as='main'
+            >
+                <Text
+                    as='h1'
+                >
+                    Page of collection {mounted && collection?.data?.name}
+                </Text>
+            </Box>
         </Fragment>
     )
 }
