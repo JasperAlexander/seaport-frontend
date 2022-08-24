@@ -12,7 +12,7 @@ interface Props {
 export const SortIcon: FC<Props> = ({
     width = '24',
     height,
-    fill = 'black',
+    fill = 'defaultText',
     fillOnHover
 }) => {
     return (

@@ -34,7 +34,9 @@ const HomePage: NextPage<Props> = ({
         flexBasis='0'
         flexGrow='1'
         flexShrink='1'
-        style={{height: '586px'}}
+        style={{
+          height: '586px'
+        }}
       >
         <Box 
           width='full'
@@ -59,7 +61,9 @@ const HomePage: NextPage<Props> = ({
         <Box
           marginX='auto'
           width='full'
-          style={{maxWidth: 'min(1280px, 100% - 40px)'}}
+          style={{
+            maxWidth: 'min(1280px, 100% - 40px)'
+          }}
           display='flex'
           flexWrap='wrap'
           zIndex='100'

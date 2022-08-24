@@ -19,7 +19,7 @@ export const LoadingIcon: FC<Props> = ({
     height,
     fillCircle = 'box',
     fillProgress = 'accentColor',
-    fillText = 'black',
+    fillText = 'defaultText',
     text,
     fontSize = '16',
     fontWeight = '600',
