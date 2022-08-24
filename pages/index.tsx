@@ -135,28 +135,34 @@ export default HomePage
 
 export const getStaticProps: GetStaticProps<{
   fallbackAssets: AssetsType
-}> = async ({ params }) => {
-  const assetsOptions: RequestInit | undefined = {}
+}> = async () => {
+  try {
+    const assetsOptions: RequestInit | undefined = {}
 
-  const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
+    const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
 
-  const assetsQuery = {}
+    const assetsQuery = {}
 
-  const assetsHref = setParams(assetsUrl, assetsQuery)
+    const assetsHref = setParams(assetsUrl, assetsQuery)
 
-  const assetsData = await fetch(assetsHref, assetsOptions)
+    const assetsData = await fetch(assetsHref, assetsOptions)
 
-  const fallbackAssets = (await assetsData.json()) as AssetsType
+    const fallbackAssets = (await assetsData.json()) as AssetsType
 
-  if (!fallbackAssets) {
-    return {
-      notFound: true,
-    }
-  }
-
-  return {
-      props: { 
-          fallbackAssets
+    if (!fallbackAssets) {
+      return {
+        notFound: true
       }
+    }
+
+    return {
+        props: { 
+            fallbackAssets
+        }
+    }
+  } catch {
+    return {
+      notFound: true
+    }
   }
 }

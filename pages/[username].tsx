@@ -7,7 +7,7 @@ import useUser from '../hooks/useUser'
 import { Box } from '../components/Box/Box'
 import { useAccount, useEnsAvatar, useEnsName } from 'wagmi'
 import { emojiAvatarForAddress } from '../utils/emojiAvatar'
-import { AssetsList } from '../components/Lists/AssetsList'
+import { AssetGrid } from '../components/Grids/AssetGrid'
 import useAssets from '../hooks/useAssets'
 import { useRouter } from 'next/router'
 import { AssetsType } from '../types/assetTypes'
@@ -15,6 +15,8 @@ import useMounted from '../hooks/useMounted'
 import { ShareIcon } from '../components/Icons/ShareIcon'
 import { VerifiedIcon } from '../components/Icons/VerifiedIcon'
 import { Text } from '../components/Text/Text'
+import { RoundButton } from '../components/Buttons/RoundButton'
+import { truncateAddress, truncateEns } from '../utils/truncateText'
 
 enum Tabs {
     Created,
@@ -114,7 +116,6 @@ const UserPage: NextPage<Props> = ({
                         }
                     </Box>
                     <Box 
-                        paddingX='32' 
                         display='flex' 
                         flexDirection='column' 
                         gap='44' 
@@ -123,6 +124,7 @@ const UserPage: NextPage<Props> = ({
                         <Box 
                             display='flex' 
                             flexDirection='column'
+                            paddingX='32'
                         >
                             <Box 
                                 display='flex' 
@@ -142,28 +144,20 @@ const UserPage: NextPage<Props> = ({
                                     >
                                         {mounted 
                                             ? username
-                                                ? username
+                                                ? truncateEns(username)
                                                 : EnsName 
-                                                    ? EnsName 
-                                                    : address 
+                                                    ? truncateEns(EnsName) 
+                                                    : address
+                                                        ? truncateAddress(address) 
+                                                        : ''
                                             : ''
                                         }
                                     </Text>
                                     {user.data?.config === 'verified' && <VerifiedIcon fill='accentColor' />}
                                 </Box>
-                                <Box
-                                    as='button'
-                                    padding='12'
-                                    borderRadius='full'
-                                    boxShadow={{
-                                        hover: 'subHeader'
-                                    }}
-                                    background={{
-                                        active: 'buttonBackgroundActive'
-                                    }}
-                                >
+                                <RoundButton>
                                     <ShareIcon />
-                                </Box>
+                                </RoundButton>
                             </Box>
                             <Text 
                                 as='span'
@@ -184,6 +178,7 @@ const UserPage: NextPage<Props> = ({
                                 width='full'
                                 marginTop='32'
                                 marginBottom='24'
+                                paddingX='32'
                             >
                                 <Box
                                     as='button'
@@ -192,7 +187,9 @@ const UserPage: NextPage<Props> = ({
                                     paddingBottom='10'
                                     gap='8'
                                     onClick={() => setCurrentTab(Tabs.Created)}
-                                    style={{borderBottom: currentTab === Tabs.Created ? '2px solid rgb(4, 17, 29)' : '2px solid transparent'}}
+                                    style={{
+                                        borderBottom: currentTab === Tabs.Created ? '2px solid rgb(4, 17, 29)' : '2px solid transparent'
+                                    }}
                                 >
                                     <Text
                                         fontWeight='600'
@@ -214,7 +211,9 @@ const UserPage: NextPage<Props> = ({
                                     paddingBottom='10'
                                     gap='8'
                                     onClick={() => setCurrentTab(Tabs.Collected)}
-                                    style={{borderBottom: currentTab === Tabs.Collected ? '2px solid rgb(4, 17, 29)' : '2px solid transparent'}}
+                                    style={{
+                                        borderBottom: currentTab === Tabs.Collected ? '2px solid rgb(4, 17, 29)' : '2px solid transparent'
+                                    }}
                                 >
                                     <Text
                                         fontWeight='600'
@@ -233,7 +232,7 @@ const UserPage: NextPage<Props> = ({
                             {mounted 
                                 ? assets
                                     ? 
-                                        <AssetsList 
+                                        <AssetGrid 
                                             data={assets}
                                             isOwner={isOwner}
                                             displayFilters={false} 
@@ -268,59 +267,65 @@ export const getStaticProps: GetStaticProps<{
     fallbackUser: UserType
     fallbackAssets: AssetsType
 }> = async ({ params }) => {
-    const username = params?.username?.toString()
-  
-    if (!username) {
+    try {
+        const username = params?.username?.toString()
+    
+        if (!username) {
+            return {
+                notFound: true,
+            }
+        }
+    
+        // USER
+        const userOptions: RequestInit | undefined = {}
+
+        const userUrl = new URL(`/api/v1/user/${username}/`, 'http://localhost:8000')
+
+        const userQuery = {}
+    
+        const userHref = setParams(userUrl, userQuery)
+    
+        const userData = await fetch(userHref, userOptions)
+    
+        const fallbackUser = (await userData.json()) as UserType
+    
+        if (!fallbackUser) {
         return {
             notFound: true,
         }
-    }
-  
-    // USER
-    const userOptions: RequestInit | undefined = {}
+        }
 
-    const userUrl = new URL(`/api/v1/user/${username}/`, 'http://localhost:8000')
+        // ASSETS
+        const assetsOptions: RequestInit | undefined = {}
 
-    const userQuery = {}
-  
-    const userHref = setParams(userUrl, userQuery)
-  
-    const userData = await fetch(userHref, userOptions)
-  
-    const fallbackUser = (await userData.json()) as UserType
-  
-    if (!fallbackUser) {
-      return {
-        notFound: true,
-      }
-    }
+        const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
 
-    // ASSETS
-    const assetsOptions: RequestInit | undefined = {}
-
-    const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
-
-    const assetsQuery = {
-        ...(username && { owner__username: username })
-    }
-  
-    const assetsHref = setParams(assetsUrl, assetsQuery)
-  
-    const assetsData = await fetch(assetsHref, assetsOptions)
-  
-    const fallbackAssets = (await assetsData.json()) as AssetsType
-  
-    if (!fallbackAssets) {
-      return {
-        notFound: true,
-      }
-    }
-  
-    return {
-        props: { 
-            username,
-            fallbackUser,
-            fallbackAssets
+        const assetsQuery = {
+            ...(username && { owner__username: username })
+        }
+    
+        const assetsHref = setParams(assetsUrl, assetsQuery)
+    
+        const assetsData = await fetch(assetsHref, assetsOptions)
+    
+        const fallbackAssets = (await assetsData.json()) as AssetsType
+    
+        if (!fallbackAssets) {
+        return {
+            notFound: true,
+        }
+        }
+    
+        return {
+            props: { 
+                username,
+                fallbackUser,
+                fallbackAssets
+            }
+        }
+    } catch {
+        return {
+            notFound: true
         }
     }
 }

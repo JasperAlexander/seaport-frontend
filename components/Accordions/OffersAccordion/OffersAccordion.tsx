@@ -10,10 +10,10 @@ import { EventsStateType, EventTypes } from '../../../types/eventTypes'
 import { TocIcon } from '../../Icons/TocIcon'
 import TimeAgo from 'react-timeago'
 import { truncateAddress, truncateEns } from '../../../utils/truncateText'
-import Link from 'next/link'
 import { VerifiedIcon } from '../../Icons/VerifiedIcon'
 import { AccordionItem } from '../AccordionItem/AccordionItem'
 import { Text } from '../../Text/Text'
+import { NextLink } from '../../NextLink/NextLink'
 
 interface Props {
     data: EventsStateType
@@ -65,17 +65,24 @@ export const OffersAccordion: FC<Props> = ({
                                 as='table'
                                 width='full'
                             >
-                                <Box as='thead' fontSize='15'>
-                                    <Box as='tr'>
+                                <Box 
+                                    as='thead'
+                                >
+                                    <Box 
+                                        as='tr'
+                                    >
                                         {columns.map((column) => (
                                             <Box 
                                                 as='th'
-                                                fontWeight='400'
                                                 key={column} 
                                                 paddingX='16'
                                                 paddingY='4'
                                             >
-                                                {column}
+                                                <Text
+                                                    fontSize='15'
+                                                >
+                                                    {column}
+                                                </Text>
                                             </Box>
                                         ))}
                                     </Box>
@@ -115,14 +122,18 @@ export const OffersAccordion: FC<Props> = ({
                                                 padding='16'
                                             >
                                                 {/* To do: make calculator to get USD prices */}
-                                                $300
+                                                <Text>
+                                                    $300
+                                                </Text>
                                             </Box>
                                             <Box
                                                 as='td' 
                                                 padding='16'
                                             >
                                                 {/* To do */}
-                                                6% below
+                                                <Text>
+                                                    6% below
+                                                </Text>
                                             </Box>
                                             <Box
                                                 as='td' 
@@ -133,13 +144,19 @@ export const OffersAccordion: FC<Props> = ({
                                             <Box
                                                 as='td' 
                                                 padding='16'
+                                                display='flex' 
+                                                alignItems='center' 
+                                                gap='4'
                                             >
-                                                <Link href={`/${event.from_account?.username ? event.from_account.username : event.from_account?.address}`} passHref={true}>
-                                                    <Box as='a' display='flex' alignItems='center' gap='4' color='accentColor'>
+                                                <NextLink 
+                                                    href={`/${event.from_account?.username ? event.from_account.username : event.from_account?.address}`}
+                                                    color='accentColor'
+                                                >
+                                                    <Text>
                                                         {event.from_account?.username ? truncateEns(event.from_account.username) : event.from_account?.address ? truncateAddress(event.from_account.address) : ''}
                                                         {event.from_account?.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
-                                                    </Box>
-                                                </Link>
+                                                    </Text>
+                                                </NextLink>
                                             </Box>
                                             <Box
                                                 as='td' 
@@ -158,7 +175,11 @@ export const OffersAccordion: FC<Props> = ({
                                 justifyContent='center'
                                 padding='20'
                             >
-                                No offers yet
+                                <Text
+                                    as='span'
+                                >
+                                    No offers yet
+                                </Text>
                             </Box>
                         }
                     </Accordion.Content>

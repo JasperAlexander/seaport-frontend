@@ -12,6 +12,7 @@ import { CollectionsType } from '../../../../types/collectionTypes'
 import useCollections from '../../../../hooks/useCollections'
 import { Box } from '../../../../components/Box/Box'
 import { MainButton } from '../../../../components/Buttons/MainButton'
+import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -43,32 +44,14 @@ const EditAssetPage: NextPage<Props> = ({
             <MainLayout>
                 {isOwner &&
                     <Fragment>
-                        <Box 
-                            display='flex'
-                            justifyContent='flex-end'
-                            alignItems='center'
-                            position='sticky'
-                            height='80' 
-                            width='full' 
-                            background='accordionBackground'
-                            borderBottomWidth='1'
-                            borderStyle='solid'
-                            borderColor='box'
-                        >
-                            <Box 
-                                display='flex'
-                                gap='8'
-                                paddingX='40' 
-                                marginTop='-8'
+                        <AssetPageHeader>
+                            <MainButton 
+                                onClick={() => router.back()}
+                                width='160'
                             >
-                                <MainButton 
-                                    onClick={() => router.back()}
-                                    width='160'
-                                >
-                                    Go back
-                                </MainButton>
-                            </Box>
-                        </Box>
+                                Go back
+                            </MainButton>
+                        </AssetPageHeader>
                         <EditAssetForm 
                             asset={asset}
                             collections={collections}
@@ -95,55 +78,61 @@ export const getStaticProps: GetStaticProps<{
     contract_address: string
     token_id: string
 }> = async ({ params }) => {
-    // ASSET
-    const contract_address = params?.address?.toString()
-    const token_id = params?.id?.toString()
-  
-    if (!contract_address || !token_id) {
+    try {
+        // ASSET
+        const contract_address = params?.address?.toString()
+        const token_id = params?.id?.toString()
+    
+        if (!contract_address || !token_id) {
+            return {
+                notFound: true,
+            }
+        }
+    
+        const assetOptions: RequestInit | undefined = {}
+
+        const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, 'http://localhost:8000')
+
+        const assetQuery = {}
+    
+        const assetHref = setParams(assetUrl, assetQuery)
+    
+        const assetRes = await fetch(assetHref, assetOptions)
+    
+        const fallbackAsset = (await assetRes.json()) as AssetType
+    
+        if (!fallbackAsset) {
         return {
             notFound: true,
         }
-    }
-  
-    const assetOptions: RequestInit | undefined = {}
+        }
 
-    const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, 'http://localhost:8000')
+        // COLLECTIONS
+        const collectionsOptions: RequestInit | undefined = {}
 
-    const assetQuery = {}
-  
-    const assetHref = setParams(assetUrl, assetQuery)
-  
-    const assetRes = await fetch(assetHref, assetOptions)
-  
-    const fallbackAsset = (await assetRes.json()) as AssetType
-  
-    if (!fallbackAsset) {
-      return {
-        notFound: true,
-      }
-    }
+        // Todo: add filter to only show collections of user
+        const collectionsUrl = new URL(`/api/v1/collections/`, 'http://localhost:8000')
 
-    // COLLECTIONS
-    const collectionsOptions: RequestInit | undefined = {}
+        const collectionsQuery = {}
+    
+        const collectionsHref = setParams(collectionsUrl, collectionsQuery)
+    
+        const collectionsRes = await fetch(collectionsHref, collectionsOptions)
+    
+        const fallbackCollections = (await collectionsRes.json()) as CollectionsType
 
-    // Todo: add filter to only show collections of user
-    const collectionsUrl = new URL(`/api/v1/collections/`, 'http://localhost:8000')
-
-    const collectionsQuery = {}
-  
-    const collectionsHref = setParams(collectionsUrl, collectionsQuery)
-  
-    const collectionsRes = await fetch(collectionsHref, collectionsOptions)
-  
-    const fallbackCollections = (await collectionsRes.json()) as CollectionsType
-
-    // RETURN
-    return {
-        props: { 
-            fallbackAsset,
-            fallbackCollections,
-            contract_address,
-            token_id
+        // RETURN
+        return {
+            props: { 
+                fallbackAsset,
+                fallbackCollections,
+                contract_address,
+                token_id
+            }
+        }
+    } catch {
+        return {
+            notFound: true
         }
     }
 }

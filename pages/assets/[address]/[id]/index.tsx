@@ -2,9 +2,8 @@ import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage 
 import Head from 'next/head'
 import { Fragment, useEffect, useState } from 'react'
 import { Box } from '../../../../components/Box/Box'
-import { AssetCardLarge } from '../../../../components/Cards/AssetCardLarge'
+import { AssetPageCard } from '../../../../components/Cards/AssetPageCard'
 import { AssetPriceAccordion } from '../../../../components/Accordions/AssetPriceAccordion/AssetPriceAccordion'
-import { AssetHeader } from '../../../../components/Headers/AssetHeader'
 import { AssetMeta } from '../../../../components/Containers/AssetMeta'
 import useAsset from '../../../../hooks/useAsset'
 import { AssetType } from '../../../../types/assetTypes'
@@ -23,6 +22,10 @@ import { OrdersQueryType, OrdersType } from '../../../../types/orderTypes'
 import useOrders from '../../../../hooks/useOrders'
 import useTokens from '../../../../hooks/useTokens'
 import { TokensQueryType, TokensType } from '../../../../types/tokenTypes'
+import { NextLink } from '../../../../components/NextLink/NextLink'
+import { FlagIcon } from '../../../../components/Icons/FlagIcon'
+import { Text } from '../../../../components/Text/Text'
+import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -85,38 +88,20 @@ const AssetPage: NextPage<Props> = ({
                         width='full'
                     >
                         {isOwner &&
-                            <Box 
-                                display='flex'
-                                justifyContent='flex-end'
-                                alignItems='center'
-                                position='sticky'
-                                height='80' 
-                                width='full' 
-                                background='accordionBackground'
-                                borderBottomWidth='1'
-                                borderStyle='solid'
-                                borderColor='box'
-                            >
-                                <Box 
-                                    display='flex'
-                                    gap='8'
-                                    paddingX='40' 
-                                    marginTop='-8'
+                            <AssetPageHeader>
+                                <MainButton 
+                                    variant='secondary'
+                                    width='160'
                                 >
-                                    <MainButton 
-                                        variant='secondary'
-                                        width='160'
-                                    >
-                                        Edit
-                                    </MainButton>
-                                    <MainButton 
-                                        href={`/assets/${asset?.data?.asset_contract?.address}/${asset?.data?.token_id}/sell`}
-                                        width='160'
-                                    >
-                                        Sell
-                                    </MainButton>
-                                </Box>
-                            </Box>
+                                    Edit
+                                </MainButton>
+                                <MainButton 
+                                    href={`/assets/${asset?.data?.asset_contract?.address}/${asset?.data?.token_id}/sell`}
+                                    width='160'
+                                >
+                                    Sell
+                                </MainButton>
+                            </AssetPageHeader>
                         }
                         <Box
                             display='flex'
@@ -129,7 +114,7 @@ const AssetPage: NextPage<Props> = ({
                                 maxWidth='43p'
                                 width='0'
                             >
-                                <AssetCardLarge 
+                                <AssetPageCard 
                                     asset={asset?.data} 
                                 />
                                 <AssetInfoAccordion 
@@ -142,9 +127,65 @@ const AssetPage: NextPage<Props> = ({
                                 flexBasis='0'
                                 marginLeft='-20'
                             >
-                                <AssetHeader 
-                                    asset={asset?.data} 
-                                />
+                                <Box
+                                    display='flex'
+                                    flexDirection='column'
+                                    flexWrap='wrap'
+                                    justifyContent='space-between'
+                                    margin={{
+                                        wideScreen: '20',
+                                        largeScreen: '20'
+                                    }}
+                                >
+                                    <Box
+                                        display='flex'
+                                        justifyContent='space-between'
+                                        alignItems='center'
+                                        marginBottom='5'
+                                        maxWidth='full'
+                                    >
+                                        <NextLink 
+                                            href={`/collection/${asset?.data?.collection?.slug}/`} 
+                                            display='flex'
+                                            alignItems='center'
+                                            maxWidth='full'
+                                        >
+                                            <Text
+                                                whiteSpace='nowrap'
+                                                color='accentColor'
+                                            >
+                                                {asset?.data?.collection?.name}
+                                            </Text>
+                                        </NextLink>
+                                        <Box
+                                            maxWidth='fit'
+                                            display='flex'
+                                            width='fit'
+                                        >
+                                            <Box
+                                                borderRadius='10'
+                                                display='inline-flex'
+                                                justifyContent='center'
+                                                padding='12'
+                                                borderWidth='2'
+                                                borderColor='box'
+                                                borderStyle='solid'
+                                                cursor='pointer'
+                                            >
+                                                <FlagIcon 
+                                                    width='20' 
+                                                />
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                    <Text
+                                        as='h1'
+                                        fontSize='32'
+                                        fontWeight='600'
+                                    >
+                                        {asset?.data?.name}
+                                    </Text>
+                                </Box>
                                 <AssetMeta 
                                     asset={asset?.data} 
                                 />
@@ -198,10 +239,66 @@ const AssetPage: NextPage<Props> = ({
                         flexWrap='wrap'
                         justifyContent='space-between'
                     >
-                        <AssetHeader 
-                            asset={asset?.data} 
-                        />
-                        <AssetCardLarge 
+                        <Box
+                            display='flex'
+                            flexDirection='column'
+                            flexWrap='wrap'
+                            justifyContent='space-between'
+                            margin={{
+                                wideScreen: '20',
+                                largeScreen: '20'
+                            }}
+                        >
+                            <Box
+                                display='flex'
+                                justifyContent='space-between'
+                                alignItems='center'
+                                marginBottom='5'
+                                maxWidth='full'
+                            >
+                                <NextLink 
+                                    href={`/collection/${asset?.data?.collection?.slug}/`} 
+                                    display='flex'
+                                    alignItems='center'
+                                    maxWidth='full'
+                                >
+                                    <Text
+                                        whiteSpace='nowrap'
+                                        color='accentColor'
+                                    >
+                                        {asset?.data?.collection?.name}
+                                    </Text>
+                                </NextLink>
+                                <Box
+                                    maxWidth='fit'
+                                    display='flex'
+                                    width='fit'
+                                >
+                                    <Box
+                                        borderRadius='10'
+                                        display='inline-flex'
+                                        justifyContent='center'
+                                        padding='12'
+                                        borderWidth='2'
+                                        borderColor='box'
+                                        borderStyle='solid'
+                                        cursor='pointer'
+                                    >
+                                        <FlagIcon 
+                                            width='20' 
+                                        />
+                                    </Box>
+                                </Box>
+                            </Box>
+                            <Text
+                                as='h1'
+                                fontSize='32'
+                                fontWeight='600'
+                            >
+                                {asset?.data?.name}
+                            </Text>
+                        </Box>
+                        <AssetPageCard 
                             asset={asset?.data} 
                         />
                         <AssetMeta 
@@ -238,91 +335,97 @@ export const getStaticProps: GetStaticProps<{
     contract_address: string
     token_id: string
 }> = async ({ params }) => {
-    // ASSET
-    const contract_address = params?.address?.toString()
-    const token_id = params?.id?.toString()
-  
-    if (!contract_address || !token_id) {
+    try {
+        // ASSET
+        const contract_address = params?.address?.toString()
+        const token_id = params?.id?.toString()
+    
+        if (!contract_address || !token_id) {
+            return {
+                notFound: true,
+            }
+        }
+    
+        const assetOptions: RequestInit | undefined = {}
+
+        const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, 'http://localhost:8000')
+
+        const assetQuery = {}
+    
+        const assetHref = setParams(assetUrl, assetQuery)
+    
+        const assetRes = await fetch(assetHref, assetOptions)
+    
+        const fallbackAsset = (await assetRes.json()) as AssetType
+    
+        if (!fallbackAsset) {
         return {
             notFound: true,
         }
-    }
-  
-    const assetOptions: RequestInit | undefined = {}
+        }
 
-    const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, 'http://localhost:8000')
+        // EVENTS
+        const eventsOptions: RequestInit | undefined = {}
 
-    const assetQuery = {}
-  
-    const assetHref = setParams(assetUrl, assetQuery)
-  
-    const assetRes = await fetch(assetHref, assetOptions)
-  
-    const fallbackAsset = (await assetRes.json()) as AssetType
-  
-    if (!fallbackAsset) {
-      return {
-        notFound: true,
-      }
-    }
+        const eventsUrl = new URL(`/api/v1/events/`, 'http://localhost:8000')
 
-    // EVENTS
-    const eventsOptions: RequestInit | undefined = {}
+        const eventsQuery: EventsQueryType = {
+            ...(contract_address && { asset_contract__address: contract_address }),
+            ...(token_id && { token_id: token_id })
+        }
+    
+        const eventsHref = setParams(eventsUrl, eventsQuery)
+    
+        const eventsRes = await fetch(eventsHref, eventsOptions)
+    
+        const fallbackEvents = (await eventsRes.json()) as EventsType
 
-    const eventsUrl = new URL(`/api/v1/events/`, 'http://localhost:8000')
+        // ORDERS
+        const ordersOptions: RequestInit | undefined = {}
 
-    const eventsQuery: EventsQueryType = {
-        ...(contract_address && { asset_contract__address: contract_address }),
-        ...(token_id && { token_id: token_id })
-    }
-  
-    const eventsHref = setParams(eventsUrl, eventsQuery)
-  
-    const eventsRes = await fetch(eventsHref, eventsOptions)
-  
-    const fallbackEvents = (await eventsRes.json()) as EventsType
+        const ordersUrl = new URL(`/api/v1/orders/`, 'http://localhost:8000')
 
-    // ORDERS
-    const ordersOptions: RequestInit | undefined = {}
+        const ordersQuery: OrdersQueryType = {
+            ...(contract_address && { parameters__offer__token: contract_address }),
+            ...(token_id && { parameters__offer__identifierOrCriteria: token_id })
+        }
+    
+        const ordersHref = setParams(ordersUrl, ordersQuery)
+    
+        const ordersRes = await fetch(ordersHref, ordersOptions)
+    
+        const fallbackOrders = (await ordersRes.json()) as OrdersType
 
-    const ordersUrl = new URL(`/api/v1/orders/`, 'http://localhost:8000')
+        // TOKENS
+        const tokensOptions: RequestInit | undefined = {}
 
-    const ordersQuery: OrdersQueryType = {
-        ...(contract_address && { parameters__offer__token: contract_address }),
-        ...(token_id && { parameters__offer__identifierOrCriteria: token_id })
-    }
-  
-    const ordersHref = setParams(ordersUrl, ordersQuery)
-  
-    const ordersRes = await fetch(ordersHref, ordersOptions)
-  
-    const fallbackOrders = (await ordersRes.json()) as OrdersType
+        const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
 
-    // TOKENS
-    const tokensOptions: RequestInit | undefined = {}
-
-    const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
-
-    const tokensQuery: TokensQueryType = {
-        // ...(contract_address && { parameters__offer__token: contract_address }),
-        // ...(token_id && { parameters__offer__identifierOrCriteria: token_id })
-    }
-  
-    const tokensHref = setParams(tokensUrl, tokensQuery)
-  
-    const tokensRes = await fetch(tokensHref, tokensOptions)
-  
-    const fallbackTokens = (await tokensRes.json()) as TokensType
-  
-    // RETURN
-    return {
-        props: { 
-            fallbackAsset,
-            fallbackEvents,
-            fallbackOrders,
-            fallbackTokens,
-            contract_address,
-            token_id
+        const tokensQuery: TokensQueryType = {
+            // ...(contract_address && { parameters__offer__token: contract_address }),
+            // ...(token_id && { parameters__offer__identifierOrCriteria: token_id })
+        }
+    
+        const tokensHref = setParams(tokensUrl, tokensQuery)
+    
+        const tokensRes = await fetch(tokensHref, tokensOptions)
+    
+        const fallbackTokens = (await tokensRes.json()) as TokensType
+    
+        // RETURN
+        return {
+            props: { 
+                fallbackAsset,
+                fallbackEvents,
+                fallbackOrders,
+                fallbackTokens,
+                contract_address,
+                token_id
+            }
+        }
+    } catch {
+        return {
+            notFound: true
         }
     }
 }

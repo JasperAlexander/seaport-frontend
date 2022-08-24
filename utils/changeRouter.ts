@@ -1,5 +1,11 @@
 import { NextRouter } from 'next/router'
 
+/**
+ * Adds query to URL
+ * @param router Next.js router
+ * @param item query label
+ * @param value query value
+ */
 function toggleOnItem(router: NextRouter, item: string, value: string) {
   router.push(
     {
@@ -12,6 +18,11 @@ function toggleOnItem(router: NextRouter, item: string, value: string) {
   )
 }
 
+/**
+ * Removes query of URL
+ * @param router Next.js router
+ * @param item query label
+ */
 function toggleOffItem(router: NextRouter, item: string) {
   let query = router.query
 
@@ -28,6 +39,10 @@ function toggleOffItem(router: NextRouter, item: string) {
   )
 }
 
+/**
+ * Removes all queries of URL
+ * @param router Next.js router
+ */
 function toggleOffItems(router: NextRouter) {
   let query = {}
 

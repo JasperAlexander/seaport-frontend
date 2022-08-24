@@ -40,21 +40,27 @@ export default CreateCollectionPage
 export const getStaticProps: GetStaticProps<{
     fallbackTokens: TokensType
 }> = async () => {
-    const tokensOptions: RequestInit | undefined = {}
+    try {
+        const tokensOptions: RequestInit | undefined = {}
 
-    const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
+        const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
 
-    const tokensQuery = {}
-  
-    const tokensHref = setParams(tokensUrl, tokensQuery)
-  
-    const tokensRes = await fetch(tokensHref, tokensOptions)
-  
-    const fallbackTokens = (await tokensRes.json()) as TokensType
-  
-    return {
-        props: { 
-            fallbackTokens
+        const tokensQuery = {}
+    
+        const tokensHref = setParams(tokensUrl, tokensQuery)
+    
+        const tokensRes = await fetch(tokensHref, tokensOptions)
+    
+        const fallbackTokens = (await tokensRes.json()) as TokensType
+    
+        return {
+            props: { 
+                fallbackTokens
+            }
+        }
+    } catch {
+        return {
+            notFound: true
         }
     }
 }

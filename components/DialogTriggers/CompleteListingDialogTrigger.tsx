@@ -4,6 +4,7 @@ import { ListAssetFormType } from '../Forms/ListAssetForm'
 import useSeaport from '../../hooks/useSeaport'
 import { Box } from '../Box/Box'
 import { CompleteListingDialogContent } from '../DiaglogContents/CompleteListingDialogContent'
+import * as styles from './DialogTrigger.css'
 
 interface Props {
     children: ReactNode
@@ -22,14 +23,16 @@ export const CompleteListingDialogTrigger: FC<Props> = ({
 
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger asChild={true}>
+            <Dialog.Trigger 
+                asChild={true}
+            >
                 {children}
             </Dialog.Trigger>
-            <Dialog.Overlay asChild={true}>
+            <Dialog.Overlay 
+                asChild={true}
+            >
                 <Box 
-                    position='fixed'
-                    inset='0'
-                    style={{backgroundColor: 'rgba(0, 0, 0, 0.15)', zIndex: '800'}}
+                    className={styles.dialogTriggerOverlay}
                 />
             </Dialog.Overlay>
             <CompleteListingDialogContent 

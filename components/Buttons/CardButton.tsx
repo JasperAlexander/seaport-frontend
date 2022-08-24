@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import { FC, ReactNode } from 'react'
-import { Box, BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
 interface Props {
     children: ReactNode

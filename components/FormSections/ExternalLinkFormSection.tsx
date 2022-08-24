@@ -5,13 +5,20 @@ import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Input } from '../Input/Input'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Text } from '../Text/Text'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
-    handleChange: <S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
+    handleChange: 
+        (<S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) |
+        (<S extends unknown>(key: keyof EditAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void)
     validate: () => void
-    setErrors: Dispatch<SetStateAction<Partial<Record<keyof CreateAssetFormType, string>>>>
-    errors: Partial<Record<keyof CreateAssetFormType, string>>
-    data: CreateAssetFormType
+    setErrors: 
+        (Dispatch<SetStateAction<Partial<Record<keyof CreateAssetFormType, string>>>>) |
+        (Dispatch<SetStateAction<Partial<Record<keyof EditAssetFormType, string>>>>)
+    errors: 
+        (Partial<Record<keyof CreateAssetFormType, string>>) |
+        (Partial<Record<keyof EditAssetFormType, string>>)
+    data: CreateAssetFormType | EditAssetFormType
 }
 
 export const ExternalLinkFormSection: FC<Props> = ({
@@ -52,7 +59,7 @@ export const ExternalLinkFormSection: FC<Props> = ({
                     onBlur={() => { 
                         if (data.external_link.length === 0) {
                             // Remove regex error when input is empty
-                            setErrors((currentErrors) => {
+                            setErrors((currentErrors: any) => {
                                 const { external_link, ...errors } = currentErrors
                                 return errors
                             })

@@ -9,12 +9,17 @@ import { SWRInfiniteResponse } from 'swr/infinite'
 import { CollectionSelect } from '../Selects/CollectionSelect'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Text } from '../Text/Text'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
-    handleChange: <S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
+    handleChange: 
+        (<S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) |
+        (<S extends unknown>(key: keyof EditAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void)
     validate: () => void
-    errors: Partial<Record<keyof CreateAssetFormType, string>>
-    data: CreateAssetFormType
+    errors: 
+        (Partial<Record<keyof CreateAssetFormType, string>>) |
+        (Partial<Record<keyof EditAssetFormType, string>>)
+    data: CreateAssetFormType | EditAssetFormType
     collections: SWRInfiniteResponse<CollectionsType, any>
     setData: (e: any) => void
 }

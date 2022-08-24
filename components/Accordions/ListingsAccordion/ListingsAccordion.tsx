@@ -9,7 +9,6 @@ import * as styles from './ListingsAccordion.css'
 import { EventsStateType, EventTypes } from '../../../types/eventTypes'
 import { PriceTagIcon } from '../../Icons/PriceTagIcon'
 import TimeAgo from 'react-timeago'
-import Link from 'next/link'
 import { truncateAddress, truncateEns } from '../../../utils/truncateText'
 import { VerifiedIcon } from '../../Icons/VerifiedIcon'
 import { AccordionItem } from '../AccordionItem/AccordionItem'
@@ -139,12 +138,11 @@ export const ListingsAccordion: FC<Props> = ({
                                                     as='td' 
                                                     padding='16'
                                                 >
-                                                    {/* <Link href={`/${event.from_account?.username ? event.from_account.username : event.from_account?.address}`} passHref={true}>
-                                                        <Box as='a' display='flex' alignItems='center' gap='4' color='accentColor'>
+                                                    {/* <NextLink href={`/${event.from_account?.username ? event.from_account.username : event.from_account?.address}`}
+                                                        display='flex' alignItems='center' gap='4' color='accentColor'>
                                                             {event.from_account?.username ? truncateEns(event.from_account.username) : event.from_account?.address ? truncateAddress(event.from_account.address) : ''}
                                                             {event.from_account?.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
-                                                        </Box>
-                                                    </Link> */}
+                                                    </NextLink> */}
                                                 </Box>
                                                 <Box
                                                     as='td' 

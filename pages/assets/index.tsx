@@ -1,7 +1,7 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'
 import React, { Fragment } from 'react'
-import { AssetsList } from '../../components/Lists/AssetsList'
+import { AssetGrid } from '../../components/Grids/AssetGrid'
 import { Box } from '../../components/Box/Box'
 import setParams from '../../utils/params'
 import { AssetsType } from '../../types/assetTypes'
@@ -26,22 +26,23 @@ const AssetsPage: NextPage<Props> = ({
         <link rel="icon" href='/favicon.ico' />
       </Head>
 
-      <main>
+      <Box
+        as='main'
+      >
         <Box 
           display='flex' 
           flexDirection='column' 
-          paddingX='32'
         >
           {mounted
             ?
-              <AssetsList 
+              <AssetGrid 
                 data={assets}
                 displayFilters={true} 
               />
             : ''
           }
         </Box>
-      </main>
+      </Box>
     </Fragment>
   )
 }
@@ -50,28 +51,34 @@ export default AssetsPage
 
 export const getStaticProps: GetStaticProps<{
   fallbackAssets: AssetsType
-}> = async ({ params }) => {
-  const assetsOptions: RequestInit | undefined = {}
+}> = async () => {
+  try {
+    const assetsOptions: RequestInit | undefined = {}
 
-  const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
+    const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
 
-  const assetsQuery = {}
+    const assetsQuery = {}
 
-  const assetsHref = setParams(assetsUrl, assetsQuery)
+    const assetsHref = setParams(assetsUrl, assetsQuery)
 
-  const assetsData = await fetch(assetsHref, assetsOptions)
+    const assetsData = await fetch(assetsHref, assetsOptions)
 
-  const fallbackAssets = (await assetsData.json()) as AssetsType
+    const fallbackAssets = (await assetsData.json()) as AssetsType
 
-  if (!fallbackAssets) {
-    return {
-      notFound: true,
-    }
-  }
-
-  return {
-      props: { 
-          fallbackAssets
+    if (!fallbackAssets) {
+      return {
+        notFound: true,
       }
+    }
+
+    return {
+        props: { 
+            fallbackAssets
+        }
+    }
+  } catch {
+    return {
+      notFound: true
+    }
   }
 }

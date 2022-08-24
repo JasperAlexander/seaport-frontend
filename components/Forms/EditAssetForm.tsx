@@ -13,6 +13,7 @@ import { SpecialsFormSection } from '../FormSections/SpecialsFormSection'
 import { MainButton } from '../Buttons/MainButton'
 import { SWRResponse } from 'swr'
 import { AssetType } from '../../types/assetTypes'
+import { Text } from '../Text/Text'
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface EditAssetFormType {
@@ -21,6 +22,7 @@ export interface EditAssetFormType {
     external_link: string
     description: string
     collection: number
+    unlockable: string
     supply: number
     is_nsfw: boolean
 }
@@ -113,6 +115,7 @@ export const EditAssetForm: FC<Props> = ({
             description: asset?.data?.description,
             // To do: update collection api and types
             collection: 1, // asset?.data?.collection?.slug,
+            unlockable: '',
             supply: 1,
             is_nsfw: asset?.data?.is_nsfw
         },
@@ -126,16 +129,16 @@ export const EditAssetForm: FC<Props> = ({
         >
             <Box
                 as='header'
+                paddingTop='32' 
+                paddingBottom='16' 
             >
-                <Box 
+                <Text 
                     as='h1' 
                     fontSize='40' 
-                    paddingTop='32' 
-                    paddingBottom='16' 
                     fontWeight='600'
                 >
                     Edit asset {asset?.data?.name}
-                </Box>
+                </Text>
             </Box>
             <Box
                 as='form'
@@ -143,17 +146,30 @@ export const EditAssetForm: FC<Props> = ({
                 style={{marginBottom: '32px', maxWidth: '772px', width: '100%'}}
             >
                 <Box
-                    as='p'
+                    display='flex'
+                    alignItems='center'
+                    gap='3'
                     marginY='12'
-                    fontSize='12'
                 >
-                    <Box as='span' color='error' marginRight='3'>*</Box>
-                    Required fields
+                    <Text 
+                        as='span' 
+                        color='error'
+                        fontSize='12'
+                    >
+                        *
+                    </Text>
+                    <Text
+                        as='span'
+                        fontSize='12'
+                    >
+                        Required fields
+                    </Text>
                 </Box>
 
                 <ImageFormSection />
                 
                 <NameFormSection 
+                    placeholder='Asset name'
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 
@@ -169,6 +185,7 @@ export const EditAssetForm: FC<Props> = ({
                 />
 
                 <DescriptionFormSection 
+                    label={`The description will be included on the item's detail page underneath its image.`}
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 
@@ -184,7 +201,13 @@ export const EditAssetForm: FC<Props> = ({
                     setData={setData} 
                 />
                 
-                <SpecialsFormSection />
+                <SpecialsFormSection 
+                    handleChange={handleChange} 
+                    validate={validate} 
+                    errors={errors} 
+                    data={data}
+                    setData={setData}
+                />
 
                 <SupplyFormSection 
                     handleChange={handleChange} 
@@ -193,7 +216,10 @@ export const EditAssetForm: FC<Props> = ({
                     data={data} 
                 />
 
-                <BlockchainFormSection />
+                <BlockchainFormSection 
+                    data={data}
+                    setData={setData}
+                />
 
                 <Box 
                     height='0'

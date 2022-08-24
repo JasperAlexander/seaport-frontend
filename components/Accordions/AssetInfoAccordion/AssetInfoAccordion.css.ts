@@ -96,12 +96,6 @@ export const collection = style([sprinkles({
     gap: '20'
 })])
 
-export const collectionDescription = style([sprinkles({
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    fontSize: '14'
-})])
-
 export const collectionImg = style([sprinkles({
     width: '80',
     borderRadius: '10',

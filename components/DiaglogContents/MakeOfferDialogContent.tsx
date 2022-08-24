@@ -1,11 +1,12 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { CloseIcon } from '../Icons/CloseIcon'
 import { MainButton } from '../Buttons/MainButton'
 import * as styles from './DialogContent.css'
 import { MakeOfferForm } from '../Forms/MakeOfferForm'
 import { TokensStateType } from '../../types/tokenTypes'
+import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
+import { DialogContentFooter } from '../Footers/DialogContentFooter'
 
 interface Props {
     open: boolean
@@ -19,14 +20,11 @@ export const MakeOfferDialogContent: FC<Props> = ({
     tokens
 }) => {
     return (
-        <Dialog.Content asChild={true}>
+        <Dialog.Content 
+            asChild={true}
+        >
             <Box
-                style={{
-                    transform: 'translate(-50%, -50%)',
-                    width: '700px', 
-                    height: '450px'
-                }}
-                className={styles.dialogContentContainer}
+                className={styles.largeDialogContentContainer}
             >
                 <Box
                     display='flex'
@@ -35,21 +33,11 @@ export const MakeOfferDialogContent: FC<Props> = ({
                     justifyContent='center'
                     height='full'
                 >
-                    <Box className={styles.dialogContentHeader}>
+                    <DialogContentHeader
+                        setOpen={setOpen}
+                    >
                         Make an offer
-                        <Box
-                            as='button'
-                            onClick={() => setOpen(false)}
-                            position='absolute'
-                            right='24'
-                            top='24'
-                            display='flex'
-                            alignItems='center'
-                            justifyContent='center'
-                        >
-                            <CloseIcon fill='defaultTextPlaceholder' fillOnHover='boxText' />
-                        </Box>
-                    </Box>
+                    </DialogContentHeader>
 
                     <Box
                         as='section'
@@ -63,14 +51,14 @@ export const MakeOfferDialogContent: FC<Props> = ({
                         />
                     </Box>
 
-                    <Box as='footer' padding='24' width='full'>
+                    <DialogContentFooter>
                         <MainButton
                             width='full'
                             // disabled={Object.keys(errors).length > 0}
                         >
                             Make offer
                         </MainButton>
-                    </Box>
+                    </DialogContentFooter>
                 </Box>
             </Box>
         </Dialog.Content>

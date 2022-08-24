@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import useMounted from '../../hooks/useMounted'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { AssetType } from '../../types/assetTypes'
@@ -7,6 +6,8 @@ import { FC } from 'react'
 import { VisibilityIcon } from '../Icons/VisibilityIcon'
 import { FavoriteFilledIcon } from '../Icons/FavoriteFilledIcon'
 import { truncateAddress, truncateEns } from '../../utils/truncateText'
+import { Text } from '../Text/Text'
+import { NextLink } from '../NextLink/NextLink'
 
 interface Props {
   asset: AssetType | undefined
@@ -39,26 +40,25 @@ export const AssetMeta: FC<Props> = ({
         alignItems='center'
         gap='4'
       >
-        Owned by 
+        <Text>
+          Owned by
+        </Text>
         {mounted ?
-          <Link href={`/${asset?.owner?.username ? asset.owner.username : asset?.owner?.address}/`}>
-            <a
-              className={sprinkles({
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                maxWidth: 'full',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                color: 'accentColor'
-              })}
+          <NextLink 
+            href={`/${asset?.owner?.username ? asset.owner.username : asset?.owner?.address}/`}
+            display='flex'  
+            alignItems='center'
+            maxWidth='full'
+          >
+            <Text
+              display='inline-block'
+              color='accentColor'
             >
               {mounted ? asset?.owner?.username ? truncateEns(asset.owner.username) : asset?.owner?.address ? truncateAddress(asset.owner.address) : '' : ''}
-            </a>
-          </Link>
+            </Text>
+          </NextLink>
         : ''}
-        </Box>
+      </Box>
         <Box
           display='flex'
           alignItems='center'

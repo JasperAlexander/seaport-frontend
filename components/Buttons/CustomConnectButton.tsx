@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { sprinkles } from '../../styles/sprinkles.css'
 import { Box } from '../Box/Box'
 import { WalletSideDialogTrigger } from '../DialogTriggers/WalletSideDialogTrigger'
+import { WalletOutlinedIcon } from '../Icons/WalletOutlinedIcon'
 
 export const CustomConnectButton = () => {
   const [walletSideDialogOpen, setWalletSideDialogOpen] = useState<boolean>(false)
@@ -37,17 +38,13 @@ export const CustomConnectButton = () => {
                     paddingX='10'
                     display='flex'
                     alignItems='center'
-                    fontWeight='600'
-                    color='defaultText'
+                    justifyContent='center'
                     height='72'
-                    className={sprinkles({
-                      color: {
-                        hover: 'defaultTextHover'
-                      }
-                    })}
                     onClick={openConnectModal}
                   >
-                    Connect
+                    <WalletOutlinedIcon 
+                      width='32' 
+                    />
                   </Box>
                 )
               }
@@ -59,17 +56,13 @@ export const CustomConnectButton = () => {
                     paddingX='10'
                     display='flex'
                     alignItems='center'
-                    fontWeight='600'
-                    color='defaultText'
+                    justifyContent='center'
                     height='72'
-                    className={sprinkles({
-                      color: {
-                        hover: 'defaultTextHover'
-                      }
-                    })}
                     onClick={openChainModal}
                   >
-                    Connect
+                    <WalletOutlinedIcon 
+                      width='32' 
+                    />
                   </Box>
                 )
               }
@@ -78,77 +71,23 @@ export const CustomConnectButton = () => {
                   display='flex'
                   alignItems='center'
                   height='72'
-                  className={sprinkles({
-                    color: {
-                      hover: 'defaultTextHover'
-                    }
-                  })}
                 >
                   <WalletSideDialogTrigger 
                     open={walletSideDialogOpen}
                     setOpen={setWalletSideDialogOpen}
                   >
                     <Box
+                      display='flex'
+                      alignItems='center'
+                      justifyContent='center'
                       paddingX='10'
                       cursor='pointer'
                     >
-                      Wallet
+                      <WalletOutlinedIcon 
+                        width='32' 
+                      />
                     </Box>
                   </WalletSideDialogTrigger>
-                  {/* <Box
-                    as='button'
-                    fontWeight='600'
-                    color='defaultText'
-                    paddingX='10'
-                    className={sprinkles({
-                      color: {
-                        hover: 'defaultTextHover'
-                      }
-                    })}
-                    // onClick={openChainModal}
-                    onClick={toggleWalletSidebar}
-                    style={{ display: 'flex', alignItems: 'center' }}
-                  > */}
-                    {/* {chain.hasIcon && (
-                      <Box
-                        style={{
-                          background: chain.iconBackground,
-                          width: 12,
-                          height: 12,
-                          borderRadius: 999,
-                          overflow: 'hidden',
-                          marginRight: 4,
-                        }}
-                      >
-                        {chain.iconUrl && (
-                          <img
-                            alt={chain.name ?? 'Chain icon'}
-                            src={chain.iconUrl}
-                            style={{ width: 12, height: 12 }}
-                          />
-                        )}
-                      </Box>
-                    )}
-                    {chain.name} */}
-                    {/* Wallet
-                  </Box> */}
-                  {/* <Box 
-                    as='button'
-                    fontWeight='600'
-                    color='defaultText'
-                    paddingX='10'
-                    className={sprinkles({
-                      color: {
-                        hover: 'defaultTextHover'
-                      }
-                    })}
-                    onClick={openAccountModal}
-                  >
-                    {account.displayName}
-                    {account.displayBalance
-                      ? ` (${account.displayBalance})`
-                      : ''}
-                  </Box> */}
                 </Box>
               )
             })()}

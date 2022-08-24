@@ -6,13 +6,20 @@ import { Input } from '../Input/Input'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { Text } from '../Text/Text'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
     placeholder: string
-    handleChange: (<S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) | (<S extends unknown>(key: keyof CreateCollectionFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void)
+    handleChange: 
+        (<S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) | 
+        (<S extends unknown>(key: keyof CreateCollectionFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) |
+        (<S extends unknown>(key: keyof EditAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void)
     validate: () => void
-    errors: (Partial<Record<keyof CreateAssetFormType, string>>) | (Partial<Record<keyof CreateCollectionFormType, string>>)
-    data: CreateAssetFormType | CreateCollectionFormType
+    errors: 
+        (Partial<Record<keyof CreateAssetFormType, string>>) | 
+        (Partial<Record<keyof CreateCollectionFormType, string>>) |
+        (Partial<Record<keyof EditAssetFormType, string>>)
+    data: CreateAssetFormType | EditAssetFormType | CreateCollectionFormType
 }
 
 export const NameFormSection: FC<Props> = ({

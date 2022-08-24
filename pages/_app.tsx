@@ -19,6 +19,7 @@ import { lightSeaportTheme } from '../styles/lightSeaportTheme'
 import LoadingBar from 'react-top-loading-bar'
 import { useState } from 'react'
 import { Router } from 'next/router'
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
 const hardhatChain: Chain = {
   id: 1337,
@@ -47,7 +48,7 @@ const { chains, provider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'Seaport implementation',
+  appName: 'OpenFish',
   chains
 });
 
@@ -84,7 +85,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             onLoaderFinished={() => setProgress(0)}
           />
           <BodyLayout>
-            <Component {...pageProps} />
+            <ErrorBoundary>
+              <Component {...pageProps} />
+            </ErrorBoundary>
           </BodyLayout>
         </VanillaExtractProvider>
       </RainbowKitProvider>

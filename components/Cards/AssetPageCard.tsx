@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import useMounted from '../../hooks/useMounted'
-import { sprinkles } from '../../styles/sprinkles.css'
 import { AssetType } from '../../types/assetTypes'
 import { Box } from '../Box/Box'
 import { EthIcon } from '../Icons/EthIcon'
@@ -10,7 +9,7 @@ interface Props {
     asset: AssetType | undefined
 }
 
-export const AssetCardLarge: FC<Props> = ({
+export const AssetPageCard: FC<Props> = ({
     asset,
 }) => {
     const { mounted } = useMounted()
@@ -23,12 +22,10 @@ export const AssetCardLarge: FC<Props> = ({
       borderStyle='solid'
       borderColor='box'
       overflow='hidden'
-      className={sprinkles({
-        marginX: {
-            wideScreen: '20',
-            largeScreen: '20'
-        }
-      })}
+      marginX={{
+        wideScreen: '20',
+        largeScreen: '20'
+    }}
   >
       <Box
           display='flex'
@@ -42,7 +39,9 @@ export const AssetCardLarge: FC<Props> = ({
               display='flex'
               alignItems='center'
           >
-              <EthIcon width='18' />
+              <EthIcon 
+                width='18' 
+            />
           </Box>
           <Box
               display='flex'
@@ -58,7 +57,10 @@ export const AssetCardLarge: FC<Props> = ({
               >
                   0
               </Box>
-              <FavoriteOutlinedIcon width='20' fill='boxText' />
+              <FavoriteOutlinedIcon 
+                width='20' 
+                fill='boxText' 
+            />
           </Box>
       </Box>
       <Box

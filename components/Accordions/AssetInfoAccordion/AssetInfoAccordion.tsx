@@ -7,7 +7,6 @@ import { Box } from '../../Box/Box'
 import { ChevronIcon } from '../../Icons/ChevronIcon'
 import * as styles from './AssetInfoAccordion.css'
 import { AssetType } from '../../../types/assetTypes'
-import Link from 'next/link'
 import { EarthIcon } from '../../Icons/EarthIcon'
 import { truncateAddress } from '../../../utils/truncateText'
 import { SubjectIcon } from '../../Icons/SubjectIcon'
@@ -19,6 +18,7 @@ import { TwitterIcon } from '../../Icons/TwitterIcon'
 import { InstagramIcon } from '../../Icons/InstagramIcon'
 import { MediumIcon } from '../../Icons/MediumIcon'
 import { Text } from '../../Text/Text'
+import { NextLink } from '../../NextLink/NextLink'
 
 interface Props {
     data: AssetType | undefined // SWRResponse<AssetType, any> | undefined // AssetStateType
@@ -56,17 +56,19 @@ export const AssetInfoAccordion: FC<Props> = ({
                     </Accordion.Header>
                     <Accordion.Content className={styles.content}>
                         <Box className={styles.description}>
-                            <Box>
+                            <Text>
                                 By 
-                                <Link href={`/${data?.creator?.username ? data.creator.username : data?.creator?.address}`} passHref={true}>
-                                    <Box as='a' fontWeight='600' marginLeft='4'>
-                                        {data?.creator?.username ? data.creator.username : data?.creator?.address}
-                                    </Box>
-                                </Link>
-                            </Box>
-                            <Box>
+                                <NextLink 
+                                    href={`/${data?.creator?.username ? data.creator.username : data?.creator?.address}`}
+                                    fontWeight='600' 
+                                    marginLeft='4'
+                                >
+                                    {data?.creator?.username ? data.creator.username : data?.creator?.address}
+                                </NextLink>
+                                </Text>
+                            <Text>
                                 {data?.description}
-                            </Box>
+                            </Text>
                         </Box>
                     </Accordion.Content>
                 </Accordion.Item>
@@ -129,20 +131,24 @@ export const AssetInfoAccordion: FC<Props> = ({
                     <Accordion.Content
                         className={styles.content}
                     >
-                        <Box className={styles.collection}>
-                            <Box className={styles.collectionDescription}>
-                                <Link href={`/collection/${data?.collection?.slug}`} passHref={true}>
-                                    <Box as='a' cursor='pointer'>
-                                        <Box 
-                                            as='img' 
-                                            src={data?.collection?.image_url}
-                                            className={styles.collectionImg} 
-                                            style={{float: 'left'}}
-                                        />
-                                    </Box>
-                                </Link>
+                        <Box 
+                            className={styles.collection}
+                        >
+                            <Text
+                                fontSize='14'
+                            >
+                                <NextLink 
+                                    href={`/collection/${data?.collection?.slug}`}
+                                >
+                                    <Box 
+                                        as='img' 
+                                        src={data?.collection?.image_url}
+                                        className={styles.collectionImg} 
+                                        style={{float: 'left'}}
+                                    />
+                                </NextLink>
                                 {data?.collection?.description}
-                            </Box>
+                            </Text>
                             <Box 
                                 display='flex'
                                 // alignItems='center'
@@ -265,31 +271,49 @@ export const AssetInfoAccordion: FC<Props> = ({
                     <Accordion.Content className={styles.lastContent}>
                         <Box className={styles.details}>
                             <Box className={styles.detailsInfo}>
-                                <Box as='span'>Contract address</Box>
+                                <Text 
+                                    as='span'
+                                >
+                                    Contract address
+                                </Text>
                                 <Box 
                                     as='a' 
                                     href={`https://etherscan.io/address/${data?.asset_contract?.address}`}
-                                    color='accentColor'
-                                    fontWeight='600' 
-                                    fontSize='14'
                                 >
-                                    {data?.asset_contract?.address ? truncateAddress(data.asset_contract.address) : ''}
+                                    <Text
+                                        color='accentColor'
+                                        fontWeight='600' 
+                                        fontSize='14'
+                                    >
+                                        {data?.asset_contract?.address ? truncateAddress(data.asset_contract.address) : ''}
+                                    </Text>
                                 </Box>
                             </Box>
                             <Box className={styles.detailsInfo}>
-                                <Box as='span'>Token ID</Box>
+                                <Text 
+                                    as='span'
+                                >
+                                    Token ID
+                                </Text>
                                 <Box 
                                     as='a' 
                                     href={`https://etherscan.io/address/${data?.asset_contract?.address}`}
-                                    color='accentColor'
-                                    fontWeight='600' 
-                                    fontSize='14'
                                 >
-                                    {data?.token_id}
+                                    <Text
+                                        color='accentColor'
+                                        fontWeight='600' 
+                                        fontSize='14'
+                                    >
+                                        {data?.token_id}
+                                    </Text>
                                 </Box>
                             </Box>
                             <Box className={styles.detailsInfo}>
-                                <Box as='span'>Token Standard</Box>
+                                <Text 
+                                    as='span'
+                                >
+                                    Token Standard
+                                </Text>
                                 <Text 
                                     as='span' 
                                     fontWeight='600' 
@@ -300,7 +324,11 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 </Text>
                             </Box>
                             <Box className={styles.detailsInfo}>
-                                <Box as='span'>Blockchain</Box>
+                                <Text 
+                                    as='span'
+                                >
+                                    Blockchain
+                                </Text>
                                 <Text 
                                     as='span' 
                                     fontWeight='600' 
@@ -311,7 +339,11 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 </Text>
                             </Box>
                             <Box className={styles.detailsInfo}>
-                                <Box as='span'>Creator Earnings</Box>
+                                <Text 
+                                    as='span'
+                                >
+                                    Creator Earnings
+                                </Text>
                                 <Text 
                                     as='span'
                                     fontWeight='600' 

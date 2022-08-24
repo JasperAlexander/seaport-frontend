@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
 import { MakeOfferDialogContent } from '../DiaglogContents/MakeOfferDialogContent'
 import { TokensStateType } from '../../types/tokenTypes'
+import * as styles from './DialogTrigger.css'
 
 interface Props {
     children: ReactNode
@@ -22,14 +23,16 @@ export const MakeOfferDialogTrigger: FC<Props> = ({
             open={open} 
             onOpenChange={setOpen}
         >
-            <Dialog.Trigger asChild={true}>
+            <Dialog.Trigger 
+                asChild={true}
+            >
                 {children}
             </Dialog.Trigger>
-            <Dialog.Overlay asChild={true}>
+            <Dialog.Overlay 
+                asChild={true}
+            >
                 <Box 
-                    position='fixed'
-                    inset='0'
-                    style={{backgroundColor: 'rgba(0, 0, 0, 0.15)', zIndex: '800'}}
+                    className={styles.dialogTriggerOverlay}
                 />
             </Dialog.Overlay>
             <MakeOfferDialogContent 

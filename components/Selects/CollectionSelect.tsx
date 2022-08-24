@@ -5,11 +5,12 @@ import Select from 'react-select'
 import { CollectionType } from '../../types/collectionTypes'
 import { Box } from '../Box/Box'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 import { Text } from '../Text/Text'
 
 interface Props {
     mappedCollections: CollectionType[]
-    data: CreateAssetFormType
+    data: CreateAssetFormType | EditAssetFormType
     setData: (e: any) => void
 }
 

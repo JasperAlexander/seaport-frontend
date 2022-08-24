@@ -11,7 +11,6 @@ import { VerticalSwapIcon } from '../../Icons/VerticalSwapIcon'
 import { MintedIcon } from '../../Icons/MintedIcon'
 import { OfferIcon } from '../../Icons/OfferIcon'
 import { PriceTagIcon } from '../../Icons/PriceTagIcon'
-import Link from 'next/link'
 import { truncateAddress, truncateEns } from '../../../utils/truncateText'
 import TimeAgo from 'react-timeago'
 import { SaleIcon } from '../../Icons/SaleIcon'
@@ -25,6 +24,7 @@ import { useRouter } from 'next/router'
 import useUsers from '../../../hooks/useUsers'
 import useToken from '../../../hooks/useToken'
 import { Text } from '../../Text/Text'
+import { NextLink } from '../../NextLink/NextLink'
 
 interface Props {
     data: EventsStateType
@@ -221,21 +221,16 @@ export const ActivityAccordion: FC<Props> = ({
                                                 padding='16'
                                             >
                                                 {event.from_account &&
-                                                    <Link 
+                                                    <NextLink 
                                                         href={`/${event.from_account.username ? event.from_account.username : event.from_account.address}`} 
-                                                        passHref={true}
+                                                        display='flex' 
+                                                        alignItems='center' 
+                                                        gap='4' 
+                                                        color='accentColor'
                                                     >
-                                                        <Box 
-                                                            as='a' 
-                                                            display='flex' 
-                                                            alignItems='center' 
-                                                            gap='4' 
-                                                            color='accentColor'
-                                                        >
-                                                            {event.from_account.username ? truncateEns(event.from_account.username) : event.from_account.address ? truncateAddress(event.from_account.address) : ''}
-                                                            {event.from_account.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
-                                                        </Box>
-                                                    </Link>
+                                                        {event.from_account.username ? truncateEns(event.from_account.username) : event.from_account.address ? truncateAddress(event.from_account.address) : ''}
+                                                        {event.from_account.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
+                                                    </NextLink>
                                                 }
                                             </Box>
                                             <Box
@@ -243,21 +238,16 @@ export const ActivityAccordion: FC<Props> = ({
                                                 padding='16'
                                             >
                                                 {event.to_account &&
-                                                    <Link 
+                                                    <NextLink 
                                                         href={`/${event.to_account.username ? event.to_account.username : event.to_account.address}`} 
-                                                        passHref={true}
+                                                        display='flex'
+                                                        alignItems='center' 
+                                                        gap='4' 
+                                                        color='accentColor'
                                                     >
-                                                        <Box 
-                                                            as='a' 
-                                                            display='flex'
-                                                            alignItems='center' 
-                                                            gap='4' 
-                                                            color='accentColor'
-                                                        >
-                                                            {event.to_account.username ? truncateEns(event.to_account.username) : event.to_account.address ? truncateAddress(event.to_account.address) : ''}
-                                                            {event.to_account.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
-                                                        </Box>
-                                                    </Link>
+                                                        {event.to_account.username ? truncateEns(event.to_account.username) : event.to_account.address ? truncateAddress(event.to_account.address) : ''}
+                                                        {event.to_account.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
+                                                    </NextLink>
                                                 }
                                             </Box>
                                             <Box
@@ -309,12 +299,11 @@ export const ActivityAccordion: FC<Props> = ({
                                         as='td' 
                                         padding='16'
                                     >
-                                        {/* <Link href={`/${event.from_account?.username ? event.from_account.username : event.from_account?.address}`} passHref={true}>
-                                            <Box as='a' display='flex' alignItems='center' gap='4' color='accentColor'>
+                                        {/* <NextLink href={`/${event.from_account?.username ? event.from_account.username : event.from_account?.address}`}
+                                            display='flex' alignItems='center' gap='4' color='accentColor'>
                                                 {event.from_account?.username ? truncateEns(event.from_account.username) : event.from_account?.address ? truncateAddress(event.from_account.address) : ''}
                                                 {event.from_account?.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
-                                            </Box>
-                                        </Link> */}
+                                        </NextLink> */}
                                         Creator
                                     </Box>
                                     <Box

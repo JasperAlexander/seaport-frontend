@@ -49,22 +49,28 @@ export default CreateAssetPage
 export const getStaticProps: GetStaticProps<{
     fallbackCollections: CollectionsType
 }> = async () => {
-    const collectionsOptions: RequestInit | undefined = {}
+    try {
+        const collectionsOptions: RequestInit | undefined = {}
 
-    // Todo: add filter to only show collections of user
-    const collectionsUrl = new URL(`/api/v1/collections/`, 'http://localhost:8000')
+        // Todo: add filter to only show collections of user
+        const collectionsUrl = new URL(`/api/v1/collections/`, 'http://localhost:8000')
 
-    const collectionsQuery = {}
-  
-    const collectionsHref = setParams(collectionsUrl, collectionsQuery)
-  
-    const collectionsRes = await fetch(collectionsHref, collectionsOptions)
-  
-    const fallbackCollections = (await collectionsRes.json()) as CollectionsType
-  
-    return {
-        props: { 
-            fallbackCollections
+        const collectionsQuery = {}
+    
+        const collectionsHref = setParams(collectionsUrl, collectionsQuery)
+    
+        const collectionsRes = await fetch(collectionsHref, collectionsOptions)
+    
+        const fallbackCollections = (await collectionsRes.json()) as CollectionsType
+    
+        return {
+            props: { 
+                fallbackCollections
+            }
+        }
+    } catch {
+        return {
+            notFound: true
         }
     }
 }

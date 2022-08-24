@@ -1,21 +1,23 @@
-import { FC, Fragment, useEffect, useRef } from 'react'
-import { useSidebars } from '../../hooks/useSidebars'
-import { Box } from '../Box/Box'
-import { RoundButton } from '../Buttons/RoundButton'
-import { FilterListIcon } from '../Icons/FilterListIcon'
-import { SortIcon } from '../Icons/SortIcon'
-import { SortSelect } from '../Selects/SortSelect'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
+import { Box } from '../../Box/Box'
+import { RoundButton } from '../../Buttons/RoundButton'
+import { FilterSideDialogTrigger } from '../../DialogTriggers/FilterSideDialogTrigger'
+import { FilterListIcon } from '../../Icons/FilterListIcon'
+import { SortIcon } from '../../Icons/SortIcon'
+import { SortSelect } from '../../Selects/SortSelect'
+import * as styles from './AssetGridHeader.css'
+import { Text } from '../../Text/Text'
 
 interface Props {
     toggleShowFilters: () => void
     mutate?: any
 }
 
-export const AssetsHeader: FC<Props> = ({
+export const AssetGridHeader: FC<Props> = ({
     toggleShowFilters,
     mutate
 }) => {
-    const { toggleFilterSidebar } = useSidebars()
+    const [filterSideDialogOpen, setFilterSideDialogOpen] = useState<boolean>(false)
 
     const observer = useRef<IntersectionObserver | null>(null)
       
@@ -43,21 +45,7 @@ export const AssetsHeader: FC<Props> = ({
     return (
         <Fragment>
             <Box
-                height='66'
-                style={{
-                    marginLeft: 'calc(50% - 50vw)', 
-                    marginRight: 'calc(50% - 50vw)'
-                }}
-                top='71'
-                alignItems='center'
-                paddingX='16'
-                background='defaultBackground'
-                zIndex='200'
-                display={{
-                    base: 'flex',
-                    largeScreen: 'none',
-                    wideScreen: 'none'
-                }}
+                className={styles.assetGridHeaderSmall}
             >
                 <Box
                     display='flex'
@@ -66,54 +54,31 @@ export const AssetsHeader: FC<Props> = ({
                     gap='8'
                     paddingTop='16'
                 >
-                    <Box
-                        as='button'
-                        onClick={toggleFilterSidebar}
-                        display='flex'
-                        alignItems='center'
-                        justifyContent='center'
-                        width='50p'
-                        borderRadius='10'
-                        borderStyle='solid'
-                        borderWidth='2'
-                        borderColor='box'
-                        paddingY='12'
-                        fontWeight='600'
-                        gap='8'
-                        boxShadow={{
-                            hover: 'subHeader'
-                        }}
-                        background={{
-                            active: 'buttonBackgroundActive'
-                        }}
+                    <FilterSideDialogTrigger
+                        open={filterSideDialogOpen}
+                        setOpen={setFilterSideDialogOpen}
                     >
                         <Box
-                            display='flex'
-                            alignItems='center'
-                            gap='8'
+                            as='button'
+                            className={styles.assetGridHeaderButton}
                         >
-                            <FilterListIcon />
-                            Filters
+                            <Box
+                                display='flex'
+                                alignItems='center'
+                                gap='8'
+                            >
+                                <FilterListIcon />
+                                <Text
+                                    fontWeight='600'
+                                >
+                                    Filters
+                                </Text>
+                            </Box>
                         </Box>
-                    </Box>
+                    </FilterSideDialogTrigger>
                     <Box
                         as='button'
-                        display='flex'
-                        alignItems='center'
-                        justifyContent='center'
-                        width='50p'
-                        borderRadius='10'
-                        borderStyle='solid'
-                        borderWidth='2'
-                        borderColor='box'
-                        paddingY='12'
-                        fontWeight='600'
-                        boxShadow={{
-                            hover: 'subHeader'
-                        }}
-                        background={{
-                            active: 'buttonBackgroundActive'
-                        }}
+                        className={styles.assetGridHeaderButton}
                     >
                         <Box
                             display='flex'
@@ -121,7 +86,11 @@ export const AssetsHeader: FC<Props> = ({
                             gap='8'
                         >
                             <SortIcon />
-                            Sort
+                            <Text
+                                fontWeight='600'
+                            >
+                                Sort
+                            </Text>
                         </Box>
                     </Box>
                 </Box>
@@ -144,7 +113,7 @@ export const AssetsHeader: FC<Props> = ({
                 <Box
                     position='absolute'
                     id='unstuckedHeader'
-                    style={{width: '100vw', left: 'calc(50% + 0px - 50vw)', right: 'calc(50% + 0px - 50vw)'}}
+                    width='fullvw'
                     height='full'
                     top='0'
                 >

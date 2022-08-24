@@ -1,18 +1,17 @@
-import Link from 'next/link'
 import useSeaport from '../../hooks/useSeaport'
 import { EthIcon } from '../Icons/EthIcon'
 import { FC, useState } from 'react'
 import { Box } from '../Box/Box'
 import { AssetType } from '../../types/assetTypes'
-import { sprinkles } from '../../styles/sprinkles.css'
 import { CardButton } from '../Buttons/CardButton'
-import LoadingCard from './LoadingCard'
+import { AssetGridLoadingCard } from './AssetGridLoadingCard'
 import { LoginSideDialogTrigger } from '../DialogTriggers/LoginSideDialogTrigger'
 import { useAccount } from 'wagmi'
 import useMounted from '../../hooks/useMounted'
 import { CompletePurchaseDialogTrigger } from '../DialogTriggers/CompletePurchaseDialogTrigger'
 import { CancelListingDialogTrigger } from '../DialogTriggers/CancelListingDialogTrigger'
 import { Text } from '../Text/Text'
+import { NextLink } from '../NextLink/NextLink'
 
 interface Props {
     asset: AssetType
@@ -20,7 +19,7 @@ interface Props {
     isOwner?: boolean
 }
 
-export const AssetCardSmall: FC<Props> = ({
+export const AssetGridCard: FC<Props> = ({
     asset,
     mutate,
     isOwner
@@ -47,102 +46,99 @@ export const AssetCardSmall: FC<Props> = ({
             overflow='hidden'
             borderRadius='10'
             borderWidth='1'
-            boxShadow='box'
-            className={sprinkles({
-                boxShadow: {
-                    hover: 'boxHover'
-                }
-            })}
+            boxShadow={{
+                base: 'box',
+                hover: 'boxHover'
+            }}
             transition='default'
             cursor='pointer'
         >
             <Box>
-                <Link href={`/assets/${asset.asset_contract.address}/${asset.token_id}`} passHref={true}>
+                <NextLink 
+                    href={`/assets/${asset.asset_contract.address}/${asset.token_id}`}
+                    display='flex'
+                    flexDirection='column'
+                    zIndex='100'
+                    position='relative'
+                >
                     <Box
-                        as='a' 
-                        display='flex'
-                        flexDirection='column'
-                        zIndex='100'
-                        position='relative'
+                        aspectRatio='square'
+                        overflow='hidden'
                     >
-                        <Box
-                            aspectRatio='square'
-                            overflow='hidden'
-                        >
-                            {asset.image_url
-                                ? 
-                                    <Box
-                                        as='img' 
-                                        id='assetCardImg'
-                                        src={asset.image_url}
-                                        dimension='full'
-                                        transition='assetCardImage'
-                                        // Added hover effect here for readability, effect is also defined in globals.css
-                                        className={sprinkles({
-                                            scale: {
-                                                hover: 'growLg'
-                                            }
-                                        })} 
-                                    />
-                                : <LoadingCard />
-                            }
-                        </Box>
+                        {asset.image_url
+                            ? 
+                                <Box
+                                    as='img' 
+                                    id='assetCardImg'
+                                    src={asset.image_url}
+                                    dimension='full'
+                                    transition='assetCardImage'
+                                    // Added hover effect here for readability, effect is also defined in globals.css
+                                    scale={{
+                                        hover: 'growLg'
+                                    }}
+                                />
+                            : 
+                                <AssetGridLoadingCard />
+                        }
+                    </Box>
 
+                    <Box 
+                        paddingY='12' 
+                        paddingX='16' 
+                        display='flex' 
+                        flexDirection='column' 
+                        gap='8'
+                        zIndex='200'
+                    >
                         <Box 
-                            paddingY='12' 
-                            paddingX='16' 
                             display='flex' 
-                            flexDirection='column' 
-                            gap='8'
-                            style={{zIndex: '200'}}
+                            flexDirection='column'
                         >
-                            <Box display='flex' flexDirection='column'>
+                            <Text 
+                                as='span' 
+                                fontSize='12' 
+                                fontWeight='600'
+                            >
+                                {asset.name}
+                            </Text>
+                            <Box 
+                                height='18'
+                            >
                                 <Text 
                                     as='span' 
-                                    fontSize='12' 
-                                    fontWeight='600'
+                                    fontSize='12'
+                                    whiteSpace='nowrap'
                                 >
-                                    {asset.name}
+                                    {asset.description}
                                 </Text>
-                                <Box 
-                                    height='18'
-                                >
-                                    <Text 
-                                        as='span' 
-                                        fontSize='12'
-                                        whiteSpace='nowrap'
-                                    >
-                                        {asset.description}
-                                    </Text>
-                                </Box>
                             </Box>
-                            <Box>
+                        </Box>
+                        <Box>
+                            <Text 
+                                as='span' 
+                                fontSize='12' 
+                                fontWeight='600'
+                            >
+                                Price
+                            </Text>
+                            <Box 
+                                display='flex' 
+                                alignItems='center' 
+                                height='20' 
+                                gap='5'
+                            >
+                                <EthIcon width='16' />
                                 <Text 
                                     as='span' 
-                                    fontSize='12' 
                                     fontWeight='600'
                                 >
-                                    Price
+                                    0,01
                                 </Text>
-                                <Box 
-                                    display='flex' 
-                                    alignItems='center' 
-                                    height='20' 
-                                    gap='5'
-                                >
-                                    <EthIcon width='16' />
-                                    <Text 
-                                        as='span' 
-                                        fontWeight='600'
-                                    >
-                                        0,01
-                                    </Text>
-                                </Box>
                             </Box>
-                            
                         </Box>
                     </Box>
-                </Link>
+                </NextLink>
                 <Box 
                     paddingY='12' 
                     paddingX='16' 
@@ -157,9 +153,6 @@ export const AssetCardSmall: FC<Props> = ({
                         height='20'
                         width='full'
                         marginTop='4'
-                        fontWeight='500'
-                        fontSize='12'
-                        color='boxText'
                     >
                         <Box
                             id='assetCardText'
@@ -171,7 +164,13 @@ export const AssetCardSmall: FC<Props> = ({
                             transition='opacity'
                             marginRight='8'
                         >
-                            Ends in ...
+                            <Text
+                                fontWeight='500'
+                                fontSize='12'
+                                color='boxText'
+                            >
+                                Ends in ...
+                            </Text>
                         </Box>
                         {mounted && !isConnected &&
                             <LoginSideDialogTrigger 

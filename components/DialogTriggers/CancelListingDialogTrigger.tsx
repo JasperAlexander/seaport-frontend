@@ -4,6 +4,7 @@ import { Box } from '../Box/Box'
 import { CancelListingDialogContent } from '../DiaglogContents/CancelListingDialogContent'
 import { AssetType } from '../../types/assetTypes'
 import { OrderType } from '../../types/orderTypes'
+import * as styles from './DialogTrigger.css'
 
 interface Props {
     children: ReactNode
@@ -20,15 +21,16 @@ export const CancelListingDialogTrigger: FC<Props> = ({
 }) => {
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger asChild={true}>
+            <Dialog.Trigger 
+                asChild={true}
+            >
                 {children}
             </Dialog.Trigger>
-            <Dialog.Overlay asChild={true}>
+            <Dialog.Overlay 
+                asChild={true}
+            >
                 <Box 
-                    position='fixed'
-                    inset='0'
-                    zIndex='800'
-                    style={{backgroundColor: 'rgba(0, 0, 0, 0.15)'}}
+                    className={styles.dialogTriggerOverlay}
                 />
             </Dialog.Overlay>
             <CancelListingDialogContent 

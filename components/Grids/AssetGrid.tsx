@@ -1,14 +1,14 @@
 import { Fragment, useState } from 'react'
 import { Box } from '../Box/Box'
-import { AssetsHeader } from '../Headers/AssetsHeader'
+import { AssetGridHeader } from '../Headers/AssetGridHeader/AssetGridHeader'
 import { FilterAccordion } from '../Accordions/FilterAccordion/FilterAccordion'
 import { RefreshIcon } from '../Icons/RefreshIcon'
 import { AssetsStateType, AssetType } from '../../types/assetTypes'
-import { AssetCardSmall } from '../Cards/AssetCardSmall'
-import { sprinkles } from '../../styles/sprinkles.css'
-import LoadingCard from '../Cards/LoadingCard'
+import { AssetGridCard } from '../Cards/AssetGridCard'
+import { AssetGridLoadingCard } from '../Cards/AssetGridLoadingCard'
 import TimeAgo from 'react-timeago'
 import { RoundButton } from '../Buttons/RoundButton'
+import { Text } from '../Text/Text'
 
 interface Props {
   data: AssetsStateType
@@ -16,7 +16,7 @@ interface Props {
   displayFilters: boolean
 }
 
-export const AssetsList: React.FC<Props> = ({ 
+export const AssetGrid: React.FC<Props> = ({ 
   data: { assets, ref },
   isOwner,
   displayFilters
@@ -36,7 +36,7 @@ export const AssetsList: React.FC<Props> = ({
 
   return (
     <Fragment>
-      <AssetsHeader 
+      <AssetGridHeader 
         toggleShowFilters={toggleShowFilters}
         mutate={assets.mutate}
       />
@@ -44,20 +44,23 @@ export const AssetsList: React.FC<Props> = ({
         display='flex'
         width='full'
         marginTop='8'
+        paddingX='32'
       >
         <Box
-          display='none'
-          className={sprinkles({
-              display: {
-                  wideScreen: showFilters ? 'initial' : 'none',
-                  largeScreen: showFilters ? 'initial' : 'none'
-              }
-          })}
+          display={{
+            base: 'none',
+            largeScreen: showFilters ? 'initial' : 'none',
+            wideScreen: showFilters ? 'initial' : 'none'
+          }}
           marginLeft='-10'
-            marginRight='16'
-            paddingRight='16'
-            paddingTop='8'
-            style={{top: '138px', height: 'calc(-138px + 100vh)', width: '340px'}}
+          marginRight='16'
+          paddingRight='16'
+          paddingTop='8'
+          style={{
+            top: '138px', 
+            height: 'calc(-138px + 100vh)', 
+            width: '340px'
+          }}
         >
         <FilterAccordion
           items={[
@@ -94,11 +97,13 @@ export const AssetsList: React.FC<Props> = ({
               <Box
                 display='flex'
                 alignItems='center'
-                color='boxText'
                 gap='8'
               >
                 <RoundButton
-                  onClick={() => { assets.mutate(), setRefreshTime(Date.now() - 2000) }}
+                  onClick={() => { 
+                    assets.mutate(), 
+                    setRefreshTime(Date.now() - 2000) 
+                  }}
                 >
                   <RefreshIcon />
                 </RoundButton>
@@ -106,16 +111,24 @@ export const AssetsList: React.FC<Props> = ({
                   display='flex'
                   gap='6'
                 >
-                  Updated {
-                    <TimeAgo date={refreshTime} formatter={(value, unit) => `${value} ${unit} ago`} />
-                  }
+                  <Text
+                    color='boxText'
+                  >
+                    Updated{'\u00a0'}
+                    <TimeAgo 
+                      date={refreshTime} 
+                      formatter={(value, unit) => `${value} ${unit} ago`} 
+                    />
+                  </Text>
                 </Box>
               </Box>
-              <Box
+              <Text
                 fontWeight='600'
               >
-                {mappedAssets ? mappedAssets.length : 'Unknown amount of'} assets loaded
-              </Box>
+                {mappedAssets ? mappedAssets.length : 'Unknown amount of'} 
+                {mappedAssets.length === 1 ? ' asset ' : ' assets '} 
+                loaded
+              </Text>
             </Box>
           </Box>
           <Box
@@ -124,26 +137,29 @@ export const AssetsList: React.FC<Props> = ({
             paddingBottom='16'
             width='full'
             maxWidth='full'
-            className={sprinkles({
-              gridTemplateColumns: {
-                wideScreen: showFilters ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)',
-                largeScreen: showFilters ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-                mediumScreen: 'repeat(3, 1fr)',
-                smallScreen: 'repeat(2, 1fr)',
-                base: 'repeat(1, 1fr)'
-              }
-            })}
+            gridTemplateColumns={{
+              wideScreen: showFilters ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)',
+              largeScreen: showFilters ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+              mediumScreen: 'repeat(3, 1fr)',
+              smallScreen: 'repeat(2, 1fr)',
+              base: 'repeat(1, 1fr)'
+            }}
           >
             {!isValidating && isEmpty 
-              ? <p>No assets</p>
+              ? 
+                <Text>
+                  No assets
+                </Text>
               : size === 1 && isValidating
                 ? 
                   Array(6).map((_, index) => (
-                    <LoadingCard key={`loading-card-${index}`} />
+                    <AssetGridLoadingCard 
+                      key={`loading-card-${index}`} 
+                    />
                   ))
                 : 
                   mappedAssets?.map((asset: AssetType) => (
-                      <AssetCardSmall 
+                      <AssetGridCard 
                         asset={asset}
                         key={asset.id}
                         mutate={assets.mutate}
@@ -153,8 +169,19 @@ export const AssetsList: React.FC<Props> = ({
               }
               {!didReachEnd &&
                 Array(6).fill(null).map((_, index) => {
-                  if (index === 0) return <LoadingCard viewRef={ref} key={`loading-card-${index}`} />
-                  return <LoadingCard key={`loading-card-${index}`} />
+                  if (index === 0) {
+                    return (
+                      <AssetGridLoadingCard 
+                        viewRef={ref} 
+                        key={`loading-card-${index}`} 
+                      />
+                    )
+                  }
+                  return (
+                    <AssetGridLoadingCard 
+                      key={`loading-card-${index}`} 
+                    />
+                  )
                 })
               }
           </Box>

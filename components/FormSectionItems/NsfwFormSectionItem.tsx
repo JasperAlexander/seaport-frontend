@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { Box } from '../Box/Box'
 import * as styles from './FormSectionItem.css'
 import { WarningIcon } from '../Icons/WarningIcon'

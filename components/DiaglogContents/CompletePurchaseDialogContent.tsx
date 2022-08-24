@@ -1,14 +1,14 @@
 import { Dispatch, FC, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { CloseIcon } from '../Icons/CloseIcon'
 import { MainButton } from '../Buttons/MainButton'
-import { LoadingIcon } from '../Icons/LoadingIcon'
 import * as styles from './DialogContent.css'
 import useSeaport from '../../hooks/useSeaport'
 import { AssetType } from '../../types/assetTypes'
-import Link from 'next/link'
 import { Text } from '../Text/Text'
+import { NextLink } from '../NextLink/NextLink'
+import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
+import { DialogContentFooter } from '../Footers/DialogContentFooter'
 
 interface Props {
     open: boolean
@@ -26,12 +26,7 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
     return (
         <Dialog.Content asChild={true}>
             <Box
-                style={{
-                    transform: 'translate(-50%, -50%)',
-                    width: '700px', 
-                    height: '450px',
-                }}
-                className={styles.dialogContentContainer}
+                className={styles.largeDialogContentContainer}
             >
                 <Box
                     display='flex'
@@ -40,21 +35,11 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                     justifyContent='center'
                     height='full'
                 >
-                    <Box className={styles.dialogContentHeader}>
+                    <DialogContentHeader
+                        setOpen={setOpen}
+                    >
                         Complete checkout
-                        <Box
-                            as='button'
-                            onClick={() => setOpen(false)}
-                            position='absolute'
-                            right='24'
-                            top='24'
-                            display='flex'
-                            alignItems='center'
-                            justifyContent='center'
-                        >
-                            <CloseIcon fill='defaultTextPlaceholder' fillOnHover='boxText' />
-                        </Box>
-                    </Box>
+                    </DialogContentHeader>
 
                     <Box
                         as='section'
@@ -113,18 +98,16 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                         flexGrow='1'
                                         flexDirection='column'
                                     >
-                                        <Link 
+                                        <NextLink 
                                             href={`/collection/${data.collection?.slug}`}
-                                            passHref={true}
                                         >
-                                            <Box
-                                                as='a'
-                                                color='accentColor'
-                                                fontSize='14'
-                                            >
-                                                {data.collection?.name}
-                                            </Box>
-                                        </Link>
+                                                <Text
+                                                    color='accentColor'
+                                                    fontSize='14'
+                                                >
+                                                    {data.collection?.name}
+                                                </Text>
+                                        </NextLink>
                                         <Text
                                             as='span'
                                             fontWeight='600'
@@ -158,22 +141,22 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                                 2.5
                                             </Text>
                                         </Box>
-                                        <Box>
+                                        <Text>
                                             {/* USD price */}
                                             $1.000
-                                        </Box>
+                                        </Text>
                                     </Box>
                                 </Box>
                         </Box>
                     </Box>
 
-                    <Box as='footer' padding='24' width='full'>
+                    <DialogContentFooter>
                         <MainButton
                             width='full'
                         >
                             Complete purchase
                         </MainButton>
-                    </Box>
+                    </DialogContentFooter>
                 </Box>
             </Box>
         </Dialog.Content>

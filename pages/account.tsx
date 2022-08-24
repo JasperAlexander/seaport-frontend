@@ -1,4 +1,4 @@
-// To do: make use of redirect in getStaticProps
+// To do: make redirect faster and more robust
 
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -11,7 +11,7 @@ import setParams from '../utils/params'
 import fetcher from '../utils/fetcher'
 import useMounted from '../hooks/useMounted'
 
-const ProfilePage: NextPage = () => {
+const AccountPage: NextPage = () => {
     const router = useRouter()
     const { address } = useAccount()
     const { mounted } = useMounted()
@@ -63,4 +63,4 @@ const ProfilePage: NextPage = () => {
     }
 }
 
-export default ProfilePage
+export default AccountPage

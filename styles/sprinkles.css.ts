@@ -157,7 +157,12 @@ const dimensions = {
   'max': 'max-content',
   'auto': 'auto',
   'fit': 'fitContent',
-  'initial': 'initial'
+  'initial': 'initial',
+  'fullmain': 'calc(100% - 72px)',
+  'dialogHeightLarge': '450px',
+  'dialogHeightSmall': '300px',
+  'dialogWidthLarge': '700px',
+  'dialogWidthSmall': '550px'
 }
 
 const weights = {
@@ -362,11 +367,12 @@ const dynamicProperties = defineProperties({
       'shrink': '0.95',
       'shrinkSm': '0.9'
     },
-    transform: [
-      'rotate(180deg)', 
-      'translateX(22px)',
-      'translateX(0px)'
-    ],
+    transform: {
+      'rotate(180deg)': 'rotate(180deg)',
+      'translateX(22px)': 'translateX(22px)',
+      'translateX(0px)': 'translateX(0px)',
+      'center': 'translate(-50%, -50%)'
+    },
     transition: {
       default: '0.125s ease',
       inputBorderColor: 'border-color 0.25s ease-in-out 0s, background-color 0.25s ease-in-out 0s',

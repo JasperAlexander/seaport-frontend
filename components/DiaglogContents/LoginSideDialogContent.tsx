@@ -19,13 +19,11 @@ export const LoginSideDialogContent: FC<Props> = ({
     const { isConnected } = useAccount()
 
     return (
-        <Dialog.Content asChild={true}>
+        <Dialog.Content 
+            asChild={true}
+        >
             <Box
                 as='aside'
-                style={{
-                    height: 'calc(100% - 72px)'
-                }}
-                width='420'
                 className={styles.sideDialogContentContainer}
             >
                 <Box

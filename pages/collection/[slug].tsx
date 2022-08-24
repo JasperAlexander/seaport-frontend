@@ -51,36 +51,42 @@ export const getStaticProps: GetStaticProps<{
     fallbackCollection: CollectionType
     slug: string
 }> = async ({ params }) => {
-    const slug = params?.slug?.toString()
-  
-    if (!slug) {
+    try {
+        const slug = params?.slug?.toString()
+    
+        if (!slug) {
+            return {
+                notFound: true,
+            }
+        }
+    
+        const options: RequestInit | undefined = {}
+
+        const url = new URL(`/api/v1/collection/${slug}/`, 'http://localhost:8000')
+
+        const query = {}
+    
+        const href = setParams(url, query)
+    
+        const res = await fetch(href, options)
+    
+        const fallbackCollection = (await res.json()) as CollectionType
+    
+        if (!fallbackCollection) {
         return {
             notFound: true,
         }
-    }
-  
-    const options: RequestInit | undefined = {}
-
-    const url = new URL(`/api/v1/collection/${slug}/`, 'http://localhost:8000')
-
-    const query = {}
-  
-    const href = setParams(url, query)
-  
-    const res = await fetch(href, options)
-  
-    const fallbackCollection = (await res.json()) as CollectionType
-  
-    if (!fallbackCollection) {
-      return {
-        notFound: true,
-      }
-    }
-  
-    return {
-        props: { 
-            fallbackCollection,
-            slug
+        }
+    
+        return {
+            props: { 
+                fallbackCollection,
+                slug
+            }
+        }
+    } catch {
+        return {
+            notFound: true
         }
     }
 }

@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode } from 'react'
+import { forwardRef, ReactNode, Ref } from 'react'
 import { Box, BoxProps } from '../Box/Box'
 
 interface Props {
@@ -26,6 +26,7 @@ interface Props {
     fontSize?: BoxProps['fontSize']
     fontWeight?: BoxProps['fontWeight']
     color?: BoxProps['color']
+    hoverColor?: BoxProps['color']
     
     overflow?: BoxProps['overflow']
     textOverflow?: BoxProps['textOverflow']
@@ -33,15 +34,24 @@ interface Props {
 }
 
 /**
- * Text component
+ * Component that wraps text inside Box component
+ * with text props
  * @param as HTML element, defaults to div
+ * @param id no default value
+ * @param children will be wrapped inside Box component
+ * @param className no default value
+ * @param display no default value
+ * @param tabIndex no default value
  * @param textAlign defaults to inherit
  * @param fontFamily defaults to body
  * @param fontSize defaults to 16
  * @param fontWeight defaults to 400
  * @param color defaults to defaultText
+ * @param hoverColor defaults to color param
  * @param overflow defaults to hidden
  * @param textOverflow defaults to ellipsis
+ * @param whiteSpace no default value
+ * @param ref will be forwarded to Box component
  */
 export const Text = forwardRef(
     (
@@ -59,12 +69,13 @@ export const Text = forwardRef(
             fontSize = '16',
             fontWeight = '400',
             color = 'defaultText',
+            hoverColor,
 
             overflow = 'hidden',
             textOverflow = 'ellipsis',
             whiteSpace
         }: Props,
-        ref: React.Ref<HTMLElement>
+        ref: Ref<HTMLElement>
     ) => {
         return (
             <Box
@@ -80,7 +91,12 @@ export const Text = forwardRef(
                 fontFamily={fontFamily}
                 fontSize={fontSize}
                 fontWeight={fontWeight}
-                color={color}
+                color={{
+                    // @ts-ignore
+                    base: color,
+                    // @ts-ignore
+                    hover: hoverColor ? hoverColor : color
+                }}
 
                 overflow={overflow}
                 textOverflow={textOverflow}
@@ -88,7 +104,7 @@ export const Text = forwardRef(
                 lineHeight='normal'
             >
                 {children}
-        </Box>
+            </Box>
         )
     }
 )

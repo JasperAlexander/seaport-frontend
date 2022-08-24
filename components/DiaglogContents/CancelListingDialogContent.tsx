@@ -1,14 +1,14 @@
 import { Dispatch, FC, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { CloseIcon } from '../Icons/CloseIcon'
 import { MainButton } from '../Buttons/MainButton'
-import { LoadingIcon } from '../Icons/LoadingIcon'
 import * as styles from './DialogContent.css'
 import { AssetType } from '../../types/assetTypes'
 import useSeaport from '../../hooks/useSeaport'
 import { OrderType } from '../../types/orderTypes'
 import { Text } from '../Text/Text'
+import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
+import { DialogContentFooter } from '../Footers/DialogContentFooter'
 
 interface Props {
     open: boolean
@@ -28,12 +28,7 @@ export const CancelListingDialogContent: FC<Props> = ({
     return (
         <Dialog.Content asChild={true}>
             <Box
-                style={{
-                    transform: 'translate(-50%, -50%)',
-                    width: '550px', 
-                    height: '300px'
-                }}
-                className={styles.dialogContentContainer}
+                className={styles.smallDialogContentContainer}
             >
                 <Box
                     display='flex'
@@ -42,21 +37,11 @@ export const CancelListingDialogContent: FC<Props> = ({
                     justifyContent='center'
                     height='full'
                 >
-                    <Box className={styles.dialogContentHeader}>
+                    <DialogContentHeader
+                        setOpen={setOpen}
+                    >
                         Cancel your listing
-                        <Box
-                            as='button'
-                            onClick={() => setOpen(false)}
-                            position='absolute'
-                            right='24'
-                            top='24'
-                            display='flex'
-                            alignItems='center'
-                            justifyContent='center'
-                        >
-                            <CloseIcon fill='defaultTextPlaceholder' fillOnHover='boxText' />
-                        </Box>
-                    </Box>
+                    </DialogContentHeader>
 
                     <Box
                         as='section'
@@ -73,27 +58,21 @@ export const CancelListingDialogContent: FC<Props> = ({
                         </Box>
                     </Box>
 
-                    <Box as='footer' padding='24' width='full'>
-                        <Box
-                            display='flex'
+                    <DialogContentFooter>
+                        <MainButton
+                            variant='secondary'
+                            onClick={() => setOpen(false)}
                             width='full'
-                            gap='12'
                         >
-                            <MainButton
-                                variant='secondary'
-                                onClick={() => setOpen(false)}
-                                width='full'
-                            >
-                                Go back
-                            </MainButton>
-                            <MainButton
-                                width='full'
-                                onClick={() => cancelOrder()}
-                            >
-                                Continue
-                            </MainButton>
-                        </Box>
-                    </Box>
+                            Go back
+                        </MainButton>
+                        <MainButton
+                            width='full'
+                            onClick={() => cancelOrder()}
+                        >
+                            Continue
+                        </MainButton>
+                    </DialogContentFooter>
                 </Box>
             </Box>
         </Dialog.Content>

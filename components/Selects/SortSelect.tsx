@@ -3,7 +3,7 @@
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import Select from 'react-select'
-import { toggleOnItem } from '../../utils/router'
+import { toggleOnItem } from '../../utils/changeRouter'
 
 interface Props {
     mutateData?: any

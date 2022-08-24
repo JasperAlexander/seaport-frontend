@@ -1,8 +1,6 @@
-import Link from 'next/link'
 import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useAccount, useBalance } from 'wagmi'
 import useMounted from '../../hooks/useMounted'
-import { sprinkles } from '../../styles/sprinkles.css'
 import { Box } from '../Box/Box'
 import { CopyIcon } from '../Icons/CopyIcon'
 import { DoneIcon } from '../Icons/DoneIcon'
@@ -11,6 +9,7 @@ import { WethIcon } from '../Icons/WethIcon'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as styles from './DialogContent.css'
 import { Text } from '../Text/Text'
+import { NextLink } from '../NextLink/NextLink'
 
 interface Props {
     open: boolean
@@ -62,10 +61,6 @@ export const WalletSideDialogContent: FC<Props> = ({
         <Dialog.Content asChild={true}>
             <Box
                 as='aside'
-                style={{
-                    height: 'calc(100% - 72px)'
-                }}
-                width='420'
                 className={styles.sideDialogContentContainer}
             >
                 <Box
@@ -83,15 +78,15 @@ export const WalletSideDialogContent: FC<Props> = ({
                         padding='20'
                         cursor='pointer'
                         height='72'
-                        color='boxText'
-                        style={{borderBottom: '1px solid rgb(229, 232, 235)'}}
+                        borderBottomWidth='1'
+                        borderStyle='solid'
+                        borderColor='box'
                     >
-                        <Box
-                            overflow='hidden'
-                            textOverflow='ellipsis'
+                        <Text
+                            color='boxText'
                         >
                             {mounted ? address : ''}
-                        </Box>
+                        </Text>
                         {copiedAddress 
                             ? <DoneIcon fill='boxText' />
                             : <CopyIcon fill='boxText' />
@@ -141,27 +136,26 @@ export const WalletSideDialogContent: FC<Props> = ({
                                     €0 EUR
                                 </Text>
                                 </Box>
-                                <Link href='/faucet' passHref={true}>
-                                <Box
-                                    as='a'
+                                <NextLink 
+                                    href='/faucet'
                                     cursor='pointer'
                                     onClick={() => setOpen(false)}
                                     display='flex'
                                     alignItems='center'
                                     justifyContent='center'
-                                    color='accentColorText'
                                     width='full'
                                     padding='16'
-                                    className={sprinkles({
-                                        background: {
-                                            base: 'accentColor',
-                                            hover: 'accentColorHover'
-                                        }
-                                    })}
+                                    background={{
+                                        base: 'accentColor',
+                                        hover: 'accentColorHover'
+                                    }}
                                 >
-                                    Add funds
-                                </Box>
-                                </Link>
+                                    <Text
+                                        color='accentColorText'
+                                    >
+                                        Add funds
+                                    </Text>
+                                </NextLink>
                             </Box>
                             <Box
                                 display='flex'
