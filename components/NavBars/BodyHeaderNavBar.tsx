@@ -3,11 +3,12 @@ import { Box } from '../Box/Box'
 import * as styles from './BodyHeaderNavBar.css'
 import { MenuSideDialogTrigger } from '../DialogTriggers/MenuSideDialogTrigger'
 import { CustomConnectButton } from '../Buttons/CustomConnectButton'
-import { BodyHeaderNavBarExploreItem } from '../NavBarItems/BodyHeaderNavBarExploreItem'
-import { BodyHeaderNavBarFaucetItem } from '../NavBarItems/BodyHeaderNavBarFaucetItem'
-import { BodyHeaderNavBarCreateItem } from '../NavBarItems/BodyHeaderNavBarFaucetItem copy'
-import { BodyHeaderNavBarAccountItem } from '../NavBarItems/BodyHeaderNavBarAccountItem'
 import { MenuDialogButton } from '../Buttons/MenuDialogButton'
+import { ExploreDropdownTrigger } from '../DropdownTriggers/ExploreDropdownTrigger'
+import { NextLink } from '../NextLink/NextLink'
+import { Text } from '../Text/Text'
+import { AccountDropdownTrigger } from '../DropdownTriggers/AccountDropdownTrigger'
+import { PersonOutlinedIcon } from '../Icons/PersonOutlinedIcon'
 
 export const BodyHeaderNavBar: FC = () => {
     const [menuSideDialogOpen, setMenuSideDialogOpen] = useState<boolean>(false)
@@ -18,17 +19,54 @@ export const BodyHeaderNavBar: FC = () => {
             className={styles.bodyHeaderNavBar}
         >
             <Box
-                display={{
-                    base: 'none',
-                    largeScreen: 'flex',
-                    wideScreen: 'flex'
-                }}
-                alignItems='center'
+                className={styles.bodyHeaderNavBarContainer}
             >
-                <BodyHeaderNavBarExploreItem />
-                <BodyHeaderNavBarFaucetItem />
-                <BodyHeaderNavBarCreateItem />
-                <BodyHeaderNavBarAccountItem />
+                <ExploreDropdownTrigger>
+                    <NextLink 
+                        href='/assets' 
+                        className={styles.bodyHeaderNavBarItem}
+                    >
+                    <Text
+                        fontWeight='600'
+                    >
+                        Explore
+                    </Text>
+                    </NextLink>
+                </ExploreDropdownTrigger>
+
+                <NextLink 
+                    href='/faucet'
+                    className={styles.bodyHeaderNavBarItem}
+                >
+                    <Text
+                        fontWeight='600'
+                    >
+                        Faucet
+                    </Text>
+                </NextLink>
+
+                <NextLink 
+                    href='/create'
+                    className={styles.bodyHeaderNavBarItem}
+                >
+                    <Text
+                        fontWeight='600'
+                    >
+                        Create
+                    </Text>
+                </NextLink>
+
+                <AccountDropdownTrigger>
+                    <NextLink 
+                        href='/account' 
+                        className={styles.bodyHeaderNavBarItem}
+                    >
+                        <PersonOutlinedIcon 
+                            width='32'
+                        />
+                    </NextLink>
+                </AccountDropdownTrigger>
+                
                 <CustomConnectButton />
             </Box>
 

@@ -383,7 +383,8 @@ const dynamicProperties = defineProperties({
       bottom: 'bottom 0.25s ease-in-out 0s, visibility 0s ease 0.25s',
       opacity: 'opacity 0.25s ease-in-out 0s',
       boxShadow: 'box-shadow 0.3s ease-in 0s',
-      toggle: 'all 0.3s ease-out 0s'
+      toggle: 'all 0.3s ease-out 0s',
+      hover: 'all 0.2s ease 0s'
     },
     transitionDelay: {
       borderRadius: '100ms'
