@@ -6,7 +6,9 @@ type Props = {
   viewRef?: ReturnType<typeof useInView>['ref']
 }
 
-export const AssetGridLoadingCard: FC<Props> = ({ viewRef }) => {
+export const AssetGridLoadingCard: FC<Props> = ({ 
+  viewRef 
+}) => {
   return (
     <Box
       ref={viewRef}
@@ -24,6 +26,6 @@ export const AssetGridLoadingCard: FC<Props> = ({ viewRef }) => {
       transition='default'
       cursor='pointer'
       aspectRatio='1.1'
-  />
+    />
   )
 }

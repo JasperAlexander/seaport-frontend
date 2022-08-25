@@ -1,5 +1,4 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import Head from 'next/head'
 import { Fragment } from 'react'
 import { Box } from '../../components/Box/Box'
 import { TokensType } from '../../types/tokenTypes'
@@ -7,6 +6,7 @@ import setParams from '../../utils/params'
 import useTokens from '../../hooks/useTokens'
 import { useRouter } from 'next/router'
 import { CreateCollectionForm } from '../../components/Forms/CreateCollectionForm'
+import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -18,11 +18,9 @@ const CreateCollectionPage: NextPage<Props> = ({
     
     return (
         <Fragment>
-            <Head>
-                <title>Create Collection | Seaport implementation</title>
-                <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <TitleAndMetaTags 
+                title={'Create Collection | OpenFish'}
+            />
 
             <Box
                 as='main'

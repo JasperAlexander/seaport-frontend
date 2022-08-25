@@ -1,7 +1,6 @@
 // To do: make redirect faster and more robust
 
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import { useEffect, Fragment } from 'react'
 import { useAccount } from 'wagmi'
 import { useRouter } from 'next/router'
@@ -10,6 +9,9 @@ import { UsersType } from '../types/userTypes'
 import setParams from '../utils/params'
 import fetcher from '../utils/fetcher'
 import useMounted from '../hooks/useMounted'
+import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTags'
+import { Box } from '../components/Box/Box'
+import { Text } from '../components/Text/Text'
 
 const AccountPage: NextPage = () => {
     const router = useRouter()
@@ -35,29 +37,33 @@ const AccountPage: NextPage = () => {
     if (user.data?.users[0]) {
         return (
             <Fragment>
-                <Head>
-                    <title>Redirecting | OpenFish</title>
-                    <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                    <link rel="icon" href="/favicon.ico" />
-                </Head>
+                <TitleAndMetaTags 
+                    title={'Redirecting | OpenFish'}
+                />
 
-                <main>
-                    <p>Redirecting...</p>
-                </main>
+                <Box
+                    as='main'
+                >
+                    <Text>
+                        Redirecting...
+                    </Text>
+                </Box>
             </Fragment>
         )
     } else {
         return (
             <Fragment>
-                <Head>
-                    <title>Login | OpenFish</title>
-                    <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                    <link rel="icon" href="/favicon.ico" />
-                </Head>
+                <TitleAndMetaTags 
+                    title={'Login | OpenFish'}
+                />
 
-                <main>
-                    <p>Connect first to view your profile</p>
-                </main>
+                <Box
+                    as='main'
+                >
+                    <Text>
+                        Connect first to view your profile
+                    </Text>
+                </Box>
             </Fragment>
         )
     }

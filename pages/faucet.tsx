@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import { ChangeEvent, Fragment, useState } from 'react'
 import { mintERC20 , mintERC721 } from '../utils/minting'
 import { useAccount, useSigner } from 'wagmi'
@@ -10,6 +9,7 @@ import useMounted from '../hooks/useMounted'
 import { MainLayout } from '../components/Layouts/MainLayout'
 import { MainButton } from '../components/Buttons/MainButton'
 import { Text } from '../components/Text/Text'
+import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTags'
 
 const FaucetPage: NextPage = () => {
     const { address } = useAccount()
@@ -31,11 +31,9 @@ const FaucetPage: NextPage = () => {
     
     return (
         <Fragment>
-            <Head>
-                <title>Faucet | Seaport implementation</title>
-                <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <TitleAndMetaTags 
+                title={'Faucet | OpenFish'}
+            />
 
             <MainLayout>
                 <Box 

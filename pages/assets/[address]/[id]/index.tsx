@@ -1,5 +1,4 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import Head from 'next/head'
 import { Fragment, useEffect, useState } from 'react'
 import { Box } from '../../../../components/Box/Box'
 import { AssetPageCard } from '../../../../components/Cards/AssetPageCard'
@@ -26,6 +25,7 @@ import { NextLink } from '../../../../components/NextLink/NextLink'
 import { FlagIcon } from '../../../../components/Icons/FlagIcon'
 import { Text } from '../../../../components/Text/Text'
 import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
+import { TitleAndMetaTags } from '../../../../components/TitleAndMetaTags/TitleAndMetaTags'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -67,11 +67,9 @@ const AssetPage: NextPage<Props> = ({
     
     return (
         <Fragment>
-            <Head>
-                <title>Asset | Seaport implementation</title>
-                <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <TitleAndMetaTags 
+                title={'Asset | OpenFish'}
+            />
 
             <MainLayout>
                 <Box

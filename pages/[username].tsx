@@ -1,5 +1,4 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import Head from 'next/head'
 import { Fragment, useMemo, useState } from 'react'
 import { UserType } from '../types/userTypes'
 import setParams from '../utils/params'
@@ -17,6 +16,7 @@ import { VerifiedIcon } from '../components/Icons/VerifiedIcon'
 import { Text } from '../components/Text/Text'
 import { RoundButton } from '../components/Buttons/RoundButton'
 import { truncateAddress, truncateEns } from '../utils/truncateText'
+import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTags'
 
 enum Tabs {
     Created,
@@ -68,11 +68,9 @@ const UserPage: NextPage<Props> = ({
     
     return (
         <Fragment>
-            <Head>
-                <title>{isOwner ? 'Your' : `${username} |`} Profile | OpenFish</title>
-                <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <TitleAndMetaTags 
+                title={isOwner ? 'Your Profile | OpenFish' : `${username} | Profile | OpenFish`}
+            />
 
             <Box
                 as='main'

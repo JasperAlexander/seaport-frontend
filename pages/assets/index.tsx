@@ -1,5 +1,4 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import Head from 'next/head'
 import React, { Fragment } from 'react'
 import { AssetGrid } from '../../components/Grids/AssetGrid'
 import { Box } from '../../components/Box/Box'
@@ -8,6 +7,7 @@ import { AssetsType } from '../../types/assetTypes'
 import { useRouter } from 'next/router'
 import useAssets from '../../hooks/useAssets'
 import useMounted from '../../hooks/useMounted'
+import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -20,11 +20,7 @@ const AssetsPage: NextPage<Props> = ({
 
   return (
     <Fragment>
-      <Head>
-        <title>Seaport implementation</title>
-        <meta name="description" content='An example implementation of the Seaport marketplace protocol for educational purpose.' />
-        <link rel="icon" href='/favicon.ico' />
-      </Head>
+      <TitleAndMetaTags />
 
       <Box
         as='main'

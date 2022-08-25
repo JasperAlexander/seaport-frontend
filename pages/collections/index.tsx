@@ -1,21 +1,16 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import { useState, Fragment } from 'react'
+import { Fragment } from 'react'
 import { Box } from '../../components/Box/Box'
-import { Input } from '../../components/Input/Input'
-import { CreateCollectionButton } from '../../components/Buttons/CreateCollectionButton'
-import { CollectionInputType } from '../../types/collectionTypes'
 import { MainButton } from '../../components/Buttons/MainButton'
 import { Text } from '../../components/Text/Text'
+import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
 
 const CollectionsPage: NextPage = () => {
     return (
         <Fragment>
-            <Head>
-                <title>My Collections | Seaport implementation</title>
-                <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <TitleAndMetaTags 
+                title={'My Collections | OpenFish'}
+            />
 
             <Box
                 as='main'

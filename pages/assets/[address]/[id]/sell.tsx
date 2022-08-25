@@ -1,5 +1,4 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import Head from 'next/head'
 import { Fragment, useEffect, useState } from 'react'
 import useAsset from '../../../../hooks/useAsset'
 import { useRouter } from 'next/router'
@@ -8,11 +7,11 @@ import { MainLayout } from '../../../../components/Layouts/MainLayout'
 import { AssetType } from '../../../../types/assetTypes'
 import setParams from '../../../../utils/params'
 import { ListAssetForm } from '../../../../components/Forms/ListAssetForm'
-import { Box } from '../../../../components/Box/Box'
 import { MainButton } from '../../../../components/Buttons/MainButton'
 import { TokensType } from '../../../../types/tokenTypes'
 import useTokens from '../../../../hooks/useTokens'
 import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
+import { TitleAndMetaTags } from '../../../../components/TitleAndMetaTags/TitleAndMetaTags'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -35,11 +34,9 @@ const SellAssetPage: NextPage<Props> = ({
 
     return (
         <Fragment>
-            <Head>
-                <title>Sell asset | Seaport implementation</title>
-                <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <TitleAndMetaTags 
+                title={'Sell Asset | OpenFish'}
+            />
 
             <MainLayout>
                 {isOwner &&

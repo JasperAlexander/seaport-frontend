@@ -1,7 +1,6 @@
 // To do: add option to save files to other storage solutions
 
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import Head from 'next/head'
 import { Fragment } from 'react'
 import { Box } from '../components/Box/Box'
 import { CollectionsType } from '../types/collectionTypes'
@@ -9,6 +8,7 @@ import setParams from '../utils/params'
 import useCollections from '../hooks/useCollections'
 import { useRouter } from 'next/router'
 import { CreateAssetForm } from '../components/Forms/CreateAssetForm'
+import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTags'
 // import { useIpfs } from '../hooks/useIPFS'
 // import { create } from 'ipfs-http-client'
 
@@ -24,11 +24,9 @@ const CreateAssetPage: NextPage<Props> = ({
     
     return (
         <Fragment>
-            <Head>
-                <title>Create Asset | Seaport implementation</title>
-                <meta name="description" content="An example of how to implement the Seaport marketplace protocol." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <TitleAndMetaTags 
+                title={'Create Asset | OpenFish'}
+            />
 
             <Box 
                 as='main' 
