@@ -3,12 +3,14 @@ import setParams from '../utils/params'
 import useSWR from 'swr'
 import { UserType } from '../types/userTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useUser(
     username: string,
     fallbackData?: UserType
   ) {
     function getUrl() {
-        const pathname = `http://localhost:8000/api/v1/user/${username}/`
+        const pathname = `${API_BASE}/api/v1/user/${username}/`
     
         let query = {}
     

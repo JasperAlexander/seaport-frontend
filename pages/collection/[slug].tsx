@@ -8,6 +8,8 @@ import { Box } from '../../components/Box/Box'
 import { Text } from '../../components/Text/Text'
 import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const CollectionPage: NextPage<Props> = ({
@@ -60,7 +62,7 @@ export const getStaticProps: GetStaticProps<{
     
         const options: RequestInit | undefined = {}
 
-        const url = new URL(`/api/v1/collection/${slug}/`, 'http://localhost:8000')
+        const url = new URL(`/api/v1/collection/${slug}/`, API_BASE)
 
         const query = {}
     

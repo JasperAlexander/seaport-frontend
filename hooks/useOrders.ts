@@ -6,6 +6,8 @@ import { useInView } from 'react-intersection-observer'
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
 import { OrdersQueryType, OrdersType } from '../types/orderTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useOrders(
     router: NextRouter,
     fallback?: OrdersType,
@@ -14,7 +16,7 @@ export default function useOrders(
 ) {
     const { ref, inView } = useInView()
 
-    const pathname = `http://localhost:8000/api/v1/orders/`
+    const pathname = `${API_BASE}/api/v1/orders/`
 
     const query: OrdersQueryType = {
         ...(router.query['sort'] && { sortBy: router.query['sort']?.toString()}),

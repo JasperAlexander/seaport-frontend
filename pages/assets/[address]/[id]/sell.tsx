@@ -13,6 +13,8 @@ import useTokens from '../../../../hooks/useTokens'
 import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
 import { TitleAndMetaTags } from '../../../../components/TitleAndMetaTags/TitleAndMetaTags'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const SellAssetPage: NextPage<Props> = ({
@@ -88,7 +90,7 @@ export const getStaticProps: GetStaticProps<{
     
         const assetOptions: RequestInit | undefined = {}
 
-        const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, 'http://localhost:8000')
+        const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, API_BASE)
 
         const assetQuery = {}
     
@@ -108,7 +110,7 @@ export const getStaticProps: GetStaticProps<{
         const tokensOptions: RequestInit | undefined = {}
 
         // Todo: add filter to only show tokens of user
-        const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
+        const tokensUrl = new URL(`/api/v1/tokens/`, API_BASE)
 
         const tokensQuery = {}
     

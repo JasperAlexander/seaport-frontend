@@ -1,12 +1,13 @@
 import { EventPostType } from "../types/eventTypes"
 import { OrderType } from "../types/orderTypes"
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
 export default function useApi() {
     const saveEvent = async (
         event: EventPostType
     ) => {
-        const href = `http://localhost:8000/api/v1/events/create/`
+        const href = `${API_BASE}/api/v1/events/create/`
 
         const options = {
             method: 'POST',
@@ -25,7 +26,7 @@ export default function useApi() {
     const saveOrder = async (
         order: OrderType
     ) => {
-        const href = `http://localhost:8000/api/v1/orders/create/`
+        const href = `${API_BASE}/api/v1/orders/create/`
 
         const options = {
             method: 'POST',

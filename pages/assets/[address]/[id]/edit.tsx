@@ -13,6 +13,8 @@ import { MainButton } from '../../../../components/Buttons/MainButton'
 import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
 import { TitleAndMetaTags } from '../../../../components/TitleAndMetaTags/TitleAndMetaTags'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const EditAssetPage: NextPage<Props> = ({
@@ -88,7 +90,7 @@ export const getStaticProps: GetStaticProps<{
     
         const assetOptions: RequestInit | undefined = {}
 
-        const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, 'http://localhost:8000')
+        const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, API_BASE)
 
         const assetQuery = {}
     
@@ -108,7 +110,7 @@ export const getStaticProps: GetStaticProps<{
         const collectionsOptions: RequestInit | undefined = {}
 
         // Todo: add filter to only show collections of user
-        const collectionsUrl = new URL(`/api/v1/collections/`, 'http://localhost:8000')
+        const collectionsUrl = new URL(`/api/v1/collections/`, API_BASE)
 
         const collectionsQuery = {}
     

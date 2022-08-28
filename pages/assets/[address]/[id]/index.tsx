@@ -27,6 +27,8 @@ import { Text } from '../../../../components/Text/Text'
 import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
 import { TitleAndMetaTags } from '../../../../components/TitleAndMetaTags/TitleAndMetaTags'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const AssetPage: NextPage<Props> = ({
@@ -323,7 +325,7 @@ export const getStaticPaths: GetStaticPaths = () => {
         paths: [],
         fallback: 'blocking',
     }
-  }
+}
   
 export const getStaticProps: GetStaticProps<{
     fallbackAsset: AssetType
@@ -346,7 +348,7 @@ export const getStaticProps: GetStaticProps<{
     
         const assetOptions: RequestInit | undefined = {}
 
-        const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, 'http://localhost:8000')
+        const assetUrl = new URL(`/api/v1/asset/${contract_address}/${token_id}/`, API_BASE)
 
         const assetQuery = {}
     
@@ -365,7 +367,7 @@ export const getStaticProps: GetStaticProps<{
         // EVENTS
         const eventsOptions: RequestInit | undefined = {}
 
-        const eventsUrl = new URL(`/api/v1/events/`, 'http://localhost:8000')
+        const eventsUrl = new URL(`/api/v1/events/`, API_BASE)
 
         const eventsQuery: EventsQueryType = {
             ...(contract_address && { asset_contract__address: contract_address }),
@@ -381,7 +383,7 @@ export const getStaticProps: GetStaticProps<{
         // ORDERS
         const ordersOptions: RequestInit | undefined = {}
 
-        const ordersUrl = new URL(`/api/v1/orders/`, 'http://localhost:8000')
+        const ordersUrl = new URL(`/api/v1/orders/`, API_BASE)
 
         const ordersQuery: OrdersQueryType = {
             ...(contract_address && { parameters__offer__token: contract_address }),
@@ -397,7 +399,7 @@ export const getStaticProps: GetStaticProps<{
         // TOKENS
         const tokensOptions: RequestInit | undefined = {}
 
-        const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
+        const tokensUrl = new URL(`/api/v1/tokens/`, API_BASE)
 
         const tokensQuery: TokensQueryType = {
             // ...(contract_address && { parameters__offer__token: contract_address }),

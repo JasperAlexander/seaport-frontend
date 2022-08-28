@@ -2,8 +2,10 @@ import router from 'next/router'
 import { CollectionInputType } from '../../types/collectionTypes'
 import useMounted from '../../hooks/useMounted'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 const addCollection = async(inputState: CollectionInputType) => {
-    const href = `http://localhost:8000/api/v1/collections/create/`
+    const href = `${API_BASE}/api/v1/collections/create/`
 
     const options = {
         method: 'POST',

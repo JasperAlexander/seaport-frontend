@@ -6,6 +6,8 @@ import { useInView } from 'react-intersection-observer'
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
 import { AssetsType, AssetsQueryType } from '../types/assetTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useAssets(
     router: NextRouter,
     fallback?: AssetsType,
@@ -14,7 +16,7 @@ export default function useAssets(
 ) {
     const { ref, inView } = useInView()
 
-    const pathname = `http://localhost:8000/api/v1/assets/`
+    const pathname = `${API_BASE}/api/v1/assets/`
 
     const query: AssetsQueryType = {
         ...(username && { owner__username: username }),

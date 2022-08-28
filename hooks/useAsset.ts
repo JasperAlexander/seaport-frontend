@@ -3,6 +3,8 @@ import setParams from '../utils/params'
 import useSWR from 'swr'
 import { AssetType } from '../types/assetTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useAsset(
     fallbackData: AssetType | undefined,
     contract_address?: string | undefined,
@@ -11,7 +13,7 @@ export default function useAsset(
     function getUrl() {
         if (!contract_address || !token_id) return undefined
     
-        const pathname = `http://localhost:8000/api/v1/asset/${contract_address}/${token_id}/`
+        const pathname = `${API_BASE}/api/v1/asset/${contract_address}/${token_id}/`
     
         let query = {
             // id: collectionId,

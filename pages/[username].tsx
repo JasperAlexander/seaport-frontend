@@ -18,6 +18,8 @@ import { RoundButton } from '../components/Buttons/RoundButton'
 import { truncateAddress, truncateEns } from '../utils/truncateText'
 import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTags'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 enum Tabs {
     Created,
     Collected
@@ -277,7 +279,7 @@ export const getStaticProps: GetStaticProps<{
         // USER
         const userOptions: RequestInit | undefined = {}
 
-        const userUrl = new URL(`/api/v1/user/${username}/`, 'http://localhost:8000')
+        const userUrl = new URL(`/api/v1/user/${username}/`, API_BASE)
 
         const userQuery = {}
     
@@ -296,7 +298,7 @@ export const getStaticProps: GetStaticProps<{
         // ASSETS
         const assetsOptions: RequestInit | undefined = {}
 
-        const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
+        const assetsUrl = new URL(`/api/v1/assets/`, API_BASE)
 
         const assetsQuery = {
             ...(username && { owner__username: username })

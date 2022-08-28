@@ -12,6 +12,8 @@ import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTag
 // import { useIpfs } from '../hooks/useIPFS'
 // import { create } from 'ipfs-http-client'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const CreateAssetPage: NextPage<Props> = ({
@@ -51,7 +53,7 @@ export const getStaticProps: GetStaticProps<{
         const collectionsOptions: RequestInit | undefined = {}
 
         // Todo: add filter to only show collections of user
-        const collectionsUrl = new URL(`/api/v1/collections/`, 'http://localhost:8000')
+        const collectionsUrl = new URL(`/api/v1/collections/`, API_BASE)
 
         const collectionsQuery = {}
     

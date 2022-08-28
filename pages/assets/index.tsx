@@ -9,6 +9,8 @@ import useAssets from '../../hooks/useAssets'
 import useMounted from '../../hooks/useMounted'
 import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const AssetsPage: NextPage<Props> = ({ 
@@ -51,7 +53,7 @@ export const getStaticProps: GetStaticProps<{
   try {
     const assetsOptions: RequestInit | undefined = {}
 
-    const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
+    const assetsUrl = new URL(`/api/v1/assets/`, API_BASE)
 
     const assetsQuery = {}
 

@@ -6,13 +6,15 @@ import { useInView } from 'react-intersection-observer'
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
 import { CollectionsType } from '../types/collectionTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useCollections(
     router: NextRouter,
     fallback?: CollectionsType
 ) {
     const { ref, inView } = useInView()
 
-    const pathname = `http://localhost:8000/api/v1/collections/`
+    const pathname = `${API_BASE}/api/v1/collections/`
     const sortBy = router.query['sort']?.toString()
 
     const collections = useSWRInfinite(

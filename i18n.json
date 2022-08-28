@@ -1,0 +1,9 @@
+{
+    "locales": ["en", "nl"],
+    "defaultLocale": "en",
+    "pages": {
+      "*": ["common"],
+      "/": ["home"],
+      "/assets": ["assets"]
+    }
+  }

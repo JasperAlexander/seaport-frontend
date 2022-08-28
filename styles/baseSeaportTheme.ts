@@ -6,7 +6,7 @@ const systemFontStack =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
 const fontStacks = {
   rounded: `SFRounded, ui-rounded, "SF Pro Rounded", ${systemFontStack}`,
-  system: systemFontStack,
+  system: systemFontStack
 } as const
 type FontStack = keyof typeof fontStacks
 
@@ -15,11 +15,11 @@ interface BaseSeaportThemeOptions {
 }
 
 export const baseSeaportTheme = ({
-  fontStack = 'rounded',
+  fontStack = 'rounded'
 }: BaseSeaportThemeOptions): Pick<ThemeVars, 'fonts'> => ({
   fonts: {
-    body: fontStacks[fontStack],
-  },
+    body: fontStacks[fontStack]
+  }
 })
 
 export interface AccentColor {

@@ -6,6 +6,8 @@ import { useInView } from 'react-intersection-observer'
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
 import { UsersType, UsersQueryType } from '../types/userTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useUsers(
     router: NextRouter,
     address?: string,
@@ -13,7 +15,7 @@ export default function useUsers(
 ) {
     const { ref, inView } = useInView()
 
-    const pathname = `http://localhost:8000/api/v1/users/`
+    const pathname = `${API_BASE}/api/v1/users/`
     
     const query: UsersQueryType = {
         ...(address && { address: address }),

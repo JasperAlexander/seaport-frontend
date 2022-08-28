@@ -6,6 +6,8 @@ import { useInView } from 'react-intersection-observer'
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
 import { TokensQueryType, TokensType } from '../types/tokenTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useTokens(
     router: NextRouter,
     fallback?: TokensType,
@@ -13,7 +15,7 @@ export default function useTokens(
 ) {
     const { ref, inView } = useInView()
 
-    const pathname = `http://localhost:8000/api/v1/tokens/`
+    const pathname = `${API_BASE}/api/v1/tokens/`
 
     const query: TokensQueryType = {
         ...(router.query['sort'] && { sortBy: router.query['sort']?.toString()}),

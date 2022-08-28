@@ -5,11 +5,29 @@ import {
   SeaportThemeOptions,
 } from './baseSeaportTheme'
 
+const ACCENT_COLOR = process.env.NEXT_PUBLIC_ACCENT_COLOR
+
 const accentColors: Record<AccentColorPreset, AccentColor> = {
-  blue: { accentColor: '#0FAEFA', accentColorText: '#FFF', accentColorHover: '#3FBEFB' },
-  green: { accentColor: '#38FA0F', accentColorText: '#FFF', accentColorHover: '#60FB3F' },
-  orange: { accentColor: '#FA5B0F', accentColorText: '#FFF', accentColorHover: '#FB7C3F' },
-  pink: { accentColor: '#D10FFA', accentColorText: '#FFF', accentColorHover: '#DA3FFB' }
+  blue: { 
+    accentColor: '#0FAEFA', 
+    accentColorText: '#FFF', 
+    accentColorHover: '#3FBEFB' 
+  },
+  green: { 
+    accentColor: '#38FA0F', 
+    accentColorText: '#FFF', 
+    accentColorHover: '#60FB3F' 
+  },
+  orange: { 
+    accentColor: '#FA5B0F', 
+    accentColorText: '#FFF', 
+    accentColorHover: '#FB7C3F' 
+  },
+  pink: { 
+    accentColor: '#D10FFA', 
+    accentColorText: '#FFF', 
+    accentColorHover: '#DA3FFB' 
+  }
 }
 
 const defaultAccentColor = accentColors.orange
@@ -84,7 +102,7 @@ export const lightSeaportTheme = ({
 
     featuredCard: 'rgba(4, 17, 29, 0.25) 0px 0px 10px 0px',
     featuredCardHover: 'rgba(4, 17, 29, 0.25) 0px 0px 50px 0px'
-  },
+  }
 })
 
 lightSeaportTheme.accentColors = accentColors

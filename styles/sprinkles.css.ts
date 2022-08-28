@@ -56,10 +56,10 @@ const themeContractValues = {
     orderBackground: '',
 
     profileTop: '',
-    profileTopHover: '',
+    profileTopHover: ''
   },
   fonts: {
-    body: '',
+    body: ''
   },
   shadows: {
     default: '',
@@ -130,13 +130,10 @@ const dimensions = {
   '45': '45px',
   '48': '48px',
   '50p': '50%',
-  '54': '54px',
-  '60': '60px',
   '66': '66px',
   '70': '70px',
-  '71': '71px',
-  '72': '72px',
-  '73': '73px',
+  '71': '71px', // Subheader top
+  '72': '72px', // Header height
   '80': '80px',
   '100': '100px',
   '160': '160px',
@@ -146,9 +143,6 @@ const dimensions = {
   '240': '240px',
   '330': '330px',
   '420': '420px',
-  '588': '588px',
-  '600': '600px',
-  '710': '710px',
   '772': '772px',
   '1000': '1000px',
   '1280': '1280px',
@@ -177,21 +171,45 @@ const weights = {
   '900': '900',
 }
 
-const flexAlignment = ['flex-start', 'flex-end', 'center', 'stretch'] as const
-const displayOptions = ['none', 'block', 'flex', 'inline', 'inline-flex', 'inline-block', 'grid', 'initial'] as const
+const flexAlignment = [
+  'flex-start', 
+  'flex-end', 
+  'center', 
+  'stretch'
+] as const
+const displayOptions = [
+  'none', 
+  'block', 
+  'flex', 
+  'inline', 
+  'inline-flex', 
+  'inline-block', 
+  'grid', 
+  'initial'
+] as const
 
-const textAlignments = ['left', 'center', 'right', 'inherit'] as const
+const textAlignments = [
+  'left', 
+  'center', 
+  'right', 
+  'inherit'
+] as const
 
-const overflowOptions = ['hidden', 'visible', 'scroll', 'auto'] as const
+const overflowOptions = [
+  'hidden', 
+  'visible', 
+  'scroll', 
+  'auto'
+] as const
 
 const openAccordion = keyframes({
   from: { height: 0 },
-  to: { height: 'var(--radix-accordion-content-height)' },
+  to: { height: 'var(--radix-accordion-content-height)' }
 })
 
 const closeAccordion = keyframes({
   from: { height: 'var(--radix-accordion-content-height)' },
-  to: { height: 0 },
+  to: { height: 0 }
 })
 
 const progress = keyframes({
@@ -199,7 +217,7 @@ const progress = keyframes({
   '25%': { rotate: '0deg' },
   '50%': { rotate: '90deg' },
   '75%': { rotate: '180deg' },
-  '100%': { rotate: '270deg' },
+  '100%': { rotate: '270deg' }
 })
 
 const staticProperties = defineProperties({
@@ -211,16 +229,37 @@ const staticProperties = defineProperties({
     },
     backgroundSize: ['cover'],
 
-    borderStyle: ['solid', 'dashed'],
+    borderStyle: [
+      'solid', 
+      'dashed'
+    ],
 
-    flexDirection: ['row', 'column'],
+    flexDirection: [
+      'row', 
+      'column'
+    ],
     flexBasis: {
       '0': '0%',
       'auto': 'auto'
     },
-    flexGrow: ['0', '1', '2', '3', '4'],
-    flexShrink: ['0', '1', '2', '3', '4'],
-    flexWrap: ['wrap', 'nowrap'],
+    flexGrow: [
+      '0', 
+      '1', 
+      '2', 
+      '3', 
+      '4'
+    ],
+    flexShrink: [
+      '0', 
+      '1', 
+      '2', 
+      '3', 
+      '4'
+    ],
+    flexWrap: [
+      'wrap', 
+      'nowrap'
+    ],
 
     fontFamily: themeVars.fonts,
     fontSize: dimensions,
@@ -228,7 +267,11 @@ const staticProperties = defineProperties({
 
     gap: dimensions,
     
-    justifyContent: [...flexAlignment, 'space-between', 'space-around'],
+    justifyContent: [
+      ...flexAlignment, 
+      'space-between', 
+      'space-around'
+    ],
     justifySelf: [...flexAlignment],
     lineHeight: ['normal'],
     textAlign: textAlignments,
@@ -239,7 +282,10 @@ const staticProperties = defineProperties({
     minHeight: dimensions,
     minWidth: dimensions,
 
-    objectFit: ['cover', 'contain'],
+    objectFit: [
+      'cover', 
+      'contain'
+    ],
 
     overflow: overflowOptions,
     overflowX: overflowOptions,
@@ -253,16 +299,33 @@ const staticProperties = defineProperties({
     paddingRight: dimensions,
     paddingTop: dimensions,
 
-    position: ['absolute', 'fixed', 'relative', 'sticky', 'initial'],
+    position: [
+      'absolute', 
+      'fixed', 
+      'relative', 
+      'sticky', 
+      'initial'
+    ],
     userSelect: ['none'],
     whiteSpace: ['nowrap'],
 
     zIndex: weights,
   } as const,
   shorthands: {
-    padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
-    paddingX: ['paddingLeft', 'paddingRight'],
-    paddingY: ['paddingTop', 'paddingBottom']
+    padding: [
+      'paddingTop', 
+      'paddingBottom', 
+      'paddingLeft', 
+      'paddingRight'
+    ],
+    paddingX: [
+      'paddingLeft', 
+      'paddingRight'
+    ],
+    paddingY: [
+      'paddingTop', 
+      'paddingBottom'
+    ]
   },
 })
 
@@ -342,11 +405,19 @@ const dynamicProperties = defineProperties({
       'empty': `''`
     },
 
-    cursor: ['pointer', 'default'],
+    cursor: [
+      'pointer', 
+      'default'
+    ],
 
     display: displayOptions,
 
-    gridTemplateColumns: ['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)'],
+    gridTemplateColumns: [
+      'repeat(1, 1fr)', 
+      'repeat(2, 1fr)', 
+      'repeat(3, 1fr)', 
+      'repeat(4, 1fr)'
+    ],
 
     height: dimensions,
     width: dimensions,
@@ -390,24 +461,56 @@ const dynamicProperties = defineProperties({
       borderRadius: '100ms'
     },
 
-    visibility: ['visible', 'hidden']
+    visibility: [
+      'visible', 
+      'hidden'
+    ]
   },
   shorthands: {
-    margin: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],
-    marginX: ['marginLeft', 'marginRight'],
-    marginY: ['marginTop', 'marginBottom'],
-    inset: ['top', 'right', 'bottom', 'left'],
-    dimension: ['width', 'height'],
-    borderRadius: ['borderBottomLeftRadius', 'borderBottomRightRadius', 'borderTopLeftRadius', 'borderTopRightRadius'],
-    borderWidth: ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth']
+    margin: [
+      'marginTop', 
+      'marginBottom', 
+      'marginLeft', 
+      'marginRight'
+    ],
+    marginX: [
+      'marginLeft', 
+      'marginRight'
+    ],
+    marginY: [
+      'marginTop', 
+      'marginBottom'
+    ],
+    inset: [
+      'top', 
+      'right', 
+      'bottom', 
+      'left'
+    ],
+    dimension: [
+      'width', 
+      'height'
+    ],
+    borderRadius: [
+      'borderBottomLeftRadius', 
+      'borderBottomRightRadius', 
+      'borderTopLeftRadius', 
+      'borderTopRightRadius'
+    ],
+    borderWidth: [
+      'borderTopWidth', 
+      'borderRightWidth', 
+      'borderBottomWidth', 
+      'borderLeftWidth'
+    ]
   },
 })
 
-export type ResponsiveValue<Value extends string | number | boolean> =
+export type DynamicValue<Value extends string | number | boolean> =
   RequiredConditionalValue<typeof dynamicProperties, Value>
 
-export const mapResponsiveValue = createMapValueFn(dynamicProperties)
-export const normalizeResponsiveValue =
+export const mapDynamicValue = createMapValueFn(dynamicProperties)
+export const normalizeDynamicValue =
   createNormalizeValueFn(dynamicProperties)
 
 export const sprinkles = createSprinkles(

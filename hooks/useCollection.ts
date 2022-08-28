@@ -3,6 +3,8 @@ import setParams from '../utils/params'
 import useSWR from 'swr'
 import { CollectionType } from '../types/collectionTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useCollection(
     fallbackData: CollectionType | undefined,
     slug?: string | undefined
@@ -10,7 +12,7 @@ export default function useCollection(
     function getUrl() {
         if (!slug) return undefined
     
-        const pathname = `http://localhost:8000/api/v1/collection/${slug}/`
+        const pathname = `${API_BASE}/api/v1/collection/${slug}/`
     
         let query = {
             // id: collectionId,

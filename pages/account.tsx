@@ -13,13 +13,15 @@ import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTag
 import { Box } from '../components/Box/Box'
 import { Text } from '../components/Text/Text'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 const AccountPage: NextPage = () => {
     const router = useRouter()
     const { address } = useAccount()
     const { mounted } = useMounted()
     
     const user = useSWR<UsersType>(
-        mounted && address ? setParams('http://localhost:8000/api/v1/users/', { address: address }) : null, 
+        mounted && address ? setParams(`${API_BASE}/api/v1/users/`, { address: address }) : null, 
         fetcher
     )
 

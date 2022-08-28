@@ -8,8 +8,10 @@ import useMounted from '../../hooks/useMounted'
 // import { useCurrentUser } from '../../hooks/useCurrentUser'
 // import { UserType } from '../../types/userTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 const addAsset = async(inputState: AssetInputType, address: string) => {
-    const href = `http://localhost:8000/api/v1/assets/create/`
+    const href = `${API_BASE}/api/v1/assets/create/`
 
     const options = {
         method: 'POST',
@@ -45,7 +47,7 @@ const addAsset = async(inputState: AssetInputType, address: string) => {
 }
 
 const addEvent = async(inputState: AssetInputType) => {
-    const href = `http://localhost:8000/api/v1/events/create/`
+    const href = `${API_BASE}/api/v1/events/create/`
 
     const options = {
         method: 'POST',

@@ -9,12 +9,16 @@ import { MainButton } from '../components/Buttons/MainButton'
 import { Text } from '../components/Text/Text'
 import { FeaturedCard } from '../components/Cards/FeaturedCard'
 import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTags'
+import useTranslation from 'next-translate/useTranslation'
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const HomePage: NextPage<Props> = ({ 
   fallbackAssets 
 }) => {
+  const { t } = useTranslation('home')
   const router = useRouter()
   const assets = useAssets(router, fallbackAssets)
   const mappedAssets = assets.assets.data ? assets.assets.data.map(({ assets }) => assets).flat() : []
@@ -49,7 +53,7 @@ const HomePage: NextPage<Props> = ({
               backgroundPosition: 'center center',
               opacity: '0.3',
               backgroundColor: 'white',
-              filter: 'blut(8px)',
+              filter: 'blur(8px)',
               mask: 'linear-gradient(rgb(255, 255, 255), transparent)'
             }}
           />
@@ -80,7 +84,7 @@ const HomePage: NextPage<Props> = ({
                 fontSize='45'
                 fontWeight='600'
               >
-                Discover, collect, and sell extraordinary NFTs
+                {t('title')}
               </Text>
             </Box>
             <Box
@@ -89,7 +93,7 @@ const HomePage: NextPage<Props> = ({
               <Text
                 fontSize='24'
               >
-                OpenFish is an example implementation of the Seaport marketplace protocol for educational purpose
+                {t('subTitle')}
               </Text>
             </Box>
             <Box
@@ -101,14 +105,14 @@ const HomePage: NextPage<Props> = ({
                 size='large'
                 href='/assets'
               >
-                Explore
+                {t('explore')}
               </MainButton>
               <MainButton
                 variant='secondary'
                 size='large'
                 href='/create'
               >
-                Create
+                {t('create')}
               </MainButton>
             </Box>
           </Box>
@@ -139,7 +143,7 @@ export const getStaticProps: GetStaticProps<{
   try {
     const assetsOptions: RequestInit | undefined = {}
 
-    const assetsUrl = new URL(`/api/v1/assets/`, 'http://localhost:8000')
+    const assetsUrl = new URL(`/api/v1/assets/`, API_BASE)
 
     const assetsQuery = {}
 

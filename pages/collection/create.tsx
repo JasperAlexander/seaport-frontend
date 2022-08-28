@@ -8,6 +8,8 @@ import { useRouter } from 'next/router'
 import { CreateCollectionForm } from '../../components/Forms/CreateCollectionForm'
 import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const CreateCollectionPage: NextPage<Props> = ({
@@ -41,7 +43,7 @@ export const getStaticProps: GetStaticProps<{
     try {
         const tokensOptions: RequestInit | undefined = {}
 
-        const tokensUrl = new URL(`/api/v1/tokens/`, 'http://localhost:8000')
+        const tokensUrl = new URL(`/api/v1/tokens/`, API_BASE)
 
         const tokensQuery = {}
     

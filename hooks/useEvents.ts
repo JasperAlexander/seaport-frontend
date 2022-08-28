@@ -6,6 +6,8 @@ import { useInView } from 'react-intersection-observer'
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
 import { EventsType, EventsQueryType } from '../types/eventTypes'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export default function useEvents(
     router: NextRouter,
     fallback?: EventsType,
@@ -14,7 +16,7 @@ export default function useEvents(
 ) {
     const { ref, inView } = useInView()
 
-    const pathname = `http://localhost:8000/api/v1/events/`
+    const pathname = `${API_BASE}/api/v1/events/`
 
     const query: EventsQueryType = {
         ...(router.query['sort'] && { sortBy: router.query['sort']?.toString()}),
