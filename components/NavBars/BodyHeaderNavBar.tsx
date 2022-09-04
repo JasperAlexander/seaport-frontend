@@ -9,9 +9,11 @@ import { NextLink } from '../NextLink/NextLink'
 import { Text } from '../Text/Text'
 import { AccountDropdownTrigger } from '../DropdownTriggers/AccountDropdownTrigger'
 import { PersonOutlinedIcon } from '../Icons/PersonOutlinedIcon'
+import { useSession } from 'next-auth/react'
 
 export const BodyHeaderNavBar: FC = () => {
     const [menuSideDialogOpen, setMenuSideDialogOpen] = useState<boolean>(false)
+    const { data: session } = useSession()
 
     return (
         <Box 
@@ -46,7 +48,7 @@ export const BodyHeaderNavBar: FC = () => {
                 </NextLink>
 
                 <NextLink 
-                    href='/create'
+                    href={session ? '/create' : '/login/?referrer=/create'}
                     className={styles.bodyHeaderNavBarItem}
                 >
                     <Text
