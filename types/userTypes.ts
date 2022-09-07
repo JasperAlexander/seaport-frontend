@@ -4,6 +4,7 @@ export interface UserType {
     address: string
     profile_img_url: string
     config: string
+    created_timestamp: string
 }
 
 export interface UsersType {

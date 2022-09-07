@@ -20,12 +20,13 @@ export const CollectionSelect: FC<Props> = ({
     setData
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>('')
-
-    const collectionSet = mappedCollections?.map((c) => ({
-        ['value']: c.slug, 
-        ['label']: c.name,
-        ['image_url']: c.image_url
-    }))
+    const collectionSet = mappedCollections?.map((c) => {
+        if (typeof c !== 'undefined') {({
+            ['value']: c.slug, 
+            ['label']: c.name,
+            ['image_url']: c.image_url
+        })}
+    })
 
     const customStyles = {
         container: (base: any) => ({
