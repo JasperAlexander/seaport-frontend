@@ -109,6 +109,7 @@ export const MainButton: FC<Props> = ({
         >
             <Box
                 as={href ? 'a' : 'button'}
+                type='button'
                 onClick={onClick}
                 disabled={disabled}
 

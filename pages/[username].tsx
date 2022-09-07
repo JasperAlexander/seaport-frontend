@@ -36,21 +36,21 @@ const UserPage: NextPage<Props> = ({
     const { address } = useAccount()
     const { data: EnsAvatar } = useEnsAvatar({
         addressOrName: address,
-        chainId: 1337
+        enabled: false
     })
     const { data: EnsName } = useEnsName({
         address: address,
-        chainId: 1337
+        enabled: false
     })
     const { color: backgroundColor, emoji } = useMemo(
         () => emojiAvatarForAddress(address),
         [address]
     )
     const user = useUser(username, fallbackUser)
-    const assets = useAssets(router, fallbackAssets, username)
+    const assets = useAssets(router, address, fallbackAssets)
     const { mounted } = useMounted()
 
-    const isOwner = address === user.data?.address
+    const isOwner = address === user?.data?.address
 
     const [currentTab, setCurrentTab] = useState<Tabs>(Tabs.Created)
 
@@ -153,7 +153,7 @@ const UserPage: NextPage<Props> = ({
                                             : ''
                                         }
                                     </Text>
-                                    {user.data?.config === 'verified' && <VerifiedIcon fill='accentColor' />}
+                                    {user?.data?.config === 'verified' && <VerifiedIcon fill='accentColor' />}
                                 </Box>
                                 <RoundButton>
                                     <ShareIcon />
@@ -290,9 +290,9 @@ export const getStaticProps: GetStaticProps<{
         const fallbackUser = (await userData.json()) as UserType
     
         if (!fallbackUser) {
-        return {
-            notFound: true,
-        }
+            return {
+                notFound: true,
+            }
         }
 
         // ASSETS
@@ -311,9 +311,9 @@ export const getStaticProps: GetStaticProps<{
         const fallbackAssets = (await assetsData.json()) as AssetsType
     
         if (!fallbackAssets) {
-        return {
-            notFound: true,
-        }
+            return {
+                notFound: true,
+            }
         }
     
         return {

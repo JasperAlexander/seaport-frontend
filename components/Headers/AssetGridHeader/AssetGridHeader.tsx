@@ -113,7 +113,7 @@ export const AssetGridHeader: FC<Props> = ({
                 <Box
                     position='absolute'
                     id='unstuckedHeader'
-                    width='fullvw'
+                    style={{left: 'calc(50% + 0px - 50vw)', right: 'calc(50% + 0px - 50vw)'}}
                     height='full'
                     top='0'
                 >

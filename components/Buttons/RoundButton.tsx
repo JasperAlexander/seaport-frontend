@@ -22,6 +22,7 @@ export const RoundButton: FC<Props> = ({
     return (
         <Box
             as='button'
+            type='button'
             onClick={onClick}
             disabled={disabled}
 

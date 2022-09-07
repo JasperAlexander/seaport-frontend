@@ -6,24 +6,25 @@ import { UserType } from '../types/userTypes'
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
 export default function useUser(
-    username: string,
-    fallbackData?: UserType
-  ) {
-    function getUrl() {
-        const pathname = `${API_BASE}/api/v1/user/${username}/`
+  address?: string,
+  fallbackData?: UserType
+) {
+  if (address) {
+    const pathname = `${API_BASE}/api/v1/user/${address}/`
     
-        let query = {}
-    
-        const href = setParams(pathname, query)
-    
-        return href
-    }
+    const query = {}
+
+    const href = setParams(pathname, query)
   
-    const href = getUrl()
-  
-    const user = useSWR<UserType>(href, fetcher, {
+    let user
+    if (fallbackData) {
+      user = useSWR<UserType>(href, fetcher, {
         fallbackData,
-    })
+      })
+    } else {
+      user = useSWR<UserType>(href, fetcher)
+    }
 
     return user
   }
+}

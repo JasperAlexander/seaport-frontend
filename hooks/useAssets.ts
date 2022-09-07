@@ -3,15 +3,15 @@ import setParams from '../utils/params'
 import { NextRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
+import useSWRInfinite, { SWRInfiniteKeyLoader, SWRInfiniteResponse } from 'swr/infinite'
 import { AssetsType, AssetsQueryType } from '../types/assetTypes'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
 export default function useAssets(
     router: NextRouter,
-    fallback?: AssetsType,
-    username?: string
+    address?: string | undefined,
+    fallback?: AssetsType
     // filters?: AssetsQueryType
 ) {
     const { ref, inView } = useInView()
@@ -19,19 +19,30 @@ export default function useAssets(
     const pathname = `${API_BASE}/api/v1/assets/`
 
     const query: AssetsQueryType = {
-        ...(username && { owner__username: username }),
+        ...(address && { owner__address: address }),
         ...(router.query['sort'] && { sortBy: router.query['sort']?.toString()}),
         ...(router.query['contract'] && { asset_contract__address: router.query['contract']?.toString()}),
     }
 
-    const assets = useSWRInfinite<AssetsType>(
-        (index, previousPageData) => getKey(pathname, query, index, previousPageData),
-        fetcher,
-        {
-            revalidateFirstPage: false,
-            fallback
-        }
-    )
+    let assets: SWRInfiniteResponse<AssetsType, any>
+    if (fallback) {
+        assets = useSWRInfinite<AssetsType>(
+            (index, previousPageData) => getKey(pathname, query, index, previousPageData),
+            fetcher,
+            {
+                revalidateFirstPage: false,
+                fallback
+            }
+        )
+    } else {
+        assets = useSWRInfinite<AssetsType>(
+            (index, previousPageData) => getKey(pathname, query, index, previousPageData),
+            fetcher,
+            {
+                revalidateFirstPage: false
+            }
+        )
+    }
 
   // Fetch more data when component is visible
     useEffect(() => {

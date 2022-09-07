@@ -88,11 +88,14 @@ export const themeVars = createGlobalThemeContract(
 )
 
 const dimensions = {
+  '-156': '-156px',
   '-120': '-120px',
   '-100': '-100px',
+  '-86': '-86px',
   '-80': '-80px',
   '-60': '-60px',
   '-40': '-40px',
+  '-36': '-36px',
   '-20': '-20px',
   '-12': '-12px',
   '-10': '-10px',
@@ -135,7 +138,9 @@ const dimensions = {
   '71': '71px', // Subheader top
   '72': '72px', // Header height
   '80': '80px',
+  '90': '90px',
   '100': '100px',
+  '120': '120px',
   '160': '160px',
   '180': '180px',
   '200': '200px',
@@ -363,7 +368,9 @@ const dynamicProperties = defineProperties({
     lastchild: { selector: '&:last-child' },
 
     open: { selector: '[data-state=open] &' },
-    closed: { selector: '[data-state=closed] &' }
+    closed: { selector: '[data-state=closed] &' },
+
+    activeState: { selector: '[data-state=active] &' }
   },
   defaultCondition: 'base',
   properties: {

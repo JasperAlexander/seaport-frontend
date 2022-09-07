@@ -21,7 +21,7 @@ const CreateCollectionPage: NextPage<Props> = ({
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title={'Create Collection | OpenFish'}
+                title='Create Collection | OpenFish'
             />
 
             <Box

@@ -22,8 +22,8 @@ export const MenuDialogButton: FC<Props> = ({
             paddingX='10'
         >
             {open 
-            ? <CloseIcon width='32' />
-            : <MenuIcon width='32' />
+                ? <CloseIcon width='32' />
+                : <MenuIcon width='32' />
             }
         </Box>
     )

@@ -9,7 +9,7 @@ const CollectionsPage: NextPage = () => {
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title={'My Collections | OpenFish'}
+                title='My Collections | OpenFish'
             />
 
             <Box

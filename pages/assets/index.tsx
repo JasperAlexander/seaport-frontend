@@ -17,7 +17,7 @@ const AssetsPage: NextPage<Props> = ({
   fallbackAssets 
 }) => {
   const router = useRouter()
-  const assets = useAssets(router, fallbackAssets)
+  const assets = useAssets(router, undefined, fallbackAssets)
   const { mounted } = useMounted()
 
   return (

@@ -20,7 +20,7 @@ const HomePage: NextPage<Props> = ({
 }) => {
   const { t } = useTranslation('home')
   const router = useRouter()
-  const assets = useAssets(router, fallbackAssets)
+  const assets = useAssets(router, undefined, fallbackAssets)
   const mappedAssets = assets.assets.data ? assets.assets.data.map(({ assets }) => assets).flat() : []
 
   return (

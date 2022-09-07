@@ -44,7 +44,7 @@ export const AssetGrid: React.FC<Props> = ({
         display='flex'
         width='full'
         marginTop='8'
-        paddingX='32'
+        // paddingX='32'
       >
         <Box
           display={{

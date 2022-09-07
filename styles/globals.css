@@ -50,19 +50,6 @@ table, tr, td, th, tbody, theader {
   box-shadow: rgba(229, 232, 235, 0.25) 0px 1px 0px 0px !important;
 }
 
-/* RainbowKit styles */
-.sprinkles_borderRadius_modal__18szqf1p {
-  border-radius: 20px !important;
-}
-
-.sprinkles_background_closeButtonBackground_base__18szqf19l:hover {
-  background-color: var(--rk-colors-closeButtonBackground) !important;
-}
-
-input.sprinkles_borderColor_defaultBackgroundBorder_base__18szqf1lt :has(:invalid) {
-  background-color: red !important;
-}
-
 /* AssetCard styles, unknown yet how to implement this using vanilla-extract */
 #assetCard:hover #assetCardButton {
   bottom: 0 !important;

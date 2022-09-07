@@ -18,7 +18,7 @@ export const bodyHeaderNavBarContainer = style([sprinkles({
 })])
 
 export const bodyHeaderNavBarItem = style([sprinkles({
-    paddingX: '10',
+    paddingX: '16',
     display: 'flex',
     alignItems: 'center',
     height: '72'

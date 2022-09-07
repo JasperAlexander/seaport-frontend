@@ -70,7 +70,7 @@ const AssetPage: NextPage<Props> = ({
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title={'Asset | OpenFish'}
+                title='Asset | OpenFish'
             />
 
             <MainLayout>

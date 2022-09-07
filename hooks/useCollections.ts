@@ -3,7 +3,7 @@ import setParams from '../utils/params'
 import { NextRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
+import useSWRInfinite, { SWRInfiniteKeyLoader, SWRInfiniteResponse } from 'swr/infinite'
 import { CollectionsType } from '../types/collectionTypes'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
@@ -17,20 +17,32 @@ export default function useCollections(
     const pathname = `${API_BASE}/api/v1/collections/`
     const sortBy = router.query['sort']?.toString()
 
-    const collections = useSWRInfinite(
-        (index, previousPageData) => getKey(pathname, sortBy, index, previousPageData),
-        fetcher,
-        {
-            revalidateFirstPage: false,
-            fallbackData: [
-                {
-                    collections: fallback?.collections,
-                }
-            ]
-        }
-    )
+    let collections: SWRInfiniteResponse<any, any>
 
-  // Fetch more data when component is visible
+    if (fallback) {
+        collections = useSWRInfinite(
+            (index, previousPageData) => getKey(pathname, sortBy, index, previousPageData),
+            fetcher,
+            {
+                revalidateFirstPage: false,
+                fallbackData: [
+                    {
+                        collections: fallback?.collections,
+                    }
+                ]
+            }
+        )
+    } else {
+        collections = useSWRInfinite(
+            (index, previousPageData) => getKey(pathname, sortBy, index, previousPageData),
+            fetcher,
+            {
+                revalidateFirstPage: false
+            }
+        )
+    }
+
+    // Fetch more data when component is visible
     useEffect(() => {
         if (inView) {
             collections.setSize(collections.size + 1)

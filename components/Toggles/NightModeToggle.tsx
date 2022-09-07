@@ -19,6 +19,7 @@ export const NightModeToggle: FC<Props> = ({
             <Box 
                 as='input'
                 type='checkbox'
+                onChange={() => { return null }}
                 onClick={() => setActive(!active)}
                 checked={active}
                 role='switch'

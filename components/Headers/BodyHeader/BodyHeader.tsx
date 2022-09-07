@@ -24,8 +24,8 @@ export const BodyHeader: FC = () => {
         >
           <Logo />
           <Text
-            fontSize='20'
-            fontWeight='600'
+            fontSize='22'
+            fontWeight='800'
           >
             OpenFish
           </Text>

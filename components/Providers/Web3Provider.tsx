@@ -1,12 +1,7 @@
-import '@rainbow-me/rainbowkit/styles.css'
-import { 
-    getDefaultWallets, 
-    RainbowKitProvider, 
-    lightTheme
-} from '@rainbow-me/rainbowkit'
 import { ReactNode } from 'react'
 import { Chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 
 const hardhatChain: Chain = {
     id: 1337,
@@ -34,10 +29,9 @@ const { chains, provider } = configureChains(
     ]
 )
 
-const { connectors } = getDefaultWallets({
-    appName: 'OpenFish',
-    chains
-})
+const connectors = [
+    new MetaMaskConnector({ chains })
+]
 
 const wagmiClient = createClient({
     autoConnect: true,
@@ -54,19 +48,7 @@ function Web3Provider({
 }: Props) {
     return (
         <WagmiConfig client={wagmiClient}>
-            <RainbowKitProvider 
-                chains={chains}
-                theme={lightTheme({
-                    accentColor: '#FFFFFF',
-                    accentColorForeground: '#000000',
-                })}
-                appInfo={{
-                    appName: 'OpenFish',
-                    learnMoreUrl: 'https://github.com/JasperAlexander/seaport-frontend#readme',
-                }}
-            >
-                {children}
-            </RainbowKitProvider>
+            {children}
         </WagmiConfig>
     )
 }

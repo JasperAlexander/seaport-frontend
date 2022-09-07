@@ -37,7 +37,7 @@ const SellAssetPage: NextPage<Props> = ({
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title={'Sell Asset | OpenFish'}
+                title='Sell Asset | OpenFish'
             />
 
             <MainLayout>

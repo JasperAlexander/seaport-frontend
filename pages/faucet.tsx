@@ -32,7 +32,7 @@ const FaucetPage: NextPage = () => {
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title={'Faucet | OpenFish'}
+                title='Faucet | OpenFish'
             />
 
             <MainLayout>

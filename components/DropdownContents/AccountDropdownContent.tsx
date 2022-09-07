@@ -10,6 +10,7 @@ import { Text } from '../Text/Text'
 import useMounted from '../../hooks/useMounted'
 import { useAccount, useDisconnect } from 'wagmi'
 import * as styles from './DropdownContent.css'
+import { useSession, signOut } from 'next-auth/react'
 
 interface Props {
     
@@ -21,6 +22,7 @@ export const AccountDropdownContent: FC<Props> = ({
     const { mounted } = useMounted()
     const { disconnect } = useDisconnect()
     const { isConnected } = useAccount()
+    const { data: session } = useSession()
     
     return (
         <Fragment>
@@ -58,14 +60,14 @@ export const AccountDropdownContent: FC<Props> = ({
                     </Text>
                 </NextLink>
             </Box>
-            {mounted && isConnected &&
+            {mounted && session &&
                 <Box
                     className={styles.dropdownContentItem}
                 >
                     <Box
                         as='button'
                         type='button'
-                        onClick={() => disconnect()}
+                        onClick={() => signOut()}
                         className={styles.dropdownContentItemLink}
                     >
                         <LogoutIcon 

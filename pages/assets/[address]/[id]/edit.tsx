@@ -37,7 +37,7 @@ const EditAssetPage: NextPage<Props> = ({
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title={'Edit Asset | OpenFish'}
+                title='Edit Asset | OpenFish'
             />
 
             <MainLayout>

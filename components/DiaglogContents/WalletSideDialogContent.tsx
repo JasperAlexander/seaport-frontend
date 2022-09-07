@@ -10,6 +10,8 @@ import * as Dialog from '@radix-ui/react-dialog'
 import * as styles from './DialogContent.css'
 import { Text } from '../Text/Text'
 import { NextLink } from '../NextLink/NextLink'
+import { useSession } from 'next-auth/react'
+import { ConnectWalletScreen } from '../ConnectWalletScreen/ConnectWalletScreen'
 
 interface Props {
     open: boolean
@@ -21,6 +23,7 @@ export const WalletSideDialogContent: FC<Props> = ({
     setOpen
 }) => {
     const { mounted } = useMounted()
+    const { data: session } = useSession()
 
     const { address } = useAccount()
     const ETHbalance = useBalance({
@@ -68,227 +71,233 @@ export const WalletSideDialogContent: FC<Props> = ({
                     flexDirection='column'
                     height='full'
                 >
-                    <Box
-                        as='button'
-                        aria-label='Copy address'
-                        onClick={copyAddressAction}
-                        display='flex'
-                        alignItems='center'
-                        justifyContent='space-between'
-                        padding='20'
-                        cursor='pointer'
-                        height='72'
-                        borderBottomWidth='1'
-                        borderStyle='solid'
-                        borderColor='box'
-                    >
-                        <Text
-                            color='boxText'
-                        >
-                            {mounted ? address : ''}
-                        </Text>
-                        {copiedAddress 
-                            ? <DoneIcon fill='boxText' />
-                            : <CopyIcon fill='boxText' />
-                        }
-                    </Box>
-                    <Box
-                        padding='20'
-                    >
-                        <Box
-                            display='flex'
-                            flexDirection='column'
-                            alignItems='center'
-                            justifyContent='center'
-                            width='full'
-                            gap='20'
-                        >
+                    {session ?
+                        <Box>
                             <Box
+                                as='button'
+                                aria-label='Copy address'
+                                onClick={copyAddressAction}
                                 display='flex'
-                                width='full'
-                                flexDirection='column'
                                 alignItems='center'
-                                justifyContent='center'
-                                borderWidth='1'
-                                borderColor='box'
+                                justifyContent='space-between'
+                                padding='20'
+                                cursor='pointer'
+                                height='72'
+                                borderBottomWidth='1'
                                 borderStyle='solid'
-                                borderRadius='10'
-                                fontWeight='600'
-                                overflow='hidden'
+                                borderColor='box'
+                            >
+                                <Text
+                                    color='boxText'
+                                >
+                                    {mounted ? address : ''}
+                                </Text>
+                                {copiedAddress 
+                                    ? <DoneIcon fill='boxText' />
+                                    : <CopyIcon fill='boxText' />
+                                }
+                            </Box>
+                            <Box
+                                padding='20'
                             >
                                 <Box
                                     display='flex'
                                     flexDirection='column'
                                     alignItems='center'
                                     justifyContent='center'
-                                    gap='4'
-                                    paddingY='20'
-                                >
-                                <Text
-                                    fontSize='14'
-                                    color='boxText'
-                                >
-                                    Total balance
-                                </Text>
-                                <Text
-                                    fontSize='20'
-                                >
-                                    €0 EUR
-                                </Text>
-                                </Box>
-                                <NextLink 
-                                    href='/faucet'
-                                    cursor='pointer'
-                                    onClick={() => setOpen(false)}
-                                    display='flex'
-                                    alignItems='center'
-                                    justifyContent='center'
                                     width='full'
-                                    padding='16'
-                                    background={{
-                                        base: 'accentColor',
-                                        hover: 'accentColorHover'
-                                    }}
+                                    gap='20'
                                 >
-                                    <Text
-                                        color='accentColorText'
-                                    >
-                                        Add funds
-                                    </Text>
-                                </NextLink>
-                            </Box>
-                            <Box
-                                display='flex'
-                                width='full'
-                                alignItems='center'
-                                borderWidth='1'
-                                borderColor='box'
-                                borderStyle='solid'
-                                borderRadius='10'
-                                paddingY='20'
-                            >
-                                <Box
-                                    display='flex'
-                                    alignItems='center'
-                                    paddingX='16'
-                                    width='full'
-                                >
-                                    <Box
-                                        marginRight='16'
-                                    >
-                                        <EthIcon />
-                                    </Box>
                                     <Box
                                         display='flex'
-                                        flexGrow='1'
-                                        flexShrink='1'
-                                        flexBasis='auto'
-                                        marginRight='16'
+                                        width='full'
+                                        flexDirection='column'
+                                        alignItems='center'
+                                        justifyContent='center'
+                                        borderWidth='1'
+                                        borderColor='box'
+                                        borderStyle='solid'
+                                        borderRadius='10'
+                                        fontWeight='600'
+                                        overflow='hidden'
                                     >
                                         <Box
                                             display='flex'
                                             flexDirection='column'
+                                            alignItems='center'
+                                            justifyContent='center'
+                                            gap='4'
+                                            paddingY='20'
                                         >
-                                            <Text
-                                                fontSize='15'
-                                                fontWeight='600'
-                                            >
-                                                ETH
-                                            </Text>
-                                            <Text
-                                                fontSize='15'
-                                            >
-                                                Ethereum
-                                            </Text>
+                                        <Text
+                                            fontSize='14'
+                                            color='boxText'
+                                        >
+                                            Total balance
+                                        </Text>
+                                        <Text
+                                            fontSize='20'
+                                        >
+                                            €0 EUR
+                                        </Text>
                                         </Box>
+                                        <NextLink 
+                                            href='/faucet'
+                                            cursor='pointer'
+                                            onClick={() => setOpen(false)}
+                                            display='flex'
+                                            alignItems='center'
+                                            justifyContent='center'
+                                            width='full'
+                                            padding='16'
+                                            background={{
+                                                base: 'accentColor',
+                                                hover: 'accentColorHover'
+                                            }}
+                                        >
+                                            <Text
+                                                color='accentColorText'
+                                            >
+                                                Add funds
+                                            </Text>
+                                        </NextLink>
                                     </Box>
                                     <Box
                                         display='flex'
-                                        flexDirection='column'
-                                    >
-                                        <Text
-                                            fontSize='15'
-                                            fontWeight='600'
-                                            textAlign='right'
-                                        >
-                                            {mounted ? ETHbalance.data ? ETHbalance.data.formatted.toString() : '?' : '?'}
-                                        </Text>
-                                        <Text
-                                            fontSize='15'
-                                            textAlign='right'
-                                        >
-                                            {mounted ? ETHbalance.data ? '€0,00 EUR' : '' : ''}
-                                        </Text>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box
-                                display='flex'
-                                width='full'
-                                alignItems='center'
-                                borderWidth='1'
-                                borderColor='box'
-                                borderStyle='solid'
-                                borderRadius='10'
-                                paddingY='20'
-                            >
-                                <Box
-                                    display='flex'
-                                    alignItems='center'
-                                    paddingX='16'
-                                    width='full'
-                                >
-                                    <Box
-                                        marginRight='16'
-                                    >
-                                        <WethIcon />
-                                    </Box>
-                                    <Box
-                                        display='flex'
-                                        flexGrow='1'
-                                        flexShrink='1'
-                                        flexBasis='auto'
-                                        marginRight='16'
+                                        width='full'
+                                        alignItems='center'
+                                        borderWidth='1'
+                                        borderColor='box'
+                                        borderStyle='solid'
+                                        borderRadius='10'
+                                        paddingY='20'
                                     >
                                         <Box
                                             display='flex'
-                                            flexDirection='column'
+                                            alignItems='center'
+                                            paddingX='16'
+                                            width='full'
                                         >
-                                            <Text
-                                                fontSize='15'
-                                                fontWeight='600'
+                                            <Box
+                                                marginRight='16'
                                             >
-                                                WETH
-                                            </Text>
-                                            <Text
-                                                fontSize='15'
+                                                <EthIcon />
+                                            </Box>
+                                            <Box
+                                                display='flex'
+                                                flexGrow='1'
+                                                flexShrink='1'
+                                                flexBasis='auto'
+                                                marginRight='16'
                                             >
-                                                Ethereum
-                                            </Text>
+                                                <Box
+                                                    display='flex'
+                                                    flexDirection='column'
+                                                >
+                                                    <Text
+                                                        fontSize='15'
+                                                        fontWeight='600'
+                                                    >
+                                                        ETH
+                                                    </Text>
+                                                    <Text
+                                                        fontSize='15'
+                                                    >
+                                                        Ethereum
+                                                    </Text>
+                                                </Box>
+                                            </Box>
+                                            <Box
+                                                display='flex'
+                                                flexDirection='column'
+                                            >
+                                                <Text
+                                                    fontSize='15'
+                                                    fontWeight='600'
+                                                    textAlign='right'
+                                                >
+                                                    {mounted ? ETHbalance.data ? ETHbalance.data.formatted.toString() : '?' : '?'}
+                                                </Text>
+                                                <Text
+                                                    fontSize='15'
+                                                    textAlign='right'
+                                                >
+                                                    {mounted ? ETHbalance.data ? '€0,00 EUR' : '' : ''}
+                                                </Text>
+                                            </Box>
                                         </Box>
                                     </Box>
                                     <Box
                                         display='flex'
-                                        flexDirection='column'
+                                        width='full'
+                                        alignItems='center'
+                                        borderWidth='1'
+                                        borderColor='box'
+                                        borderStyle='solid'
+                                        borderRadius='10'
+                                        paddingY='20'
                                     >
-                                        <Text
-                                            fontSize='15'
-                                            fontWeight='600'
-                                            textAlign='right'
+                                        <Box
+                                            display='flex'
+                                            alignItems='center'
+                                            paddingX='16'
+                                            width='full'
                                         >
-                                            {mounted ? WETHbalance.data ? WETHbalance.data.formatted.toString() : '?' : '?'}
-                                        </Text>
-                                        <Text
-                                            fontSize='15'
-                                            textAlign='right'
-                                        >
-                                            {mounted ? WETHbalance.data ? '€0,00 EUR' : '' : ''}
-                                        </Text>
+                                            <Box
+                                                marginRight='16'
+                                            >
+                                                <WethIcon />
+                                            </Box>
+                                            <Box
+                                                display='flex'
+                                                flexGrow='1'
+                                                flexShrink='1'
+                                                flexBasis='auto'
+                                                marginRight='16'
+                                            >
+                                                <Box
+                                                    display='flex'
+                                                    flexDirection='column'
+                                                >
+                                                    <Text
+                                                        fontSize='15'
+                                                        fontWeight='600'
+                                                    >
+                                                        WETH
+                                                    </Text>
+                                                    <Text
+                                                        fontSize='15'
+                                                    >
+                                                        Ethereum
+                                                    </Text>
+                                                </Box>
+                                            </Box>
+                                            <Box
+                                                display='flex'
+                                                flexDirection='column'
+                                            >
+                                                <Text
+                                                    fontSize='15'
+                                                    fontWeight='600'
+                                                    textAlign='right'
+                                                >
+                                                    {mounted ? WETHbalance.data ? WETHbalance.data.formatted.toString() : '?' : '?'}
+                                                </Text>
+                                                <Text
+                                                    fontSize='15'
+                                                    textAlign='right'
+                                                >
+                                                    {mounted ? WETHbalance.data ? '€0,00 EUR' : '' : ''}
+                                                </Text>
+                                            </Box>
+                                        </Box>
                                     </Box>
                                 </Box>
                             </Box>
                         </Box>
-                    </Box>
+                    :
+                        <ConnectWalletScreen />
+                    }
                 </Box>
             </Box>
         </Dialog.Content>
