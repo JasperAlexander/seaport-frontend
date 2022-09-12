@@ -30,7 +30,7 @@ button, input, optgroup, select, textarea {
 
 /* To do: find out if this can be based on current accentColor */
 ::selection {
-  background-color: #FA5B0F;
+  background-color: #FB7C3F;
   color: #FFFFFF;
 }
 

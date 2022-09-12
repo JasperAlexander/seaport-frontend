@@ -49,7 +49,11 @@ export const CardButton: FC<Props> = ({
                     width='full'
                     height='36'
 
-                    background='accentColor'
+                    background={{
+                        base: 'accentColor',
+                        hover: 'accentColorHover',
+                        active: 'accentColorHover'
+                    }}
                     opacity={{ disabled: 'disabled' }}
                     cursor={{ disabled: 'default' }}
                     boxShadow={{

@@ -5,7 +5,7 @@ import { MainButton } from '../Buttons/MainButton'
 import * as styles from './DialogContent.css'
 import { Text } from '../Text/Text'
 import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
-import { DialogContentFooter } from '../Footers/DialogContentFooter'
+import { DialogContentFooter } from '../Footers/DialogContentFooter/DialogContentFooter'
 
 interface Props {
     open: boolean

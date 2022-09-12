@@ -1,9 +1,9 @@
-import { FC, ReactNode, useState } from 'react'
-import { Toaster } from 'react-hot-toast'
+import { FC, ReactNode, useEffect, useRef } from 'react'
 import { Box } from '../Box/Box'
 import { BodyHeader } from '../Headers/BodyHeader/BodyHeader'
 import LoadingBar from 'react-top-loading-bar'
-import { Router } from 'next/router'
+import { useRouter } from 'next/router'
+import { BodyFooter } from '../Footers/BodyFooter/BodyFooter'
 
 interface Props {
     children: ReactNode
@@ -12,32 +12,40 @@ interface Props {
 export const BodyLayout: FC<Props> = ({ 
     children 
 }) => {
-    const [progress, setProgress] = useState<number>(0)
+    const router = useRouter()
+    const loadingBarRef = useRef<any>(null)
 
-    Router.events.on('routeChangeStart', () => setProgress(10))
-    Router.events.on('routeChangeComplete', () => setProgress(100))
-    Router.events.on('routeChangeError', () => setProgress(100))
+    const handleRouteChange = () => {
+        loadingBarRef?.current?.continuousStart()
+    }
+
+    const handleRouteComplete = () => {
+        loadingBarRef?.current?.complete()
+    }
+
+    useEffect(() => {
+        router.events.on('routeChangeStart', handleRouteChange)
+        router.events.on('routeChangeComplete', handleRouteComplete)
+
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange)
+            router.events.off('routeChangeComplete', handleRouteComplete)
+        }
+    })
     
     return (
         <Box
+            display='flex'
+            flexDirection='column'
             minHeight='full'
-            // position='absolute'
         >
             <LoadingBar 
                 color='#FA5B0F'
-                progress={progress}
-                onLoaderFinished={() => setProgress(0)}
-            />
-            <Toaster 
-                position='bottom-right'
-                toastOptions={{
-                    style: {
-                        zIndex: '21474836471'
-                    }
-                }}
+                ref={loadingBarRef}
             />
             <BodyHeader />
             { children }
+            <BodyFooter />
         </Box>
     )
 }

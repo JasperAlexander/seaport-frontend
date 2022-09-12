@@ -7,7 +7,7 @@ import * as styles from './DialogContent.css'
 import { AssetType } from '../../types/assetTypes'
 import { Text } from '../Text/Text'
 import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
-import { DialogContentFooter } from '../Footers/DialogContentFooter'
+import { DialogContentFooter } from '../Footers/DialogContentFooter/DialogContentFooter'
 
 interface Props {
     open: boolean
@@ -153,7 +153,7 @@ export const CompleteListingDialogContent: FC<Props> = ({
                                         <Text
                                             fontWeight='600'
                                         >
-                                            {listingStatus === 0 &&
+                                            {listingStatus === 1 &&
                                                 'Confirm listing'
                                             }
                                         </Text>
@@ -164,7 +164,7 @@ export const CompleteListingDialogContent: FC<Props> = ({
                                         <Text
                                             fontSize='15'
                                         >
-                                            {listingStatus === 0 &&
+                                            {listingStatus === 1 &&
                                                 `You'll be asked to review and confirm this listing from your wallet.`
                                             }
                                         </Text>

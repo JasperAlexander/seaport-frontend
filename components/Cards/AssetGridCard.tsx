@@ -1,4 +1,3 @@
-import useSeaport from '../../hooks/useSeaport'
 import { EthIcon } from '../Icons/EthIcon'
 import { FC, useState } from 'react'
 import { Box } from '../Box/Box'
@@ -25,7 +24,6 @@ export const AssetGridCard: FC<Props> = ({
     isOwner
 }) => {
     const { mounted } = useMounted()
-    const { seaport } = useSeaport()
     const { isConnected, address } = useAccount()
 
     const [loginSideDialogOpen, setLoginSideDialogOpen] = useState<boolean>(false)

@@ -1,10 +1,6 @@
 import { style } from '@vanilla-extract/css'
 import { sprinkles } from '../../../styles/sprinkles.css'
 
-export const item =  style([sprinkles({
-    marginX: '20'
-})])
-
 export const trigger = style([sprinkles({
     background: 'defaultBackground',
     cursor: 'pointer',

@@ -62,14 +62,20 @@ export const ListingPriceFormSection: FC<Props> = ({
                         data={data}
                         setData={setData}
                     />
-                    <Input 
-                        type='text'
-                        name={label === 'Price' || label === 'Starting price' ? 'startAmount' : 'endAmount'}
-                        placeholder='Amount'
-                        value={data.startAmount || ''}
-                        onChange={label === 'Price' || label === 'Starting price' ? handleChange('startAmount') : handleChange('endAmount')}
-                        onBlur={() => validate()}
-                    />
+                    <Box
+                        display='flex'
+                        alignItems='center'
+                        width='full'
+                    >
+                        <Input 
+                            type='text'
+                            name={label === 'Price' || label === 'Starting price' ? 'startAmount' : 'endAmount'}
+                            placeholder='Amount'
+                            value={data.startAmount || ''}
+                            onChange={label === 'Price' || label === 'Starting price' ? handleChange('startAmount') : handleChange('endAmount')}
+                            onBlur={() => validate()}
+                        />
+                    </Box>
                 </Box>
                 <Box
                     display='flex'

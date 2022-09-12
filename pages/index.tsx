@@ -34,102 +34,110 @@ const HomePage: NextPage<Props> = ({
         flexBasis='0'
         flexGrow='1'
         flexShrink='1'
-        style={{
-          height: '586px'
-        }}
+        height='full'
       >
-        <Box 
-          width='full'
-          position='absolute'
-          overflow='hidden'
+        <Box
+          display='flex'
+          style={{
+            height: '586px'
+          }}
         >
           <Box 
-            display='flex'
-            alignItems='flex-start'
+            width='full'
+            position='absolute'
+            overflow='hidden'
+          >
+            <Box 
+              display='flex'
+              alignItems='flex-start'
+              style={{
+                backgroundImage: `url(${mappedAssets?.[0]?.image_url})`,
+                height: '586px',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                opacity: '0.3',
+                backgroundColor: 'white',
+                filter: 'blur(8px)',
+                mask: 'linear-gradient(rgb(255, 255, 255), transparent)'
+              }}
+            />
+          </Box>
+          <Box
+            marginX='auto'
+            width='full'
             style={{
-              backgroundImage: `url(${mappedAssets?.[0]?.image_url})`,
-              height: '586px',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center center',
-              opacity: '0.3',
-              backgroundColor: 'white',
-              filter: 'blur(8px)',
-              mask: 'linear-gradient(rgb(255, 255, 255), transparent)'
+              maxWidth: 'min(1280px, 100% - 40px)'
             }}
-          />
+            display='flex'
+            flexWrap='wrap'
+            zIndex='100'
+          >
+            <Box
+              display='flex'
+              flexDirection='column'
+              alignItems='flex-start'
+              width='50p'
+              color='defaultText'
+              style={{padding: '110px 20px 44px 30px'}}
+            >
+              <Box
+                marginRight='10'
+              >
+                <Text
+                  as='h1'
+                  fontSize='45'
+                  fontWeight='600'
+                >
+                  {t('title')}
+                </Text>
+              </Box>
+              <Box
+                marginTop='20'
+              >
+                <Text
+                  fontSize='24'
+                >
+                  {t('subTitle')}
+                </Text>
+              </Box>
+              <Box
+                marginTop='40'
+                display='flex'
+                gap='20'
+              >
+                <MainButton
+                  size='large'
+                  href='/assets'
+                >
+                  {t('explore')}
+                </MainButton>
+                <MainButton
+                  variant='secondary'
+                  size='large'
+                  href='/create'
+                >
+                  {t('create')}
+                </MainButton>
+              </Box>
+            </Box>
+            <Box
+              width='50p'
+              paddingY='80'
+              display='flex'
+              flexDirection='column'
+              alignItems='flex-end'
+            >
+              {mappedAssets.length > 0 &&
+                <FeaturedCard 
+                  asset={mappedAssets[0]}
+                />
+              }
+            </Box>
+          </Box>
         </Box>
         <Box
-          marginX='auto'
-          width='full'
-          style={{
-            maxWidth: 'min(1280px, 100% - 40px)'
-          }}
-          display='flex'
-          flexWrap='wrap'
-          zIndex='100'
-        >
-          <Box
-            display='flex'
-            flexDirection='column'
-            alignItems='flex-start'
-            width='50p'
-            color='defaultText'
-            style={{padding: '110px 20px 44px 30px'}}
-          >
-            <Box
-              marginRight='10'
-            >
-              <Text
-                as='h1'
-                fontSize='45'
-                fontWeight='600'
-              >
-                {t('title')}
-              </Text>
-            </Box>
-            <Box
-              marginTop='20'
-            >
-              <Text
-                fontSize='24'
-              >
-                {t('subTitle')}
-              </Text>
-            </Box>
-            <Box
-              marginTop='40'
-              display='flex'
-              gap='20'
-            >
-              <MainButton
-                size='large'
-                href='/assets'
-              >
-                {t('explore')}
-              </MainButton>
-              <MainButton
-                variant='secondary'
-                size='large'
-                href='/create'
-              >
-                {t('create')}
-              </MainButton>
-            </Box>
-          </Box>
-          <Box
-            width='50p'
-            paddingY='80'
-            display='flex'
-            flexDirection='column'
-            alignItems='flex-end'
-          >
-            {mappedAssets.length > 0 &&
-              <FeaturedCard 
-                asset={mappedAssets[0]}
-              />
-            }
-          </Box>
-        </Box>
+          marginBottom='120'
+        />
       </Box>
     </Fragment>
   )

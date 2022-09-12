@@ -11,22 +11,26 @@ const accentColors: Record<AccentColorPreset, AccentColor> = {
   blue: { 
     accentColor: '#0FAEFA', 
     accentColorText: '#FFF', 
-    accentColorHover: '#3FBEFB' 
+    accentColorHover: '#3FBEFB',
+    accentColorHoverHover: '#FC8C57'
   },
   green: { 
     accentColor: '#38FA0F', 
     accentColorText: '#FFF', 
-    accentColorHover: '#60FB3F' 
+    accentColorHover: '#60FB3F',
+    accentColorHoverHover: '#FC8C57'
   },
   orange: { 
     accentColor: '#FA5B0F', 
     accentColorText: '#FFF', 
-    accentColorHover: '#FB7C3F' 
+    accentColorHover: '#FB7C3F',
+    accentColorHoverHover: '#FC8C57'
   },
   pink: { 
     accentColor: '#D10FFA', 
     accentColorText: '#FFF', 
-    accentColorHover: '#DA3FFB' 
+    accentColorHover: '#DA3FFB',
+    accentColorHoverHover: '#FC8C57'
   }
 }
 
@@ -36,6 +40,7 @@ export const lightSeaportTheme = ({
   accentColor = defaultAccentColor.accentColor,
   accentColorText = defaultAccentColor.accentColorText,
   accentColorHover = defaultAccentColor.accentColorHover,
+  accentColorHoverHover = defaultAccentColor.accentColorHoverHover,
   ...baseSeaportThemeOptions
 }: SeaportThemeOptions = {}) => ({
   ...baseSeaportTheme(baseSeaportThemeOptions),
@@ -43,6 +48,7 @@ export const lightSeaportTheme = ({
     accentColor,
     accentColorText,
     accentColorHover,
+    accentColorHoverHover,
 
     actionButtonBorder: 'rgba(0, 0, 0, 0.04)',
     actionButtonBorderMobile: 'rgba(0, 0, 0, 0.06)',
@@ -84,7 +90,9 @@ export const lightSeaportTheme = ({
     orderBackground: '#FFFFFF',
 
     profileTop: '#d6d6d6',
-    profileTopHover: 'rgba(0, 0, 0, 0.2)'
+    profileTopHover: 'rgba(0, 0, 0, 0.2)',
+
+    twitter: '#1DA1F2'
   },
   shadows: {
     default: '10px 10px 20px #cacaca, -10px -10px 20px #ffffff',
@@ -96,6 +104,7 @@ export const lightSeaportTheme = ({
     inputHover: 'rgba(0, 0, 0, 0.05) 0px 2px 10px',
 
     dialog: '0px 8px 32px rgba(0, 0, 0, 0.32)',
+    dropdown: 'rgba(0, 0, 0, 0.16) 0px 4px 16px',
 
     header: 'rgba(4, 17, 29, 0.25) 0px 0px 8px 0px',
     subHeader: 'rgba(0, 0, 0, 0.1) 0px 2px 10px',

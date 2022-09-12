@@ -26,10 +26,20 @@ const AssetsPage: NextPage<Props> = ({
 
       <Box
         as='main'
+        display='flex'
+        flexDirection='column'
+        flexGrow='1'
+        flexShrink='1'
+        flexBasis='0'
       >
         <Box 
           display='flex' 
           flexDirection='column' 
+          width='full'
+          height='full'
+          flexGrow='1'
+          flexShrink='1'
+          flexBasis='0'
         >
           {mounted
             ?

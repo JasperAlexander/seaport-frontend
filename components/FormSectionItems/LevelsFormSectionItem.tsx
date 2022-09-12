@@ -6,15 +6,16 @@ import { StarIcon } from '../Icons/StarIcon'
 import { Text } from '../Text/Text'
 
 interface Props {
-    
+    bottomBorder?: boolean
 }
 
 export const LevelsFormSectionItem: FC<Props> = ({
-    
+    bottomBorder = true
 }) => {
     return (
         <Box 
             className={styles.formSectionItem}
+            borderBottomWidth={bottomBorder ? '1' : '0'}
         >
             <Box
                 display='flex'

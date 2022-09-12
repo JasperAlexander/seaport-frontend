@@ -40,15 +40,21 @@ export default function useSeaport() {
     }, [mounted])
 
     
-    const [listingStatus, setListingStatus] = useState<number>(1)
+    const [listingStatus, setListingStatus] = useState<number>(0)
     const createOrder = async ({
         asset,
         from_account,
+        to_account,
         startAmount,
         endAmount,
         payment_token,
         duration
     }: ListAssetFormType) => {
+        if (from_account?.length !== 42 
+            || payment_token?.length !== 42
+            || asset?.asset_contract?.address?.length !== 42
+        ) return
+
         try {
             const { executeAllActions } = await seaport.createOrder({
                 endTime: (Math.floor(Date.now() / 1000) + Number(duration)).toString(),
@@ -65,15 +71,22 @@ export default function useSeaport() {
                         token: payment_token,
                         recipient: from_account
                     }
-                ]
+                ],
+                // fees: [{ recipient: zone.address, basisPoints: 250 }], // 2.5%
             })
+
+            setListingStatus(1)
+
             const receipt = await executeAllActions()
+
+            setListingStatus(2) // Executed all actions
 
             saveOrder(receipt)
             saveEvent({
                 type: EventTypes.Created,
                 asset: asset,
                 from_account: from_account,
+                to_account: to_account,
                 start_time: Math.floor(Date.now() / 1000).toString(),
                 end_time: (Math.floor(Date.now() / 1000) + Number(duration)).toString(),
                 start_amount: startAmount,
@@ -81,7 +94,8 @@ export default function useSeaport() {
                 payment_token: payment_token,
                 is_private: false
             })
-        } catch {
+        } catch (error) {
+            console.log(error)
             setListingStatus(-1)
         } finally {
             setListingStatus(10)

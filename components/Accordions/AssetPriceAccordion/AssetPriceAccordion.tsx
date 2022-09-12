@@ -1,15 +1,13 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { AssetType } from '../../../types/assetTypes'
-import { EventsStateType, EventTypes } from '../../../types/eventTypes'
+import { EventTypes } from '../../../types/eventTypes'
 import * as Accordion from '@radix-ui/react-accordion'
 import * as styles from './AssetPriceAccordion.css'
 import { Box } from '../../Box/Box'
 import { ScheduleIcon } from '../../Icons/ScheduleIcon'
 import { WalletIcon } from '../../Icons/WalletIcon'
-import { AccordionItem } from '../AccordionItem/AccordionItem'
 import { MainButton } from '../../Buttons/MainButton'
 import { MakeOfferDialogTrigger } from '../../DialogTriggers/MakeOfferDialogTrigger'
-import { useAccount } from 'wagmi'
 import { PriceTagIcon } from '../../Icons/PriceTagIcon'
 import useMounted from '../../../hooks/useMounted'
 import { Text } from '../../Text/Text'
@@ -47,10 +45,17 @@ export const AssetPriceAccordion: FC<Props> = ({
 
     if (isListed) {
         return (
-            <Accordion.Root type="single" defaultValue={'pricecontainer'}>
-                    <AccordionItem value='pricecontainer'>
+            <Accordion.Root 
+                type="single" 
+                defaultValue={'pricecontainer'}
+            >
+                    <Accordion.Item 
+                        value='pricecontainer'
+                    >
                         <Accordion.Header>
-                            <Accordion.Trigger className={styles.trigger}>
+                            <Accordion.Trigger 
+                                className={styles.trigger}
+                            >
                                 <Box
                                     display='flex'
                                     alignItems='center'
@@ -156,7 +161,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                                 </MakeOfferDialogTrigger>
                             </Box>
                         </Accordion.Content>
-                    </AccordionItem>
+                    </Accordion.Item>
             </Accordion.Root>
         )
     } else {

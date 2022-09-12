@@ -6,7 +6,7 @@ import * as styles from './DialogContent.css'
 import { MakeOfferForm } from '../Forms/MakeOfferForm'
 import { TokensStateType } from '../../types/tokenTypes'
 import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
-import { DialogContentFooter } from '../Footers/DialogContentFooter'
+import { DialogContentFooter } from '../Footers/DialogContentFooter/DialogContentFooter'
 
 interface Props {
     open: boolean

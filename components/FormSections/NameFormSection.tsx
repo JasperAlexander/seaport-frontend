@@ -54,7 +54,6 @@ export const NameFormSection: FC<Props> = ({
             <Input 
                 type='text'
                 name='name'
-                required={true}
                 placeholder={placeholder}
                 value={data.name || ''}
                 onChange={handleChange('name')}

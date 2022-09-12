@@ -17,7 +17,8 @@ export const smallDialogContentContainer = style([
     dialogContentContainer,
     sprinkles({
         height: 'dialogHeightSmall',
-        width: 'dialogWidthSmall'
+        width: 'dialogWidthSmall',
+        cursor: 'default'
     })
 ])
 
@@ -44,7 +45,14 @@ export const sideDialogContentContainer = style([sprinkles({
         base: 'full',
         largeScreen: '420',
         wideScreen: '420'
-    }
+    },
+    animation: {
+        open: 'openSideDialog',
+        closed: 'closeSideDialog'
+    },
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: '1'
 })])
 
 export const sideDialogMenuItem = style([sprinkles({

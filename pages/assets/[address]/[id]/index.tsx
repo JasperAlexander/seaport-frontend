@@ -22,10 +22,10 @@ import useOrders from '../../../../hooks/useOrders'
 import useTokens from '../../../../hooks/useTokens'
 import { TokensQueryType, TokensType } from '../../../../types/tokenTypes'
 import { NextLink } from '../../../../components/NextLink/NextLink'
-import { FlagIcon } from '../../../../components/Icons/FlagIcon'
 import { Text } from '../../../../components/Text/Text'
 import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
 import { TitleAndMetaTags } from '../../../../components/TitleAndMetaTags/TitleAndMetaTags'
+import { AssetButtonRow } from '../../../../components/ButtonRows/AssetButtonRow/AssetButtonRow'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
@@ -114,12 +114,22 @@ const AssetPage: NextPage<Props> = ({
                                 maxWidth='43p'
                                 width='0'
                             >
-                                <AssetPageCard 
-                                    asset={asset?.data} 
-                                />
-                                <AssetInfoAccordion 
-                                    data={asset?.data} 
-                                />
+                                <Box
+                                    as='article'
+                                    margin='20'
+                                >
+                                    <AssetPageCard 
+                                        asset={asset?.data} 
+                                    />
+                                </Box>
+                                <Box
+                                    as='section'
+                                    margin='20'
+                                >
+                                    <AssetInfoAccordion 
+                                        data={asset?.data} 
+                                    />
+                                </Box>
                             </Box>
                             <Box
                                 flexGrow='4'
@@ -157,26 +167,9 @@ const AssetPage: NextPage<Props> = ({
                                                 {asset?.data?.collection?.name}
                                             </Text>
                                         </NextLink>
-                                        <Box
-                                            maxWidth='fit'
-                                            display='flex'
-                                            width='fit'
-                                        >
-                                            <Box
-                                                borderRadius='10'
-                                                display='inline-flex'
-                                                justifyContent='center'
-                                                padding='12'
-                                                borderWidth='2'
-                                                borderColor='box'
-                                                borderStyle='solid'
-                                                cursor='pointer'
-                                            >
-                                                <FlagIcon 
-                                                    width='20' 
-                                                />
-                                            </Box>
-                                        </Box>
+                                        <AssetButtonRow 
+                                            asset={asset}
+                                        />
                                     </Box>
                                     <Text
                                         as='h1'
@@ -186,30 +179,50 @@ const AssetPage: NextPage<Props> = ({
                                         {asset?.data?.name}
                                     </Text>
                                 </Box>
-                                <AssetMeta 
-                                    asset={asset?.data} 
-                                />
-                                {!isOwner &&
-                                    <AssetPriceAccordion 
-                                        asset={asset?.data}
-                                        lastListingEvent={lastListingEvent}
-                                        tokens={tokens}
+                                <Box
+                                    as='section'
+                                    margin='20'
+                                >
+                                    <AssetMeta 
+                                        asset={asset?.data} 
                                     />
+                                </Box>
+                                {!isOwner &&
+                                    <Box
+                                        as='section'
+                                        margin='20'
+                                    >
+                                        <AssetPriceAccordion 
+                                            asset={asset?.data}
+                                            lastListingEvent={lastListingEvent}
+                                            tokens={tokens}
+                                        />
+                                    </Box>
                                 }
-                                <ListingsAccordion
-                                    data={orders}
-                                    isOwner={isOwner}
-                                />
-                                <OffersAccordion
-                                    data={events}
-                                    open={true}
-                                />
+                                <Box
+                                    as='section'
+                                    margin='20'
+                                >
+                                    <ListingsAccordion
+                                        data={orders}
+                                        isOwner={isOwner}
+                                    />
+                                </Box>
+                                <Box
+                                    as='section'
+                                    margin='20'
+                                >
+                                    <OffersAccordion
+                                        data={events}
+                                        open={true}
+                                    />
+                                </Box>
                             </Box>
                         </Box>
                         <Box
                             display='flex'
                             flexDirection='column'
-                            width='full'
+                            margin='20'
                         >
                             <ActivityAccordion
                                 data={events}
@@ -221,9 +234,7 @@ const AssetPage: NextPage<Props> = ({
                 </Box>
                 <Box
                     maxWidth='full'
-                    paddingTop='8'
-                    paddingBottom='16'
-                    paddingX='8'
+                    paddingBottom='8'
                     width='full'
                     display={{
                         base: 'flex',
@@ -248,6 +259,7 @@ const AssetPage: NextPage<Props> = ({
                                 wideScreen: '20',
                                 largeScreen: '20'
                             }}
+                            gap='5'
                         >
                             <Box
                                 display='flex'
@@ -269,26 +281,9 @@ const AssetPage: NextPage<Props> = ({
                                         {asset?.data?.collection?.name}
                                     </Text>
                                 </NextLink>
-                                <Box
-                                    maxWidth='fit'
-                                    display='flex'
-                                    width='fit'
-                                >
-                                    <Box
-                                        borderRadius='10'
-                                        display='inline-flex'
-                                        justifyContent='center'
-                                        padding='12'
-                                        borderWidth='2'
-                                        borderColor='box'
-                                        borderStyle='solid'
-                                        cursor='pointer'
-                                    >
-                                        <FlagIcon 
-                                            width='20' 
-                                        />
-                                    </Box>
-                                </Box>
+                                <AssetButtonRow 
+                                    asset={asset}
+                                />
                             </Box>
                             <Text
                                 as='h1'
@@ -298,19 +293,60 @@ const AssetPage: NextPage<Props> = ({
                                 {asset?.data?.name}
                             </Text>
                         </Box>
-                        <AssetPageCard 
-                            asset={asset?.data} 
-                        />
-                        <AssetMeta 
-                            asset={asset?.data} 
-                        />
-                        {!isOwner && 
-                            <AssetPriceAccordion 
-                                asset={asset?.data}
-                                lastListingEvent={lastListingEvent}
-                                tokens={tokens}
+                        <Box
+                            marginY='20'
+                        >
+                            <AssetPageCard 
+                                asset={asset?.data} 
                             />
+                        </Box>
+                        <Box
+                            marginBottom='20'
+                        >
+                            <AssetMeta 
+                                asset={asset?.data} 
+                            />
+                        </Box>
+                        {!isOwner && 
+                            <Box
+                                marginY='4'
+                            >
+                                <AssetPriceAccordion 
+                                    asset={asset?.data}
+                                    lastListingEvent={lastListingEvent}
+                                    tokens={tokens}
+                                />
+                            </Box>
                         }
+                        <Box
+                            marginY='4'
+                        >
+                            <ListingsAccordion 
+                                data={orders}
+                                isOwner={isOwner}
+                            />
+                        </Box>
+                        <Box
+                            marginY='4'
+                        >
+                            <OffersAccordion 
+                                data={events}
+                            />
+                        </Box>
+                        <Box
+                            marginY='4'
+                        >
+                            <AssetInfoAccordion 
+                                data={asset?.data}
+                            />
+                        </Box>
+                        <Box
+                            marginY='4'
+                        >
+                            <ActivityAccordion 
+                                data={events}
+                            />
+                        </Box>
                     </Box>
                 </Box>
             </MainLayout>

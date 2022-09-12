@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import { ChangeEvent, Fragment, useState } from 'react'
 import { mintERC20 , mintERC721 } from '../utils/minting'
 import { useAccount, useSigner } from 'wagmi'
-import { toast } from 'react-hot-toast'
 import { Box } from '../components/Box/Box'
 import { Input } from '../components/Input/Input'
 import useMounted from '../hooks/useMounted'
@@ -69,9 +68,7 @@ const FaucetPage: NextPage = () => {
                         />
                         <MainButton
                             onClick={() => { 
-                                if(inputState.ERC20mintAmount === '') {
-                                    toast('Enter an amount')
-                                } else if (
+                                if (
                                     mounted &&
                                     inputState.ERC20mintAmount !== ''  && 
                                     typeof address !== 'undefined' && 
@@ -105,9 +102,7 @@ const FaucetPage: NextPage = () => {
                         />
                         <MainButton
                             onClick={() => { 
-                                if(inputState.ERC20mintAmount === '') {
-                                    toast('Enter an amount')
-                                } else if (
+                                if (
                                     mounted &&
                                     inputState.ERC20mintAmount !== ''  && 
                                     typeof address !== 'undefined' && 

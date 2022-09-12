@@ -8,9 +8,11 @@ import { GridIcon } from '../Icons/GridIcon'
 import { PersonIcon } from '../Icons/PersonIcon'
 import { Text } from '../Text/Text'
 import useMounted from '../../hooks/useMounted'
-import { useAccount, useDisconnect } from 'wagmi'
 import * as styles from './DropdownContent.css'
 import { useSession, signOut } from 'next-auth/react'
+import { FavoriteOutlinedIcon } from '../Icons/FavoriteOutlinedIcon'
+import { SettingsIcon } from '../Icons/SettingsIcon'
+import { VisibilityIcon } from '../Icons/VisibilityIcon'
 
 interface Props {
     
@@ -20,8 +22,6 @@ export const AccountDropdownContent: FC<Props> = ({
     
 }) => {
     const { mounted } = useMounted()
-    const { disconnect } = useDisconnect()
-    const { isConnected } = useAccount()
     const { data: session } = useSession()
     
     return (
@@ -47,6 +47,40 @@ export const AccountDropdownContent: FC<Props> = ({
                 className={styles.dropdownContentItem}
             >
                 <NextLink 
+                    href='/account?tab=favorites' 
+                    className={styles.dropdownContentItemLink}
+                >
+                    <FavoriteOutlinedIcon
+                        fill='defaultText'
+                    />
+                    <Text
+                        fontWeight='600'
+                    >
+                        Favorites
+                    </Text>
+                </NextLink>
+            </Box>
+            <Box
+                className={styles.dropdownContentItem}
+            >
+                <NextLink 
+                    href='/rankings/watchlist' 
+                    className={styles.dropdownContentItemLink}
+                >
+                    <VisibilityIcon 
+                        fill='defaultText' 
+                    />
+                    <Text
+                        fontWeight='600'
+                    >
+                        Watchlist
+                    </Text>
+                </NextLink>
+            </Box>
+            <Box
+                className={styles.dropdownContentItem}
+            >
+                <NextLink 
                     href='/collections' 
                     className={styles.dropdownContentItemLink}
                 >
@@ -57,6 +91,23 @@ export const AccountDropdownContent: FC<Props> = ({
                         fontWeight='600'
                     >
                         My collections
+                    </Text>
+                </NextLink>
+            </Box>
+            <Box
+                className={styles.dropdownContentItem}
+            >
+                <NextLink 
+                    href='/account/settings' 
+                    className={styles.dropdownContentItemLink}
+                >
+                    <SettingsIcon
+                        fill='defaultText'
+                    />
+                    <Text
+                        fontWeight='600'
+                    >
+                        Settings
                     </Text>
                 </NextLink>
             </Box>

@@ -5,7 +5,8 @@ export const dialogTriggerOverlay = style([sprinkles({
     position: 'fixed',
     inset: '0',
     zIndex: '800',
-    background: 'defaultBackgroundShadow'
+    background: 'defaultBackgroundShadow',
+    cursor: 'default'
 })])
 
 export const sideDialogTriggerOverlay = style([sprinkles({

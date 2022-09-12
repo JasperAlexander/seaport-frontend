@@ -3,7 +3,6 @@ import { sprinkles } from '../../styles/sprinkles.css'
 
 export const formSectionItem = style([sprinkles({
     paddingY: '16',
-    borderBottomWidth: '1',
     borderStyle: 'solid',
     borderColor: 'box'
 })])

@@ -4,27 +4,31 @@ import useMounted from '../../hooks/useMounted'
 import { emojiAvatarForAddress } from '../../utils/emojiAvatar'
 import { Box } from '../Box/Box'
 import { EditIcon } from '../Icons/EditIcon'
-import { ProfileButtons } from '../ProfileButtons/ProfileButtons'
+import { ProfileButtonRow } from '../ButtonRows/ProfileButtonRow/ProfileButtonRow'
+import { SWRResponse } from 'swr'
+import { UserType } from '../../types/userTypes'
 
 interface Props {
+    user: SWRResponse<UserType, any> | undefined
     isOwner: boolean
     address?: string
 }
 
 export const ProfileImg: FC<Props> = ({ 
+    user,
     isOwner,
     address
 }) => {
-    const { mounted } = useMounted()
-    const { data: EnsAvatar } = useEnsAvatar({
-        addressOrName: address,
-        enabled: false
-    })
-    const [emojiAvatar, setEmojiAvatar] = useState<any>()
-    useEffect(() => {
-        if (address)
-            setEmojiAvatar(emojiAvatarForAddress(address))
-    })
+    // const { mounted } = useMounted()
+    // const { data: EnsAvatar } = useEnsAvatar({
+    //     addressOrName: address,
+    //     enabled: false
+    // })
+    // const [emojiAvatar, setEmojiAvatar] = useState<any>()
+    // useEffect(() => {
+    //     if (address)
+    //         setEmojiAvatar(emojiAvatarForAddress(address))
+    // })
     
     return (
         <Box
@@ -75,10 +79,8 @@ export const ProfileImg: FC<Props> = ({
                             position='relative'
                         >
                             <Box 
-                                aria-label="Select a profile image" 
-                                role="button" 
-                                // tabindex="0" 
-                                // shape="round" 
+                                aria-label='Select a profile image' 
+                                role='button' 
                                 padding='4'
                                 cursor='pointer'
                                 position='absolute'
@@ -91,13 +93,11 @@ export const ProfileImg: FC<Props> = ({
                             >
                                 <Box
                                     as='input' 
-                                    type="file" 
-                                    accept="image/*" 
+                                    type='file' 
+                                    accept='image/*' 
                                     display='none'
-                                    // tabindex="-1"
                                 />
                                 <Box 
-                                    // aria-hidden="true" 
                                     position='absolute'
                                     inset='0'
                                     opacity={{
@@ -143,12 +143,11 @@ export const ProfileImg: FC<Props> = ({
                             >
                                 <Box
                                     as='img' 
-                                    alt="User Profile Image" 
-                                    src="https://storage.googleapis.com/opensea-static/opensea-profile/19.png" 
+                                    alt='User Profile Image'
+                                    src={user?.data?.profile_img_url} 
                                     objectFit='cover'
                                     height='full'
                                     width='full'
-                                    style={{transition: 'opacity 400ms ease 0s'}}
                                 />
                             </Box>
                         </Box>
@@ -184,7 +183,7 @@ export const ProfileImg: FC<Props> = ({
                     }}
                     marginLeft='auto'
                 >
-                    <ProfileButtons />
+                    <ProfileButtonRow />
                 </Box>
             </Box>
         </Box>

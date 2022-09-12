@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-import { Box } from '../Box/Box'
+import { Box } from '../../Box/Box'
 import * as styles from './DialogContentFooter.css'
 
 interface Props {

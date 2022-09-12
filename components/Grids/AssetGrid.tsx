@@ -35,7 +35,12 @@ export const AssetGrid: React.FC<Props> = ({
   }
 
   return (
-    <Fragment>
+    <Box
+      paddingX='32'
+      marginX='auto'
+      width='full'
+      style={{maxWidth: '2560px'}}
+    >
       <AssetGridHeader 
         toggleShowFilters={toggleShowFilters}
         mutate={assets.mutate}
@@ -44,7 +49,6 @@ export const AssetGrid: React.FC<Props> = ({
         display='flex'
         width='full'
         marginTop='8'
-        // paddingX='32'
       >
         <Box
           display={{
@@ -62,18 +66,18 @@ export const AssetGrid: React.FC<Props> = ({
             width: '340px'
           }}
         >
-        <FilterAccordion
-          items={[
-              { 
-                  header: { name: 'Status', key: 'status' },
-                  content: [
-                      { name: 'Buy now', key: 'buynow' }, 
-                      { name: 'Has offers', key: 'hasoffers' }
-                  ]
-              }
-          ]}
-          display={showFilters}
-        />
+          <FilterAccordion
+            items={[
+                { 
+                    header: { name: 'Status', key: 'status' },
+                    content: [
+                        { name: 'Buy now', key: 'buynow' }, 
+                        { name: 'Has offers', key: 'hasoffers' }
+                    ]
+                }
+            ]}
+            display={showFilters}
+          />
         </Box>
         <Box
           flexGrow='1'
@@ -88,11 +92,17 @@ export const AssetGrid: React.FC<Props> = ({
             flexWrap='wrap'
           >
             <Box
-              display='flex'
               alignItems='center'
               justifyContent='space-between'
               marginY='8'
               width='full'
+              display={{
+                wideScreen: 'flex',
+                largeScreen: 'flex',
+                mediumScreen: 'flex',
+                smallScreen: 'flex',
+                base: 'none'
+              }}
             >
               <Box
                 display='flex'
@@ -187,6 +197,6 @@ export const AssetGrid: React.FC<Props> = ({
           </Box>
         </Box>
       </Box>
-    </Fragment>
+    </Box>
   )
 }

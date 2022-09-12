@@ -47,11 +47,7 @@ export const ProfileDescription: FC<Props> = ({
                                     }}
                                     marginRight='6'
                                 >
-                                    {/* Box below is link */}
-                                    <Box 
-                                        // target="_blank" 
-                                        
-                                    >
+                                    <Box>
                                         <Box 
                                             display='inline-flex'
                                             justifyContent='center'
@@ -79,7 +75,7 @@ export const ProfileDescription: FC<Props> = ({
                                                     <Box
                                                         as='img' 
                                                         objectFit='contain'
-                                                        src="https://static.opensea.io/general/ETH.svg" 
+                                                        src='https://static.opensea.io/general/ETH.svg' 
                                                         size={16}
                                                         width='16'
                                                         height='16'
@@ -88,7 +84,7 @@ export const ProfileDescription: FC<Props> = ({
                                             </Box>
                                             <Box 
                                                 as='button'
-                                                type="button"
+                                                type='button'
                                                 display='inline-flex'
                                                 alignItems='center'
                                             >
@@ -111,15 +107,9 @@ export const ProfileDescription: FC<Props> = ({
                                         }
                                     </Text>
                                 </Box>
-                                {/* <Box 
-                                    display='none'
-                                /> */}
                             </Box>
                         </Box>
                     </Box>
-                    {/* <Box 
-                        display='none'
-                    /> */}
                 </Box>
             </Box>
         </Box>

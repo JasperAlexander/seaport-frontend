@@ -68,6 +68,7 @@ const AccountPage: NextPage = () => {
                         isOwner={isOwner}
                     />
                     <ProfileImg 
+                        user={user}
                         isOwner={isOwner}
                         address={address}
                     />

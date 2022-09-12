@@ -2,7 +2,6 @@ import { FC, useState } from 'react'
 import { Box } from '../Box/Box'
 import * as styles from './BodyHeaderNavBar.css'
 import { MenuSideDialogTrigger } from '../DialogTriggers/MenuSideDialogTrigger'
-import { MenuDialogButton } from '../Buttons/MenuDialogButton'
 import { ExploreDropdownTrigger } from '../DropdownTriggers/ExploreDropdownTrigger'
 import { NextLink } from '../NextLink/NextLink'
 import { Text } from '../Text/Text'
@@ -11,6 +10,8 @@ import { PersonOutlinedIcon } from '../Icons/PersonOutlinedIcon'
 import { useSession } from 'next-auth/react'
 import { WalletSideDialogTrigger } from '../DialogTriggers/WalletSideDialogTrigger'
 import { WalletOutlinedIcon } from '../Icons/WalletOutlinedIcon'
+import { CloseIcon } from '../Icons/CloseIcon'
+import { MenuIcon } from '../Icons/MenuIcon'
 
 export const BodyHeaderNavBar: FC = () => {
     const [menuSideDialogOpen, setMenuSideDialogOpen] = useState<boolean>(false)
@@ -94,14 +95,26 @@ export const BodyHeaderNavBar: FC = () => {
                 </WalletSideDialogTrigger>
             </Box>
 
-            {/* <MenuSideDialogTrigger
+            <MenuSideDialogTrigger
                 open={menuSideDialogOpen}
                 setOpen={setMenuSideDialogOpen}
             >
-                <MenuDialogButton 
-                    open={menuSideDialogOpen}
-                />
-            </MenuSideDialogTrigger> */}
+                <Box
+                    as='button'
+                    display={{
+                        base: 'flex',
+                        wideScreen: 'none',
+                        largeScreen: 'none'
+                    }}
+                    alignItems='center'
+                    paddingX='10'
+                >
+                    {menuSideDialogOpen 
+                        ? <CloseIcon width='32' />
+                        : <MenuIcon width='32' />
+                    }
+                </Box>
+            </MenuSideDialogTrigger>
         </Box>
     )
 }

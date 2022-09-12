@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FC, ReactNode } from 'react'
+import { forwardRef, ReactNode, Ref } from 'react'
 import { Box, BoxProps } from '../Box/Box'
 import { Text } from '../Text/Text'
 
@@ -80,68 +80,84 @@ interface Props {
  * @param variant defaults to primary which has accentColor as background in contrast to secondary which has defaultBackground as background
  * @param width defaults to initial
  */
-export const MainButton: FC<Props> = ({ 
-    children,
-    onClick = () => { return null },
-    href,
-    disabled = false,
-    size = 'medium',
-    variant = 'primary',
-    width = 'initial'
-}) => {
-    const { fontSize, paddingX, paddingY } = sizeVariants[size]
-    const { background, borderColor, color } = typeVariants[variant]
+export const MainButton = forwardRef (
+    (
+        {
+            children,
+            onClick = () => { return null },
+            href,
+            disabled = false,
+            size = 'medium',
+            variant = 'primary',
+            width = 'initial',
+            ...props
+        }: Props,
+        ref: Ref<HTMLElement>
+    ) => {
+        const { fontSize, paddingX, paddingY } = sizeVariants[size]
+        const { background, borderColor, color } = typeVariants[variant]
 
-    const ConditionalLink = ({
-        condition,
-        wrapper,
-        children
-    }: {
-        condition: any
-        wrapper: any
-        children: ReactNode
-    }) => condition ? wrapper(children) : children
+        const ConditionalLink = ({
+            condition,
+            wrapper,
+            children
+        }: {
+            condition: any
+            wrapper: any
+            children: ReactNode
+        }) => condition ? wrapper(children) : children
 
-    return (
-        <ConditionalLink 
-            condition={href}
-            wrapper={(children: ReactNode) => <Link href={`${href}`} passHref={true}>{children}</Link>}
-        >
-            <Box
-                as={href ? 'a' : 'button'}
-                type='button'
-                onClick={onClick}
-                disabled={disabled}
-
-                display='inline-flex'
-                gap='8'
-                alignItems='center'
-                justifyContent='center'
-
-                width={width}
-
-                boxShadow={{ hover: 'subHeader' }}
-                background={background}
-                opacity={{ disabled: 'disabled' }}
-                cursor={{ base: 'pointer', disabled: 'default' }}
-
-                borderRadius='10'
-                borderWidth='2'
-                borderStyle='solid'
-                borderColor={borderColor}
-
-                paddingX={paddingX}
-                paddingY={paddingY}
+        return (
+            <ConditionalLink 
+                condition={href}
+                wrapper={(children: ReactNode) => 
+                    <Link 
+                        href={`${href}`} 
+                        passHref={true}
+                    >
+                        {children}
+                    </Link>
+                }
             >
-                <Text
-                    as='span'
-                    fontSize={fontSize}
-                    fontWeight='600'
-                    color={color}
+                <Box
+                    as={href ? 'a' : 'button'}
+                    type='button'
+                    onClick={onClick}
+                    disabled={disabled}
+                    ref={ref}
+                    {...props}
+
+                    display='inline-flex'
+                    gap='8'
+                    alignItems='center'
+                    justifyContent='center'
+                    textAlign='center'
+
+                    width={width}
+
+                    boxShadow={{ hover: 'subHeader' }}
+                    background={background}
+                    opacity={{ disabled: 'disabled' }}
+                    cursor={{ base: 'pointer', disabled: 'default' }}
+
+                    borderRadius='10'
+                    borderWidth='2'
+                    borderStyle='solid'
+                    borderColor={borderColor}
+
+                    paddingX={paddingX}
+                    paddingY={paddingY}
                 >
-                    {children}
-                </Text>
-            </Box>
-        </ConditionalLink>
-    )
-}
+                    <Text
+                        as='span'
+                        fontSize={fontSize}
+                        fontWeight='600'
+                        color={color}
+                    >
+                        {children}
+                    </Text>
+                </Box>
+            </ConditionalLink>
+        )
+    }
+)

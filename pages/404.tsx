@@ -9,7 +9,8 @@ export default function Custom404() {
             flexDirection='column'
             justifyContent='center'
             alignItems='center'
-            style={{width: '80%'}}
+            textAlign='center'
+            style={{width: '80%', minHeight: 'calc(100vh - 132px)'}}
             marginY='30'
             marginX='auto'
         >

@@ -20,19 +20,12 @@ export const AssetMeta: FC<Props> = ({
     
   return (
     <Box
-        marginY='20'
         display='flex'
         gap='20'
         maxWidth='full'
         overflow='hidden'
         textOverflow='ellipsis'
         color='boxText'
-        className={sprinkles({
-            marginX: {
-              wideScreen: '20',
-              largeScreen: '20'
-            }
-        })}
         style={{wordBreak: 'break-all'}}
     >
       <Box
@@ -40,7 +33,10 @@ export const AssetMeta: FC<Props> = ({
         alignItems='center'
         gap='4'
       >
-        <Text>
+        <Text
+          color='boxText'
+          fontSize='15'
+        >
           Owned by
         </Text>
         {mounted ?
@@ -53,28 +49,41 @@ export const AssetMeta: FC<Props> = ({
             <Text
               display='inline-block'
               color='accentColor'
+              fontSize='15'
             >
               {mounted ? asset?.owner?.username ? truncateEns(asset.owner.username) : asset?.owner?.address ? truncateAddress(asset.owner.address) : '' : ''}
             </Text>
           </NextLink>
         : ''}
       </Box>
-        <Box
-          display='flex'
-          alignItems='center'
-          gap='8'
-        >
-            <VisibilityIcon fill='boxText' />
+      <Box
+        display='flex'
+        alignItems='center'
+        gap='8'
+      >
+          <VisibilityIcon 
+            fill='boxText' 
+          />
+          <Text
+            color='boxText'
+            fontSize='15'
+          >
             0.0K views
-        </Box>
-        <Box
-          display='flex'
-          alignItems='center'
-          gap='8'
-        >
-            <FavoriteFilledIcon fill='boxText' />
+          </Text>
+      </Box>
+      <Box
+        display='flex'
+        alignItems='center'
+        gap='8'
+      >
+          <FavoriteFilledIcon fill='boxText' />
+          <Text
+            color='boxText'
+            fontSize='15'
+          >
             0 favorites
-        </Box>
+          </Text>
+      </Box>
     </Box>
   )
 }

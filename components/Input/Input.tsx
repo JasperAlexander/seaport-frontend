@@ -80,9 +80,27 @@ export const Input = forwardRef(
         padding='12'
 
         outline='none'
-        borderWidth='2'
+        // borderWidth='2'
+        borderTopWidth={{
+          firstchild: '2'
+        }}
+        borderRightWidth='2'
+        borderBottomWidth='2'
+        borderLeftWidth='2'
         borderStyle='solid'
-        borderRadius='10'
+        // borderRadius='10'
+        borderTopLeftRadius={{
+          firstchild: '10'
+        }}
+        borderTopRightRadius={{
+          firstchild: '10'
+        }}
+        borderBottomLeftRadius={{
+          lastbutton: '10'
+        }}
+        borderBottomRightRadius={{
+          lastbutton: '10'
+        }}
         borderColor={{
           base: 'box',
           focus: 'buttonBorderHover'

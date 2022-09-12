@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useForm } from '../../hooks/useForm'
 import { Box } from '../Box/Box'
 import { SWRResponse } from 'swr'
@@ -11,7 +11,7 @@ import { ListingReserveFormSection } from '../FormSections/ListingReserveFormSec
 import { MainButton } from '../Buttons/MainButton'
 import useSeaport from '../../hooks/useSeaport'
 import { ethers } from 'ethers'
-import { useAccount, useContractRead, useSigner } from 'wagmi'
+import { useAccount, useConnect, useContractRead, useNetwork, useSigner, useSwitchNetwork } from 'wagmi'
 import useMounted from '../../hooks/useMounted'
 import contractAddresses from '../../utils/contractAddresses.json'
 import TestERC721 from '../../artifacts/contracts/test/TestERC721.sol/TestERC721.json'
@@ -21,6 +21,7 @@ import useUsers from '../../hooks/useUsers'
 import { TokensStateType } from '../../types/tokenTypes'
 import { ListingMethodFormSection } from '../FormSections/ListingMethodFormSection'
 import { Text } from '../Text/Text'
+import useUser from '../../hooks/useUser'
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface ListAssetFormType {
@@ -35,8 +36,8 @@ export interface ListAssetFormType {
     startAmount: string
     endAmount: string
     duration: string
-    from_account: string
-    to_account: string
+    from_account: string | undefined
+    to_account: string | undefined
 }
 
 interface Props {
@@ -51,15 +52,19 @@ export const ListAssetForm: FC<Props> = ({
     const [completeListingDialogOpen, setCompleteListingDialogOpen] = useState<boolean>(false)
     const { listingStatus, createOrder } = useSeaport()
     const router = useRouter()
-    const { address } = useAccount()
-    const users = useUsers(router, address)
+    const { isConnected, address } = useAccount()
+    const { connect } = useConnect()
+    const { chain: activeChain } = useNetwork()
+    const { switchNetwork } = useSwitchNetwork()
+    // const users = useUsers(router, address)
+    const user = useUser(address)
     const { data: signer } = useSigner()
-    const { data: owner } = useContractRead({
-        addressOrName: contractAddresses.TestERC721,
-        contractInterface: TestERC721.abi,
-        functionName: 'ownerOf',
-        args: asset?.data?.token_id
-    })
+    // const { data: owner } = useContractRead({
+    //     addressOrName: contractAddresses.TestERC721,
+    //     contractInterface: TestERC721.abi,
+    //     functionName: 'ownerOf',
+    //     args: asset?.data?.token_id
+    // })
     const { mounted } = useMounted()
 
     const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<ListAssetFormType>({
@@ -104,10 +109,21 @@ export const ListAssetForm: FC<Props> = ({
             startAmount: '1',
             endAmount: '1',
             duration: '',
-            from_account: asset?.data?.owner?.address, // users?.users?.data?.[0]?.id.toString(),
+            from_account: address, // '1', // user?.data?.id?.toString(),
             to_account: undefined
         },
     })
+
+    // useEffect(() => {
+    //     if (!data?.from_account && user?.data?.id) {
+    //         setData({
+    //             ...data,
+    //             // @ts-ignore
+    //             from_account: user?.data?.id.toString()
+    //         })
+    //         console.log('id set')
+    //     }
+    // })
 
     return (
         <Box
@@ -266,12 +282,23 @@ export const ListAssetForm: FC<Props> = ({
                 >
                     <MainButton
                         onClick={async() => { 
-                            if (mounted && 
-                                owner !== address && // Make this line a comment if you've reset your account
-                                signer && address) await mintERC721(signer, address, asset?.data?.token_id)
-                            await createOrder(data)
-
-                            router.back()
+                            // if (mounted && 
+                            //     owner !== address && // Make this line a comment if you've reset your account
+                            //     signer && address) await mintERC721(signer, address, asset?.data?.token_id)
+                            try {
+                                if (!isConnected) {
+                                    connect()
+                                }
+                                if (activeChain?.id !== 1337) {
+                                    switchNetwork?.(1337)
+                                }
+                                if (isConnected && signer && address && activeChain?.id === 1337) {
+                                    // await mintERC721(signer, address, asset?.data?.token_id)
+                                    await createOrder(data)
+                                }
+                            } catch (error) {
+                                console.log(error)
+                            }
                         }}
                         // disabled={Object.keys(errors).length > 0 || listingStatus > 0}
                     >

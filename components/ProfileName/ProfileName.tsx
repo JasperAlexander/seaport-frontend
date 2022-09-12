@@ -3,11 +3,8 @@ import { useEnsName } from 'wagmi'
 import { UserType } from '../../types/userTypes'
 import { truncateAddress, truncateEns } from '../../utils/truncateText'
 import { Box } from '../Box/Box'
-import { RoundButton } from '../Buttons/RoundButton'
-import { MoreHorizontalIcon } from '../Icons/MoreHorizontalIcon'
-import { ShareIcon } from '../Icons/ShareIcon'
 import { VerifiedIcon } from '../Icons/VerifiedIcon'
-import { ProfileButtons } from '../ProfileButtons/ProfileButtons'
+import { ProfileButtonRow } from '../ButtonRows/ProfileButtonRow/ProfileButtonRow'
 import { Text } from '../Text/Text'
 
 interface Props {
@@ -80,7 +77,7 @@ export const ProfileName: FC<Props> = ({
                         }}
                         marginLeft='auto'
                     >
-                        <ProfileButtons />
+                        <ProfileButtonRow />
                     </Box>
                 </Box>
             </Box>

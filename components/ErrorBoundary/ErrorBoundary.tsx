@@ -32,9 +32,10 @@ class ErrorBoundary extends Component<Props, State> {
             flexDirection='column'
             justifyContent='center'
             alignItems='center'
-            style={{width: '80%'}}
+            style={{width: '80%', minHeight: 'calc(100vh - 132px)'}}
             marginY='30'
             marginX='auto'
+            textAlign='center'
         >
             <Text
                 as='h1'

@@ -18,11 +18,7 @@ import { TransferIcon } from '../../Icons/TransferIcon'
 import { BidWithdrawnIcon } from '../../Icons/BidWithdrawnIcon'
 import { CancelIcon } from '../../Icons/CancelIcon'
 import { VerifiedIcon } from '../../Icons/VerifiedIcon'
-import { AccordionItem } from '../AccordionItem/AccordionItem'
-import useUser from '../../../hooks/useUser'
 import { useRouter } from 'next/router'
-import useUsers from '../../../hooks/useUsers'
-import useToken from '../../../hooks/useToken'
 import { Text } from '../../Text/Text'
 import { NextLink } from '../../NextLink/NextLink'
 
@@ -50,9 +46,13 @@ export const ActivityAccordion: FC<Props> = ({
             type="multiple" 
             defaultValue={open ? ['activity']: []}
         >
-                <AccordionItem value='activity'>
+                <Accordion.Item 
+                    value='activity'
+                >
                     <Accordion.Header>
-                        <Accordion.Trigger className={styles.trigger}>
+                        <Accordion.Trigger 
+                            className={styles.trigger}
+                        >
                             <Box
                                 display='flex'
                                 alignItems='center'
@@ -319,7 +319,7 @@ export const ActivityAccordion: FC<Props> = ({
                             </Box>
                         </Box>
                     </Accordion.Content>
-                </AccordionItem>
+                </Accordion.Item>
         </Accordion.Root>
     )
 }

@@ -1,6 +1,5 @@
 import { AssetInputType, AssetType } from '../../types/assetTypes'
 import { useAccount } from 'wagmi'
-// import toast from 'react-hot-toast'
 import router from 'next/router'
 import { randomBN } from '../../utils/encoding'
 import { EventType, EventTypes } from '../../types/eventTypes'

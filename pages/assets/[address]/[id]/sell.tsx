@@ -27,12 +27,12 @@ const SellAssetPage: NextPage<Props> = ({
     const asset = useAsset(fallbackAsset, contract_address, token_id)
     const tokens = useTokens(router, fallbackTokens)
 
-    const { address } = useAccount()
-    const [isOwner, setIsOwner] = useState<boolean>(false)
-    useEffect(() => {
-        if (asset?.data?.owner?.address === address)
-            setIsOwner(true)
-    })
+    // const { address } = useAccount()
+    // const [isOwner, setIsOwner] = useState<boolean>(false)
+    // useEffect(() => {
+    //     if (asset?.data?.owner?.address === address)
+    //         setIsOwner(true)
+    // })
 
     return (
         <Fragment>
@@ -41,7 +41,7 @@ const SellAssetPage: NextPage<Props> = ({
             />
 
             <MainLayout>
-                {isOwner &&
+                {/* {isOwner && */}
                     <Fragment>
                         <AssetPageHeader>
                             <MainButton 
@@ -56,7 +56,7 @@ const SellAssetPage: NextPage<Props> = ({
                             tokens={tokens}
                         />
                     </Fragment>
-                }
+                {/* } */}
             </MainLayout>
         </Fragment>
     )

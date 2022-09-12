@@ -31,11 +31,11 @@ export const AccountDropdownTrigger: FC<Props> = ({
                     borderBottomRightRadius='10'
                     fontSize='14'
                     fontWeight='600'
+                    boxShadow='dropdown'
                     style={{
                         overflowWrap: 'break-word',
                         minWidth: '220px',
-                        maxHeight: 'calc(-72px + 100vh)',
-                        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 4px 16px'
+                        maxHeight: 'calc(-72px + 100vh)'
                     }}
                 >
                     <AccountDropdownContent />

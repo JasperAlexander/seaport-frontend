@@ -11,7 +11,6 @@ import { TocIcon } from '../../Icons/TocIcon'
 import TimeAgo from 'react-timeago'
 import { truncateAddress, truncateEns } from '../../../utils/truncateText'
 import { VerifiedIcon } from '../../Icons/VerifiedIcon'
-import { AccordionItem } from '../AccordionItem/AccordionItem'
 import { Text } from '../../Text/Text'
 import { NextLink } from '../../NextLink/NextLink'
 
@@ -24,7 +23,7 @@ export const OffersAccordion: FC<Props> = ({
     data: { events, ref },
     open = false
 }) => {
-    const { data, isValidating, size } = events
+    const { data } = events
     const mappedEvents = data ? data.map(({ events }) => events).flat() : []
     const offerEvents = mappedEvents?.filter((event) => {
         return (
@@ -37,10 +36,17 @@ export const OffersAccordion: FC<Props> = ({
     ]
 
     return (
-        <Accordion.Root type="multiple" defaultValue={open ? ['offers']: []}>
-                <AccordionItem value='offers'>
+        <Accordion.Root 
+            type="multiple" 
+            defaultValue={open ? ['offers']: []}
+        >
+                <Accordion.Item 
+                    value='offers'
+                >
                     <Accordion.Header>
-                        <Accordion.Trigger className={styles.trigger}>
+                        <Accordion.Trigger 
+                            className={styles.trigger}
+                        >
                             <Box
                                 display='flex'
                                 alignItems='center'
@@ -183,7 +189,7 @@ export const OffersAccordion: FC<Props> = ({
                             </Box>
                         }
                     </Accordion.Content>
-                </AccordionItem>
+                </Accordion.Item>
         </Accordion.Root>
     )
 }

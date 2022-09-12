@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { Fragment } from 'react'
 import { Box } from '../../components/Box/Box'
 import { MainButton } from '../../components/Buttons/MainButton'
+import { MoreHorizontalIcon } from '../../components/Icons/MoreHorizontalIcon'
 import { Text } from '../../components/Text/Text'
 import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
 
@@ -35,11 +36,21 @@ const CollectionsPage: NextPage = () => {
                 >
                     Create, curate, and manage collections of unique NFTs to share and sell.
                 </Text>
-                <Box>
+                <Box
+                    display='flex'
+                    gap='16'
+                >
                     <MainButton 
                         href='/collection/create'
                     >
                         Create a collection
+                    </MainButton>
+                    {/* Should be a dropdown */}
+                    <MainButton
+                        variant='secondary'
+                        size='small'
+                    >
+                        <MoreHorizontalIcon />
                     </MainButton>
                 </Box>
             </Box>

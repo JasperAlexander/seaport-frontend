@@ -4,13 +4,14 @@ import { FC, useState } from 'react'
 import Select from 'react-select'
 import { TokenType } from '../../types/tokenTypes'
 import { Box } from '../Box/Box'
+import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
 import { MakeOfferFormType } from '../Forms/MakeOfferForm'
 import { Text } from '../Text/Text'
 
 interface Props {
     mappedTokens: TokenType[]
-    data: ListAssetFormType | MakeOfferFormType
+    data: ListAssetFormType | MakeOfferFormType | CreateCollectionFormType
     setData: (e: any) => void
 }
 

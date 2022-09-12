@@ -15,6 +15,7 @@ const themeContractValues = {
     accentColor: '',
     accentColorText: '',
     accentColorHover: '',
+    accentColorHoverHover: '',
 
     actionButtonBorder: '',
     actionButtonBorderMobile: '',
@@ -56,7 +57,9 @@ const themeContractValues = {
     orderBackground: '',
 
     profileTop: '',
-    profileTopHover: ''
+    profileTopHover: '',
+
+    twitter: ''
   },
   fonts: {
     body: ''
@@ -71,6 +74,7 @@ const themeContractValues = {
     inputHover: '',
 
     dialog: '',
+    dropdown: '',
 
     header: '',
     subHeader: '',
@@ -117,8 +121,10 @@ const dimensions = {
   '16': '16px',
   '18': '18px',
   '20': '20px',
+  '20p': '20%',
   '22': '22px',
   '24': '24px',
+  '25p': '25%',
   '28': '28px',
   '30': '30px',
   '30p': '30%',
@@ -133,10 +139,12 @@ const dimensions = {
   '45': '45px',
   '48': '48px',
   '50p': '50%',
+  '64': '64px',
   '66': '66px',
   '70': '70px',
   '71': '71px', // Subheader top
   '72': '72px', // Header height
+  '75p': '75%',
   '80': '80px',
   '90': '90px',
   '100': '100px',
@@ -147,6 +155,7 @@ const dimensions = {
   '220': '220px',
   '240': '240px',
   '330': '330px',
+  '350': '350px',
   '420': '420px',
   '772': '772px',
   '1000': '1000px',
@@ -217,12 +226,27 @@ const closeAccordion = keyframes({
   to: { height: 0 }
 })
 
+const openSideDialog = keyframes({
+  '0%': { opacity: 0, transform: 'translate3d(100%, 0px, 0px)' },
+  '100%': { opacity: 1, transform: 'translate3d(0%, 0px, 0px)' }
+})
+
+const closeSideDialog = keyframes({
+  '0%': { opacity: 1, transform: 'translate3d(0%, 0px, 0px)' },
+  '100%': { opacity: 0, transform: 'translate3d(100%, 0px, 0px)' }
+})
+
 const progress = keyframes({
   '0%': { rotate: '-90deg' },
   '25%': { rotate: '0deg' },
   '50%': { rotate: '90deg' },
   '75%': { rotate: '180deg' },
   '100%': { rotate: '270deg' }
+})
+
+const shimmer = keyframes({
+  '0%': { backgroundPosition: '-1200px 0px' },
+  '100%': { backgroundPosition: '1200px 0px' },
 })
 
 const staticProperties = defineProperties({
@@ -239,10 +263,6 @@ const staticProperties = defineProperties({
       'dashed'
     ],
 
-    flexDirection: [
-      'row', 
-      'column'
-    ],
     flexBasis: {
       '0': '0%',
       'auto': 'auto'
@@ -268,18 +288,11 @@ const staticProperties = defineProperties({
 
     fontFamily: themeVars.fonts,
     fontSize: dimensions,
-    fontWeight: weights,
 
     gap: dimensions,
     
-    justifyContent: [
-      ...flexAlignment, 
-      'space-between', 
-      'space-around'
-    ],
     justifySelf: [...flexAlignment],
     lineHeight: ['normal'],
-    textAlign: textAlignments,
     textOverflow: ['ellipsis'],
 
     maxHeight: dimensions,
@@ -299,11 +312,6 @@ const staticProperties = defineProperties({
     outline: ['none'],
     stroke: themeVars.colors,
 
-    paddingBottom: dimensions,
-    paddingLeft: dimensions,
-    paddingRight: dimensions,
-    paddingTop: dimensions,
-
     position: [
       'absolute', 
       'fixed', 
@@ -315,23 +323,7 @@ const staticProperties = defineProperties({
     whiteSpace: ['nowrap'],
 
     zIndex: weights,
-  } as const,
-  shorthands: {
-    padding: [
-      'paddingTop', 
-      'paddingBottom', 
-      'paddingLeft', 
-      'paddingRight'
-    ],
-    paddingX: [
-      'paddingLeft', 
-      'paddingRight'
-    ],
-    paddingY: [
-      'paddingTop', 
-      'paddingBottom'
-    ]
-  },
+  } as const
 })
 
 export const wideScreenMinWidth = 1230
@@ -366,9 +358,10 @@ const dynamicProperties = defineProperties({
     firstchild: { selector: '&:first-child' },
     notfirstchild: { selector: '&:not(:first-child)' },
     lastchild: { selector: '&:last-child' },
+    lastbutton: { selector: '&:last-of-type' },
 
-    open: { selector: '[data-state=open] &' },
-    closed: { selector: '[data-state=closed] &' },
+    open: { selector: `&[data-state='open']` },
+    closed: { selector: `&[data-state='closed']` },
 
     activeState: { selector: '[data-state=active] &' }
   },
@@ -377,7 +370,10 @@ const dynamicProperties = defineProperties({
     animation: {
       openAccordion: `${openAccordion} 300ms ease-out`,
       closeAccordion: `${closeAccordion} 300ms ease-out`,
-      progress: `0.75s linear 0s infinite normal none running ${progress}`
+      openSideDialog: `${openSideDialog} 300ms ease 0s`,
+      closeSideDialog: `${closeSideDialog} 300ms ease 0s`,
+      progress: `0.75s linear 0s infinite normal none running ${progress}`,
+      shimmer: `2.5s linear 0s infinite normal forwards running ${shimmer}`
     },
     transformOrigin: {
       progress: '19px 19px 0px'
@@ -408,16 +404,26 @@ const dynamicProperties = defineProperties({
     top: dimensions,
     right: dimensions,
 
+    paddingBottom: dimensions,
+    paddingLeft: dimensions,
+    paddingRight: dimensions,
+    paddingTop: dimensions,
+
     content: {
       'empty': `''`
     },
 
     cursor: [
       'pointer', 
-      'default'
+      'default',
+      'text'
     ],
 
     display: displayOptions,
+    flexDirection: [
+      'row', 
+      'column'
+    ],
 
     gridTemplateColumns: [
       'repeat(1, 1fr)', 
@@ -434,6 +440,15 @@ const dynamicProperties = defineProperties({
     marginRight: dimensions,
     marginTop: dimensions,
 
+    fontWeight: weights,
+
+    textAlign: textAlignments,
+    justifyContent: [
+      ...flexAlignment, 
+      'space-between', 
+      'space-around'
+    ],
+
     opacity: {
       '0': '0',
       'disabled': '0.4',
@@ -449,7 +464,9 @@ const dynamicProperties = defineProperties({
       'rotate(180deg)': 'rotate(180deg)',
       'translateX(22px)': 'translateX(22px)',
       'translateX(0px)': 'translateX(0px)',
-      'center': 'translate(-50%, -50%)'
+      'center': 'translate(-50%, -50%)',
+      'right': 'translate3d(100%, 0px, 0px)',
+      'aside': 'translate3d(0%, 0px, 0px)'
     },
     transition: {
       default: '0.125s ease',
@@ -509,8 +526,22 @@ const dynamicProperties = defineProperties({
       'borderRightWidth', 
       'borderBottomWidth', 
       'borderLeftWidth'
+    ],
+    padding: [
+      'paddingTop', 
+      'paddingBottom', 
+      'paddingLeft', 
+      'paddingRight'
+    ],
+    paddingX: [
+      'paddingLeft', 
+      'paddingRight'
+    ],
+    paddingY: [
+      'paddingTop', 
+      'paddingBottom'
     ]
-  },
+  }
 })
 
 export type DynamicValue<Value extends string | number | boolean> =

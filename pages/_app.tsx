@@ -5,11 +5,14 @@ import Web3Provider from '../components/Providers/Web3Provider'
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
 import { BodyLayout } from '../components/Layouts/BodyLayout'
 import { SessionProvider } from 'next-auth/react'
+import { Session } from 'next-auth'
 
-function MyApp({ 
-  Component, 
-  pageProps: { session, ...pageProps }
-}: AppProps) {
+function MyApp(appProps: AppProps<{session: Session}>) {
+  const { 
+    Component, 
+    pageProps: { session, ...pageProps }
+  } = appProps
+
   return (
     <Web3Provider>
       <StyleProvider>

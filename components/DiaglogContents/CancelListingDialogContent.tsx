@@ -8,7 +8,7 @@ import useSeaport from '../../hooks/useSeaport'
 import { OrderType } from '../../types/orderTypes'
 import { Text } from '../Text/Text'
 import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
-import { DialogContentFooter } from '../Footers/DialogContentFooter'
+import { DialogContentFooter } from '../Footers/DialogContentFooter/DialogContentFooter'
 
 interface Props {
     open: boolean

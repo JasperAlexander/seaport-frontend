@@ -2,8 +2,6 @@ import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from '
 import { useAccount, useBalance } from 'wagmi'
 import useMounted from '../../hooks/useMounted'
 import { Box } from '../Box/Box'
-import { CopyIcon } from '../Icons/CopyIcon'
-import { DoneIcon } from '../Icons/DoneIcon'
 import { EthIcon } from '../Icons/EthIcon'
 import { WethIcon } from '../Icons/WethIcon'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -12,6 +10,10 @@ import { Text } from '../Text/Text'
 import { NextLink } from '../NextLink/NextLink'
 import { useSession } from 'next-auth/react'
 import { ConnectWalletScreen } from '../ConnectWalletScreen/ConnectWalletScreen'
+import { truncateAddress } from '../../utils/truncateText'
+import { ChevronIcon } from '../Icons/ChevronIcon'
+import { WalletDropdownTrigger } from '../DropdownTriggers/WalletDropdownTrigger'
+import { ChevronHorIcon } from '../Icons/ChevronHorIcon'
 
 interface Props {
     open: boolean
@@ -61,10 +63,13 @@ export const WalletSideDialogContent: FC<Props> = ({
     }, [copiedAddress])
 
     return (
-        <Dialog.Content asChild={true}>
+        <Dialog.Content 
+            asChild={true}
+        >
             <Box
                 as='aside'
                 className={styles.sideDialogContentContainer}
+                style={{height: 'calc(100% - 72px)'}}
             >
                 <Box
                     display='flex'
@@ -74,28 +79,98 @@ export const WalletSideDialogContent: FC<Props> = ({
                     {session ?
                         <Box>
                             <Box
-                                as='button'
-                                aria-label='Copy address'
-                                onClick={copyAddressAction}
-                                display='flex'
-                                alignItems='center'
-                                justifyContent='space-between'
-                                padding='20'
-                                cursor='pointer'
                                 height='72'
                                 borderBottomWidth='1'
                                 borderStyle='solid'
                                 borderColor='box'
+                                width='full'
+                                display='flex'
+                                alignItems='center'
+                                justifyContent='space-between'
+                                padding='20'
                             >
-                                <Text
-                                    color='boxText'
+                                <Box
+                                    display='flex'
+                                    alignItems='center'
+                                    gap='8'
                                 >
-                                    {mounted ? address : ''}
-                                </Text>
-                                {copiedAddress 
-                                    ? <DoneIcon fill='boxText' />
-                                    : <CopyIcon fill='boxText' />
-                                }
+                                    <Box
+                                        as='button'
+                                        display={{
+                                            wideScreen: 'none',
+                                            largeScreen: 'none',
+                                            base: 'inline-flex'
+                                        }}
+                                        aria-label='Back'
+                                        onClick={() => setOpen(false)}
+                                    >
+                                        <ChevronHorIcon
+                                            direction='left' 
+                                            fill='boxText'
+                                        />
+                                    </Box>
+                                    <WalletDropdownTrigger>
+                                        <Box
+                                            as='button'
+                                            display='inline-flex'
+                                            alignItems='center'
+                                            gap='4'
+                                        >
+                                            <Box
+                                                display='flex'
+                                                alignItems='center'
+                                                gap='8'
+                                            >
+                                                <Box
+                                                    width='30'
+                                                    height='30'
+                                                    borderRadius='50p'
+                                                    borderWidth='2'
+                                                    borderColor='box'
+                                                    borderStyle='solid'
+                                                    alignItems='center'
+                                                    justifyContent='center'
+                                                    position='relative'
+                                                    overflow='hidden'
+                                                    maxHeight='full'
+                                                    maxWidth='full'
+                                                >
+                                                    <Box
+                                                        as='img' 
+                                                        alt='User Profile Image'
+                                                        src='https://storage.googleapis.com/opensea-static/opensea-profile/19.png' 
+                                                        objectFit='cover'
+                                                        height='full'
+                                                        width='full'
+                                                    />
+                                                </Box>
+                                                My wallet
+                                            </Box>
+                                            <ChevronIcon 
+                                                fill='boxText'
+                                            />
+                                        </Box>
+                                    </WalletDropdownTrigger>
+                                </Box>
+                                <Box
+                                    as='button'
+                                    aria-label='Copy address'
+                                    onClick={copyAddressAction}
+                                    cursor='pointer'
+                                >
+                                    <Text
+                                        color='boxText'
+                                        fontSize='14'
+                                        fontWeight='600'
+                                    >
+                                        {mounted 
+                                            ? address
+                                                ? truncateAddress(address) 
+                                                : ''
+                                            : ''
+                                        }
+                                    </Text>
+                                </Box>
                             </Box>
                             <Box
                                 padding='20'
@@ -157,6 +232,7 @@ export const WalletSideDialogContent: FC<Props> = ({
                                         >
                                             <Text
                                                 color='accentColorText'
+                                                fontWeight='600'
                                             >
                                                 Add funds
                                             </Text>

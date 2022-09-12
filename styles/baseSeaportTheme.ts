@@ -26,6 +26,7 @@ export interface AccentColor {
   accentColor: string
   accentColorText: string
   accentColorHover: string
+  accentColorHoverHover: string
 }
 
 export type AccentColorPreset =
@@ -38,4 +39,5 @@ export interface SeaportThemeOptions extends BaseSeaportThemeOptions {
   accentColor?: string
   accentColorText?: string
   accentColorHover?: string
+  accentColorHoverHover?: string
 }

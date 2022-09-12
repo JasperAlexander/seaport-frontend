@@ -12,19 +12,22 @@ interface Props {
     errors: Partial<Record<keyof CreateAssetFormType, string>>
     validate: () => void
     data: CreateAssetFormType
+    bottomBorder?: boolean
 }
 
 export const UnlockableFormSectionItem: FC<Props> = ({
     handleChange,
     errors,
     validate,
-    data
+    data,
+    bottomBorder = true
 }) => {
     const [unlockableActive, setUnlockableActive] = useState<boolean>(false)
 
     return (
         <Box 
             className={styles.formSectionItem}
+            borderBottomWidth={bottomBorder ? '1' : '0'}
         >
             <Box
                 display='flex'

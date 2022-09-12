@@ -10,6 +10,15 @@ import { BlockchainFormSection } from '../FormSections/BlockchainFormSection'
 import { MainButton } from '../Buttons/MainButton'
 import { TokensStateType } from '../../types/tokenTypes'
 import { Text } from '../Text/Text'
+import { LogoFormSection } from '../FormSections/LogoFormSection'
+import { FeaturedFormSection } from '../FormSections/FeaturedFormSection'
+import { BannerFormSection } from '../FormSections/BannerFormSection'
+import { SlugFormSection } from '../FormSections/SlugFormSection'
+import { CategoryFormSection } from '../FormSections/CategoryFormSection'
+import { LinkFormSection } from '../FormSections/LinksFormSection'
+import { FeesFormSection } from '../FormSections/FeesFormSection'
+import { TokenFormSection } from '../FormSections/TokenFormSection'
+import { NsfwFormSectionItem } from '../FormSectionItems/NsfwFormSectionItem'
 
 // To do: find out why this cannot be moved to collectionTypes.ts
 export interface CreateCollectionFormType {
@@ -153,7 +162,11 @@ export const CreateCollectionForm: FC<Props> = ({
                     </Text>
                 </Box>
 
-                <ImageFormSection />
+                <LogoFormSection />
+
+                <FeaturedFormSection />
+
+                <BannerFormSection />
                 
                 <NameFormSection 
                     placeholder='Example: Treasures of the Sea'
@@ -163,16 +176,37 @@ export const CreateCollectionForm: FC<Props> = ({
                     data={data} 
                 />
                
-                {/* <ExternalLinkFormSection 
+                <SlugFormSection 
                     handleChange={handleChange} 
                     validate={validate} 
                     setErrors={setErrors}
                     errors={errors} 
                     data={data} 
-                /> */}
+                />
 
                 <DescriptionFormSection 
                     handleChange={handleChange} 
+                    validate={validate} 
+                    errors={errors} 
+                    data={data} 
+                />
+                
+                <CategoryFormSection 
+                    setData={setData} 
+                    validate={validate} 
+                    errors={errors} 
+                    data={data} 
+                />
+
+                <LinkFormSection 
+                    handleChange={handleChange} 
+                    validate={validate} 
+                    errors={errors} 
+                    data={data} 
+                />
+
+                <FeesFormSection 
+                    setData={setData} 
                     validate={validate} 
                     errors={errors} 
                     data={data} 
@@ -181,6 +215,23 @@ export const CreateCollectionForm: FC<Props> = ({
                 <BlockchainFormSection 
                     data={data}
                     setData={setData}
+                />
+
+                <TokenFormSection 
+                    handleChange={handleChange} 
+                    validate={validate} 
+                    errors={errors} 
+                    data={data} 
+                    tokens={tokens} 
+                    setData={setData} 
+                />
+
+                {/* DisplayFormSection */}
+
+                <NsfwFormSectionItem
+                    data={data}
+                    setData={setData}
+                    bottomBorder={false}
                 />
 
                 <Box 

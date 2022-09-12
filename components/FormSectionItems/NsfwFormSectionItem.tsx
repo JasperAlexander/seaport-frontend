@@ -5,19 +5,23 @@ import { WarningIcon } from '../Icons/WarningIcon'
 import { FormToggle } from '../Toggles/FormToggle'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Text } from '../Text/Text'
+import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 
 interface Props {
-    data: CreateAssetFormType
+    data: CreateAssetFormType | CreateCollectionFormType
     setData: (e: any) => void
+    bottomBorder?: boolean
 }
 
 export const NsfwFormSectionItem: FC<Props> = ({
     data,
-    setData
+    setData,
+    bottomBorder = true
 }) => {
     return (
         <Box 
             className={styles.formSectionItem}
+            borderBottomWidth={bottomBorder ? '1' : '0'}
         >
             <Box
                 display='flex'
@@ -41,7 +45,7 @@ export const NsfwFormSectionItem: FC<Props> = ({
                             as='span' 
                             fontSize='15'
                         >
-                            Set this item as explicit and sensitive content
+                            Set as explicit and sensitive content
                         </Text>
                     </Box>
                 </Box>
