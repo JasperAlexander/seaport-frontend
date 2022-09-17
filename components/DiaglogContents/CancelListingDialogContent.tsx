@@ -1,20 +1,22 @@
 import { Dispatch, FC, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import * as styles from './DialogContent.css'
-import { AssetType } from '../../types/assetTypes'
+import { AssetReadType } from '../../types/assetTypes'
 import useSeaport from '../../hooks/useSeaport'
 import { OrderType } from '../../types/orderTypes'
 import { Text } from '../Text/Text'
 import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
 import { DialogContentFooter } from '../Footers/DialogContentFooter/DialogContentFooter'
+import { useAccount } from 'wagmi'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
-    asset?: AssetType
-    order?: OrderType | AssetType
+    asset?: AssetReadType
+    order?: OrderType
 }
 
 export const CancelListingDialogContent: FC<Props> = ({
@@ -23,7 +25,9 @@ export const CancelListingDialogContent: FC<Props> = ({
     asset,
     order
 }) => {
+    const { t } = useTranslation('common')
     const { cancelOrder } = useSeaport()
+    const { address } = useAccount()
 
     return (
         <Dialog.Content asChild={true}>
@@ -40,7 +44,7 @@ export const CancelListingDialogContent: FC<Props> = ({
                     <DialogContentHeader
                         setOpen={setOpen}
                     >
-                        Cancel your listing
+                        {t('cancelListing')}
                     </DialogContentHeader>
 
                     <Box
@@ -53,7 +57,7 @@ export const CancelListingDialogContent: FC<Props> = ({
                             padding='24'
                         >
                             <Text>
-                                This will cancel your listing. You will also be asked to confirm this cancelation from your wallet.
+                                {t('cancelListingDescription')}
                             </Text>
                         </Box>
                     </Box>
@@ -64,14 +68,16 @@ export const CancelListingDialogContent: FC<Props> = ({
                             onClick={() => setOpen(false)}
                             width='full'
                         >
-                            Go back
+                            {t('goBack')}
                         </MainButton>
-                        <MainButton
-                            width='full'
-                            onClick={() => cancelOrder()}
-                        >
-                            Continue
-                        </MainButton>
+                        {order && address && asset &&
+                            <MainButton
+                                width='full'
+                                onClick={() => cancelOrder(order, address, asset)}
+                            >
+                                {t('continue')}
+                            </MainButton>
+                        }
                     </DialogContentFooter>
                 </Box>
             </Box>

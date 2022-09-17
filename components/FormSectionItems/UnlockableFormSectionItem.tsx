@@ -6,12 +6,18 @@ import { Textarea } from '../Textarea/Textarea'
 import { FormToggle } from '../Toggles/FormToggle'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
-    handleChange: <S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
-    errors: Partial<Record<keyof CreateAssetFormType, string>>
+    handleChange: 
+        (<S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) |
+        (<S extends unknown>(key: keyof EditAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void)
+    errors: 
+        Partial<Record<keyof CreateAssetFormType, string>> |
+        Partial<Record<keyof EditAssetFormType, string>>
     validate: () => void
-    data: CreateAssetFormType
+    data: CreateAssetFormType | EditAssetFormType
     bottomBorder?: boolean
 }
 
@@ -22,6 +28,8 @@ export const UnlockableFormSectionItem: FC<Props> = ({
     data,
     bottomBorder = true
 }) => {
+    const { t } = useTranslation('common')
+
     const [unlockableActive, setUnlockableActive] = useState<boolean>(false)
 
     return (
@@ -46,13 +54,13 @@ export const UnlockableFormSectionItem: FC<Props> = ({
                             fontWeight='600' 
                             display='block'
                         >
-                            Unlockable Content
+                            {t('unlockableContent')}
                         </Text>
                         <Text 
                             as='span' 
                             fontSize='15'
                         >
-                            Include unlockable content that can only be revealed by the owner of the item.
+                            {t('unlockableContentFieldDescription')}
                         </Text>
                     </Box>
                 </Box>
@@ -90,13 +98,13 @@ export const UnlockableFormSectionItem: FC<Props> = ({
                                 color='accentColor'
                                 fontSize='15'
                             >
-                                Markdown
+                                {t('markdown')}
                             </Text> 
                         </Box>
                         <Text
                             fontSize='15'
                         >
-                            syntax is supported.
+                            {t('syntaxIsSupported')}
                         </Text>
                     </Box>
                 </Box>

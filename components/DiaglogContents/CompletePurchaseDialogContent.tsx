@@ -1,27 +1,36 @@
-import { Dispatch, FC, SetStateAction } from 'react'
+import { Dispatch, FC, SetStateAction, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import * as styles from './DialogContent.css'
 import useSeaport from '../../hooks/useSeaport'
-import { AssetType } from '../../types/assetTypes'
+import { AssetReadType } from '../../types/assetTypes'
 import { Text } from '../Text/Text'
 import { NextLink } from '../NextLink/NextLink'
 import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
 import { DialogContentFooter } from '../Footers/DialogContentFooter/DialogContentFooter'
+import { OrderType } from '../../types/orderTypes'
+import { useAccount } from 'wagmi'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
-    data: AssetType
+    asset: AssetReadType
+    order: OrderType
 }
 
 export const CompletePurchaseDialogContent: FC<Props> = ({
     open,
     setOpen,
-    data
+    asset,
+    order
 }) => {
+    const { t } = useTranslation('common')
     const { fulfillOrder } = useSeaport()
+    const { address } = useAccount()
+
+    const [loadingStatus, setLoadingStatus] = useState<boolean>(false)
 
     return (
         <Dialog.Content asChild={true}>
@@ -38,7 +47,7 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                     <DialogContentHeader
                         setOpen={setOpen}
                     >
-                        Complete checkout
+                        {t('completePurchase')}
                     </DialogContentHeader>
 
                     <Box
@@ -67,13 +76,13 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                     as='span'
                                     fontWeight='600'
                                 >
-                                    Item
+                                    {t('item')}
                                 </Text>
                                 <Text 
                                     as='span'
                                     fontWeight='600'
                                 >
-                                    Total
+                                    {t('total')}
                                 </Text>
                             </Box>
                                 <Box
@@ -89,7 +98,7 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                 >
                                     <Box 
                                         as='img'
-                                        src={data.image_url}
+                                        src={asset.image_url}
                                         width='80'
                                         aspectRatio='square'
                                     />
@@ -99,27 +108,27 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                                         flexDirection='column'
                                     >
                                         <NextLink 
-                                            href={`/collection/${data.collection?.slug}`}
+                                            href={`/collection/${asset.collection?.slug}`}
                                         >
                                                 <Text
                                                     color='accentColor'
                                                     fontSize='14'
                                                 >
-                                                    {data.collection?.name}
+                                                    {asset.collection?.name}
                                                 </Text>
                                         </NextLink>
                                         <Text
                                             as='span'
                                             fontWeight='600'
                                         >
-                                            {data.name}
+                                            {asset.name}
                                         </Text>
                                         <Text
                                             as='span'
                                             color='boxText'
                                             fontSize='14'
                                         >
-                                            Creator Fees: ..%
+                                            {t('creatorFees')}: ..%
                                         </Text>
                                     </Box>
                                     <Box
@@ -153,8 +162,21 @@ export const CompletePurchaseDialogContent: FC<Props> = ({
                     <DialogContentFooter>
                         <MainButton
                             width='full'
+                            onClick={async() => {
+                                if (address) {
+                                    try {
+                                        setLoadingStatus(true)
+                                        await fulfillOrder(order, address, asset)
+                                    } catch (error) {
+                                        console.log(error)
+                                    } finally {
+                                        setLoadingStatus(false)
+                                    }
+                                }
+                            }}
+                            disabled={loadingStatus}
                         >
-                            Complete purchase
+                            {t('completePurchase')}
                         </MainButton>
                     </DialogContentFooter>
                 </Box>

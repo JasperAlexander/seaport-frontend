@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import Select from 'react-select'
 import { toggleOnItem } from '../../utils/changeRouter'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     mutateData?: any
@@ -12,13 +13,15 @@ interface Props {
 export const SortSelect: FC<Props> = ({
     mutateData
 }) => {
+    const { t } = useTranslation('common')
+
     const sortSet = [
-        { value: 'createdlast', label: 'Recently created' },
-        { value: 'listedlast', label: 'Recently listed' },
-        { value: 'soldlast', label: 'Recently sold' },
-        { value: 'ending', label: 'Ending soon' },
-        { value: 'priceup', label: 'Price low to high' },
-        { value: 'pricedown', label: 'Price high to low' },
+        { value: 'createdlast', label: t('recentlyCreated') },
+        { value: 'listedlast', label: t('recentlyListed') },
+        { value: 'soldlast', label: t('recentlySold') },
+        { value: 'ending', label: t('endingSoon') },
+        { value: 'priceup', label: t('priceLowToHigh') },
+        { value: 'pricedown', label: t('priceHighToLow') },
     ]
 
     const router = useRouter()
@@ -99,7 +102,7 @@ export const SortSelect: FC<Props> = ({
         <Select
             key='method'
             name='method'
-            placeholder='Sort by'
+            placeholder={t('sortBy')}
             defaultValue={selectedOption}
             onChange={(e) => { 
                 mutateData()

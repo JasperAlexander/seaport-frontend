@@ -2,19 +2,17 @@ import { FC, useEffect, useState } from 'react'
 import { useForm } from '../../hooks/useForm'
 import { Box } from '../Box/Box'
 import { SWRResponse } from 'swr'
-import { AssetType } from '../../types/assetTypes'
+import { AssetReadType } from '../../types/assetTypes'
 import { CompleteListingDialogTrigger } from '../DialogTriggers/CompleteListingDialogTrigger'
 import { ListingTypeFormSection } from '../FormSections/ListingTypeFormSection'
 import { ListingPriceFormSection } from '../FormSections/ListingPriceFormSection'
 import { ListingDurationFormSection } from '../FormSections/ListingDurationFormSection'
 import { ListingReserveFormSection } from '../FormSections/ListingReserveFormSection'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import useSeaport from '../../hooks/useSeaport'
 import { ethers } from 'ethers'
 import { useAccount, useConnect, useContractRead, useNetwork, useSigner, useSwitchNetwork } from 'wagmi'
 import useMounted from '../../hooks/useMounted'
-import contractAddresses from '../../utils/contractAddresses.json'
-import TestERC721 from '../../artifacts/contracts/test/TestERC721.sol/TestERC721.json'
 import { mintERC721 } from '../../utils/minting'
 import { useRouter } from 'next/router'
 import useUsers from '../../hooks/useUsers'
@@ -22,10 +20,13 @@ import { TokensStateType } from '../../types/tokenTypes'
 import { ListingMethodFormSection } from '../FormSections/ListingMethodFormSection'
 import { Text } from '../Text/Text'
 import useUser from '../../hooks/useUser'
+import useTranslation from 'next-translate/useTranslation'
+
+const SUPPORTED_CHAIN_IDS = process.env.NEXT_PUBLIC_SUPPORTED_CHAIN_IDS
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface ListAssetFormType {
-    asset: AssetType
+    asset: AssetReadType
     signer: ethers.Signer
     token_id: string
     owner: string
@@ -41,7 +42,7 @@ export interface ListAssetFormType {
 }
 
 interface Props {
-    asset: SWRResponse<AssetType, any> | undefined
+    asset: SWRResponse<AssetReadType, any> | undefined
     tokens: TokensStateType
 }
 
@@ -49,8 +50,9 @@ export const ListAssetForm: FC<Props> = ({
     asset,
     tokens: { tokens }
 }) => {
+    const { t } = useTranslation('common')
     const [completeListingDialogOpen, setCompleteListingDialogOpen] = useState<boolean>(false)
-    const { listingStatus, createOrder } = useSeaport()
+    const { createOrder } = useSeaport()
     const router = useRouter()
     const { isConnected, address } = useAccount()
     const { connect } = useConnect()
@@ -66,39 +68,49 @@ export const ListAssetForm: FC<Props> = ({
     //     args: asset?.data?.token_id
     // })
     const { mounted } = useMounted()
+    const [listingStatus, setListingStatus] = useState<number>(0)
+    const [loadingStatus, setLoadingStatus] = useState<boolean>(false)
 
-    const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<ListAssetFormType>({
+    const { handleSubmit, setData, setErrors, validate, handleChange, data: formData, errors, } = useForm<ListAssetFormType>({
         validations: {
             startAmount: {
                 pattern: {
                     value: '^[0-9.]*$',
-                    message: 'Price must be a number.'
+                    message: `${t('fieldMustBeA', { fieldName: 'Price', fieldType: 'number' })}`
                 },
                 required: {
                     value: true,
-                    message: 'This field is required.'
+                    message: `${t('fieldRequired')}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 6 : true,
-                    message: 'Price must not exceed 5 numbers.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Price', amount: '5' })}`
                 }
             },
-            endAmount: {
-                pattern: {
-                    value: '^[0-9.]*$',
-                    message: 'Price must be a number.'
-                },
+            // endAmount: {
+            //     pattern: {
+            //         value: '^[0-9.]*$',
+            //         message: 'Price must be a number.'
+            //     },
+            //     required: {
+            //         value: true,
+            //         message: `${t('fieldRequired')}`
+            //     },
+            //     custom: {
+            //         isValid: (value) => value?.length ? value.length < 6 : true,
+            //         message: 'Price must not exceed 5 numbers.'
+            //     }
+            // }
+            listing_type: {
                 required: {
                     value: true,
-                    message: 'This field is required.'
-                },
-                custom: {
-                    isValid: (value) => value?.length ? value.length < 6 : true,
-                    message: 'Price must not exceed 5 numbers.'
+                    message: `${t('fieldRequired')}`
                 }
             }
         },
-        onSubmit: () => { return null },
+        onSubmit: () => {
+            return null
+        },
         initialValues: {
             asset: asset?.data,
             signer: mounted && signer ? signer : undefined,
@@ -106,24 +118,13 @@ export const ListAssetForm: FC<Props> = ({
             method: 'english',
             // address of selected payment token, current is address of TestERC20
             payment_token: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
-            startAmount: '1',
-            endAmount: '1',
-            duration: '',
+            startAmount: '',
+            endAmount: '',
+            duration: '86400',
             from_account: address, // '1', // user?.data?.id?.toString(),
             to_account: undefined
         },
     })
-
-    // useEffect(() => {
-    //     if (!data?.from_account && user?.data?.id) {
-    //         setData({
-    //             ...data,
-    //             // @ts-ignore
-    //             from_account: user?.data?.id.toString()
-    //         })
-    //         console.log('id set')
-    //     }
-    // })
 
     return (
         <Box
@@ -141,7 +142,7 @@ export const ListAssetForm: FC<Props> = ({
                     fontSize='40' 
                     fontWeight='600'
                 >
-                    List asset for sale
+                    {t('listAssetForSale')}
                 </Text>
             </Box>
             <Box
@@ -166,7 +167,7 @@ export const ListAssetForm: FC<Props> = ({
                         as='span'
                         fontSize='12'
                     >
-                        Required fields
+                        {t('requiredFields')}
                     </Text>
                 </Box>
 
@@ -174,15 +175,15 @@ export const ListAssetForm: FC<Props> = ({
                     handleChange={handleChange}
                     validate={validate}
                     errors={errors}
-                    data={data}
+                    data={formData}
                     setData={setData}
                 />
-                {data.listing_type === 'timed' &&
+                {formData.listing_type === 'timed' &&
                     <ListingMethodFormSection 
                         handleChange={handleChange}
                         validate={validate}
                         errors={errors}
-                        data={data}
+                        data={formData}
                         setData={setData}
                     />
                 }
@@ -190,24 +191,24 @@ export const ListAssetForm: FC<Props> = ({
                     handleChange={handleChange}
                     validate={validate}
                     errors={errors}
-                    data={data}
+                    data={formData}
                     tokens={tokens}
                     setData={setData}
-                    label={data.listing_type === 'timed' ? 'Starting price' : 'Price'}
+                    label={formData.listing_type === 'timed' ? 'Starting price' : 'Price'}
                 />
                 <ListingDurationFormSection
                     handleChange={handleChange}
                     validate={validate}
                     errors={errors}
-                    data={data}
+                    data={formData}
                     setData={setData}
                 />
-                {data.listing_type === 'timed' && data.method === 'dutch' &&
+                {formData.listing_type === 'timed' && formData.method === 'dutch' &&
                     <ListingPriceFormSection
                         handleChange={handleChange}
                         validate={validate}
                         errors={errors}
-                        data={data}
+                        data={formData}
                         tokens={tokens}
                         setData={setData}
                         label='Ending price'
@@ -241,7 +242,7 @@ export const ListAssetForm: FC<Props> = ({
                         <Text
                             fontWeight='600'
                         >
-                            Fees
+                            {t('fees')}
                         </Text>
                     </Box>
                     <Box
@@ -254,7 +255,7 @@ export const ListAssetForm: FC<Props> = ({
                             fontSize='14'
                             fontWeight='500'
                         >
-                            Service Fee
+                            {t('serviceFee')}
                         </Text>
                         <Text
                             color='boxText'
@@ -278,7 +279,11 @@ export const ListAssetForm: FC<Props> = ({
                 <CompleteListingDialogTrigger
                     open={completeListingDialogOpen}
                     setOpen={setCompleteListingDialogOpen}
-                    data={data}
+                    formData={formData}
+                    listingStatus={listingStatus}
+                    setListingStatus={setListingStatus}
+                    loadingStatus={loadingStatus}
+                    setLoadingStatus={setLoadingStatus}
                 >
                     <MainButton
                         onClick={async() => { 
@@ -289,20 +294,37 @@ export const ListAssetForm: FC<Props> = ({
                                 if (!isConnected) {
                                     connect()
                                 }
-                                if (activeChain?.id !== 1337) {
-                                    switchNetwork?.(1337)
+                                if (
+                                    SUPPORTED_CHAIN_IDS && 
+                                    activeChain?.id && 
+                                    !JSON.parse(SUPPORTED_CHAIN_IDS).includes(activeChain.id)
+                                ) {
+                                    switchNetwork?.(JSON.parse(SUPPORTED_CHAIN_IDS)[0])
                                 }
-                                if (isConnected && signer && address && activeChain?.id === 1337) {
+                                if (
+                                    isConnected && 
+                                    signer && 
+                                    address && 
+                                    activeChain?.id && 
+                                    SUPPORTED_CHAIN_IDS &&
+                                    JSON.parse(SUPPORTED_CHAIN_IDS).includes(activeChain.id)
+                                ) {
                                     // await mintERC721(signer, address, asset?.data?.token_id)
-                                    await createOrder(data)
+                                    await createOrder(formData, listingStatus, setListingStatus, setLoadingStatus)
                                 }
                             } catch (error) {
                                 console.log(error)
                             }
                         }}
-                        // disabled={Object.keys(errors).length > 0 || listingStatus > 0}
+                        disabled={
+                            formData.method === '' ||
+                            formData.startAmount === '' ||
+                            Object.keys(errors).length > 0 || 
+                            loadingStatus
+                            // || listingStatus > 0}
+                        }
                     >
-                        Complete listing
+                        {t('completeListing')}
                     </MainButton>
                 </CompleteListingDialogTrigger>
             </Box>

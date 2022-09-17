@@ -5,6 +5,7 @@ import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { Text } from '../Text/Text'
 import { Input } from '../Input/Input'
 import { DeleteOutlinedIcon } from '../Icons/DeleteOutlinedIcon'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     setData: (e: any) => void
@@ -20,6 +21,8 @@ export const FeesFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     const [inputs, setInputs] = useState<JSX.Element[]>([])
 
     return (
@@ -29,7 +32,7 @@ export const FeesFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    Creator earnings
+                    {t('creatorEarnings')}
                 </Text>
                 <Box
                     marginTop='4'
@@ -39,7 +42,7 @@ export const FeesFormSection: FC<Props> = ({
                         fontSize='12'
                         color='boxText'
                     >
-                        Earn a percentage of the sale price every time one of your items is sold. Adding multiple addresses may increase gas fees for buyers.
+                        {t('creatorEarningsFieldDescription')}
                     </Text>
                 </Box>
             </Box>
@@ -79,7 +82,7 @@ export const FeesFormSection: FC<Props> = ({
                                         <Input 
                                             type='text'
                                             name='payment_tokens'
-                                            placeholder='Please enter an address or ENS name'
+                                            placeholder={t('fieldAddressOrEns')}
                                             value={data.payment_tokens || ''}
                                             onChange={() => { return null }}// handleChange('discord_link')}
                                             onBlur={() => validate()}
@@ -143,7 +146,7 @@ export const FeesFormSection: FC<Props> = ({
                             as='span'
                             fontWeight='600'
                         >
-                            Add address
+                            {t('addAddress')}
                         </Text>
                     </Box>
                 </Box>

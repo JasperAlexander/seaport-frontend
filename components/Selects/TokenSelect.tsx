@@ -8,6 +8,7 @@ import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
 import { MakeOfferFormType } from '../Forms/MakeOfferForm'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     mappedTokens: TokenType[]
@@ -20,6 +21,8 @@ export const TokenSelect: FC<Props> = ({
     data,
     setData
 }) => {
+    const { t } = useTranslation('common')
+
     const tokenSet = mappedTokens?.map((t) => ({
         ['value']: t.address, 
         ['label']: t.symbol,
@@ -128,7 +131,7 @@ export const TokenSelect: FC<Props> = ({
         <Select
             key='payment_token'
             name='payment_token'
-            placeholder='Select token'
+            placeholder={t('selectField', { fieldName: 'token' })}
             defaultValue={selectedOption}
             onChange={(e) => { 
                 setData({
@@ -142,7 +145,7 @@ export const TokenSelect: FC<Props> = ({
             // @ts-ignore
             options={tokenSet}
             components={{Option: TokenOption}} // To do: add selected token image url to control (component)
-            noOptionsMessage={() => 'No tokens found'}
+            noOptionsMessage={() => t('noItemsFound', { fieldName: 'tokens'})}
             styles={customStyles}
         />
     )

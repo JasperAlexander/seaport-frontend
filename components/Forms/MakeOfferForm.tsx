@@ -4,6 +4,7 @@ import { Box } from '../Box/Box'
 import { TokensStateType } from '../../types/tokenTypes'
 import { OfferAmountFormSection } from '../FormSections/OfferAmountFormSection'
 import { OfferExpirationFormSection } from '../FormSections/OfferExpirationFormSection'
+import useTranslation from 'next-translate/useTranslation'
 
 // To do: find out why this cannot be moved to offerTypes.ts
 export interface MakeOfferFormType {
@@ -20,21 +21,22 @@ export const MakeOfferForm: FC<Props> = ({
 }) => {
     const [wethValue, setWethValue] = useState<string>('1.4') // Should be derived from user
 
+    const { t } = useTranslation('common')
     const { handleSubmit, validate, handleChange, data, setData, errors, } = useForm<MakeOfferFormType>({
         validations: {
             offer_amount: {
                 pattern: {
                 value: '^[0-9.]*$',
                 message:
-                    "Amount must only contain numbers.",
+                    `${t('fieldMustBeA', { fieldName: 'Amount', fieldType: 'number' })}`
                 },
                 required: {
                     value: true,
-                    message: 'This field is required.'
+                    message: `${t('fieldRequired')}`
                 },
                 custom: {
                     isValid: (value) => isNaN(parseInt(value)) ? true : Number(value) >= Number(wethValue),
-                    message: `You don't have enough WETH.` // Based on selected payment token
+                    message: `${t('notEnough', { fieldName: 'WETH' })}` // Based on selected payment token
                 }
             },
             // offer_expiration: {

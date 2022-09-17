@@ -12,11 +12,14 @@ import { WalletSideDialogTrigger } from '../DialogTriggers/WalletSideDialogTrigg
 import { WalletOutlinedIcon } from '../Icons/WalletOutlinedIcon'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { MenuIcon } from '../Icons/MenuIcon'
+import useTranslation from 'next-translate/useTranslation'
 
 export const BodyHeaderNavBar: FC = () => {
+    const { t } = useTranslation('common')
+    const { data: session } = useSession()
+
     const [menuSideDialogOpen, setMenuSideDialogOpen] = useState<boolean>(false)
     const [walletSideDialogOpen, setWalletSideDialogOpen] = useState<boolean>(false)
-    const { data: session } = useSession()
 
     return (
         <Box 
@@ -35,7 +38,7 @@ export const BodyHeaderNavBar: FC = () => {
                         fontWeight='600'
                         hoverColor='black'
                     >
-                        Explore
+                        {t('explore')}
                     </Text>
                     </NextLink>
                 </ExploreDropdownTrigger>
@@ -48,7 +51,7 @@ export const BodyHeaderNavBar: FC = () => {
                         fontWeight='600'
                         hoverColor='black'
                     >
-                        Faucet
+                        {t('faucet')}
                     </Text>
                 </NextLink>
 
@@ -60,7 +63,7 @@ export const BodyHeaderNavBar: FC = () => {
                         fontWeight='600'
                         hoverColor='black'
                     >
-                        Create
+                        {t('create')}
                     </Text>
                 </NextLink>
 

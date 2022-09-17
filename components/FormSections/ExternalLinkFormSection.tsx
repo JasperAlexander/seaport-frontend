@@ -6,6 +6,7 @@ import { Input } from '../Input/Input'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Text } from '../Text/Text'
 import { EditAssetFormType } from '../Forms/EditAssetForm'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: 
@@ -28,6 +29,8 @@ export const ExternalLinkFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
@@ -35,7 +38,7 @@ export const ExternalLinkFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    External link
+                    {t('externalLink')}
                 </Text>
                 <Box
                     marginTop='4'
@@ -45,7 +48,7 @@ export const ExternalLinkFormSection: FC<Props> = ({
                         fontSize='12'
                         color='boxText'
                     >
-                        OpenFish will include a link to this URL on this item's detail page, so that users can click to learn more about it. You are welcome to link to your own webpage with more details.
+                        {t('externalLinkFieldDescription')}
                     </Text>
                 </Box>
             </Box>

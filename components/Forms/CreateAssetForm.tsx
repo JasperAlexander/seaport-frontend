@@ -10,19 +10,28 @@ import { CollectionFormSection } from '../FormSections/CollectionFormSection'
 import { SupplyFormSection } from '../FormSections/SupplyFormSection'
 import { BlockchainFormSection } from '../FormSections/BlockchainFormSection'
 import { SpecialsFormSection } from '../FormSections/SpecialsFormSection'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
+import useApi from '../../hooks/useApi'
+import { useAccount } from 'wagmi'
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface CreateAssetFormType {
-    image_url: string
     name: string
-    external_link: string
     description: string
-    collection: number
+    image_url: string
+    external_link: string
+    asset_contract: string
+    collection: string
+    owner: string
+    creator: string
+    transfer_fee: string
+    transfer_fee_payment_token: string
+    is_nsfw: boolean
+
     unlockable: string
     supply: number
-    is_nsfw: boolean
 }
 
 interface Props {
@@ -32,6 +41,10 @@ interface Props {
 export const CreateAssetForm: FC<Props> = ({
     collections: { collections }
 }) => {
+    const { t } = useTranslation('common')
+    const { saveAsset } = useApi()
+    const { address } = useAccount()
+
     const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<CreateAssetFormType>({
         validations: {
             // image_url: {
@@ -47,72 +60,94 @@ export const CreateAssetForm: FC<Props> = ({
             name: {
                 pattern: {
                     value: '^[A-Za-z0-9]*$',
-                    message: 'Name must only contain alphanumeric characters.'
+                    message: `${t('fieldOnlyAlphanumeric', { fieldName: 'Name' })}`
                 },
                 required: {
                     value: true,
-                    message: 'This field is required.'
+                    message: `${t('fieldRequired')}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 20 : true,
-                    message: 'Name must not exceed 20 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Name', amount: '20' })}`
                 }
             },
             external_link: {
                 pattern: {
                     value: '/^[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/',
-                    message: 'External link must be a link.'
+                    message: `${t('fieldMustBeA', { fieldName: 'External link', fieldType: 'link' })}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 50 : true,
-                    message: 'External link must not exceed 50 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'External link', amount: '50' })}`
                 }
             },
             description: {
                 pattern: {
                     value: '^[A-Za-z0-9 ]*$',
-                    message: 'Description must only contain alphanumeric characters.'
+                    message: `${t('fieldOnlyAlphanumeric', { fieldName: 'Description' })}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 2000 : true,
-                    message: 'Description must not exceed 2000 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Description', amount: '200' })}`
                 }
             },
             collection: {
                 pattern: {
                     value: '^[A-Za-z0-9 ]*$',
-                    message: 'Collection name must only contain alphanumeric characters.'
+                    message: `${t('fieldOnlyAlphanumeric', { fieldName: 'Collection name' })}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 2000 : true,
-                    message: 'Collection name must not exceed 50 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Collection name', amount: '50' })}`
                 }
             },
             supply: {
                 pattern: {
                     value: '^[0-9]*$',
-                    message: 'Supply must be a number.'
+                    message: `${t('fieldMustBeA', { fieldName: 'Supply', fieldType: 'number' })}`
                 },
                 required: {
                     value: true,
-                    message: 'This field is required.'
+                    message: `${t('fieldRequired')}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 6 : true,
-                    message: 'Supply must not exceed 5 numbers.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Supply', amount: '5' })}`
                 }
             },
         },
-        onSubmit: () => { alert('Asset submitted!'); console.log(data); }, // Open modal
+        onSubmit: () => { 
+            saveAsset({
+                token_id: '1', // tokenid
+                name: data.name,
+                description: data.description,
+                image_url: data.image_url,
+                external_link: data.external_link,
+                asset_contract: data.asset_contract,
+                collection: data.collection,
+                owner: data.owner,
+                creator: data.creator,
+                transfer_fee: data.transfer_fee,
+                transfer_fee_payment_token: data.transfer_fee_payment_token,
+                is_nsfw: data.is_nsfw
+            })
+            console.log(data)
+        }, // Open modal
         initialValues: {
-            image_url: 'https://www.gaiazoo.nl/CropUp/800x600/media/1986228/giraffe-afb-website.jpg',
             name: '',
-            external_link: '',
             description: '',
-            collection: 0,
+            image_url: 'https://www.gaiazoo.nl/CropUp/800x600/media/1986228/giraffe-afb-website.jpg',
+            external_link: '',
+            asset_contract: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0', // To do: should be based on blockchain, currently address of HardHat ERC721
+            collection: 'blue', // To do: currently slug of collection
+            owner: address,
+            creator: address,
+            transfer_fee: '0',
+            transfer_fee_payment_token: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0', // To do
+            is_nsfw: false,
+
             unlockable: '',
-            supply: 1,
-            is_nsfw: false
+            supply: 1
         },
     })
 
@@ -134,7 +169,7 @@ export const CreateAssetForm: FC<Props> = ({
                         fontSize='40'  
                         fontWeight='600'
                     >
-                        Create new asset
+                        {t('createNewAsset')}
                     </Text>
                 </Box>
             </Box>
@@ -160,14 +195,14 @@ export const CreateAssetForm: FC<Props> = ({
                         as='span'
                         fontSize='12'
                     >
-                        Required fields
+                        {t('requiredFields')}
                     </Text>
                 </Box>
 
                 <ImageFormSection />
                 
                 <NameFormSection 
-                    placeholder='Asset name'
+                    placeholder={t('assetName')}
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 
@@ -183,7 +218,7 @@ export const CreateAssetForm: FC<Props> = ({
                 />
 
                 <DescriptionFormSection 
-                    label={`The description will be included on the item's detail page underneath its image.`}
+                    label={t('descriptionFieldDescription')}
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 
@@ -228,9 +263,11 @@ export const CreateAssetForm: FC<Props> = ({
                 />
 
                 <MainButton
+                    type='submit'
                     disabled={Object.keys(errors).length > 0}
+                    onClick={() => console.log(errors)}
                 >
-                    Create
+                    {t('create')}
                 </MainButton>
             </Box>
         </Box>

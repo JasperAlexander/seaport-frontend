@@ -49,6 +49,11 @@ export interface OrderParametersType {
 }
 
 export interface OrderType {
+    id?: number
+    listing_time: string
+    expiration_time: string
+    cancelled: boolean
+    finalized: boolean
     parameters: OrderParametersType
     signature: string
 }

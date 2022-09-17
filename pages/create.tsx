@@ -11,8 +11,11 @@ import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTag
 // import { create } from 'ipfs-http-client'
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from './api/auth/[...nextauth]'
+import useTranslation from 'next-translate/useTranslation'
 
 const CreateAssetPage: NextPage = () => {
+    const { t } = useTranslation('common')
+
     const router = useRouter()
     const collections = useCollections(router)
     // const { client } = useIpfs()
@@ -21,7 +24,7 @@ const CreateAssetPage: NextPage = () => {
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title='Create Asset | OpenFish'
+                title={`${t('createAsset')} | OpenFish`}
             />
 
             <Box 

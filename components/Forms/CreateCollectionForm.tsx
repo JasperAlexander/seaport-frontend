@@ -7,7 +7,7 @@ import { NameFormSection } from '../FormSections/NameFormSection'
 import { ExternalLinkFormSection } from '../FormSections/ExternalLinkFormSection'
 import { DescriptionFormSection } from '../FormSections/DescriptionFormSection'
 import { BlockchainFormSection } from '../FormSections/BlockchainFormSection'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import { TokensStateType } from '../../types/tokenTypes'
 import { Text } from '../Text/Text'
 import { LogoFormSection } from '../FormSections/LogoFormSection'
@@ -19,6 +19,7 @@ import { LinkFormSection } from '../FormSections/LinksFormSection'
 import { FeesFormSection } from '../FormSections/FeesFormSection'
 import { TokenFormSection } from '../FormSections/TokenFormSection'
 import { NsfwFormSectionItem } from '../FormSectionItems/NsfwFormSectionItem'
+import useTranslation from 'next-translate/useTranslation'
 
 // To do: find out why this cannot be moved to collectionTypes.ts
 export interface CreateCollectionFormType {
@@ -48,6 +49,8 @@ interface Props {
 export const CreateCollectionForm: FC<Props> = ({
     tokens: { tokens }
 }) => {
+    const { t } = useTranslation('common')
+
     const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<CreateCollectionFormType>({
         validations: {
             // image_url: {
@@ -63,35 +66,35 @@ export const CreateCollectionForm: FC<Props> = ({
             name: {
                 pattern: {
                     value: '^[A-Za-z0-9]*$',
-                    message: 'Name must only contain alphanumeric characters.'
+                    message: `${t('fieldOnlyAlphanumeric', { fieldName: 'Name' })}`
                 },
                 required: {
                     value: true,
-                    message: 'This field is required.'
+                    message: `${t('fieldRequired')}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 20 : true,
-                    message: 'Name must not exceed 20 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Name', amount: '20' })}`
                 }
             },
             external_link: {
                 pattern: {
                     value: '/^[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/',
-                    message: 'External link must be a link.'
+                    message: `${t('fieldMustBeA', { fieldName: 'External link', fieldType: 'link' })}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 50 : true,
-                    message: 'External link must not exceed 50 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'External link', amount: '50' })}`
                 }
             },
             description: {
                 pattern: {
                     value: '^[A-Za-z0-9 ]*$',
-                    message: 'Description must only contain alphanumeric characters.'
+                    message: `${t('fieldOnlyAlphanumeric', { fieldName: 'Description' })}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 2000 : true,
-                    message: 'Description must not exceed 2000 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Description', amount: '200' })}`
                 }
             }
         },
@@ -133,7 +136,7 @@ export const CreateCollectionForm: FC<Props> = ({
                     fontSize='40' 
                     fontWeight='600'
                 >
-                    Create new collection
+                    {t('createNewCollection')}
                 </Text>
             </Box>
             <Box
@@ -158,7 +161,7 @@ export const CreateCollectionForm: FC<Props> = ({
                         as='span'
                         fontSize='12'
                     >
-                        Required fields
+                        {t('requiredFields')}
                     </Text>
                 </Box>
 
@@ -169,7 +172,7 @@ export const CreateCollectionForm: FC<Props> = ({
                 <BannerFormSection />
                 
                 <NameFormSection 
-                    placeholder='Example: Treasures of the Sea'
+                    placeholder={t('nameFieldExample')}
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 
@@ -245,7 +248,7 @@ export const CreateCollectionForm: FC<Props> = ({
                 <MainButton
                     disabled={Object.keys(errors).length > 0}
                 >
-                    Create
+                    {t('create')}
                 </MainButton>
             </Box>
         </Box>

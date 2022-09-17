@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import { FlagIcon } from '../Icons/FlagIcon'
 import { Text } from '../Text/Text'
 import * as styles from './DropdownContent.css'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -11,6 +12,8 @@ interface Props {
 export const MoreDropdownContent: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box
             className={styles.profileDropdownContainer}
@@ -25,7 +28,7 @@ export const MoreDropdownContent: FC<Props> = ({
                     fontWeight='600'
                     fontSize='14'
                 >
-                    Report
+                    {t('report')}
                 </Text>
             </Box>
         </Box>

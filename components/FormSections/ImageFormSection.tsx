@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import { ImgIcon } from '../Icons/ImgIcon'
 import * as styles from './FormSection.css'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -11,6 +12,8 @@ interface Props {
 export const ImageFormSection: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
+
     const imageInputRef = useRef<any>(null)
     
     return (
@@ -24,7 +27,7 @@ export const ImageFormSection: FC<Props> = ({
                         as='label'
                         fontWeight='600'
                     >
-                        Image
+                        {t('image')}
                     </Text>
                     <Text 
                         as='span' 
@@ -40,7 +43,7 @@ export const ImageFormSection: FC<Props> = ({
                         as='span'
                         fontSize='12'
                     >
-                        File types supported: JPG, PNG. Max size: 100 MB
+                        {t('imgFieldDescription')}
                     </Text>
                 </Box>
             </Box>

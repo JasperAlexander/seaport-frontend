@@ -1,12 +1,13 @@
 import { Dispatch, FC, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import * as styles from './DialogContent.css'
 import { MakeOfferForm } from '../Forms/MakeOfferForm'
 import { TokensStateType } from '../../types/tokenTypes'
 import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
 import { DialogContentFooter } from '../Footers/DialogContentFooter/DialogContentFooter'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     open: boolean
@@ -19,6 +20,8 @@ export const MakeOfferDialogContent: FC<Props> = ({
     setOpen,
     tokens
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Dialog.Content 
             asChild={true}
@@ -36,7 +39,7 @@ export const MakeOfferDialogContent: FC<Props> = ({
                     <DialogContentHeader
                         setOpen={setOpen}
                     >
-                        Make an offer
+                        {t('makeAnOffer')}
                     </DialogContentHeader>
 
                     <Box
@@ -56,7 +59,7 @@ export const MakeOfferDialogContent: FC<Props> = ({
                             width='full'
                             // disabled={Object.keys(errors).length > 0}
                         >
-                            Make offer
+                            {t('makeOffer')}
                         </MainButton>
                     </DialogContentFooter>
                 </Box>

@@ -1,10 +1,10 @@
 /** @type import('hardhat/config').HardhatUserConfig */
 
-require("@nomiclabs/hardhat-waffle");
+require('@nomiclabs/hardhat-waffle')
 
 module.exports = {
   solidity: {
-    version: "0.8.13",
+    version: '0.8.13',
     settings: {
       optimizer: {
         enabled: true,
@@ -12,9 +12,10 @@ module.exports = {
       }
     }
   },
+  defaultNetwork: 'hardhat',
   networks: {
     hardhat: {
       chainId: 1337
     }
   }
-};
+}

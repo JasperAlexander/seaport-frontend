@@ -4,6 +4,7 @@ import * as styles from './FormSectionItem.css'
 import { ListIcon } from '../Icons/ListIcon'
 import { AddIcon } from '../Icons/AddIcon'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     bottomBorder?: boolean
@@ -12,6 +13,8 @@ interface Props {
 export const PropertiesFormSectionItem: FC<Props> = ({
     bottomBorder = true
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box 
             className={styles.formSectionItem}
@@ -33,13 +36,13 @@ export const PropertiesFormSectionItem: FC<Props> = ({
                             fontWeight='600' 
                             display='block'
                         >
-                            Properties
+                            {t('properties')}
                         </Text>
                         <Text 
                             as='span' 
                             fontSize='15'
                         >
-                            Textual traits that show up as rectangles
+                            {t('propertiesDescription')}
                         </Text>
                     </Box>
                 </Box>

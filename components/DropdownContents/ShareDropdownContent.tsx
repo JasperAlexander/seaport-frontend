@@ -6,6 +6,7 @@ import { TwitterIcon } from '../Icons/TwitterIcon'
 import { NextLink } from '../NextLink/NextLink'
 import { Text } from '../Text/Text'
 import * as styles from './DropdownContent.css'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -14,6 +15,7 @@ interface Props {
 export const ShareDropdownContent: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
     const { mounted } = useMounted()
     
     return (
@@ -34,7 +36,7 @@ export const ShareDropdownContent: FC<Props> = ({
                     fontWeight='600'
                     fontSize='14'
                 >
-                    Copy link
+                    {t('copyLink')}
                 </Text>
             </Box>
             <NextLink
@@ -51,7 +53,7 @@ export const ShareDropdownContent: FC<Props> = ({
                     fontWeight='600'
                     fontSize='14'
                 >
-                    Share on Twitter
+                    {t('shareOnTwitter')}
                 </Text>
             </NextLink>
         </Box>

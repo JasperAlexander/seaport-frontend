@@ -4,6 +4,7 @@ import { Box } from '../Box/Box'
 import { LogoutIcon } from '../Icons/LogoutIcon'
 import { Text } from '../Text/Text'
 import * as styles from './DropdownContent.css'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -12,6 +13,8 @@ interface Props {
 export const WalletDropdownContent: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box
             className={styles.profileDropdownContainer}
@@ -27,7 +30,7 @@ export const WalletDropdownContent: FC<Props> = ({
                     fontWeight='600'
                     fontSize='14'
                 >
-                    Log out
+                    {t('logOut')}
                 </Text>
             </Box>
         </Box>

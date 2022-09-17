@@ -3,6 +3,7 @@
 import { FC, useState } from 'react'
 import Select from 'react-select'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     data: ListAssetFormType
@@ -13,10 +14,12 @@ export const ListingMethodSelect: FC<Props> = ({
     data,
     setData
 }) => {
-    const [selectedOption, setSelectedOption] = useState<any>({ value: 'english', label: 'Sell to highest bidder' })
+    const { t } = useTranslation('common')
+
+    const [selectedOption, setSelectedOption] = useState<any>({ value: 'english', label: t('sellToHighestBidder') })
     const methodSet = [
-        { value: 'english', label: 'Sell to highest bidder' },
-        { value: 'dutch', label: 'Sell with declining price' }
+        { value: 'english', label: t('sellToHighestBidder') },
+        { value: 'dutch', label: t('sellWithDecliningPrice') }
     ]
 
     const customStyles = {
@@ -84,7 +87,7 @@ export const ListingMethodSelect: FC<Props> = ({
         <Select
             key='method'
             name='method'
-            placeholder='Select method'
+            placeholder={t('selectField', { fieldName: 'method' })}
             defaultValue={selectedOption}
             onChange={(e) => { 
                 setData({

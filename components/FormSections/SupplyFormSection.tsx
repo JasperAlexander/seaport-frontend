@@ -5,12 +5,18 @@ import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Input } from '../Input/Input'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
-    handleChange: <S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
+    handleChange: 
+        (<S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) |
+        (<S extends unknown>(key: keyof EditAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void)
     validate: () => void
-    errors: Partial<Record<keyof CreateAssetFormType, string>>
-    data: CreateAssetFormType
+    errors: 
+        Partial<Record<keyof CreateAssetFormType, string>> |
+        Partial<Record<keyof EditAssetFormType, string>>
+    data: CreateAssetFormType | EditAssetFormType
 }
 
 export const SupplyFormSection: FC<Props> = ({
@@ -19,6 +25,8 @@ export const SupplyFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
@@ -26,7 +34,7 @@ export const SupplyFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    Supply
+                    {t('supply')}
                 </Text>
                 <Box
                     marginTop='4'
@@ -36,7 +44,7 @@ export const SupplyFormSection: FC<Props> = ({
                         fontSize='12'
                         color='boxText'
                     >
-                        The number of items that can be minted. No gas cost to you!
+                        {t('supplyFieldDescription')}
                     </Text>
                 </Box>
             </Box>

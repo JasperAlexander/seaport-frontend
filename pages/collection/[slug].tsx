@@ -7,6 +7,7 @@ import useMounted from '../../hooks/useMounted'
 import { Box } from '../../components/Box/Box'
 import { Text } from '../../components/Text/Text'
 import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
+import useTranslation from 'next-translate/useTranslation'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
@@ -16,6 +17,7 @@ const CollectionPage: NextPage<Props> = ({
     fallbackCollection,
     slug
 }) => {
+    const { t } = useTranslation('common')
     const collection = useCollection(fallbackCollection, slug)
     const { mounted } = useMounted()
     
@@ -31,7 +33,7 @@ const CollectionPage: NextPage<Props> = ({
                 <Text
                     as='h1'
                 >
-                    Page of collection {mounted && collection?.data?.name}
+                    {t('pageOfCollection')} {mounted && collection?.data?.name}
                 </Text>
             </Box>
         </Fragment>

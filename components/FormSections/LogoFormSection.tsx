@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import { ImgIcon } from '../Icons/ImgIcon'
 import * as styles from './FormSection.css'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -11,6 +12,8 @@ interface Props {
 export const LogoFormSection: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
+
     const imageInputRef = useRef<any>(null)
     
     return (
@@ -24,7 +27,7 @@ export const LogoFormSection: FC<Props> = ({
                         as='label'
                         fontWeight='600'
                     >
-                        Logo image
+                        {t('logoImg')}
                     </Text>
                     <Text 
                         as='span' 
@@ -40,7 +43,7 @@ export const LogoFormSection: FC<Props> = ({
                         as='span'
                         fontSize='12'
                     >
-                        This image will also be used for navigation. 350 x 350 recommended.
+                        {t('logoImgFieldDescription')}
                     </Text>
                 </Box>
             </Box>

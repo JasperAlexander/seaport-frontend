@@ -6,7 +6,7 @@ import * as Accordion from '@radix-ui/react-accordion'
 import { Box } from '../../Box/Box'
 import { ChevronIcon } from '../../Icons/ChevronIcon'
 import * as styles from './AssetInfoAccordion.css'
-import { AssetType } from '../../../types/assetTypes'
+import { AssetReadType } from '../../../types/assetTypes'
 import { EarthIcon } from '../../Icons/EarthIcon'
 import { truncateAddress } from '../../../utils/truncateText'
 import { SubjectIcon } from '../../Icons/SubjectIcon'
@@ -19,16 +19,17 @@ import { InstagramIcon } from '../../Icons/InstagramIcon'
 import { MediumIcon } from '../../Icons/MediumIcon'
 import { Text } from '../../Text/Text'
 import { NextLink } from '../../NextLink/NextLink'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-    data: AssetType | undefined // SWRResponse<AssetType, any> | undefined // AssetStateType
+    asset: AssetReadType | undefined // SWRResponse<AssetType, any> | undefined // AssetStateType
 }
 
 export const AssetInfoAccordion: FC<Props> = ({
-    data
+    asset
 }) => {
-    // const { data: assetData, isValidating } = data
-    
+    const { t } = useTranslation('common')
+
     return (
         <Accordion.Root 
             type='multiple'
@@ -52,7 +53,7 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 as='span'
                                 fontWeight='600'
                             >
-                                Description
+                                {t('description')}
                             </Text>
                         </Box>
                         <ChevronIcon />
@@ -61,17 +62,17 @@ export const AssetInfoAccordion: FC<Props> = ({
                 <Accordion.Content className={styles.content}>
                     <Box className={styles.description}>
                         <Text>
-                            By 
+                            {t('by')}
                             <NextLink 
-                                href={`/${data?.creator?.username ? data.creator.username : data?.creator?.address}`}
+                                href={`/${asset?.creator?.username ? asset.creator.username : asset?.creator?.address}`}
                                 fontWeight='600' 
                                 marginLeft='4'
                             >
-                                {data?.creator?.username ? data.creator.username : data?.creator?.address}
+                                {asset?.creator?.username ? asset.creator.username : asset?.creator?.address}
                             </NextLink>
                             </Text>
                         <Text>
-                            {data?.description}
+                            {asset?.description}
                         </Text>
                     </Box>
                 </Accordion.Content>
@@ -95,7 +96,7 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 as='span'
                                 fontWeight='600'
                             >
-                                Properties
+                                {t('properties')}
                             </Text>
                         </Box>
                         <ChevronIcon />
@@ -126,7 +127,7 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 as='span'
                                 fontWeight='600'
                             >
-                                About {data?.collection?.name}
+                                {t('about')} {asset?.collection?.name}
                             </Text>
                         </Box>
                         <ChevronIcon />
@@ -142,16 +143,16 @@ export const AssetInfoAccordion: FC<Props> = ({
                             fontSize='14'
                         >
                             <NextLink 
-                                href={`/collection/${data?.collection?.slug}`}
+                                href={`/collection/${asset?.collection?.slug}`}
                             >
                                 <Box 
                                     as='img' 
-                                    src={data?.collection?.image_url}
+                                    src={asset?.collection?.image_url}
                                     className={styles.collectionImg} 
                                     style={{float: 'left'}}
                                 />
                             </NextLink>
-                            {data?.collection?.description}
+                            {asset?.collection?.description}
                         </Text>
                         <Box 
                             display='flex'
@@ -167,7 +168,7 @@ export const AssetInfoAccordion: FC<Props> = ({
                             >
                                 <Box 
                                     as='a'
-                                    href={data?.collection?.external_url}
+                                    href={asset?.collection?.external_url}
                                     display='flex'
                                     alignItems='center'
                                     background='defaultBackground'
@@ -183,10 +184,10 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 >
                                     <EarthIcon width='20' />
                                 </Box>
-                                {data?.collection?.twitter_username &&
+                                {asset?.collection?.twitter_username &&
                                     <Box 
                                         as='a'
-                                        href={`http://twitter.com/${data.collection.twitter_username}`}
+                                        href={`http://twitter.com/${asset.collection.twitter_username}`}
                                         display='flex'
                                         alignItems='center'
                                         background='defaultBackground'
@@ -203,10 +204,10 @@ export const AssetInfoAccordion: FC<Props> = ({
                                         <TwitterIcon width='20' />
                                     </Box>
                                 }
-                                {data?.collection?.instagram_username &&
+                                {asset?.collection?.instagram_username &&
                                     <Box 
                                         as='a'
-                                        href={`http://instagram.com/${data.collection.instagram_username}`}
+                                        href={`http://instagram.com/${asset.collection.instagram_username}`}
                                         display='flex'
                                         alignItems='center'
                                         background='defaultBackground'
@@ -223,10 +224,10 @@ export const AssetInfoAccordion: FC<Props> = ({
                                         <InstagramIcon width='20' />
                                     </Box>
                                 }
-                                {data?.collection?.medium_username &&
+                                {asset?.collection?.medium_username &&
                                     <Box 
                                         as='a'
-                                        href={`http://medium.com/${data.collection.medium_username}`}
+                                        href={`http://medium.com/${asset.collection.medium_username}`}
                                         display='flex'
                                         alignItems='center'
                                         background='defaultBackground'
@@ -267,7 +268,7 @@ export const AssetInfoAccordion: FC<Props> = ({
                                 as='span'
                                 fontWeight='600'
                             >
-                                Details
+                                {t('details')}
                             </Text>
                         </Box>
                         <ChevronIcon />
@@ -279,18 +280,18 @@ export const AssetInfoAccordion: FC<Props> = ({
                             <Text 
                                 as='span'
                             >
-                                Contract address
+                                {t('contractAddress')}
                             </Text>
                             <Box 
                                 as='a' 
-                                href={`https://etherscan.io/address/${data?.asset_contract?.address}`}
+                                href={`https://etherscan.io/address/${asset?.asset_contract?.address}`}
                             >
                                 <Text
                                     color='accentColor'
                                     fontWeight='600' 
                                     fontSize='14'
                                 >
-                                    {data?.asset_contract?.address ? truncateAddress(data.asset_contract.address) : ''}
+                                    {asset?.asset_contract?.address ? truncateAddress(asset.asset_contract.address) : ''}
                                 </Text>
                             </Box>
                         </Box>
@@ -298,18 +299,18 @@ export const AssetInfoAccordion: FC<Props> = ({
                             <Text 
                                 as='span'
                             >
-                                Token ID
+                                {t('token')} {t('id')}
                             </Text>
                             <Box 
                                 as='a' 
-                                href={`https://etherscan.io/address/${data?.asset_contract?.address}`}
+                                href={`https://etherscan.io/address/${asset?.asset_contract?.address}`}
                             >
                                 <Text
                                     color='accentColor'
                                     fontWeight='600' 
                                     fontSize='14'
                                 >
-                                    {data?.token_id}
+                                    {asset?.token_id}
                                 </Text>
                             </Box>
                         </Box>
@@ -317,22 +318,22 @@ export const AssetInfoAccordion: FC<Props> = ({
                             <Text 
                                 as='span'
                             >
-                                Token Standard
+                                {t('token')} {t('standard')}
                             </Text>
                             <Text 
                                 as='span' 
                                 fontWeight='600' 
                                 fontSize='14'
                             >
-                                {data?.asset_contract?.schema_name === ContractSchemas.ERC721 && 'ERC-721'}
-                                {data?.asset_contract?.schema_name === ContractSchemas.ERC1155 && 'ERC-1155'}
+                                {asset?.asset_contract?.schema_name === ContractSchemas.ERC721 && 'ERC-721'}
+                                {asset?.asset_contract?.schema_name === ContractSchemas.ERC1155 && 'ERC-1155'}
                             </Text>
                         </Box>
                         <Box className={styles.detailsInfo}>
                             <Text 
                                 as='span'
                             >
-                                Blockchain
+                                {t('blockchain')}
                             </Text>
                             <Text 
                                 as='span' 
@@ -347,14 +348,14 @@ export const AssetInfoAccordion: FC<Props> = ({
                             <Text 
                                 as='span'
                             >
-                                Creator Earnings
+                                {t('creator')} {t('earnings')}
                             </Text>
                             <Text 
                                 as='span'
                                 fontWeight='600' 
                                 fontSize='14'
                             >
-                                {data?.transfer_fee ? data.transfer_fee / 100 + '%' : '0%'}
+                                {asset?.transfer_fee ? asset.transfer_fee / 100 + '%' : '0%'}
                             </Text>
                         </Box>
                     </Box>

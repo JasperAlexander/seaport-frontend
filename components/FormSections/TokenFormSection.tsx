@@ -12,6 +12,7 @@ import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { TokensType } from '../../types/tokenTypes'
 import { TokenSelect } from '../Selects/TokenSelect'
 import { EthIcon } from '../Icons/EthIcon'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: 
@@ -32,6 +33,8 @@ export const TokenFormSection: FC<Props> = ({
     tokens,
     setData
 }) => {
+    const { t } = useTranslation('common')
+
     const { data: tokensData, isValidating, size } = tokens
     const mappedTokens = tokensData ? tokensData.map(({ tokens }) => tokens).flat() : []
     
@@ -43,7 +46,7 @@ export const TokenFormSection: FC<Props> = ({
                     fontWeight='600'
                     fontSize='16'
                 >
-                    Payment tokens
+                    {t('paymentTokens')}
                 </Box>
                 <Box
                     as='span'
@@ -51,7 +54,7 @@ export const TokenFormSection: FC<Props> = ({
                     marginTop='4'
                     color='boxText'
                 >
-                    These tokens can be used to buy and sell your items.
+                    {t('paymentTokensFieldDescription')}
                 </Box>
             </Box>
 
@@ -93,6 +96,7 @@ export const TokenFormSection: FC<Props> = ({
                         marginBottom='12'
                         marginRight='12'
                     >
+                        {/* To do */}
                         <EthIcon />
                         <Box
                             display='flex'

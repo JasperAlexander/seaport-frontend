@@ -3,6 +3,7 @@ import { useForm } from '../../hooks/useForm'
 import { Box } from '../Box/Box'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 export interface MailingListFormType {
     email: string
@@ -17,16 +18,17 @@ export const MailingListForm: FC<Props> = ({
 }) => {
     const emailInput = useRef<HTMLInputElement>(null)
 
+    const { t } = useTranslation('common')
     const { handleSubmit, setErrors, validate, handleChange, data, errors, } = useForm<MailingListFormType>({
         validations: {
             email: {
                 pattern: {
                     value: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
-                    message: 'Entered value does not match email format.'
+                    message:`${t('fieldNotMatch', { fieldType: 'email' })}`
                 },
                 required: {
                     value: true,
-                    message: 'Email is required.'
+                    message: `${t('fieldRequired')}`
                 }
             }
         },
@@ -73,7 +75,7 @@ export const MailingListForm: FC<Props> = ({
                                 position='absolute'
                                 overflow='hidden' 
                             >
-                                Email address
+                                {t('emailAddress')}
                             </Box>
                         </Box>
                         <Box 
@@ -94,7 +96,7 @@ export const MailingListForm: FC<Props> = ({
                             <Box
                                 as='input' 
                                 type='email'
-                                placeholder="Your email address" 
+                                placeholder={t('yourEmailAddress')}
                                 name="email" 
                                 value={data.email || ''}
                                 onChange={handleChange('email')}
@@ -148,7 +150,7 @@ export const MailingListForm: FC<Props> = ({
                         fontWeight='600'
                         color='white'
                     >
-                        Sign up
+                        {t('signUp')}
                     </Text>
                 </Box>
             </Box>

@@ -6,17 +6,28 @@ import { Box } from '../Box/Box'
 import useMounted from '../../hooks/useMounted'
 import { AssetsStateType } from '../../types/assetTypes'
 import { AssetGrid } from '../Grids/AssetGrid'
+import { toggleOnItem } from '../../utils/changeRouter'
+import { useRouter } from 'next/router'
+import { TokensStateType } from '../../types/tokenTypes'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     assets: AssetsStateType
     isOwner: boolean
+    tokens: TokensStateType
 }
 
 export const ProfileTabs: FC<Props> = ({ 
     assets,
-    isOwner
+    isOwner,
+    tokens
 }) => {
+    const { t } = useTranslation('common')
     const { mounted } = useMounted()
+
+    const router = useRouter()
+    const initialTab = router.query.tab
+    // To do: find out if tab can be changed based on initialTab
 
     return (
         <Tabs.Root
@@ -28,31 +39,40 @@ export const ProfileTabs: FC<Props> = ({
                 <Tabs.Trigger 
                     value='collected'
                     className={styles.profileTabsTrigger}
+                    onClick={() => {
+                        toggleOnItem(router, 'tab', 'collected')
+                    }}
                 >
                     <Box
                         className={styles.profileTabsTriggerContent}
                     >
-                        Collected
+                        {t('collected')}
                     </Box>
                 </Tabs.Trigger>
                 <Tabs.Trigger 
                     value='created'
                     className={styles.profileTabsTrigger}
+                    onClick={() => {
+                        toggleOnItem(router, 'tab', 'created')
+                    }}
                 >
                     <Box
                         className={styles.profileTabsTriggerContent}
                     >
-                        Created
+                        {t('created')}
                     </Box>
                 </Tabs.Trigger>
                 <Tabs.Trigger 
                     value='favorited'
                     className={styles.profileTabsTrigger}
+                    onClick={() => {
+                        toggleOnItem(router, 'tab', 'favorited')
+                    }}
                 >
                     <Box
                         className={styles.profileTabsTriggerContent}
                     >
-                        Favorited
+                        {t('favorited')}
                     </Box>
                 </Tabs.Trigger>
             </Tabs.List>
@@ -63,19 +83,21 @@ export const ProfileTabs: FC<Props> = ({
                     ? assets
                         ? 
                             <AssetGrid 
-                                data={assets}
+                                assets={assets}
                                 isOwner={isOwner}
                                 displayFilters={false} 
+                                tokens={tokens}
                             />
                         : 
                             <Text 
                                 as='span'
                             >
-                                Not connected
+                                {t('notConnected')}
                             </Text>
                     : ''
                 }
             </Tabs.Content>
+            {/* To do */}
             <Tabs.Content 
                 value='created'
             >

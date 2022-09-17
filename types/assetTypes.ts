@@ -1,12 +1,11 @@
 import { CollectionType } from './collectionTypes'
 import { ContractType, EventContractType } from './contractTypes'
 import { UserType } from './userTypes'
-import { EventType } from './eventTypes'
 import { TokenType } from './tokenTypes'
 import { OrderType } from './orderTypes'
 import { SWRInfiniteResponse } from 'swr/infinite'
 
-export interface AssetType {
+export interface AssetReadType {
     id: number
     token_id: string
     name: string
@@ -17,18 +16,29 @@ export interface AssetType {
     collection: CollectionType
     owner: UserType
     creator: UserType
-    last_sale: EventType | null
     transfer_fee: number
     transfer_fee_payment_token: TokenType | null
-    orders: OrderType[] | null
     is_nsfw: boolean
-    listing_date: string
+}
+
+export interface AssetWriteType {
+    token_id: string
+    name: string
+    description: string
+    image_url: string
+    external_link: string
+    asset_contract: string
+    collection: string
+    owner: string
+    creator: string
+    transfer_fee: string
+    transfer_fee_payment_token: string
+    is_nsfw: boolean
 }
 
 export interface EventAssetType {
     token_id: string
     asset_contract: EventContractType
-    listing_date: string
 }
 
 export type AssetInputType = {
@@ -52,7 +62,7 @@ export interface AssetsQueryType {
 export interface AssetsType {
     next: string | null
     previous: string | null
-    assets: AssetType[]
+    assets: AssetReadType[]
 }
 
 export interface AssetsStateType {
@@ -61,5 +71,5 @@ export interface AssetsStateType {
 }
 
 export interface AssetStateType {
-    asset: SWRInfiniteResponse<AssetType, any>
+    asset: SWRInfiniteResponse<AssetReadType, any>
 }

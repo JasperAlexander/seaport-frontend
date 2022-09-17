@@ -4,6 +4,7 @@ import useMounted from '../../hooks/useMounted'
 import { Box } from '../Box/Box'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as styles from './DialogContent.css'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     open: boolean
@@ -14,8 +15,8 @@ export const LoginSideDialogContent: FC<Props> = ({
     open,
     setOpen
 }) => {
+    const { t } = useTranslation('common')
     const { mounted } = useMounted()
-
     const { isConnected } = useAccount()
 
     return (
@@ -34,7 +35,7 @@ export const LoginSideDialogContent: FC<Props> = ({
                     <Box
                         padding='20'
                     >
-                        You need to be connected
+                        {t('connectionRequired')}
                     </Box>
                 </Box>
             </Box>

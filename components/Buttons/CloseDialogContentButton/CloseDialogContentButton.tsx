@@ -1,6 +1,6 @@
 import { FC, SetStateAction } from 'react'
-import { Box } from '../Box/Box'
-import { CloseIcon } from '../Icons/CloseIcon'
+import { Box } from '../../Box/Box'
+import { CloseIcon } from '../../Icons/CloseIcon'
 import * as styles from './CloseDialogContentButton.css'
 
 interface Props {

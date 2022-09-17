@@ -4,14 +4,15 @@ import useAsset from '../../../../hooks/useAsset'
 import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import { MainLayout } from '../../../../components/Layouts/MainLayout'
-import { AssetType } from '../../../../types/assetTypes'
+import { AssetReadType } from '../../../../types/assetTypes'
 import setParams from '../../../../utils/params'
 import { ListAssetForm } from '../../../../components/Forms/ListAssetForm'
-import { MainButton } from '../../../../components/Buttons/MainButton'
+import { MainButton } from '../../../../components/Buttons/MainButton/MainButton'
 import { TokensType } from '../../../../types/tokenTypes'
 import useTokens from '../../../../hooks/useTokens'
 import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
 import { TitleAndMetaTags } from '../../../../components/TitleAndMetaTags/TitleAndMetaTags'
+import useTranslation from 'next-translate/useTranslation'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
@@ -23,6 +24,7 @@ const SellAssetPage: NextPage<Props> = ({
     contract_address,
     token_id
 }) => {
+    const { t } = useTranslation('common')
     const router = useRouter()
     const asset = useAsset(fallbackAsset, contract_address, token_id)
     const tokens = useTokens(router, fallbackTokens)
@@ -37,7 +39,7 @@ const SellAssetPage: NextPage<Props> = ({
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title='Sell Asset | OpenFish'
+                title={`${t('sellAsset')} | OpenFish`}
             />
 
             <MainLayout>
@@ -48,7 +50,7 @@ const SellAssetPage: NextPage<Props> = ({
                                 onClick={() => router.back()}
                                 width='160'
                             >
-                                Go back
+                                {t('goBack')}
                             </MainButton>
                         </AssetPageHeader>
                         <ListAssetForm 
@@ -72,7 +74,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   }
   
 export const getStaticProps: GetStaticProps<{
-    fallbackAsset: AssetType
+    fallbackAsset: AssetReadType
     fallbackTokens: TokensType
     contract_address: string
     token_id: string
@@ -98,7 +100,7 @@ export const getStaticProps: GetStaticProps<{
     
         const assetRes = await fetch(assetHref, assetOptions)
     
-        const fallbackAsset = (await assetRes.json()) as AssetType
+        const fallbackAsset = (await assetRes.json()) as AssetReadType
     
         if (!fallbackAsset) {
         return {

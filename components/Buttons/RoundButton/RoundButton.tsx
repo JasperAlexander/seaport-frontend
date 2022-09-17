@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react'
-import { Box } from '../Box/Box'
+import { Box } from '../../Box/Box'
+import * as styles from './RoundButton.css'
 
 interface Props {
     children: ReactNode
@@ -25,24 +26,7 @@ export const RoundButton: FC<Props> = ({
             type='button'
             onClick={onClick}
             disabled={disabled}
-
-            display='inline-flex'
-            alignItems='center'
-            justifyContent='center'
-
-            borderRadius='50p'
-            boxShadow={{
-                hover: 'subHeader'
-            }}
-            background={{
-                base: 'defaultBackground',
-                active: 'buttonBackgroundActive'
-            }}
-
-            opacity={{ disabled: 'disabled' }}
-            cursor={{ base: 'pointer', disabled: 'default' }}
-
-            padding='12'
+            className={styles.roundButton}
         >
             {children}
         </Box>

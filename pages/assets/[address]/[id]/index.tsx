@@ -3,9 +3,9 @@ import { Fragment, useEffect, useState } from 'react'
 import { Box } from '../../../../components/Box/Box'
 import { AssetPageCard } from '../../../../components/Cards/AssetPageCard'
 import { AssetPriceAccordion } from '../../../../components/Accordions/AssetPriceAccordion/AssetPriceAccordion'
-import { AssetMeta } from '../../../../components/Containers/AssetMeta'
+import { AssetMeta } from '../../../../components/AssetMeta/AssetMeta'
 import useAsset from '../../../../hooks/useAsset'
-import { AssetType } from '../../../../types/assetTypes'
+import { AssetReadType } from '../../../../types/assetTypes'
 import setParams from '../../../../utils/params'
 import { EventsQueryType, EventsType, EventType, EventTypes } from '../../../../types/eventTypes'
 import useEvents from '../../../../hooks/useEvents'
@@ -16,8 +16,8 @@ import { ListingsAccordion } from '../../../../components/Accordions/ListingsAcc
 import { AssetInfoAccordion } from '../../../../components/Accordions/AssetInfoAccordion/AssetInfoAccordion'
 import { MainLayout } from '../../../../components/Layouts/MainLayout'
 import { useAccount } from 'wagmi'
-import { MainButton } from '../../../../components/Buttons/MainButton'
-import { OrdersQueryType, OrdersType } from '../../../../types/orderTypes'
+import { MainButton } from '../../../../components/Buttons/MainButton/MainButton'
+import { OrdersQueryType, OrdersType, OrderType } from '../../../../types/orderTypes'
 import useOrders from '../../../../hooks/useOrders'
 import useTokens from '../../../../hooks/useTokens'
 import { TokensQueryType, TokensType } from '../../../../types/tokenTypes'
@@ -26,6 +26,7 @@ import { Text } from '../../../../components/Text/Text'
 import { AssetPageHeader } from '../../../../components/Headers/AssetPageHeader/AssetPageHeader'
 import { TitleAndMetaTags } from '../../../../components/TitleAndMetaTags/TitleAndMetaTags'
 import { AssetButtonRow } from '../../../../components/ButtonRows/AssetButtonRow/AssetButtonRow'
+import useTranslation from 'next-translate/useTranslation'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
@@ -39,6 +40,7 @@ const AssetPage: NextPage<Props> = ({
     contract_address,
     token_id
 }) => {
+    const { t } = useTranslation('common')
     const router = useRouter()
     const asset = useAsset(fallbackAsset, contract_address, token_id)
     const events = useEvents(router, fallbackEvents, contract_address, token_id)
@@ -52,20 +54,26 @@ const AssetPage: NextPage<Props> = ({
             setIsOwner(true)
     })
 
-    const { data: eventsData, isValidating, size } = events.events
-    const mappedEvents = eventsData ? eventsData.map(({ events }) => events).flat() : []
-    const listingEvents: EventType[] | undefined = mappedEvents?.filter((event: EventType) => (
-        event.type === EventTypes.Created || event.type === EventTypes.Cancelled
-    ))
-    const lastListingEvent: EventType | undefined = listingEvents.length > 0 ? listingEvents?.reduce((a, b) => (
-        a.created_timestamp > b.created_timestamp ? a : b
-    )) : undefined
+    // const { data: eventsData, isValidating, size } = events.events
+    // const mappedEvents = eventsData ? eventsData.map(({ events }) => events).flat() : []
+    
+    const [lastListing, setLastListing] = useState<OrderType>()
 
     useEffect(() => {
-        console.log('mappedEvents', mappedEvents)
-        console.log('listingEvents', listingEvents)
-        console.log('lastListingEvent', lastListingEvent)
-    }, [mappedEvents, listingEvents, lastListingEvent])
+        if (orders?.orders?.data && orders.orders.data.length > 0) {
+            const newLastListing = orders.orders.data?.[0].orders
+            .filter(order => {
+                return (
+                    order.cancelled === false && 
+                    order.finalized === false &&
+                    Number(order.expiration_time) > (Date.now() / 1000)
+                )
+            }).sort((a, b) => {
+                return Number(b.parameters.endTime) - Number(a.parameters.endTime)
+            })
+            setLastListing(newLastListing[0])
+        }
+    }, [orders?.orders?.data])
     
     return (
         <Fragment>
@@ -87,19 +95,20 @@ const AssetPage: NextPage<Props> = ({
                         flexDirection='column'
                         width='full'
                     >
+                        {/* To do */}
                         {isOwner &&
                             <AssetPageHeader>
                                 <MainButton 
                                     variant='secondary'
                                     width='160'
                                 >
-                                    Edit
+                                    {t('edit')}
                                 </MainButton>
                                 <MainButton 
                                     href={`/assets/${asset?.data?.asset_contract?.address}/${asset?.data?.token_id}/sell`}
                                     width='160'
                                 >
-                                    Sell
+                                    {t('sell')}
                                 </MainButton>
                             </AssetPageHeader>
                         }
@@ -127,7 +136,7 @@ const AssetPage: NextPage<Props> = ({
                                     margin='20'
                                 >
                                     <AssetInfoAccordion 
-                                        data={asset?.data} 
+                                        asset={asset?.data} 
                                     />
                                 </Box>
                             </Box>
@@ -194,7 +203,7 @@ const AssetPage: NextPage<Props> = ({
                                     >
                                         <AssetPriceAccordion 
                                             asset={asset?.data}
-                                            lastListingEvent={lastListingEvent}
+                                            lastListing={lastListing}
                                             tokens={tokens}
                                         />
                                     </Box>
@@ -204,7 +213,8 @@ const AssetPage: NextPage<Props> = ({
                                     margin='20'
                                 >
                                     <ListingsAccordion
-                                        data={orders}
+                                        orders={orders}
+                                        asset={asset?.data}
                                         isOwner={isOwner}
                                     />
                                 </Box>
@@ -213,7 +223,7 @@ const AssetPage: NextPage<Props> = ({
                                     margin='20'
                                 >
                                     <OffersAccordion
-                                        data={events}
+                                        events={events}
                                         open={true}
                                     />
                                 </Box>
@@ -225,7 +235,7 @@ const AssetPage: NextPage<Props> = ({
                             margin='20'
                         >
                             <ActivityAccordion
-                                data={events}
+                                events={events}
                                 open={true}
                             />
                         </Box>
@@ -313,7 +323,7 @@ const AssetPage: NextPage<Props> = ({
                             >
                                 <AssetPriceAccordion 
                                     asset={asset?.data}
-                                    lastListingEvent={lastListingEvent}
+                                    lastListing={lastListing}
                                     tokens={tokens}
                                 />
                             </Box>
@@ -322,7 +332,8 @@ const AssetPage: NextPage<Props> = ({
                             marginY='4'
                         >
                             <ListingsAccordion 
-                                data={orders}
+                                orders={orders}
+                                asset={asset?.data}
                                 isOwner={isOwner}
                             />
                         </Box>
@@ -330,21 +341,21 @@ const AssetPage: NextPage<Props> = ({
                             marginY='4'
                         >
                             <OffersAccordion 
-                                data={events}
+                                events={events}
                             />
                         </Box>
                         <Box
                             marginY='4'
                         >
                             <AssetInfoAccordion 
-                                data={asset?.data}
+                                asset={asset?.data}
                             />
                         </Box>
                         <Box
                             marginY='4'
                         >
                             <ActivityAccordion 
-                                data={events}
+                                events={events}
                             />
                         </Box>
                     </Box>
@@ -364,7 +375,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 }
   
 export const getStaticProps: GetStaticProps<{
-    fallbackAsset: AssetType
+    fallbackAsset: AssetReadType
     fallbackEvents: EventsType
     fallbackOrders: OrdersType
     fallbackTokens: TokensType
@@ -392,7 +403,7 @@ export const getStaticProps: GetStaticProps<{
     
         const assetRes = await fetch(assetHref, assetOptions)
     
-        const fallbackAsset = (await assetRes.json()) as AssetType
+        const fallbackAsset = (await assetRes.json()) as AssetReadType
     
         if (!fallbackAsset) {
         return {

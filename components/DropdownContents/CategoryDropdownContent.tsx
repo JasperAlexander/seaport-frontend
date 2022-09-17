@@ -4,6 +4,7 @@ import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { AllNFTsIcon } from '../Icons/AllNFTsIcon'
 import { Text } from '../Text/Text'
 import * as styles from './DropdownContent.css'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     data: CreateCollectionFormType
@@ -14,6 +15,8 @@ export const CategoryDropdownContent: FC<Props> = ({
     data,
     setData
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box
             className={styles.profileDropdownContainer}
@@ -34,7 +37,7 @@ export const CategoryDropdownContent: FC<Props> = ({
                     fontWeight='600'
                     fontSize='14'
                 >
-                    Art
+                    {t('art')}
                 </Text>
             </Box>
         </Box>

@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import { NextLink } from '../NextLink/NextLink'
 import { Text } from '../Text/Text'
 import * as styles from './DropdownContent.css'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -11,6 +12,8 @@ interface Props {
 export const ExploreDropdownContent: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Fragment>
             <Box
@@ -23,7 +26,7 @@ export const ExploreDropdownContent: FC<Props> = ({
                     <Text
                         fontWeight='600'
                     >
-                        All assets
+                        {t('allAssets')}
                     </Text>
                 </NextLink>
             </Box>
@@ -37,7 +40,7 @@ export const ExploreDropdownContent: FC<Props> = ({
                     <Text
                         fontWeight='600'
                     >
-                        All collections
+                        {t('allCollections')}
                     </Text>
                 </NextLink>
             </Box>

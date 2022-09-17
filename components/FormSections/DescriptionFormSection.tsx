@@ -7,6 +7,7 @@ import { CloseIcon } from '../Icons/CloseIcon'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { Text } from '../Text/Text'
 import { EditAssetFormType } from '../Forms/EditAssetForm'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     label?: string
@@ -29,6 +30,8 @@ export const DescriptionFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box 
             className={styles.formItem}
@@ -40,7 +43,7 @@ export const DescriptionFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    Description
+                    {t('description')}
                 </Text>
                 <Box
                     marginTop='4'
@@ -62,7 +65,7 @@ export const DescriptionFormSection: FC<Props> = ({
                             fontSize='12'
                             color='accentColor'
                         >
-                            {'\u00a0'}Markdown{'\u00a0'}
+                            {'\u00a0'}{t('markdown')}{'\u00a0'}
                         </Text>
                     </Box> 
                     <Text
@@ -70,7 +73,7 @@ export const DescriptionFormSection: FC<Props> = ({
                         color='boxText'
                         display='inline-block'
                     >
-                        syntax is supported.
+                        {t('syntaxIsSupported')}
                     </Text>
                 </Box>
             </Box>

@@ -1,3 +1,4 @@
+// File should be reviewed when going to production
 import { ethers, BigNumber } from 'ethers'
 import { parseEther } from 'ethers/lib/utils'
 import TestERC721 from '../artifacts/contracts/test/TestERC721.sol/TestERC721.json'

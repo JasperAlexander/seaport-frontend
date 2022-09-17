@@ -7,7 +7,8 @@ import { CloseIcon } from '../Icons/CloseIcon'
 import { FilterAccordion } from '../Accordions/FilterAccordion/FilterAccordion'
 import { toggleOffItems } from '../../utils/changeRouter'
 import { useRouter } from 'next/router'
-import { RoundButton } from '../Buttons/RoundButton'
+import { RoundButton } from '../Buttons/RoundButton/RoundButton'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     open: boolean
@@ -18,6 +19,8 @@ export const FilterSideDialogContent: FC<Props> = ({
     open,
     setOpen
 }) => {
+    const { t } = useTranslation('common')
+
     const router = useRouter()
     
     return (
@@ -44,7 +47,7 @@ export const FilterSideDialogContent: FC<Props> = ({
                             fontSize='20'
                             fontWeight='600'
                         >
-                            Filters
+                            {t('filters')}
                         </Text>
                         <Box
                             position='absolute'
@@ -97,7 +100,7 @@ export const FilterSideDialogContent: FC<Props> = ({
                         <Text
                             fontWeight='600'
                         >
-                            Clear all
+                            {t('clearAll')}
                         </Text>
                     </Box>
                     <Box
@@ -116,7 +119,7 @@ export const FilterSideDialogContent: FC<Props> = ({
                         <Text
                             fontWeight='600'
                         >
-                            Done
+                            {t('done')}
                         </Text>
                     </Box>
                 </Box>

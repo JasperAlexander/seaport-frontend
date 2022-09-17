@@ -1,8 +1,11 @@
 import { Box } from '../components/Box/Box'
-import { MainButton } from '../components/Buttons/MainButton'
+import { MainButton } from '../components/Buttons/MainButton/MainButton'
 import { Text } from '../components/Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 export default function Custom404() {
+    const { t } = useTranslation('common')
+
     return (
         <Box
             display='flex'
@@ -19,7 +22,7 @@ export default function Custom404() {
                 fontWeight='600'
                 fontSize='40'
             >
-                Oops, something went wrong
+                {t('404Title')}
             </Text>
             <Box
                 textAlign='center'
@@ -29,13 +32,13 @@ export default function Custom404() {
                     fontSize='24'
                     color='boxText'
                 >
-                    Yikes, looks like something went wrong on our end. If the issue persists, please shoot us a note so we can help out.
+                    {t('404Description')}
                 </Text>
             </Box>
             <MainButton
                 href='/'
             >
-                Try going back to the homepage
+                {t('backToHome')}
             </MainButton>
         </Box>
 

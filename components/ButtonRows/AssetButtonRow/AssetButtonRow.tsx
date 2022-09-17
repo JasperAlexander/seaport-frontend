@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { SWRResponse } from 'swr'
-import { AssetType } from '../../../types/assetTypes'
+import { AssetReadType } from '../../../types/assetTypes'
 import { AssetButtonRowItem } from '../../AssetButtonRowItem/AssetButtonRowItem'
 import { Box } from '../../Box/Box'
 import { MoreHorizontalIcon } from '../../Icons/MoreHorizontalIcon'
@@ -12,7 +12,7 @@ import { NextLink } from '../../NextLink/NextLink'
 import { LinkIcon } from '../../Icons/LinkIcon'
 
 interface Props {
-    asset: SWRResponse<AssetType, any> | undefined
+    asset: SWRResponse<AssetReadType, any> | undefined
 }
 
 export const AssetButtonRow: FC<Props> = ({ 

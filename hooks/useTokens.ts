@@ -11,7 +11,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 export default function useTokens(
     router: NextRouter,
     fallback?: TokensType,
-    address?: string
+    // address?: string
 ) {
     const { ref, inView } = useInView()
 
@@ -19,7 +19,7 @@ export default function useTokens(
 
     const query: TokensQueryType = {
         ...(router.query['sort'] && { sortBy: router.query['sort']?.toString()}),
-        ...(address && { address: address })
+        // ...(address && { address: address })
     }
 
     const tokens = useSWRInfinite(

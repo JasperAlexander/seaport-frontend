@@ -1,12 +1,13 @@
 import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { Box } from '../../Box/Box'
-import { RoundButton } from '../../Buttons/RoundButton'
+import { RoundButton } from '../../Buttons/RoundButton/RoundButton'
 import { FilterSideDialogTrigger } from '../../DialogTriggers/FilterSideDialogTrigger'
 import { FilterListIcon } from '../../Icons/FilterListIcon'
 import { SortIcon } from '../../Icons/SortIcon'
 import { SortSelect } from '../../Selects/SortSelect'
 import * as styles from './AssetGridHeader.css'
 import { Text } from '../../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     toggleShowFilters: () => void
@@ -17,6 +18,8 @@ export const AssetGridHeader: FC<Props> = ({
     toggleShowFilters,
     mutate
 }) => {
+    const { t } = useTranslation('common')
+
     const [filterSideDialogOpen, setFilterSideDialogOpen] = useState<boolean>(false)
 
     const observer = useRef<IntersectionObserver | null>(null)
@@ -71,7 +74,7 @@ export const AssetGridHeader: FC<Props> = ({
                                 <Text
                                     fontWeight='600'
                                 >
-                                    Filters
+                                    {t('filters')}
                                 </Text>
                             </Box>
                         </Box>
@@ -89,7 +92,7 @@ export const AssetGridHeader: FC<Props> = ({
                             <Text
                                 fontWeight='600'
                             >
-                                Sort
+                                {t('sort')}
                             </Text>
                         </Box>
                     </Box>

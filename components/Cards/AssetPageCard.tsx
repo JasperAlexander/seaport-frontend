@@ -1,13 +1,13 @@
 import { FC } from 'react'
 import useMounted from '../../hooks/useMounted'
-import { AssetType } from '../../types/assetTypes'
+import { AssetReadType } from '../../types/assetTypes'
 import { Box } from '../Box/Box'
 import { EthFlatIcon } from '../Icons/EthFlatIcon'
 import { FavoriteOutlinedIcon } from '../Icons/FavoriteOutlinedIcon'
 import { Text } from '../Text/Text'
 
 interface Props {
-    asset: AssetType | undefined
+    asset: AssetReadType | undefined
 }
 
 export const AssetPageCard: FC<Props> = ({

@@ -1,11 +1,12 @@
 import { Dispatch, FC, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import * as styles from './DialogContent.css'
 import { Text } from '../Text/Text'
 import { DialogContentHeader } from '../Headers/DialogContentHeader/DialogContentHeader'
 import { DialogContentFooter } from '../Footers/DialogContentFooter/DialogContentFooter'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     open: boolean
@@ -16,6 +17,8 @@ export const SwitchNetworkDialogContent: FC<Props> = ({
     open,
     setOpen
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Dialog.Content 
             asChild={true}
@@ -33,7 +36,7 @@ export const SwitchNetworkDialogContent: FC<Props> = ({
                     <DialogContentHeader
                         setOpen={setOpen}
                     >
-                        Please switch to Ethereum network
+                        {t('switchToEthereum')}
                     </DialogContentHeader>
 
                     <Box
@@ -46,7 +49,7 @@ export const SwitchNetworkDialogContent: FC<Props> = ({
                             padding='24'
                         >
                             <Text>
-                                In order to trade items, please switch to Ethereum network within your MetaMask wallet.
+                                {t('switchToEthereumDescription')}
                             </Text>
                         </Box>
                     </Box>
@@ -57,13 +60,13 @@ export const SwitchNetworkDialogContent: FC<Props> = ({
                             onClick={() => setOpen(false)}
                             width='full'
                         >
-                            Cancel
+                            {t('cancel')}
                         </MainButton>
                         <MainButton
                             width='full'
                             onClick={() => { return null }}
                         >
-                            Switch network
+                            {t('switchNetwork')}
                         </MainButton>
                     </DialogContentFooter>
                 </Box>

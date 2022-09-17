@@ -1,3 +1,4 @@
+// Page should be reviewed when going to production
 import type { NextPage } from 'next'
 import { ChangeEvent, Fragment, useState } from 'react'
 import { mintERC20 , mintERC721 } from '../utils/minting'
@@ -6,11 +7,13 @@ import { Box } from '../components/Box/Box'
 import { Input } from '../components/Input/Input'
 import useMounted from '../hooks/useMounted'
 import { MainLayout } from '../components/Layouts/MainLayout'
-import { MainButton } from '../components/Buttons/MainButton'
+import { MainButton } from '../components/Buttons/MainButton/MainButton'
 import { Text } from '../components/Text/Text'
 import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTags'
+import useTranslation from 'next-translate/useTranslation'
 
 const FaucetPage: NextPage = () => {
+    const { t } = useTranslation('common')
     const { address } = useAccount()
     const { data: signer } = useSigner()
 
@@ -31,7 +34,7 @@ const FaucetPage: NextPage = () => {
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title='Faucet | OpenFish'
+                title={`${t('faucet')} | OpenFish`}
             />
 
             <MainLayout>
@@ -46,7 +49,7 @@ const FaucetPage: NextPage = () => {
                         fontWeight='700' 
                         fontSize='32'
                     >
-                        Faucet
+                        {t('faucet')}
                     </Text>
                     <Box 
                         marginTop='18' 

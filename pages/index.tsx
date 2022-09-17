@@ -5,7 +5,7 @@ import setParams from '../utils/params'
 import { AssetsType } from '../types/assetTypes'
 import { useRouter } from 'next/router'
 import useAssets from '../hooks/useAssets'
-import { MainButton } from '../components/Buttons/MainButton'
+import { MainButton } from '../components/Buttons/MainButton/MainButton'
 import { Text } from '../components/Text/Text'
 import { FeaturedCard } from '../components/Cards/FeaturedCard'
 import { TitleAndMetaTags } from '../components/TitleAndMetaTags/TitleAndMetaTags'
@@ -18,7 +18,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>
 const HomePage: NextPage<Props> = ({ 
   fallbackAssets 
 }) => {
-  const { t } = useTranslation('home')
+  const { t } = useTranslation('common')
   const router = useRouter()
   const assets = useAssets(router, undefined, fallbackAssets)
   const mappedAssets = assets.assets.data ? assets.assets.data.map(({ assets }) => assets).flat() : []
@@ -88,7 +88,7 @@ const HomePage: NextPage<Props> = ({
                   fontSize='45'
                   fontWeight='600'
                 >
-                  {t('title')}
+                  {t('appSubTitle')}
                 </Text>
               </Box>
               <Box
@@ -97,7 +97,7 @@ const HomePage: NextPage<Props> = ({
                 <Text
                   fontSize='24'
                 >
-                  {t('subTitle')}
+                  {t('appDescription')}
                 </Text>
               </Box>
               <Box

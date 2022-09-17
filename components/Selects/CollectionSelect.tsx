@@ -7,6 +7,7 @@ import { Box } from '../Box/Box'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { EditAssetFormType } from '../Forms/EditAssetForm'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     mappedCollections: CollectionType[]
@@ -19,6 +20,8 @@ export const CollectionSelect: FC<Props> = ({
     data,
     setData
 }) => {
+    const { t } = useTranslation('common')
+
     const [selectedOption, setSelectedOption] = useState<string>('')
     const collectionSet = mappedCollections?.map((c) => {
         if (typeof c !== 'undefined') {({
@@ -128,7 +131,7 @@ export const CollectionSelect: FC<Props> = ({
                 cursor='pointer'
                 {...innerProps}
             >
-                No collection found
+                {t('noItemsFound', { fieldName: 'collections'})}
             </Box>
         )
     }
@@ -137,7 +140,7 @@ export const CollectionSelect: FC<Props> = ({
         <Select
             key='collection'
             name='selection'
-            placeholder='Select collection'
+            placeholder={t('selectField', { fieldName: 'collection' })}
             defaultValue={selectedOption}
             onChange={(e) => { 
                 setData({
@@ -150,10 +153,10 @@ export const CollectionSelect: FC<Props> = ({
             }}
             // @ts-ignore
             options={collectionSet}
-            components={{
-                Option: CollectionOption,
-                NoOptionsMessage: NoCollectionOption
-            }} // To do: add selected collection image url to control (component)
+            // components={{
+            //     Option: CollectionOption,
+            //     // NoOptionsMessage: NoCollectionOption
+            // }} // To do: add selected collection image url to control (component)
             styles={customStyles}
         />
     )

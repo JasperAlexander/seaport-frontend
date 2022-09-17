@@ -6,9 +6,11 @@ import { FormToggle } from '../Toggles/FormToggle'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Text } from '../Text/Text'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
+import useTranslation from 'next-translate/useTranslation'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
-    data: CreateAssetFormType | CreateCollectionFormType
+    data: CreateAssetFormType | EditAssetFormType | CreateCollectionFormType
     setData: (e: any) => void
     bottomBorder?: boolean
 }
@@ -18,6 +20,8 @@ export const NsfwFormSectionItem: FC<Props> = ({
     setData,
     bottomBorder = true
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box 
             className={styles.formSectionItem}
@@ -39,13 +43,13 @@ export const NsfwFormSectionItem: FC<Props> = ({
                             fontWeight='600' 
                             display='block'
                         >
-                            Explicit {'&'} Sensitive Content
+                            {t('nsfw')}
                         </Text>
                         <Text 
                             as='span' 
                             fontSize='15'
                         >
-                            Set as explicit and sensitive content
+                            {t('nsfwFieldDescription')}
                         </Text>
                     </Box>
                 </Box>

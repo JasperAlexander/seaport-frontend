@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import { ImgIcon } from '../Icons/ImgIcon'
 import * as styles from './FormSection.css'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -11,6 +12,8 @@ interface Props {
 export const BannerFormSection: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
+
     const imageInputRef = useRef<any>(null)
     
     return (
@@ -24,7 +27,7 @@ export const BannerFormSection: FC<Props> = ({
                         as='label'
                         fontWeight='600'
                     >
-                        Banner image
+                        {t('bannerImg')}
                     </Text>
                 </Box>
                 <Box
@@ -34,7 +37,7 @@ export const BannerFormSection: FC<Props> = ({
                         as='span'
                         fontSize='12'
                     >
-                        This image will appear at the top of your collection page. Avoid including too much text in this banner image, as the dimensions change on different devices. 1400 x 350 recommended.
+                        {t('bannerImgFieldDescription')}
                     </Text>
                 </Box>
             </Box>

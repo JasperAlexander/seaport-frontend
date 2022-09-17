@@ -47,6 +47,9 @@ export const ProfileName: FC<Props> = ({
                                 display='none'
                             /> */}
                             <Box 
+                                display='flex'
+                                alignItems='center'
+                                gap='4'
                                 style={{wordBreak: 'break-word'}}
                             >
                                 <Text 

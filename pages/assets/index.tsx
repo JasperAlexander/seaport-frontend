@@ -8,16 +8,20 @@ import { useRouter } from 'next/router'
 import useAssets from '../../hooks/useAssets'
 import useMounted from '../../hooks/useMounted'
 import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
+import useTokens from '../../hooks/useTokens'
+import { TokensQueryType, TokensType } from '../../types/tokenTypes'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const AssetsPage: NextPage<Props> = ({ 
-  fallbackAssets 
+  fallbackAssets,
+  fallbackTokens
 }) => {
   const router = useRouter()
   const assets = useAssets(router, undefined, fallbackAssets)
+  const tokens = useTokens(router, fallbackTokens)
   const { mounted } = useMounted()
 
   return (
@@ -44,8 +48,9 @@ const AssetsPage: NextPage<Props> = ({
           {mounted
             ?
               <AssetGrid 
-                data={assets}
+                assets={assets}
                 displayFilters={true} 
+                tokens={tokens}
               />
             : ''
           }
@@ -59,8 +64,10 @@ export default AssetsPage
 
 export const getStaticProps: GetStaticProps<{
   fallbackAssets: AssetsType
+  fallbackTokens: TokensType
 }> = async () => {
   try {
+    // ASSETS
     const assetsOptions: RequestInit | undefined = {}
 
     const assetsUrl = new URL(`/api/v1/assets/`, API_BASE)
@@ -79,9 +86,26 @@ export const getStaticProps: GetStaticProps<{
       }
     }
 
+    // TOKENS
+    const tokensOptions: RequestInit | undefined = {}
+
+    const tokensUrl = new URL(`/api/v1/tokens/`, API_BASE)
+
+    const tokensQuery: TokensQueryType = {
+        // ...(contract_address && { parameters__offer__token: contract_address }),
+        // ...(token_id && { parameters__offer__identifierOrCriteria: token_id })
+    }
+
+    const tokensHref = setParams(tokensUrl, tokensQuery)
+
+    const tokensRes = await fetch(tokensHref, tokensOptions)
+
+    const fallbackTokens = (await tokensRes.json()) as TokensType
+
     return {
         props: { 
-            fallbackAssets
+            fallbackAssets,
+            fallbackTokens
         }
     }
   } catch {

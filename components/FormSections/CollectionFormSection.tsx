@@ -8,6 +8,7 @@ import { CollectionSelect } from '../Selects/CollectionSelect'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Text } from '../Text/Text'
 import { EditAssetFormType } from '../Forms/EditAssetForm'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: 
@@ -30,6 +31,8 @@ export const CollectionFormSection: FC<Props> = ({
     collections,
     setData
 }) => {
+    const { t } = useTranslation('common')
+    
     const { data: collectionsData, isValidating, size } = collections
     const mappedCollections = collectionsData ? collectionsData.map(({ collections }) => collections).flat() : []
     
@@ -41,7 +44,7 @@ export const CollectionFormSection: FC<Props> = ({
                     fontWeight='600'
                     fontSize='16'
                 >
-                    Collection
+                    {t('collection')}
                 </Box>
                 <Box
                     as='span'
@@ -49,7 +52,7 @@ export const CollectionFormSection: FC<Props> = ({
                     marginTop='4'
                     color='boxText'
                 >
-                    This is the collection where your item will appear.
+                    {t('collectionFieldDescription')}
                 </Box>
             </Box>
 

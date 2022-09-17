@@ -46,21 +46,23 @@ export const LoadingIcon: FC<Props> = ({
                     transition: 'progress'
                 })}
             />
-            <circle 
-                cx="19" 
-                cy="19" 
-                fill="none" 
-                r="17" 
-                strokeDasharray="106.81415022205297" 
-                strokeDashoffset="53.40707511102649" 
-                strokeWidth="4" 
-                className={sprinkles({
-                    stroke: fillProgress,
-                    animation: 'progress',
-                    transformOrigin: 'progress',
-                    transition: 'progress'
-                })}
-            />
+            {progressing &&
+                <circle 
+                    cx="19" 
+                    cy="19" 
+                    fill="none" 
+                    r="17" 
+                    strokeDasharray="106.81415022205297" 
+                    strokeDashoffset="53.40707511102649" 
+                    strokeWidth="4" 
+                    className={sprinkles({
+                        stroke: fillProgress,
+                        animation: 'progress',
+                        transformOrigin: 'progress',
+                        transition: 'progress'
+                    })}
+                />
+            }
             <text 
                 className={sprinkles({
                     fill: fillText,

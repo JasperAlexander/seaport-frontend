@@ -6,9 +6,11 @@ import { Box } from '../Box/Box'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
-    data: CreateAssetFormType | CreateCollectionFormType
+    data: CreateAssetFormType | EditAssetFormType | CreateCollectionFormType
     setData: (e: any) => void
 }
 
@@ -16,6 +18,8 @@ export const BlockchainSelect: FC<Props> = ({
     data,
     setData
 }) => {
+    const { t } = useTranslation('common')
+
     const [selectedOption, setSelectedOption] = useState<any>(
         // { value: 'ethereum', label: 'Ethereum', image_url: 'https://opensea.io/static/images/logos/ethereum.svg' }
         { value: 'hardhat', label: 'Hardhat', image_url: 'https://chainstack.com/wp-content/uploads/2021/12/hardhat.png' }
@@ -117,7 +121,7 @@ export const BlockchainSelect: FC<Props> = ({
         <Select
             key='blockchain'
             name='blockchain'
-            placeholder='Select blockchain'
+            placeholder={t('selectField', { fieldName: 'blockchain'})}
             defaultValue={selectedOption}
             onChange={(e) => { 
                 setData({
@@ -131,7 +135,7 @@ export const BlockchainSelect: FC<Props> = ({
             // @ts-ignore
             options={blockchainSet}
             components={{Option: BlockchainOption}} // To do: add selected token image url to control (component)
-            noOptionsMessage={() => 'No blockchains found'}
+            noOptionsMessage={() => t('noItemsFound', { fieldName: 'blockchains' })}
             styles={customStyles}
         />
     )

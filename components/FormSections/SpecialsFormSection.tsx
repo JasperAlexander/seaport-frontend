@@ -7,12 +7,17 @@ import { StatsFormSectionItem } from '../FormSectionItems/StatsFormSectionItem'
 import { UnlockableFormSectionItem } from '../FormSectionItems/UnlockableFormSectionItem'
 import { NsfwFormSectionItem } from '../FormSectionItems/NsfwFormSectionItem'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
-    handleChange: <S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
-    errors: Partial<Record<keyof CreateAssetFormType, string>>
+    handleChange: 
+        (<S extends unknown>(key: keyof CreateAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void) |
+        (<S extends unknown>(key: keyof EditAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void)
+    errors: 
+        Partial<Record<keyof CreateAssetFormType, string>> |
+        Partial<Record<keyof EditAssetFormType, string>>
     validate: () => void
-    data: CreateAssetFormType
+    data: CreateAssetFormType | EditAssetFormType
     setData: (e: any) => void
 }
 

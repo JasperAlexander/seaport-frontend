@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import * as styles from './FormSection.css'
 import { MakeOfferFormType } from '../Forms/MakeOfferForm'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof MakeOfferFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -17,6 +18,8 @@ export const OfferExpirationFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box
@@ -29,7 +32,7 @@ export const OfferExpirationFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    Offer expiration
+                    {t('offerExpiration')}
                 </Text>
             </Box>
             <Box
@@ -47,6 +50,7 @@ export const OfferExpirationFormSection: FC<Props> = ({
                     height='48'
                     fontSize='16'
                 >
+                    {/* To do */}
                     3 days
                 </Box>
                 <Box

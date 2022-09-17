@@ -1,8 +1,9 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { UserType } from '../../types/userTypes'
 import { truncateAddress } from '../../utils/truncateText'
 import { Box } from '../Box/Box'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     user?: UserType
@@ -11,6 +12,20 @@ interface Props {
 export const ProfileDescription: FC<Props> = ({ 
     user
 }) => {
+    const { t } = useTranslation('common')
+
+    const [joinedDate, setJoinedDate] = useState<string>('')
+    useEffect(() => {
+        if (user?.created_timestamp) {
+            const formattedDate =  new Intl.DateTimeFormat(
+                'en-US', { 
+                    month: 'long',
+                    year: 'numeric'
+                }).format(new Date(user.created_timestamp))
+            setJoinedDate(formattedDate)
+        }
+    }, [user?.created_timestamp])
+
     return (
         <Box>
             <Box 
@@ -72,6 +87,7 @@ export const ProfileDescription: FC<Props> = ({
                                                     height='16'
                                                     width='16'
                                                 >
+                                                    {/* To do */}
                                                     <Box
                                                         as='img' 
                                                         objectFit='contain'
@@ -101,9 +117,18 @@ export const ProfileDescription: FC<Props> = ({
                                     <Text 
                                         color='boxText'
                                     >
-                                        {/* August 2022 */}
                                         {user?.created_timestamp &&
-                                            ('Joined' + user?.created_timestamp)
+                                            (t('joined') + 
+                                                new Intl.DateTimeFormat(
+                                                    'en-US', 
+                                                    { 
+                                                        month: 'long',
+                                                        year: 'numeric'
+                                                    }
+                                                ).format(
+                                                    new Date(user.created_timestamp)
+                                                )
+                                            )
                                         }
                                     </Text>
                                 </Box>

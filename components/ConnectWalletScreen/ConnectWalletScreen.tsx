@@ -7,6 +7,7 @@ import { Box } from '../Box/Box'
 import { MetaMaskIcon } from '../Icons/MetaMaskIcon'
 import { NextLink } from '../NextLink/NextLink'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
 
@@ -16,6 +17,8 @@ export const ConnectWalletScreen: FC<Props> = ({
     
 }) => {
     const router = useRouter()
+    
+    const { t } = useTranslation('common')
     const { referrer } = router.query
     const { status } = useSession()
     const { isConnected, connector: activeConnector, address } = useAccount()
@@ -27,8 +30,12 @@ export const ConnectWalletScreen: FC<Props> = ({
     const handleLogin = async () => {
         try {
             const chainId = activeChain?.id
+            console.log('inside handleLogin with activechainId and address', chainId, address)
             if (!address || !chainId) return
             
+            console.log('window.location', window.location)
+            const csrfToken = await getCsrfToken()
+            console.log('csrfToken', csrfToken)
             const callbackUrl = '/protected'
             const message = new SiweMessage({
                 domain: window.location.host,
@@ -37,13 +44,15 @@ export const ConnectWalletScreen: FC<Props> = ({
                 uri: window.location.origin,
                 version: '1',
                 chainId,
-                nonce: await getCsrfToken()
+                nonce: csrfToken
             })
+            console.log('message: ', message)
 
             const signature = await signMessageAsync({
                 message: message.prepareMessage()
             })
 
+            console.log('before signin')
             await signIn('credentials', { message: JSON.stringify(message), redirect: false, signature, callbackUrl });
         } catch {
             return
@@ -64,15 +73,18 @@ export const ConnectWalletScreen: FC<Props> = ({
                     fontSize='24'
                     
                 >
-                    Connect your wallet.
+                    {t('connectYourWallet')}
                 </Text>
             </Box>
             <Box>
                 <Box>
-                    <Text
-                        as='p'
-                    >
-                        If you don't have a 
+                    {/* To do: check if box below is neccesary */}
+                    <Box>
+                        <Text
+                            as='p'
+                        >
+                            {t('loginIntroBeginning')}
+                        </Text>
                         <NextLink
                             href='/supportedwallets'
                             target='_blank'
@@ -84,11 +96,15 @@ export const ConnectWalletScreen: FC<Props> = ({
                                 display="inline-flex"
                                 fontWeight='600'
                             >
-                                {"\u00a0"}wallet{"\u00a0"}
+                                {"\u00a0"}{t('wallet')}{"\u00a0"}
                             </Text>
                         </NextLink>
-                        yet, you can select a provider and create one now.
-                    </Text>
+                        <Text
+                            as='p'
+                        >
+                            {t('loginIntroEnd')}
+                        </Text>
+                    </Box>
                 </Box>
                 <Box 
                     marginBottom='72'
@@ -124,8 +140,8 @@ export const ConnectWalletScreen: FC<Props> = ({
                                 type="button"
                                 onClick={async() => {
                                     try {
-                                        if (!isConnected) await connect({connector: connectors[0]})
-                                        if (activeChain?.id !== 1337) await switchNetwork?.(1337)
+                                        if (!isConnected) connect({connector: connectors[0]})
+                                        if (activeChain?.id !== 1337) switchNetwork?.(1337)
                                         if (isConnected && activeChain?.id == 1337) await handleLogin()
                                         if (referrer) router.push(referrer.toString())
                                     } catch {
@@ -211,7 +227,7 @@ export const ConnectWalletScreen: FC<Props> = ({
                                             fontSize='14'
                                             color='accentColorText'
                                         >
-                                            Popular
+                                            {t('popular')}
                                         </Text>
                                     </Box>
                                 </Box>
@@ -247,7 +263,7 @@ export const ConnectWalletScreen: FC<Props> = ({
                         <Text
                             fontWeight='600'
                         >
-                            Show more options
+                            {t('showMoreOptions')}
                         </Text>
                     </Box>
                 </Box>

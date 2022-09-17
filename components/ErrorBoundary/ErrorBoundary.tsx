@@ -1,10 +1,13 @@
 import { Component, ErrorInfo, ReactNode } from 'react'
 import { Box } from '../Box/Box'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import { Text } from '../Text/Text'
+import withTranslation from 'next-translate/withTranslation'
+import { I18n } from 'next-translate'
 
 interface Props {
   children?: ReactNode
+  i18n: I18n
 }
 
 interface State {
@@ -25,6 +28,8 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
+    const { t } = this.props.i18n
+
     if (this.state.hasError) {
       return (
         <Box
@@ -42,7 +47,7 @@ class ErrorBoundary extends Component<Props, State> {
                 fontWeight='600'
                 fontSize='40'
             >
-                Oops, something went wrong
+              {t('404Title')}
             </Text>
             <Box
                 textAlign='center'
@@ -52,13 +57,13 @@ class ErrorBoundary extends Component<Props, State> {
                     fontSize='24'
                     color='boxText'
                 >
-                    Yikes, looks like something went wrong on our end. If the issue persists, please shoot us a note so we can help out.
+                    {t('404Description')}
                 </Text>
             </Box>
             <MainButton
                 href='/'
             >
-                Try going back to the homepage
+                {t('backToHome')}
             </MainButton>
         </Box>
       )
@@ -68,4 +73,4 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default ErrorBoundary
+export default withTranslation(ErrorBoundary, 'common')

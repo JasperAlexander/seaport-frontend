@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { forwardRef, ReactNode, Ref } from 'react'
-import { Box, BoxProps } from '../Box/Box'
-import { Text } from '../Text/Text'
+import { forwardRef, Fragment, ReactNode, Ref } from 'react'
+import { Box, BoxProps } from '../../Box/Box'
+import { Text } from '../../Text/Text'
+import * as styles from './MainButton.css'
 
 const sizeVariants: Record<
     'small' | 'medium' | 'large',
@@ -63,10 +64,12 @@ interface Props {
     children: ReactNode
     onClick?: () => void
     href?: string
+    type?: 'button' | 'submit'
     disabled?: boolean
     size?: 'small' | 'medium' | 'large'
     variant?: 'primary' | 'secondary'
     width?: BoxProps['width']
+    onlyText?: boolean
 }
 
 /**
@@ -75,10 +78,12 @@ interface Props {
  * @param children will be wrapped inside HTML span element which is wrapped inside HTML button or link element
  * @param onClick defaults null
  * @param href if this param is passed, button will be a link, wrapped inside a Next.js Link component
+ * @param type defaults to button
  * @param disabled defaults to false
  * @param size defaults to medium
  * @param variant defaults to primary which has accentColor as background in contrast to secondary which has defaultBackground as background
  * @param width defaults to initial
+ * @param onlyText defaults to true, won't wrap children inside HTML span element if true
  */
 export const MainButton = forwardRef (
     (
@@ -86,10 +91,12 @@ export const MainButton = forwardRef (
             children,
             onClick = () => { return null },
             href,
+            type = 'button',
             disabled = false,
             size = 'medium',
             variant = 'primary',
             width = 'initial',
+            onlyText = true,
             ...props
         }: Props,
         ref: Ref<HTMLElement>
@@ -121,41 +128,35 @@ export const MainButton = forwardRef (
             >
                 <Box
                     as={href ? 'a' : 'button'}
-                    type='button'
+                    type={type}
                     onClick={onClick}
                     disabled={disabled}
                     ref={ref}
                     {...props}
-
-                    display='inline-flex'
-                    gap='8'
-                    alignItems='center'
-                    justifyContent='center'
-                    textAlign='center'
-
+                    
+                    className={styles.mainButton}
                     width={width}
-
-                    boxShadow={{ hover: 'subHeader' }}
                     background={background}
-                    opacity={{ disabled: 'disabled' }}
-                    cursor={{ base: 'pointer', disabled: 'default' }}
-
-                    borderRadius='10'
-                    borderWidth='2'
-                    borderStyle='solid'
                     borderColor={borderColor}
 
                     paddingX={paddingX}
                     paddingY={paddingY}
                 >
-                    <Text
-                        as='span'
-                        fontSize={fontSize}
-                        fontWeight='600'
-                        color={color}
-                    >
-                        {children}
-                    </Text>
+                    {onlyText 
+                        ?
+                            <Text
+                                as='span'
+                                fontSize={fontSize}
+                                fontWeight='600'
+                                color={color}
+                            >
+                                {children}
+                            </Text>
+                        :
+                            <Fragment>
+                                {children}
+                            </Fragment>
+                    }
                 </Box>
             </ConditionalLink>
         )

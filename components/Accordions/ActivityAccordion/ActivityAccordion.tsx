@@ -18,20 +18,20 @@ import { TransferIcon } from '../../Icons/TransferIcon'
 import { BidWithdrawnIcon } from '../../Icons/BidWithdrawnIcon'
 import { CancelIcon } from '../../Icons/CancelIcon'
 import { VerifiedIcon } from '../../Icons/VerifiedIcon'
-import { useRouter } from 'next/router'
 import { Text } from '../../Text/Text'
 import { NextLink } from '../../NextLink/NextLink'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-    data: EventsStateType
+    events: EventsStateType
     open?: boolean
 }
 
 export const ActivityAccordion: FC<Props> = ({
-    data: { events, ref },
+    events: { events, ref },
     open = false
 }) => {
-    const router = useRouter()
+    const { t } = useTranslation('common')
     
     const { data, isValidating, size } = events
     const mappedEvents = data ? data.map(({ events }) => events).flat() : []
@@ -63,7 +63,7 @@ export const ActivityAccordion: FC<Props> = ({
                                     as='span'
                                     fontWeight='600'
                                 >
-                                    Item Activity
+                                    {t('itemActivity')}
                                 </Text>
                             </Box>
                             <ChevronIcon />
@@ -120,7 +120,7 @@ export const ActivityAccordion: FC<Props> = ({
                                                             gap='8'
                                                         >
                                                             <PriceTagIcon />
-                                                            Created
+                                                            {t('created')}
                                                         </Box>
                                                     }
                                                     {event.type === 'succesfull' &&
@@ -130,7 +130,7 @@ export const ActivityAccordion: FC<Props> = ({
                                                             gap='8'
                                                         >
                                                             <SaleIcon />
-                                                            Sale
+                                                            {t('sale')}
                                                         </Box>
                                                     }
                                                     {event.type === 'cancelled' &&
@@ -140,7 +140,7 @@ export const ActivityAccordion: FC<Props> = ({
                                                             gap='8'
                                                         >
                                                             <CancelIcon />
-                                                            Cancel
+                                                            {t('cancel')}
                                                         </Box>
                                                     }
                                                     {event.type === 'bid_entered' &&
@@ -150,7 +150,7 @@ export const ActivityAccordion: FC<Props> = ({
                                                             gap='8'
                                                         >
                                                             <OfferIcon width='18' />
-                                                            Offer
+                                                            {t('offer')}
                                                         </Box>
                                                     }
                                                     {event.type === 'bid_withdrawn' &&
@@ -160,7 +160,7 @@ export const ActivityAccordion: FC<Props> = ({
                                                             gap='8'
                                                         >
                                                             <BidWithdrawnIcon />
-                                                            Offer Cancel
+                                                            {t('offer')} {t('cancel')}
                                                         </Box>
                                                     }
                                                     {event.type === 'transfer' &&
@@ -170,7 +170,7 @@ export const ActivityAccordion: FC<Props> = ({
                                                             gap='8'
                                                         >
                                                             <TransferIcon />
-                                                            Transfer
+                                                            {t('transfer')}
                                                         </Box>
                                                     }
                                                     {/* Unknown event types
@@ -257,7 +257,7 @@ export const ActivityAccordion: FC<Props> = ({
                                                 <Box as='a'>
                                                     <TimeAgo 
                                                         date={event.created_timestamp} 
-                                                        formatter={(value, unit) => `${value} ${unit} ago`} 
+                                                        formatter={(value, unit) => `${value} ${unit}${value > 1 ? 's' : ''} ago`} 
                                                     />
                                                 </Box>
                                             </Box>
@@ -283,7 +283,7 @@ export const ActivityAccordion: FC<Props> = ({
                                                 gap='8'
                                             >
                                                 <MintedIcon />
-                                                Minted
+                                                {t('minted')}
                                             </Box>
                                         </Box>
                                     </Box>
@@ -304,16 +304,19 @@ export const ActivityAccordion: FC<Props> = ({
                                                 {event.from_account?.username ? truncateEns(event.from_account.username) : event.from_account?.address ? truncateAddress(event.from_account.address) : ''}
                                                 {event.from_account?.config === 'verified' && <VerifiedIcon width='16' fill='accentColor' />}
                                         </NextLink> */}
-                                        Creator
+                                        {t('creator')}
                                     </Box>
                                     <Box
                                         as='td' 
                                         padding='16'
                                     >
                                         {/* <Box as='a'>
-                                            <TimeAgo date={event.created_timestamp} formatter={(value, unit) => `${value} ${unit} ago`} />
+                                            <TimeAgo 
+                                                date={event.created_timestamp} 
+                                                formatter={(value, unit) => `${value} ${unit}${value > 1 ? 's' : ''} ago`} 
+                                            />
                                         </Box> */}
-                                        Date
+                                        {t('date')}
                                     </Box>
                                 </Box>
                             </Box>

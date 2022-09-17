@@ -5,6 +5,7 @@ import { Input } from '../Input/Input'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: 
@@ -21,6 +22,8 @@ export const LinkFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
@@ -32,7 +35,7 @@ export const LinkFormSection: FC<Props> = ({
                         as='label'
                         fontWeight='600'
                     >
-                        Links
+                        {t('links')}
                     </Text>
                 </Box>
             </Box>

@@ -5,6 +5,7 @@ import { Input } from '../Input/Input'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Text } from '../Text/Text'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: 
@@ -24,6 +25,8 @@ export const SlugFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
@@ -31,7 +34,7 @@ export const SlugFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    URL
+                    {t('url')}
                 </Text>
                 <Box
                     marginTop='4'
@@ -41,7 +44,7 @@ export const SlugFormSection: FC<Props> = ({
                         fontSize='12'
                         color='boxText'
                     >
-                        Customize your URL on OpenSea. Must only contain lowercase letters, numbers, and hyphens.
+                        {t('urlFieldDescription')}
                     </Text>
                 </Box>
             </Box>

@@ -8,21 +8,27 @@ import { ChevronIcon } from '../../Icons/ChevronIcon'
 import * as styles from './ListingsAccordion.css'
 import { PriceTagIcon } from '../../Icons/PriceTagIcon'
 import TimeAgo from 'react-timeago'
-import { MainButton } from '../../Buttons/MainButton'
+import { MainButton } from '../../Buttons/MainButton/MainButton'
 import { OrdersStateType } from '../../../types/orderTypes'
 import { CancelListingDialogTrigger } from '../../DialogTriggers/CancelListingDialogTrigger'
+import { AssetReadType } from '../../../types/assetTypes'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-    data: OrdersStateType
+    orders: OrdersStateType
+    asset: AssetReadType | undefined
     open?: boolean
     isOwner: boolean
 }
 
 export const ListingsAccordion: FC<Props> = ({
-    data: { orders, ref },
+    orders: { orders, ref },
+    asset,
     open = false,
     isOwner
 }) => {
+    const { t } = useTranslation('common')
+
     const [cancelListingDialogOpen, setCancelListingDialogOpen] = useState<boolean>(false)
 
     const { data } = orders
@@ -60,7 +66,7 @@ export const ListingsAccordion: FC<Props> = ({
                                 fontSize='16'
                                 fontWeight='600'
                             >
-                                Listings
+                                {t('listings')}
                             </Box>
                         </Box>
                         <ChevronIcon />
@@ -136,7 +142,10 @@ export const ListingsAccordion: FC<Props> = ({
                                                 as='td' 
                                                 padding='16'
                                             >
-                                                <TimeAgo date={expiration} formatter={(value, unit) => `${value} ${unit}`} />
+                                                <TimeAgo 
+                                                    date={expiration} 
+                                                    formatter={(value, unit) => `${value} ${unit}${value > 1 ? 's' : ''}`} 
+                                                />
                                             </Box>
                                             <Box
                                                 as='td' 
@@ -159,19 +168,21 @@ export const ListingsAccordion: FC<Props> = ({
                                                             variant='secondary' 
                                                             size='small'
                                                         >
-                                                            Buy
+                                                            {t('buy')}
                                                         </MainButton>
                                                     :
+                                                        asset &&
                                                         <CancelListingDialogTrigger
                                                             open={cancelListingDialogOpen}
                                                             setOpen={setCancelListingDialogOpen}
-                                                            data={listing}
+                                                            asset={asset}
+                                                            order={listing}
                                                         >
                                                             <MainButton 
                                                                 variant='secondary' 
                                                                 size='small'
                                                             >
-                                                                Cancel
+                                                                {t('cancel')}
                                                             </MainButton>
                                                         </CancelListingDialogTrigger>
                                                 }
@@ -188,7 +199,7 @@ export const ListingsAccordion: FC<Props> = ({
                             justifyContent='center'
                             padding='20'
                         >
-                            No listings yet
+                            {t('noListingsYet')}
                         </Box>
                     }
                 </Accordion.Content>

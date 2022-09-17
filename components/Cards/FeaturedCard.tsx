@@ -1,17 +1,20 @@
 import { FC } from 'react'
-import { AssetType } from '../../types/assetTypes'
+import { AssetReadType } from '../../types/assetTypes'
 import { truncateAddress, truncateEns } from '../../utils/truncateText'
 import { Box } from '../Box/Box'
 import { NextLink } from '../NextLink/NextLink'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-    asset: AssetType
+    asset: AssetReadType
 }
 
 export const FeaturedCard: FC<Props> = ({
     asset
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box
             as='article'
@@ -139,7 +142,7 @@ export const FeaturedCard: FC<Props> = ({
                             <Text
                                 fontSize='14' 
                             >
-                                by
+                                {t('byWithoutCapital')}
                             </Text>
                             <Text
                                 fontSize='14' 

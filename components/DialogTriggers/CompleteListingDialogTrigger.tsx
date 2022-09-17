@@ -1,7 +1,6 @@
 import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
-import useSeaport from '../../hooks/useSeaport'
 import { Box } from '../Box/Box'
 import { CompleteListingDialogContent } from '../DiaglogContents/CompleteListingDialogContent'
 import * as styles from './DialogTrigger.css'
@@ -10,19 +9,28 @@ interface Props {
     children: ReactNode
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
-    data: ListAssetFormType
+    formData: ListAssetFormType
+    listingStatus: number
+    setListingStatus: Dispatch<SetStateAction<number>>
+    loadingStatus: boolean
+    setLoadingStatus: Dispatch<SetStateAction<boolean>>
 }
 
 export const CompleteListingDialogTrigger: FC<Props> = ({
     children,
     open,
     setOpen,
-    data
+    formData,
+    listingStatus,
+    setListingStatus,
+    loadingStatus,
+    setLoadingStatus
 }) => {
-    const { listingStatus } = useSeaport()
-
     return (
-        <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Root 
+            open={open} 
+            onOpenChange={setOpen}
+        >
             <Dialog.Trigger 
                 asChild={true}
             >
@@ -38,8 +46,12 @@ export const CompleteListingDialogTrigger: FC<Props> = ({
             <CompleteListingDialogContent 
                 open={open} 
                 setOpen={setOpen} 
-                asset={data?.asset}
+                formData={formData}
+                asset={formData?.asset}
                 listingStatus={listingStatus}
+                setListingStatus={setListingStatus}
+                loadingStatus={loadingStatus}
+                setLoadingStatus={setLoadingStatus}
             />
         </Dialog.Root>
     )

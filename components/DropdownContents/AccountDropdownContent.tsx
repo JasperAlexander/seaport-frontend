@@ -13,6 +13,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { FavoriteOutlinedIcon } from '../Icons/FavoriteOutlinedIcon'
 import { SettingsIcon } from '../Icons/SettingsIcon'
 import { VisibilityIcon } from '../Icons/VisibilityIcon'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -21,6 +22,7 @@ interface Props {
 export const AccountDropdownContent: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
     const { mounted } = useMounted()
     const { data: session } = useSession()
     
@@ -39,7 +41,7 @@ export const AccountDropdownContent: FC<Props> = ({
                     <Text
                         fontWeight='600'
                     >
-                        Profile
+                        {t('profile')}
                     </Text>
                 </NextLink>
             </Box>
@@ -56,7 +58,7 @@ export const AccountDropdownContent: FC<Props> = ({
                     <Text
                         fontWeight='600'
                     >
-                        Favorites
+                        {t('favoritesWithCapital')}
                     </Text>
                 </NextLink>
             </Box>
@@ -73,7 +75,7 @@ export const AccountDropdownContent: FC<Props> = ({
                     <Text
                         fontWeight='600'
                     >
-                        Watchlist
+                        {t('watchlist')}
                     </Text>
                 </NextLink>
             </Box>
@@ -90,7 +92,7 @@ export const AccountDropdownContent: FC<Props> = ({
                     <Text
                         fontWeight='600'
                     >
-                        My collections
+                        {t('myCollections')}
                     </Text>
                 </NextLink>
             </Box>
@@ -107,7 +109,7 @@ export const AccountDropdownContent: FC<Props> = ({
                     <Text
                         fontWeight='600'
                     >
-                        Settings
+                        {t('settings')}
                     </Text>
                 </NextLink>
             </Box>
@@ -127,7 +129,7 @@ export const AccountDropdownContent: FC<Props> = ({
                         <Text
                             fontWeight='600'
                         >
-                            Log Out
+                            {t('logOut')}
                         </Text>
                     </Box>
                 </Box>
@@ -147,7 +149,7 @@ export const AccountDropdownContent: FC<Props> = ({
                     <Text
                         fontWeight='600'
                     >
-                        Night mode
+                        {t('nightMode')}
                     </Text>
                     <NightModeToggle />
                 </Box>

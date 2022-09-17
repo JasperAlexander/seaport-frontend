@@ -7,6 +7,7 @@ import { CloseIcon } from '../Icons/CloseIcon'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { Text } from '../Text/Text'
 import { EditAssetFormType } from '../Forms/EditAssetForm'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     placeholder: string
@@ -29,53 +30,55 @@ export const NameFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
-    <Box className={styles.formItem}>
-        <Box className={styles.formItemTop}>
-            <Box
-                display='flex'
-                gap='3'
-            >
-                <Text
-                    as='label'
-                    fontWeight='600'
-                >
-                    Name
-                </Text>
-                <Text 
-                    as='span' 
-                    color='error' 
-                >
-                    *
-                </Text>
-            </Box>
-        </Box>
-        <Box>
-            <Input 
-                type='text'
-                name='name'
-                placeholder={placeholder}
-                value={data.name || ''}
-                onChange={handleChange('name')}
-                onBlur={() => validate()}
-            />
-            {errors.name &&
+        <Box className={styles.formItem}>
+            <Box className={styles.formItemTop}>
                 <Box
                     display='flex'
-                    alignItems='center'
-                    padding='4'
-                    gap='2'
+                    gap='3'
                 >
-                    <CloseIcon fill='error' />
                     <Text
-                        fontSize='12'
-                        color='error'
+                        as='label'
+                        fontWeight='600'
                     >
-                        {errors.name}
+                        {t('name')}
+                    </Text>
+                    <Text 
+                        as='span' 
+                        color='error' 
+                    >
+                        *
                     </Text>
                 </Box>
-            }
+            </Box>
+            <Box>
+                <Input 
+                    type='text'
+                    name='name'
+                    placeholder={placeholder}
+                    value={data.name || ''}
+                    onChange={handleChange('name')}
+                    onBlur={() => validate()}
+                />
+                {errors.name &&
+                    <Box
+                        display='flex'
+                        alignItems='center'
+                        padding='4'
+                        gap='2'
+                    >
+                        <CloseIcon fill='error' />
+                        <Text
+                            fontSize='12'
+                            color='error'
+                        >
+                            {errors.name}
+                        </Text>
+                    </Box>
+                }
+            </Box>
         </Box>
-    </Box>
-        )
+    )
 }

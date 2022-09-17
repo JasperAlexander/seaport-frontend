@@ -4,10 +4,11 @@ import * as styles from './FormSection.css'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { Text } from '../Text/Text'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import { CategoryDropdownTrigger } from '../DropdownTriggers/CategoryDropdownTrigger'
 import { AssetButtonRowItem } from '../AssetButtonRowItem/AssetButtonRowItem'
 import { AllNFTsIcon } from '../Icons/AllNFTsIcon'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     setData: (e: any) => void
@@ -23,6 +24,8 @@ export const CategoryFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
@@ -30,7 +33,7 @@ export const CategoryFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    Category
+                    {t('category')}
                 </Text>
                 <Box
                     marginTop='4'
@@ -40,7 +43,7 @@ export const CategoryFormSection: FC<Props> = ({
                         fontSize='12'
                         color='boxText'
                     >
-                        Adding a category will help make your item discoverable on OpenSea.
+                        {t('categoryFieldDescription')}
                     </Text>
                 </Box>
             </Box>
@@ -95,7 +98,7 @@ export const CategoryFormSection: FC<Props> = ({
                                 as='span'
                                 fontWeight='600'
                             >
-                                Add category
+                                {t('addCategory')}
                             </Text>
                         </Box>
                     </CategoryDropdownTrigger>
@@ -138,7 +141,7 @@ export const CategoryFormSection: FC<Props> = ({
                                     <Text
                                         as='span'
                                     >
-                                        Art
+                                        {t('art')}
                                     </Text>
                                     <CloseIcon 
                                         fill='boxText'
@@ -162,7 +165,7 @@ export const CategoryFormSection: FC<Props> = ({
                             fontWeight='500'
                             color='boxText'
                         >
-                            You can select a maximum of one category.
+                            {t('fieldSelectMaxOf', { amount: 'one', fieldName: 'category' })}
                         </Text>
                     </Box>
                 }

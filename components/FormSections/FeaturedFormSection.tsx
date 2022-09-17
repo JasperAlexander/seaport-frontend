@@ -3,6 +3,7 @@ import { Box } from '../Box/Box'
 import { ImgIcon } from '../Icons/ImgIcon'
 import * as styles from './FormSection.css'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     
@@ -11,6 +12,8 @@ interface Props {
 export const FeaturedFormSection: FC<Props> = ({
     
 }) => {
+    const { t } = useTranslation('common')
+
     const imageInputRef = useRef<any>(null)
     
     return (
@@ -24,7 +27,7 @@ export const FeaturedFormSection: FC<Props> = ({
                         as='label'
                         fontWeight='600'
                     >
-                        Featured image
+                        {t('featuredImg')}
                     </Text>
                 </Box>
                 <Box
@@ -34,7 +37,7 @@ export const FeaturedFormSection: FC<Props> = ({
                         as='span'
                         fontSize='12'
                     >
-                        This image will be used for featuring your collection on the homepage, category pages, or other promotional areas of OpenSea. 600 x 400 recommended.
+                        {t('featuredImgFieldDescription')}
                     </Text>
                 </Box>
             </Box>

@@ -4,6 +4,7 @@ import * as styles from './FormSectionItem.css'
 import { AddIcon } from '../Icons/AddIcon'
 import { BarChartIcon } from '../Icons/BarChartIcon'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     bottomBorder?: boolean
@@ -12,6 +13,8 @@ interface Props {
 export const StatsFormSectionItem: FC<Props> = ({
     bottomBorder = true
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box 
             className={styles.formSectionItem}
@@ -33,13 +36,13 @@ export const StatsFormSectionItem: FC<Props> = ({
                             fontWeight='600' 
                             display='block'
                         >
-                            Stats
+                            {t('stats')}
                         </Text>
                         <Text 
                             as='span' 
                             fontSize='15'
                         >
-                            Numerical traits that just show as numbers
+                            {t('statsDescription')}
                         </Text>
                     </Box>
                 </Box>

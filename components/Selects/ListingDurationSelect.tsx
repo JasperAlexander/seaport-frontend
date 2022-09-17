@@ -3,6 +3,7 @@
 import { FC, useState } from 'react'
 import Select from 'react-select'
 import { ListAssetFormType } from '../Forms/ListAssetForm'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     data: ListAssetFormType
@@ -13,14 +14,16 @@ export const ListingDurationSelect: FC<Props> = ({
     data,
     setData
 }) => {
-    const [selectedOption, setSelectedOption] = useState<any>({ value: '1', label: '1 day' })
+    const { t } = useTranslation('common')
+
+    const [selectedOption, setSelectedOption] = useState<any>({ value: '1', label: `1 ${t('day')}` })
     const durationSet = [
-        { value: '86400', label: '1 day' },
-        { value: '259200', label: '3 days' },
-        { value: '604800', label: '7 days' },
-        { value: '2629743', label: '1 month' },
-        { value: '7889229', label: '3 months' },
-        { value: '15778458', label: '6 months' },
+        { value: '86400', label: `1 ${t('day')}` },
+        { value: '259200', label: `3 ${t('days')}` },
+        { value: '604800', label: `7 ${t('days')}` },
+        { value: '2629743', label: `1 ${t('month')}` },
+        { value: '7889229', label: `3 ${t('months')}` },
+        { value: '15778458', label: `6 ${t('months')}` }
     ]
 
     const customStyles = {
@@ -90,7 +93,7 @@ export const ListingDurationSelect: FC<Props> = ({
         <Select
             key='duration'
             name='duration'
-            placeholder='Select duration'
+            placeholder={t('selectField', { fieldName: 'duration' })}
             defaultValue={selectedOption}
             onChange={(e) => { 
                 setData({

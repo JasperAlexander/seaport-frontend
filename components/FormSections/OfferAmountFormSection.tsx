@@ -7,6 +7,7 @@ import { Text } from '../Text/Text'
 import { TokenSelect } from '../Selects/TokenSelect'
 import { SWRInfiniteResponse } from 'swr/infinite'
 import { TokensType } from '../../types/tokenTypes'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof MakeOfferFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -27,6 +28,8 @@ export const OfferAmountFormSection: FC<Props> = ({
     setData,
     wethValue
 }) => {
+    const { t } = useTranslation('common')
+
     const { data: tokensData, isValidating, size } = tokens
     const mappedTokens = tokensData ? tokensData.map(({ tokens }) => tokens).flat() : []
 
@@ -42,7 +45,7 @@ export const OfferAmountFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    Offer amount
+                    {t('offerAmount')}
                 </Text>
                 <Text
                     as='span'
@@ -50,8 +53,8 @@ export const OfferAmountFormSection: FC<Props> = ({
                     color='boxText'
                     fontWeight='500'
                 >
-                    {/* Should be based on payment token and account data */}
-                    Balance: {wethValue} WETH
+                    {/* Should be based on payment token and account data, to do */}
+                    {t('balance')}: {wethValue} WETH
                 </Text>
             </Box>
             <Box
@@ -109,8 +112,8 @@ export const OfferAmountFormSection: FC<Props> = ({
                         fontWeight='500'
                         color='boxText'
                     >
-                        {/* Should be based on input value, adding USD value onBlur */}
-                        Total offer amount: 0 WETH
+                        {/* Should be based on input value, adding USD value onBlur, to do */}
+                        {t('totalOfferAmount')}: 0 WETH
                     </Text>
                 </Box>
             </Box>

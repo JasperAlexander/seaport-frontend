@@ -7,6 +7,7 @@ import { EditIcon } from '../Icons/EditIcon'
 import { ProfileButtonRow } from '../ButtonRows/ProfileButtonRow/ProfileButtonRow'
 import { SWRResponse } from 'swr'
 import { UserType } from '../../types/userTypes'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     user: SWRResponse<UserType, any> | undefined
@@ -19,6 +20,7 @@ export const ProfileImg: FC<Props> = ({
     isOwner,
     address
 }) => {
+    const { t } = useTranslation('common')
     // const { mounted } = useMounted()
     // const { data: EnsAvatar } = useEnsAvatar({
     //     addressOrName: address,
@@ -79,7 +81,7 @@ export const ProfileImg: FC<Props> = ({
                             position='relative'
                         >
                             <Box 
-                                aria-label='Select a profile image' 
+                                aria-label={t('selectField', { fieldName: 'profile image' })}
                                 role='button' 
                                 padding='4'
                                 cursor='pointer'
@@ -143,7 +145,7 @@ export const ProfileImg: FC<Props> = ({
                             >
                                 <Box
                                     as='img' 
-                                    alt='User Profile Image'
+                                    alt={t('profileImg')}
                                     src={user?.data?.profile_img_url} 
                                     objectFit='cover'
                                     height='full'

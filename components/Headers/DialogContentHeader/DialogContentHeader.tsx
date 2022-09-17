@@ -1,6 +1,6 @@
 import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import { Box } from '../../Box/Box'
-import { CloseDialogContentButton } from '../../Buttons/CloseDialogContentButton'
+import { CloseDialogContentButton } from '../../Buttons/CloseDialogContentButton/CloseDialogContentButton'
 import { Text } from '../../Text/Text'
 import * as styles from './DialogContentHeader.css'
 

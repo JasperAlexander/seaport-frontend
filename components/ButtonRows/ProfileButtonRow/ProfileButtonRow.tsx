@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Box } from '../../Box/Box'
-import { RoundButton } from '../../Buttons/RoundButton'
+import { RoundButton } from '../../Buttons/RoundButton/RoundButton'
 import { MoreHorizontalIcon } from '../../Icons/MoreHorizontalIcon'
 import { ShareIcon } from '../../Icons/ShareIcon'
 

@@ -5,6 +5,7 @@ import { ListAssetFormType } from '../Forms/ListAssetForm'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { ListingMethodSelect } from '../Selects/ListingMethodSelect'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof ListAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -21,6 +22,8 @@ export const ListingMethodFormSection: FC<Props> = ({
     data,
     setData
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
@@ -32,7 +35,7 @@ export const ListingMethodFormSection: FC<Props> = ({
                         as='label'
                         fontWeight='600'
                     >
-                        Method
+                        {t('method')}
                     </Text>
                     <Text 
                         as='span' 

@@ -13,16 +13,19 @@ import { truncateAddress, truncateEns } from '../../../utils/truncateText'
 import { VerifiedIcon } from '../../Icons/VerifiedIcon'
 import { Text } from '../../Text/Text'
 import { NextLink } from '../../NextLink/NextLink'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-    data: EventsStateType
+    events: EventsStateType
     open?: boolean
 }
 
 export const OffersAccordion: FC<Props> = ({
-    data: { events, ref },
+    events: { events, ref },
     open = false
 }) => {
+    const { t } = useTranslation('common')
+
     const { data } = events
     const mappedEvents = data ? data.map(({ events }) => events).flat() : []
     const offerEvents = mappedEvents?.filter((event) => {
@@ -32,7 +35,12 @@ export const OffersAccordion: FC<Props> = ({
     })
 
     const columns = [
-        'Price', 'USD Price', 'Floor Difference', 'Expiration', 'From', '' // Last column can include actions
+        `${t('price')}`, 
+        `${t('fiat')} ${t('price')}`,
+        `${t('floorDifference')}`, 
+        `${t('expiration')}`, 
+        `${t('from')}`, 
+        '' // Last column can include actions
     ]
 
     return (
@@ -57,7 +65,7 @@ export const OffersAccordion: FC<Props> = ({
                                     as='span'
                                     fontWeight='600'
                                 >
-                                    Offers
+                                    {t('offers')}
                                 </Text>
                             </Box>
                             <ChevronIcon />
@@ -145,7 +153,10 @@ export const OffersAccordion: FC<Props> = ({
                                                 as='td' 
                                                 padding='16'
                                             >
-                                                <TimeAgo date={event.created_timestamp} formatter={(value, unit) => `${value} ${unit}`} />
+                                                <TimeAgo 
+                                                    date={event.created_timestamp} 
+                                                    formatter={(value, unit) => `${value} ${unit}${value > 1 ? 's' : ''}`} 
+                                                />
                                             </Box>
                                             <Box
                                                 as='td' 
@@ -184,7 +195,7 @@ export const OffersAccordion: FC<Props> = ({
                                 <Text
                                     as='span'
                                 >
-                                    No offers yet
+                                    {t('noOffersYet')}
                                 </Text>
                             </Box>
                         }

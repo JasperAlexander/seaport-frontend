@@ -14,6 +14,7 @@ import { truncateAddress } from '../../utils/truncateText'
 import { ChevronIcon } from '../Icons/ChevronIcon'
 import { WalletDropdownTrigger } from '../DropdownTriggers/WalletDropdownTrigger'
 import { ChevronHorIcon } from '../Icons/ChevronHorIcon'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     open: boolean
@@ -24,6 +25,7 @@ export const WalletSideDialogContent: FC<Props> = ({
     open,
     setOpen
 }) => {
+    const { t } = useTranslation('common')
     const { mounted } = useMounted()
     const { data: session } = useSession()
 
@@ -144,7 +146,9 @@ export const WalletSideDialogContent: FC<Props> = ({
                                                         width='full'
                                                     />
                                                 </Box>
-                                                My wallet
+                                                <Text>
+                                                    {t('myWallet')}
+                                                </Text>
                                             </Box>
                                             <ChevronIcon 
                                                 fill='boxText'
@@ -208,7 +212,7 @@ export const WalletSideDialogContent: FC<Props> = ({
                                             fontSize='14'
                                             color='boxText'
                                         >
-                                            Total balance
+                                            {t('totalBalance')}
                                         </Text>
                                         <Text
                                             fontSize='20'
@@ -234,10 +238,11 @@ export const WalletSideDialogContent: FC<Props> = ({
                                                 color='accentColorText'
                                                 fontWeight='600'
                                             >
-                                                Add funds
+                                                {t('addFunds')}
                                             </Text>
                                         </NextLink>
                                     </Box>
+                                    {/* To do: make boxes below depend on available payment tokens */}
                                     <Box
                                         display='flex'
                                         width='full'

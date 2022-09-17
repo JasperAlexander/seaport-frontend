@@ -5,9 +5,11 @@ import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { BlockchainSelect } from '../Selects/BlockchainSelect'
 import * as styles from './FormSection.css'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
+import { EditAssetFormType } from '../Forms/EditAssetForm'
 
 interface Props {
-    data: CreateAssetFormType | CreateCollectionFormType
+    data: CreateAssetFormType | EditAssetFormType | CreateCollectionFormType
     setData: (e: any) => void
 }
 
@@ -15,6 +17,8 @@ export const BlockchainFormSection: FC<Props> = ({
     data,
     setData
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box 
             className={styles.formItem}
@@ -26,7 +30,7 @@ export const BlockchainFormSection: FC<Props> = ({
                     as='label'
                     fontWeight='600'
                 >
-                    Blockchain
+                    {t('blockchain')}
                 </Text>
             </Box>
             <BlockchainSelect 

@@ -2,7 +2,7 @@ import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
 import { CancelListingDialogContent } from '../DiaglogContents/CancelListingDialogContent'
-import { AssetType } from '../../types/assetTypes'
+import { AssetReadType } from '../../types/assetTypes'
 import { OrderType } from '../../types/orderTypes'
 import * as styles from './DialogTrigger.css'
 
@@ -10,14 +10,16 @@ interface Props {
     children: ReactNode
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
-    data: OrderType | AssetType
+    asset: AssetReadType
+    order: OrderType 
 }
 
 export const CancelListingDialogTrigger: FC<Props> = ({
     children,
     open,
     setOpen,
-    data
+    asset,
+    order
 }) => {
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -36,7 +38,8 @@ export const CancelListingDialogTrigger: FC<Props> = ({
             <CancelListingDialogContent 
                 open={open} 
                 setOpen={setOpen} 
-                order={data}
+                asset={asset}
+                order={order}
             />
         </Dialog.Root>
     )

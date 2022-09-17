@@ -12,6 +12,7 @@ import { YoutubeIcon } from '../../Icons/YoutubeIcon'
 import { RedditIcon } from '../../Icons/RedditIcon'
 import { DiscordIcon } from '../../Icons/DiscordIcon'
 import { InstagramIcon } from '../../Icons/InstagramIcon'
+import useTranslation from 'next-translate/useTranslation'
 
 const TWITTER_URL = process.env.NEXT_PUBLIC_TWITTER_URL
 const GITHUB_URL = process.env.NEXT_PUBLIC_GITHUB_URL
@@ -22,6 +23,8 @@ const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL
 const TIKTOK_URL = process.env.NEXT_PUBLIC_TIKTOK_URL
 
 export const BodyFooter: FC = () => {
+    const { t } = useTranslation('common')
+
     return (
         <Box
             position='relative'
@@ -76,13 +79,13 @@ export const BodyFooter: FC = () => {
                                 fontWeight='600'
                                 color='white'
                             >
-                                Stay in the loop
+                                {t('mailingListTitle')}
                             </Text>
                         </Box>
                         <Text
                             color='white'
                         >
-                            Join our mailing list to stay in the loop with our newest feature releases, NFT drops, and tips and tricks for navigating OpenFish.
+                            {t('mailingListDescription')}
                         </Text>
                         <MailingListForm />
                     </Box>
@@ -118,7 +121,7 @@ export const BodyFooter: FC = () => {
                                 fontSize='20'
                                 color='white'
                             >
-                                Join the community
+                                {t('joinTheCommunity')}
                             </Text>
                         </Box>
                         <Box 
@@ -289,12 +292,12 @@ export const BodyFooter: FC = () => {
                             marginY='8'
                             color='white'
                         >
-                            OpenFish
+                            {t('appTitle')}
                         </NextLink>
                         <Text 
                             color='white'
                         >
-                            OpenFish is an example implementation of the Seaport marketplace protocol for educational purpose.
+                            {t('appDescription')}
                         </Text>
                     </Box>
                     <Box 
@@ -357,7 +360,7 @@ export const BodyFooter: FC = () => {
                                     fontWeight='600'
                                     color='white'
                                 >
-                                    Marketplace
+                                    {t('marketplace')}
                                 </Text>
                             </Box>
                             <Box
@@ -384,7 +387,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            All Assets
+                                            {t('allAssets')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -409,7 +412,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Art
+                                            {t('art')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -434,7 +437,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Collectibles
+                                            {t('collectibles')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -459,7 +462,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Domain Names
+                                            {t('domainNames')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -484,7 +487,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Music
+                                            {t('music')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -509,7 +512,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Photography
+                                            {t('photography')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -534,7 +537,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Sports
+                                            {t('sports')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -576,7 +579,7 @@ export const BodyFooter: FC = () => {
                                     fontWeight='600'
                                     color='white'
                                 >
-                                    My Account
+                                    {t('myAccount')}
                                 </Text>
                             </Box>
                             <Box
@@ -604,7 +607,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Profile
+                                            {t('profile')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -629,7 +632,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Favorites
+                                            {t('favoritesWithCapital')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -654,7 +657,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            My Collections
+                                            {t('myCollections')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -679,7 +682,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Settings
+                                            {t('settings')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -699,7 +702,7 @@ export const BodyFooter: FC = () => {
                                     fontWeight='600'
                                     color='white'
                                 >
-                                    Stats
+                                    {t('stats')}
                                 </Text>
                             </Box>
                             <Box
@@ -726,7 +729,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Rankings
+                                            {t('rankings')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -768,7 +771,7 @@ export const BodyFooter: FC = () => {
                                     fontWeight='600'
                                     color='white'
                                 >
-                                    Resources
+                                    {t('resources')}
                                 </Text>
                             </Box>
                             <Box
@@ -795,7 +798,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            Help Center
+                                            {t('helpCenter')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -837,7 +840,7 @@ export const BodyFooter: FC = () => {
                                     fontWeight='600'
                                     color='white'
                                 >
-                                    Company
+                                    {t('company')}
                                 </Text>
                             </Box>
                             <Box
@@ -864,7 +867,7 @@ export const BodyFooter: FC = () => {
                                                 active: '500'
                                             }}
                                         >
-                                            About
+                                            {t('about')}
                                         </Text>
                                     </NextLink>
                                 </Box>
@@ -900,7 +903,7 @@ export const BodyFooter: FC = () => {
                             fontSize='12'
                             color='white'
                         >
-                            © 2022 - 2022 OpenFish
+                            © 2022 - 2022 {t('appTitle')}
                         </Text>
                     </Box>
                     <Box 
@@ -935,7 +938,7 @@ export const BodyFooter: FC = () => {
                                     active: '500'
                                 }}
                             >
-                                Privacy Policy
+                                {t('privacyPolicy')}
                             </Text>
                         </NextLink>
                         <NextLink
@@ -950,7 +953,7 @@ export const BodyFooter: FC = () => {
                                     active: '500'
                                 }}
                             >
-                                Terms of Service
+                                {t('terms')}
                             </Text>
                         </NextLink>
                     </Box>

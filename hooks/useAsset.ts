@@ -1,12 +1,12 @@
 import fetcher from '../utils/fetcher'
 import setParams from '../utils/params'
 import useSWR from 'swr'
-import { AssetType } from '../types/assetTypes'
+import { AssetReadType } from '../types/assetTypes'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
 export default function useAsset(
-    fallbackData: AssetType | undefined,
+    fallbackData: AssetReadType | undefined,
     contract_address?: string | undefined,
     token_id?: string | undefined
   ) {
@@ -27,7 +27,7 @@ export default function useAsset(
     const href = getUrl()
   
     if (typeof href !== 'undefined') {
-        const asset = useSWR<AssetType>(href, fetcher, {
+        const asset = useSWR<AssetReadType>(href, fetcher, {
             fallbackData,
         })
     

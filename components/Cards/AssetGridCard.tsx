@@ -1,8 +1,8 @@
 import { EthIcon } from '../Icons/EthIcon'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Box } from '../Box/Box'
-import { AssetType } from '../../types/assetTypes'
-import { CardButton } from '../Buttons/CardButton'
+import { AssetReadType } from '../../types/assetTypes'
+import { CardButton } from '../Buttons/CardButton/CardButton'
 import { AssetGridLoadingCard } from '../LoadingCards/AssetGridLoadingCard'
 import { LoginSideDialogTrigger } from '../DialogTriggers/LoginSideDialogTrigger'
 import { useAccount } from 'wagmi'
@@ -11,27 +11,61 @@ import { CompletePurchaseDialogTrigger } from '../DialogTriggers/CompletePurchas
 import { CancelListingDialogTrigger } from '../DialogTriggers/CancelListingDialogTrigger'
 import { Text } from '../Text/Text'
 import { NextLink } from '../NextLink/NextLink'
+import useOrders from '../../hooks/useOrders'
+import { useRouter } from 'next/router'
+import { OrderType } from '../../types/orderTypes'
+import TimeAgo from 'react-timeago'
+import { MakeOfferDialogTrigger } from '../DialogTriggers/MakeOfferDialogTrigger'
+import { TokensStateType } from '../../types/tokenTypes'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-    asset: AssetType
+    asset: AssetReadType
     mutate: () => void
     isOwner?: boolean
+    tokens: TokensStateType
 }
 
 export const AssetGridCard: FC<Props> = ({
     asset,
     mutate,
-    isOwner
+    isOwner,
+    tokens
 }) => {
+    const { t } = useTranslation('common')
     const { mounted } = useMounted()
     const { isConnected, address } = useAccount()
 
+    const router = useRouter()
+    const orders = useOrders(router, undefined, asset.asset_contract.address, asset.token_id)
+
     const [loginSideDialogOpen, setLoginSideDialogOpen] = useState<boolean>(false)
     const [completePurchaseDialogOpen, setCompletePurchaseDialogOpen] = useState<boolean>(false)
+    const [makeOfferDialogOpen, setMakeOfferDialogOpen] = useState<boolean>(false)
     const [cancelListingDialogOpen, setCancelListingDialogOpen] = useState<boolean>(false)
 
     if (!isOwner && mounted)
         isOwner = address === asset.owner.address
+
+    const [lastListing, setLastListing] = useState<OrderType>()
+
+    useEffect(() => {
+        if (orders?.orders?.data && orders.orders.data.length > 0) {
+            console.log('before filter: ', orders.orders.data?.[0].orders)
+            const newLastListing = orders.orders.data?.[0].orders
+            .filter(order => {
+                return (
+                    order.cancelled === false && 
+                    order.finalized === false &&
+                    Number(order.expiration_time) > (Date.now() / 1000)
+                )
+            }).sort((a, b) => {
+                return Number(b.parameters.endTime) - Number(a.parameters.endTime)
+            })
+            setLastListing(newLastListing[0])
+            console.log('newLastListing', newLastListing)
+        }
+    }, [orders?.orders?.data])
 
     return (
         <Box
@@ -118,7 +152,7 @@ export const AssetGridCard: FC<Props> = ({
                                 fontSize='12' 
                                 fontWeight='600'
                             >
-                                Price
+                                {t('price')}
                             </Text>
                             <Box 
                                 display='flex' 
@@ -126,6 +160,7 @@ export const AssetGridCard: FC<Props> = ({
                                 height='20' 
                                 gap='5'
                             >
+                                {/* To do */}
                                 <EthIcon width='16' />
                                 <Text 
                                     as='span' 
@@ -162,13 +197,19 @@ export const AssetGridCard: FC<Props> = ({
                             transition='opacity'
                             marginRight='8'
                         >
-                            <Text
-                                fontWeight='500'
-                                fontSize='12'
-                                color='boxText'
-                            >
-                                Ends in ...
-                            </Text>
+                            {lastListing &&
+                                <Text
+                                    fontWeight='500'
+                                    fontSize='12'
+                                    color='boxText'
+                                >
+                                    {t('endsIn')}{'\u00a0'}
+                                    <TimeAgo 
+                                        date={Number(lastListing.expiration_time) * 1000} 
+                                        formatter={(value, unit) => `${value} ${unit}${value > 1 ? 's' : ''}`} 
+                                    />
+                                </Text>
+                            }
                         </Box>
                         {mounted && !isConnected &&
                             <LoginSideDialogTrigger 
@@ -178,35 +219,61 @@ export const AssetGridCard: FC<Props> = ({
                                 <CardButton 
                                     onClick={() => {return null}}
                                 >
-                                    Buy now
+                                    {t('buyNow')}
                                 </CardButton>
                             </LoginSideDialogTrigger>
                         }
-                        {mounted && isConnected && !isOwner &&
+                        {mounted && isConnected && !isOwner && lastListing &&
                             <CompletePurchaseDialogTrigger
                                 open={completePurchaseDialogOpen}
                                 setOpen={setCompletePurchaseDialogOpen}
-                                data={asset}
-                            >    
+                                asset={asset}
+                                order={lastListing}
+                            >
                                 <CardButton 
                                     onClick={() => {return null}}
                                 >
-                                    Buy now
+                                    {t('buyNow')}
                                 </CardButton>
                             </CompletePurchaseDialogTrigger>
                         }
-                        {mounted && isConnected && isOwner &&
-                            <CancelListingDialogTrigger
-                                open={cancelListingDialogOpen}
-                                setOpen={setCancelListingDialogOpen}
-                                data={asset}
-                            >    
+                        {mounted && isConnected && !isOwner && !lastListing &&
+                            <MakeOfferDialogTrigger
+                                open={makeOfferDialogOpen}
+                                setOpen={setMakeOfferDialogOpen}
+                                tokens={tokens}
+                            >
                                 <CardButton 
                                     onClick={() => {return null}}
                                 >
-                                    Cancel listing
+                                    {t('makeOffer')}
+                                </CardButton>
+                            </MakeOfferDialogTrigger>
+                        }
+                        {mounted && isConnected && isOwner && lastListing &&
+                            <CancelListingDialogTrigger
+                                open={cancelListingDialogOpen}
+                                setOpen={setCancelListingDialogOpen}
+                                asset={asset}
+                                order={lastListing}
+                            >
+                                <CardButton 
+                                    onClick={() => {return null}}
+                                >
+                                    {t('cancelListing')}
                                 </CardButton>
                             </CancelListingDialogTrigger>
+                        }
+                        {mounted && isConnected && isOwner && !lastListing &&
+                            <NextLink
+                                href={`/assets/${asset.asset_contract.address}/${asset.token_id}/sell`}
+                            >
+                                <CardButton 
+                                    onClick={() => {return null}}
+                                >
+                                    {t('listAsset')}
+                                </CardButton>
+                            </NextLink>
                         }
                     </Box>
                 </Box>

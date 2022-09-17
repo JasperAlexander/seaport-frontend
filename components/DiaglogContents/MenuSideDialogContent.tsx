@@ -20,6 +20,7 @@ import { TikTokIcon } from '../Icons/TikTokIcon'
 import { YoutubeIcon } from '../Icons/YoutubeIcon'
 import { RedditIcon } from '../Icons/RedditIcon'
 import { DiscordIcon } from '../Icons/DiscordIcon'
+import useTranslation from 'next-translate/useTranslation'
 
 const TWITTER_URL = process.env.NEXT_PUBLIC_TWITTER_URL
 const GITHUB_URL = process.env.NEXT_PUBLIC_GITHUB_URL
@@ -38,6 +39,8 @@ export const MenuSideDialogContent: FC<Props> = ({
     open,
     setOpen
 }) => {
+    const { t } = useTranslation('common')
+
     const [walletSideDialogOpen, setWalletSideDialogOpen] = useState<boolean>(false)
     
     return (
@@ -81,7 +84,7 @@ export const MenuSideDialogContent: FC<Props> = ({
                                     hoverColor='defaultTextHover'
                                     fontWeight='600'
                                 >
-                                    Explore
+                                    {t('explore')}
                                 </Text>
                             </Box>
                             <ChevronHorIcon />
@@ -103,7 +106,7 @@ export const MenuSideDialogContent: FC<Props> = ({
                                     hoverColor='defaultTextHover'
                                     fontWeight='600'
                                 >
-                                    Stats
+                                    {t('stats')}
                                 </Text>
                             </Box>
                             <ChevronHorIcon />
@@ -125,7 +128,7 @@ export const MenuSideDialogContent: FC<Props> = ({
                                     hoverColor='defaultTextHover'
                                     fontWeight='600'
                                 >
-                                    Resources
+                                    {t('resources')}
                                 </Text>
                             </Box>
                             <ChevronHorIcon />
@@ -147,7 +150,7 @@ export const MenuSideDialogContent: FC<Props> = ({
                                     hoverColor='defaultTextHover'
                                     fontWeight='600'
                                 >
-                                    Account
+                                    {t('account')}
                                 </Text>
                             </Box>
                             <ChevronHorIcon />
@@ -173,7 +176,7 @@ export const MenuSideDialogContent: FC<Props> = ({
                                         hoverColor='defaultTextHover'
                                         fontWeight='600'
                                     >
-                                        My Wallet
+                                        {t('myWallet')}
                                     </Text>
                                 </Box>
                             </Box>
@@ -195,7 +198,7 @@ export const MenuSideDialogContent: FC<Props> = ({
                                     hoverColor='defaultTextHover'
                                     fontWeight='600'
                                 >
-                                    Night mode
+                                    {t('nightMode')}
                                 </Text>
                             </Box>
                             <NightModeToggle />

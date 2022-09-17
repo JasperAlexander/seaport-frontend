@@ -8,6 +8,7 @@ import { TokenSelect } from '../Selects/TokenSelect'
 import { TokensType } from '../../types/tokenTypes'
 import { SWRInfiniteResponse } from 'swr/infinite'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof ListAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -28,6 +29,8 @@ export const ListingPriceFormSection: FC<Props> = ({
     setData,
     label = 'Price'
 }) => {
+    const { t } = useTranslation('common')
+
     const { data: tokensData, isValidating, size } = tokens
     const mappedTokens = tokensData ? tokensData.map(({ tokens }) => tokens).flat() : []
 
@@ -127,7 +130,7 @@ export const ListingPriceFormSection: FC<Props> = ({
                             color='boxText'
                         >
                             {/* Should be based on input value */}
-                            $1.000 Total
+                            $1.000 {t('total')}
                         </Text>
                     </Box>
                 </Box>

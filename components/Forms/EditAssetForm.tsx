@@ -10,10 +10,11 @@ import { CollectionFormSection } from '../FormSections/CollectionFormSection'
 import { SupplyFormSection } from '../FormSections/SupplyFormSection'
 import { BlockchainFormSection } from '../FormSections/BlockchainFormSection'
 import { SpecialsFormSection } from '../FormSections/SpecialsFormSection'
-import { MainButton } from '../Buttons/MainButton'
+import { MainButton } from '../Buttons/MainButton/MainButton'
 import { SWRResponse } from 'swr'
-import { AssetType } from '../../types/assetTypes'
+import { AssetReadType } from '../../types/assetTypes'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 // To do: find out why this cannot be moved to assetTypes.ts
 export interface EditAssetFormType {
@@ -28,7 +29,7 @@ export interface EditAssetFormType {
 }
 
 interface Props {
-    asset: SWRResponse<AssetType, any> | undefined
+    asset: SWRResponse<AssetReadType, any> | undefined
     collections: CollectionsStateType
 }
 
@@ -36,6 +37,8 @@ export const EditAssetForm: FC<Props> = ({
     asset,
     collections: { collections }
 }) => {
+    const { t } = useTranslation('common')
+
     const { handleSubmit, setData, setErrors, validate, handleChange, data, errors, } = useForm<EditAssetFormType>({
         validations: {
             // image_url: {
@@ -51,59 +54,59 @@ export const EditAssetForm: FC<Props> = ({
             name: {
                 pattern: {
                     value: '^[A-Za-z0-9]*$',
-                    message: 'Name must only contain alphanumeric characters.'
+                    message: `${t('fieldOnlyAlphanumeric', { fieldName: 'Name' })}`
                 },
                 required: {
                     value: true,
-                    message: 'This field is required.'
+                    message: `${t('fieldRequired')}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 20 : true,
-                    message: 'Name must not exceed 20 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Name', amount: '20' })}`
                 }
             },
             external_link: {
                 pattern: {
                     value: '/^[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/',
-                    message: 'External link must be a link.'
+                    message: `${t('fieldMustBeA', { fieldName: 'External link', fieldType: 'link' })}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 50 : true,
-                    message: 'External link must not exceed 50 characters.'
+                    message: `${t('fieldNotExceed', { fieldName: 'External link', amount: '50' })}`
                 }
             },
             description: {
                 pattern: {
                     value: '^[A-Za-z]*$',
-                    message: 'Description must only contain alphanumeric characters.'
+                    message: `${t('fieldOnlyAlphanumeric', { fieldName: 'Description' })}`
                 },
                 custom: {
-                    isValid: (value) => value?.length ? value.length < 2000 : true,
-                    message: 'Description must not exceed 2000 characters.'
+                    isValid: (value) => value?.length ? value.length < 200 : true,
+                    message: `${t('fieldNotExceed', { fieldName: 'Description', amount: '200' })}`
                 }
             },
             collection: {
                 pattern: {
                     value: '^[A-Za-z0-9 ]*$',
-                    message: 'Collection name must only contain alphanumeric characters.'
+                    message: `${t('fieldOnlyAlphanumeric', { fieldName: 'Collection name' })}`
                 },
                 custom: {
-                    isValid: (value) => value?.length ? value.length < 2000 : true,
-                    message: 'Collection name must not exceed 50 characters.'
+                    isValid: (value) => value?.length ? value.length < 50 : true,
+                    message: `${t('fieldNotExceed', { fieldName: 'Collection name', amount: '50' })}`
                 }
             },
             supply: {
                 pattern: {
                     value: '^[0-9]*$',
-                    message: 'Supply must be a number.'
+                    message: `${t('fieldMustBeA', { fieldName: 'Supply', fieldType: 'number' })}`
                 },
                 required: {
                     value: true,
-                    message: 'This field is required.'
+                    message: `${t('fieldRequired')}`
                 },
                 custom: {
                     isValid: (value) => value?.length ? value.length < 6 : true,
-                    message: 'Supply must not exceed 5 numbers.'
+                    message: `${t('fieldNotExceed', { fieldName: 'Supply', amount: '5' })}`
                 }
             },
         },
@@ -137,7 +140,7 @@ export const EditAssetForm: FC<Props> = ({
                     fontSize='40' 
                     fontWeight='600'
                 >
-                    Edit asset {asset?.data?.name}
+                    {t('editAsset')} {asset?.data?.name}
                 </Text>
             </Box>
             <Box
@@ -162,14 +165,14 @@ export const EditAssetForm: FC<Props> = ({
                         as='span'
                         fontSize='12'
                     >
-                        Required fields
+                        {t('requiredFields')}
                     </Text>
                 </Box>
 
                 <ImageFormSection />
                 
                 <NameFormSection 
-                    placeholder='Asset name'
+                    placeholder={t('assetName')}
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 
@@ -185,7 +188,7 @@ export const EditAssetForm: FC<Props> = ({
                 />
 
                 <DescriptionFormSection 
-                    label={`The description will be included on the item's detail page underneath its image.`}
+                    label={t('descriptionFieldDescription')}
                     handleChange={handleChange} 
                     validate={validate} 
                     errors={errors} 
@@ -237,12 +240,12 @@ export const EditAssetForm: FC<Props> = ({
                     <MainButton
                         disabled={Object.keys(errors).length > 0}
                     >
-                        Submit changes
+                        {t('submitChanges')}
                     </MainButton>
                     <MainButton
                         variant='secondary'
                     >
-                        Delete asset
+                        {t('deleteAsset')}
                     </MainButton>
                 </Box>
             </Box>

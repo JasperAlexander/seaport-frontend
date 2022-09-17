@@ -5,6 +5,7 @@ import { ListAssetFormType } from '../Forms/ListAssetForm'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { Input } from '../Input/Input'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof ListAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -19,6 +20,8 @@ export const ListingReserveFormSection: FC<Props> = ({
     errors,
     data
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
@@ -31,7 +34,7 @@ export const ListingReserveFormSection: FC<Props> = ({
                         as='label'
                         fontWeight='600'
                     >
-                        Reserve for specific buyer
+                        {t('reserveForBuyer')}
                         {/* Toggle component */}
                     </Text>
                 </Box>
@@ -43,7 +46,7 @@ export const ListingReserveFormSection: FC<Props> = ({
                         fontSize='12'
                         color='boxText'
                     >
-                        This item can be purchased as soon as it's listed.
+                        {t('canBePurchasedAfterListing')}
                     </Text>
                 </Box>
             </Box>

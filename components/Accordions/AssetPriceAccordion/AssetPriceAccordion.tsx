@@ -1,49 +1,55 @@
-import { FC, useState } from 'react'
-import { AssetType } from '../../../types/assetTypes'
+import { FC, useEffect, useState } from 'react'
+import { AssetReadType } from '../../../types/assetTypes'
 import { EventTypes } from '../../../types/eventTypes'
 import * as Accordion from '@radix-ui/react-accordion'
 import * as styles from './AssetPriceAccordion.css'
 import { Box } from '../../Box/Box'
 import { ScheduleIcon } from '../../Icons/ScheduleIcon'
 import { WalletIcon } from '../../Icons/WalletIcon'
-import { MainButton } from '../../Buttons/MainButton'
+import { MainButton } from '../../Buttons/MainButton/MainButton'
 import { MakeOfferDialogTrigger } from '../../DialogTriggers/MakeOfferDialogTrigger'
 import { PriceTagIcon } from '../../Icons/PriceTagIcon'
 import useMounted from '../../../hooks/useMounted'
 import { Text } from '../../Text/Text'
 import { TokensStateType } from '../../../types/tokenTypes'
+import { OrderType } from '../../../types/orderTypes'
+import { CompletePurchaseDialogTrigger } from '../../DialogTriggers/CompletePurchaseDialogTrigger'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-    asset: AssetType | undefined
-    lastListingEvent: any
+    asset: AssetReadType | undefined
+    lastListing: OrderType | undefined
     tokens: TokensStateType
 }
 
 export const AssetPriceAccordion: FC<Props> = ({
     asset,
-    lastListingEvent,
+    lastListing,
     tokens
 }) => {
-    const [makeOfferDialogOpen, setMakeOfferDialogOpen] = useState<boolean>(false)
+    const { t } = useTranslation('common')
     const { mounted } = useMounted()
 
-    const isListed: boolean = lastListingEvent?.type === EventTypes.Created
+    const [makeOfferDialogOpen, setMakeOfferDialogOpen] = useState<boolean>(false)
+    const [completePurchaseDialogOpen, setCompletePurchaseDialogOpen] = useState<boolean>(false)
     const [lastListingFormattedTimeStamp, setLastListingFormattedTimeStamp] = useState<string | undefined>(undefined)
-    if (mounted && isListed) {
-        const lastListingTimeStamp = new Date(lastListingEvent.created_timestamp)
-        const formattedLastListingTimeStamp = new Intl.DateTimeFormat("en-GB", {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            timeZoneName: 'short'
-        }).format(lastListingTimeStamp)
-        setLastListingFormattedTimeStamp(formattedLastListingTimeStamp)
-    }
 
-    if (isListed) {
+    useEffect(() => {
+        if (mounted && lastListing) {
+            const formattedLastListingTimeStamp = new Intl.DateTimeFormat("en-GB", {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZoneName: 'short'
+            }).format(Number(lastListing.expiration_time) * 1000)
+            setLastListingFormattedTimeStamp(formattedLastListingTimeStamp)
+        }
+    })
+
+    if (lastListing) {
         return (
             <Accordion.Root 
                 type="single" 
@@ -65,7 +71,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                                     <Text
                                         as='span'
                                     >
-                                        Sale ends {lastListingFormattedTimeStamp}
+                                        {t('sale')} {t('ends')} {lastListingFormattedTimeStamp}
                                     </Text>
                                 </Box>
                                 {/* <Box>
@@ -86,7 +92,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                                     fontSize='15' 
                                     color='boxText'
                                 >
-                                    Current price
+                                    {t('currentPrice')}
                                 </Text>
                                 <Box
                                     display='flex'
@@ -120,12 +126,29 @@ export const AssetPriceAccordion: FC<Props> = ({
                                     maxWidth='420'
                                     gap='8'
                                 >
-                                    <MainButton
-                                        width='50p'
-                                    >
-                                        <WalletIcon width='22' fill='white' />
-                                        Buy now
-                                    </MainButton>
+                                    {asset &&
+                                        <CompletePurchaseDialogTrigger
+                                            open={completePurchaseDialogOpen}
+                                            setOpen={setCompletePurchaseDialogOpen}
+                                            asset={asset}
+                                            order={lastListing}
+                                        >
+                                            <MainButton
+                                                width='50p'
+                                                onlyText={false}
+                                            >
+                                                <WalletIcon 
+                                                    width='22' 
+                                                    fill='white' 
+                                                />
+                                                <Text
+                                                    color='white'
+                                                >
+                                                    {t('buyNow')}
+                                                </Text>
+                                            </MainButton>
+                                        </CompletePurchaseDialogTrigger>
+                                    }
                                     <MakeOfferDialogTrigger 
                                         open={makeOfferDialogOpen} 
                                         setOpen={setMakeOfferDialogOpen} 
@@ -134,15 +157,20 @@ export const AssetPriceAccordion: FC<Props> = ({
                                         <MainButton
                                             variant='secondary'
                                             width='50p'
+                                            onlyText={false}
                                         >
                                             <PriceTagIcon width='22' fill='accentColor' />
-                                            Make offer
+                                            <Text
+                                                color='accentColor'
+                                            >
+                                                {t('makeOffer')}
+                                            </Text>
                                         </MainButton>
                                     </MakeOfferDialogTrigger>
                                 </Box>
                             </Box>
                             {/* : */}
-                            <Box
+                            {/* <Box
                                 padding='20'
                                 background='accordionBackground'
                             >
@@ -159,7 +187,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                                         Make offer
                                     </MainButton>
                                 </MakeOfferDialogTrigger>
-                            </Box>
+                            </Box> */}
                         </Accordion.Content>
                     </Accordion.Item>
             </Accordion.Root>
@@ -183,7 +211,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                     <MainButton
                         variant='secondary'
                     >
-                        Make offer
+                        {t('makeOffer')}
                     </MainButton>
                 </MakeOfferDialogTrigger>
             </Box>

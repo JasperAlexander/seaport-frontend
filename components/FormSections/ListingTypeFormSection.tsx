@@ -6,6 +6,7 @@ import { CloseIcon } from '../Icons/CloseIcon'
 import { PriceIcon } from '../Icons/PriceIcon'
 import { TimeLapseIcon } from '../Icons/TimeLapseIcon'
 import { Text } from '../Text/Text'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
     handleChange: <S extends unknown>(key: keyof ListAssetFormType, sanitizeFn?: ((value: string) => S) | undefined) => (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
@@ -22,6 +23,8 @@ export const ListingTypeFormSection: FC<Props> = ({
     data,
     setData
 }) => {
+    const { t } = useTranslation('common')
+
     return (
         <Box className={styles.formItem}>
             <Box className={styles.formItemTop}>
@@ -33,7 +36,7 @@ export const ListingTypeFormSection: FC<Props> = ({
                         as='label'
                         fontWeight='600'
                     >
-                        Type
+                        {t('type')}
                     </Text>
                     <Text 
                         as='span' 
@@ -60,6 +63,7 @@ export const ListingTypeFormSection: FC<Props> = ({
                                 // @ts-ignore
                                 listing_type: 'fixed'
                             })
+                            validate()
                         }}
                         background={data.listing_type === 'fixed' ? 'tabBackground' : 'defaultBackground'}
                         flexDirection='column'
@@ -81,12 +85,13 @@ export const ListingTypeFormSection: FC<Props> = ({
                         boxShadow={{
                             hover: 'subHeader'
                         }}
+                        width='full'
                     >
                         <PriceIcon width='22' />
                         <Text
                             fontWeight='600'
                         >
-                            Fixed Price
+                            {t('fixedPrice')}
                         </Text>
                     </Box>
                     <Box
@@ -99,6 +104,7 @@ export const ListingTypeFormSection: FC<Props> = ({
                                 // @ts-ignore
                                 listing_type: 'timed'
                             })
+                            validate()
                         }}
                         flexDirection='column'
                         gap='10'
@@ -115,12 +121,13 @@ export const ListingTypeFormSection: FC<Props> = ({
                         boxShadow={{
                             hover: 'subHeader'
                         }}
+                        width='full'
                     >
                         <TimeLapseIcon width='22' />
                         <Text
                             fontWeight='600'
                         >
-                            Timed Auction
+                            {t('timedAuction')}
                         </Text>
                     </Box>
                 </Box>

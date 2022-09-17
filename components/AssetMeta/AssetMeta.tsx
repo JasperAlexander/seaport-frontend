@@ -1,6 +1,5 @@
 import useMounted from '../../hooks/useMounted'
-import { sprinkles } from '../../styles/sprinkles.css'
-import { AssetType } from '../../types/assetTypes'
+import { AssetReadType } from '../../types/assetTypes'
 import { Box } from '../Box/Box'
 import { FC } from 'react'
 import { VisibilityIcon } from '../Icons/VisibilityIcon'
@@ -8,14 +7,16 @@ import { FavoriteFilledIcon } from '../Icons/FavoriteFilledIcon'
 import { truncateAddress, truncateEns } from '../../utils/truncateText'
 import { Text } from '../Text/Text'
 import { NextLink } from '../NextLink/NextLink'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-  asset: AssetType | undefined
+  asset: AssetReadType | undefined
 }
 
 export const AssetMeta: FC<Props> = ({
   asset
 }) => {
+  const { t } = useTranslation('common')
   const { mounted } = useMounted()
     
   return (
@@ -37,7 +38,7 @@ export const AssetMeta: FC<Props> = ({
           color='boxText'
           fontSize='15'
         >
-          Owned by
+          {t('ownedBy')}
         </Text>
         {mounted ?
           <NextLink 
@@ -68,7 +69,7 @@ export const AssetMeta: FC<Props> = ({
             color='boxText'
             fontSize='15'
           >
-            0.0K views
+            0.0K {t('views')}
           </Text>
       </Box>
       <Box
@@ -81,7 +82,7 @@ export const AssetMeta: FC<Props> = ({
             color='boxText'
             fontSize='15'
           >
-            0 favorites
+            0 {t('favorites')}
           </Text>
       </Box>
     </Box>

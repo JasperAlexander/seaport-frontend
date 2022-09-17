@@ -3,7 +3,7 @@ import setParams from '../utils/params'
 import { NextRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite'
+import useSWRInfinite, { SWRInfiniteKeyLoader, SWRInfiniteResponse } from 'swr/infinite'
 import { OrdersQueryType, OrdersType } from '../types/orderTypes'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
@@ -24,18 +24,29 @@ export default function useOrders(
         ...(token_id && { parameters__offer__identifierOrCriteria: token_id })
     }
 
-    const orders = useSWRInfinite(
-        (index, previousPageData) => getKey(pathname, query, index, previousPageData),
-        fetcher,
-        {
-            revalidateFirstPage: false,
-            fallbackData: [
-                {
-                    orders: fallback?.orders,
-                }
-            ]
-        }
-    )
+    let orders: SWRInfiniteResponse<OrdersType, any>
+    if (fallback) {
+        orders = useSWRInfinite(
+            (index, previousPageData) => getKey(pathname, query, index, previousPageData),
+            fetcher,
+            {
+                revalidateFirstPage: false,
+                fallbackData: [
+                    {
+                        orders: fallback?.orders,
+                    }
+                ]
+            }
+        )
+    } else {
+        orders = useSWRInfinite(
+            (index, previousPageData) => getKey(pathname, query, index, previousPageData),
+            fetcher,
+            {
+                revalidateFirstPage: false
+            }
+        )
+    }
 
   // Fetch more data when component is visible
     useEffect(() => {

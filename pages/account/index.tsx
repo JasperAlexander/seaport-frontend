@@ -5,7 +5,6 @@ import { Box } from '../../components/Box/Box'
 import { useAccount } from 'wagmi'
 import useAssets from '../../hooks/useAssets'
 import { useRouter } from 'next/router'
-import useMounted from '../../hooks/useMounted'
 import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
 import { ProfileImg } from '../../components/ProfileImg/ProfileImg'
 import { ProfileName } from '../../components/ProfileName/ProfileName'
@@ -14,42 +13,20 @@ import { ProfileBanner } from '../../components/ProfileBanner/ProfileBanner'
 import { ProfileDescription } from '../../components/ProfileDescription/ProfileDescription'
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]'
-
-enum Tabs {
-    Created,
-    Collected
-}
-
-// type Props = InferGetStaticPropsType<typeof getStaticProps>
+import useTokens from '../../hooks/useTokens'
 
 const AccountPage: NextPage = () => {
     const router = useRouter()
     const { address } = useAccount()
     const user = useUser(address)
     const assets = useAssets(router, address)
-    const { mounted } = useMounted()
+    const tokens = useTokens(router)
+
     const [isOwner, setIsOwner] = useState<boolean>(false)
     useEffect(() => {
         if (address && user?.data?.address)
             setIsOwner(address === user?.data?.address)
     })
-    // const isOwner = address === user?.data?.address
-
-    const [currentTab, setCurrentTab] = useState<Tabs>(Tabs.Created)
-
-    let tabs = [
-        { name: 'Portfolio', id: 'portfolio' },
-        // { name: 'History', id: 'history' },
-    ]
-
-    if (isOwner) {
-        tabs = [
-            { name: 'Tokens', id: 'portfolio' },
-            { name: 'Offers', id: 'buying' },
-            { name: 'Listings', id: 'selling' },
-            // { name: 'History', id: 'history' },
-        ]
-    }
     
     return (
         <Fragment>
@@ -82,6 +59,7 @@ const AccountPage: NextPage = () => {
                         <ProfileTabs 
                             assets={assets}
                             isOwner={isOwner}
+                            tokens={tokens}
                         />
                     </Box>
                 </Box>

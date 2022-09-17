@@ -1,26 +1,32 @@
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import { Box } from '../Box/Box'
 import { AssetGridHeader } from '../Headers/AssetGridHeader/AssetGridHeader'
 import { FilterAccordion } from '../Accordions/FilterAccordion/FilterAccordion'
 import { RefreshIcon } from '../Icons/RefreshIcon'
-import { AssetsStateType, AssetType } from '../../types/assetTypes'
+import { AssetsStateType, AssetReadType } from '../../types/assetTypes'
 import { AssetGridCard } from '../Cards/AssetGridCard'
 import { AssetGridLoadingCard } from '../LoadingCards/AssetGridLoadingCard'
 import TimeAgo from 'react-timeago'
-import { RoundButton } from '../Buttons/RoundButton'
+import { RoundButton } from '../Buttons/RoundButton/RoundButton'
 import { Text } from '../Text/Text'
+import { TokensStateType } from '../../types/tokenTypes'
+import useTranslation from 'next-translate/useTranslation'
 
 interface Props {
-  data: AssetsStateType
+  assets: AssetsStateType
   isOwner?: boolean
   displayFilters: boolean
+  tokens: TokensStateType
 }
 
 export const AssetGrid: React.FC<Props> = ({ 
-  data: { assets, ref },
+  assets: { assets, ref },
   isOwner,
-  displayFilters
+  displayFilters,
+  tokens
 }) => {
+  const { t } = useTranslation('common')
+
   const [refreshTime, setRefreshTime] = useState<number>(Date.now())
   const { data, isValidating, size } = assets
 
@@ -69,10 +75,10 @@ export const AssetGrid: React.FC<Props> = ({
           <FilterAccordion
             items={[
                 { 
-                    header: { name: 'Status', key: 'status' },
+                    header: { name: t('status'), key: 'status' },
                     content: [
-                        { name: 'Buy now', key: 'buynow' }, 
-                        { name: 'Has offers', key: 'hasoffers' }
+                        { name: t('buyNow'), key: 'buynow' }, 
+                        { name: t('hasOffers'), key: 'hasoffers' }
                     ]
                 }
             ]}
@@ -124,10 +130,10 @@ export const AssetGrid: React.FC<Props> = ({
                   <Text
                     color='boxText'
                   >
-                    Updated{'\u00a0'}
+                    {t('updated')}{'\u00a0'}
                     <TimeAgo 
                       date={refreshTime} 
-                      formatter={(value, unit) => `${value} ${unit} ago`} 
+                      formatter={(value, unit) => `${value} ${unit}${value > 1 ? 's' : ''} ago`} 
                     />
                   </Text>
                 </Box>
@@ -137,7 +143,7 @@ export const AssetGrid: React.FC<Props> = ({
               >
                 {mappedAssets ? mappedAssets.length : 'Unknown amount of'} 
                 {mappedAssets.length === 1 ? ' asset ' : ' assets '} 
-                loaded
+                {t('loaded')}
               </Text>
             </Box>
           </Box>
@@ -158,7 +164,7 @@ export const AssetGrid: React.FC<Props> = ({
             {!isValidating && isEmpty 
               ? 
                 <Text>
-                  No assets
+                  {t('noAssets')}
                 </Text>
               : size === 1 && isValidating
                 ? 
@@ -168,12 +174,13 @@ export const AssetGrid: React.FC<Props> = ({
                     />
                   ))
                 : 
-                  mappedAssets?.map((asset: AssetType) => (
+                  mappedAssets?.map((asset: AssetReadType) => (
                       <AssetGridCard 
                         asset={asset}
                         key={asset.id}
                         mutate={assets.mutate}
                         isOwner={isOwner}
+                        tokens={tokens}
                       />
                   ))
               }

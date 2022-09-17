@@ -1,16 +1,17 @@
 import fetcher from '../utils/fetcher'
 import setParams from '../utils/params'
 import useSWR from 'swr'
-import { UserType } from '../types/userTypes'
+import { UsersType, UserType } from '../types/userTypes'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
 export default function useUser(
+  username?: string,
   address?: string,
   fallbackData?: UserType
 ) {
-  if (address) {
-    const pathname = `${API_BASE}/api/v1/user/${address}/`
+  if (username) {
+    const pathname = `${API_BASE}/api/v1/user/${username}/`
     
     const query = {}
 
@@ -26,5 +27,18 @@ export default function useUser(
     }
 
     return user
-  }
+  } 
+  // else if (address) {
+  //   const pathname = `${API_BASE}/api/v1/users/`
+    
+  //   const query = {
+  //     ...(address && { address: address })
+  //   }
+
+  //   const href = setParams(pathname, query)
+  
+  //   const users = useSWR<UsersType>(href, fetcher)
+
+  //   return users.data?.users[0]
+  // }
 }
