@@ -5,10 +5,11 @@ import { CloseIcon } from '../Icons/CloseIcon'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import { Text } from '../Text/Text'
 import { MainButton } from '../Buttons/MainButton/MainButton'
-import { CategoryDropdownTrigger } from '../DropdownTriggers/CategoryDropdownTrigger'
 import { AssetButtonRowItem } from '../AssetButtonRowItem/AssetButtonRowItem'
 import { AllNFTsIcon } from '../Icons/AllNFTsIcon'
 import useTranslation from 'next-translate/useTranslation'
+import { DropdownTrigger } from '../DropdownTrigger/DropdownTrigger'
+import { CategoryDropdownContent } from '../DropdownContents/CategoryDropdownContent'
 
 interface Props {
     setData: (e: any) => void
@@ -62,9 +63,14 @@ export const CategoryFormSection: FC<Props> = ({
                     alignItems='center'
                     gap='12'
                 >
-                    <CategoryDropdownTrigger
-                        data={data}
-                        setData={setData}
+                    <DropdownTrigger
+                        content={
+                            <CategoryDropdownContent 
+                                data={data}
+                                setData={setData}
+                            />
+                        }
+                        offsetDistance={10}
                     >
                         <Box
                             as='button'
@@ -78,13 +84,20 @@ export const CategoryFormSection: FC<Props> = ({
                             textAlign='center'
                             height='48'
 
-                            boxShadow={{ hover: 'subHeader' }}
+                            boxShadow={{ 
+                                hover: 'subHeader' 
+                            }}
                             background={{
                                 base: 'defaultBackground',
                                 active: 'buttonBackgroundActive'
                             }}
-                            opacity={{ disabled: 'disabled' }}
-                            cursor={{ base: 'pointer', disabled: 'default' }}
+                            opacity={{ 
+                                disabled: 'disabled' 
+                            }}
+                            cursor={{ 
+                                base: 'pointer', 
+                                disabled: 'default' 
+                            }}
 
                             borderRadius='10'
                             borderWidth='2'
@@ -101,7 +114,7 @@ export const CategoryFormSection: FC<Props> = ({
                                 {t('addCategory')}
                             </Text>
                         </Box>
-                    </CategoryDropdownTrigger>
+                    </DropdownTrigger>
                     {data.category &&
                         <Box
                             as='button'
@@ -119,13 +132,20 @@ export const CategoryFormSection: FC<Props> = ({
                             textAlign='center'
                             height='48'
 
-                            boxShadow={{ hover: 'subHeader' }}
+                            boxShadow={{ 
+                                hover: 'subHeader' 
+                            }}
                             background={{
                                 base: 'defaultBackground',
                                 active: 'buttonBackgroundActive'
                             }}
-                            opacity={{ disabled: 'disabled' }}
-                            cursor={{ base: 'pointer', disabled: 'default' }}
+                            opacity={{ 
+                                disabled: 'disabled' 
+                            }}
+                            cursor={{ 
+                                base: 'pointer', 
+                                disabled: 'default' 
+                            }}
 
                             borderRadius='10'
                             borderWidth='2'
@@ -165,7 +185,7 @@ export const CategoryFormSection: FC<Props> = ({
                             fontWeight='500'
                             color='boxText'
                         >
-                            {t('fieldSelectMaxOf', { amount: 'one', fieldName: 'category' })}
+                            {t('fieldSelectMaxOf', { amount: t('one'), fieldName: t('categoryWithoutCapital') })}
                         </Text>
                     </Box>
                 }

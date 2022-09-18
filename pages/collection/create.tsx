@@ -7,6 +7,7 @@ import useTokens from '../../hooks/useTokens'
 import { useRouter } from 'next/router'
 import { CreateCollectionForm } from '../../components/Forms/CreateCollectionForm'
 import { TitleAndMetaTags } from '../../components/TitleAndMetaTags/TitleAndMetaTags'
+import useTranslation from 'next-translate/useTranslation'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
@@ -15,13 +16,15 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>
 const CreateCollectionPage: NextPage<Props> = ({
     fallbackTokens
 }) => {
+    const { t } = useTranslation('common')
+
     const router = useRouter()
     const tokens = useTokens(router, fallbackTokens)
     
     return (
         <Fragment>
             <TitleAndMetaTags 
-                title='Create Collection | OpenFish'
+                title={`${t('createCollection')} | OpenFish`}
             />
 
             <Box

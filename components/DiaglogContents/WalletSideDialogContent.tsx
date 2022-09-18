@@ -12,9 +12,10 @@ import { useSession } from 'next-auth/react'
 import { ConnectWalletScreen } from '../ConnectWalletScreen/ConnectWalletScreen'
 import { truncateAddress } from '../../utils/truncateText'
 import { ChevronIcon } from '../Icons/ChevronIcon'
-import { WalletDropdownTrigger } from '../DropdownTriggers/WalletDropdownTrigger'
 import { ChevronHorIcon } from '../Icons/ChevronHorIcon'
 import useTranslation from 'next-translate/useTranslation'
+import { DropdownTrigger } from '../DropdownTrigger/DropdownTrigger'
+import { WalletDropdownContent } from '../DropdownContents/WalletDropdownContent'
 
 interface Props {
     open: boolean
@@ -111,7 +112,10 @@ export const WalletSideDialogContent: FC<Props> = ({
                                             fill='boxText'
                                         />
                                     </Box>
-                                    <WalletDropdownTrigger>
+                                    <DropdownTrigger
+                                        content={<WalletDropdownContent />}
+                                        offsetDistance={10}
+                                    >
                                         <Box
                                             as='button'
                                             display='inline-flex'
@@ -154,7 +158,7 @@ export const WalletSideDialogContent: FC<Props> = ({
                                                 fill='boxText'
                                             />
                                         </Box>
-                                    </WalletDropdownTrigger>
+                                    </DropdownTrigger>
                                 </Box>
                                 <Box
                                     as='button'

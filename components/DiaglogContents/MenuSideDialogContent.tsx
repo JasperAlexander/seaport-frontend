@@ -7,9 +7,7 @@ import { Text } from '../Text/Text'
 import { ExploreIcon } from '../Icons/ExploreIcon'
 import { NextLink } from '../NextLink/NextLink'
 import { PersonOutlinedIcon } from '../Icons/PersonOutlinedIcon'
-import { NightModeToggle } from '../Toggles/NightModeToggle'
 import { ModeNightIcon } from '../Icons/ModeNightIcon'
-import { WalletSideDialogTrigger } from '../DialogTriggers/WalletSideDialogTrigger'
 import { WalletOutlinedIcon } from '../Icons/WalletOutlinedIcon'
 import { BarChartIcon } from '../Icons/BarChartIcon'
 import { BooksOutlinedIcon } from '../Icons/BooksOutlinedIcon'
@@ -21,6 +19,9 @@ import { YoutubeIcon } from '../Icons/YoutubeIcon'
 import { RedditIcon } from '../Icons/RedditIcon'
 import { DiscordIcon } from '../Icons/DiscordIcon'
 import useTranslation from 'next-translate/useTranslation'
+import { DialogTrigger } from '../DialogTrigger/DialogTrigger'
+import { WalletSideDialogContent } from './WalletSideDialogContent'
+import { Toggle } from '../Toggle/Toggle'
 
 const TWITTER_URL = process.env.NEXT_PUBLIC_TWITTER_URL
 const GITHUB_URL = process.env.NEXT_PUBLIC_GITHUB_URL
@@ -42,7 +43,8 @@ export const MenuSideDialogContent: FC<Props> = ({
     const { t } = useTranslation('common')
 
     const [walletSideDialogOpen, setWalletSideDialogOpen] = useState<boolean>(false)
-    
+    const [nightModeActive, setNightModeActive] = useState<boolean>(false)
+
     return (
         <Dialog.Content 
             asChild={true}
@@ -155,7 +157,13 @@ export const MenuSideDialogContent: FC<Props> = ({
                             </Box>
                             <ChevronHorIcon />
                         </Box>
-                        <WalletSideDialogTrigger
+                        <DialogTrigger
+                            content={
+                                <WalletSideDialogContent 
+                                    open={walletSideDialogOpen} 
+                                    setOpen={setWalletSideDialogOpen} 
+                                />
+                            }
                             open={walletSideDialogOpen}
                             setOpen={setWalletSideDialogOpen}
                         >
@@ -180,7 +188,7 @@ export const MenuSideDialogContent: FC<Props> = ({
                                     </Text>
                                 </Box>
                             </Box>
-                        </WalletSideDialogTrigger>
+                        </DialogTrigger>
                         <Box
                             as='button' 
                             // onClick={() => setOpen(false)}
@@ -201,7 +209,10 @@ export const MenuSideDialogContent: FC<Props> = ({
                                     {t('nightMode')}
                                 </Text>
                             </Box>
-                            <NightModeToggle />
+                            <Toggle 
+                                active={nightModeActive}
+                                setActive={setNightModeActive}
+                            />
                         </Box>
                     </Box>
                     <Box

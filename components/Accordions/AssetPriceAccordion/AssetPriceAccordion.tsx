@@ -7,14 +7,15 @@ import { Box } from '../../Box/Box'
 import { ScheduleIcon } from '../../Icons/ScheduleIcon'
 import { WalletIcon } from '../../Icons/WalletIcon'
 import { MainButton } from '../../Buttons/MainButton/MainButton'
-import { MakeOfferDialogTrigger } from '../../DialogTriggers/MakeOfferDialogTrigger'
 import { PriceTagIcon } from '../../Icons/PriceTagIcon'
 import useMounted from '../../../hooks/useMounted'
 import { Text } from '../../Text/Text'
 import { TokensStateType } from '../../../types/tokenTypes'
 import { OrderType } from '../../../types/orderTypes'
-import { CompletePurchaseDialogTrigger } from '../../DialogTriggers/CompletePurchaseDialogTrigger'
 import useTranslation from 'next-translate/useTranslation'
+import { DialogTrigger } from '../../DialogTrigger/DialogTrigger'
+import { CompletePurchaseDialogContent } from '../../DiaglogContents/CompletePurchaseDialogContent'
+import { MakeOfferDialogContent } from '../../DiaglogContents/MakeOfferDialogContent'
 
 interface Props {
     asset: AssetReadType | undefined
@@ -127,11 +128,17 @@ export const AssetPriceAccordion: FC<Props> = ({
                                     gap='8'
                                 >
                                     {asset &&
-                                        <CompletePurchaseDialogTrigger
+                                        <DialogTrigger
+                                            content={
+                                                <CompletePurchaseDialogContent 
+                                                    open={completePurchaseDialogOpen} 
+                                                    setOpen={setCompletePurchaseDialogOpen} 
+                                                    asset={asset}
+                                                    order={lastListing}
+                                                />
+                                            }
                                             open={completePurchaseDialogOpen}
                                             setOpen={setCompletePurchaseDialogOpen}
-                                            asset={asset}
-                                            order={lastListing}
                                         >
                                             <MainButton
                                                 width='50p'
@@ -147,12 +154,18 @@ export const AssetPriceAccordion: FC<Props> = ({
                                                     {t('buyNow')}
                                                 </Text>
                                             </MainButton>
-                                        </CompletePurchaseDialogTrigger>
+                                        </DialogTrigger>
                                     }
-                                    <MakeOfferDialogTrigger 
-                                        open={makeOfferDialogOpen} 
-                                        setOpen={setMakeOfferDialogOpen} 
-                                        tokens={tokens}
+                                    <DialogTrigger
+                                        content={
+                                            <MakeOfferDialogContent 
+                                                open={makeOfferDialogOpen} 
+                                                setOpen={setMakeOfferDialogOpen} 
+                                                tokens={tokens}
+                                            />
+                                        }
+                                        open={makeOfferDialogOpen}
+                                        setOpen={setMakeOfferDialogOpen}
                                     >
                                         <MainButton
                                             variant='secondary'
@@ -166,7 +179,7 @@ export const AssetPriceAccordion: FC<Props> = ({
                                                 {t('makeOffer')}
                                             </Text>
                                         </MainButton>
-                                    </MakeOfferDialogTrigger>
+                                    </DialogTrigger>
                                 </Box>
                             </Box>
                             {/* : */}
@@ -203,17 +216,23 @@ export const AssetPriceAccordion: FC<Props> = ({
                 borderRadius='10'
                 background='accordionBackground'
             >
-                <MakeOfferDialogTrigger 
-                    open={makeOfferDialogOpen} 
+                <DialogTrigger
+                    content={
+                        <MakeOfferDialogContent 
+                            open={makeOfferDialogOpen} 
+                            setOpen={setMakeOfferDialogOpen} 
+                            tokens={tokens}
+                        />
+                    }
+                    open={makeOfferDialogOpen}
                     setOpen={setMakeOfferDialogOpen}
-                    tokens={tokens}
                 >
                     <MainButton
                         variant='secondary'
                     >
                         {t('makeOffer')}
                     </MainButton>
-                </MakeOfferDialogTrigger>
+                </DialogTrigger>
             </Box>
         )
     }

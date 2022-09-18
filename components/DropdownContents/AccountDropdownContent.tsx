@@ -1,8 +1,7 @@
-import { FC, Fragment } from 'react'
+import { FC, Fragment, useState } from 'react'
 import { Box } from '../Box/Box'
 import { NextLink } from '../NextLink/NextLink'
 import { ModeNightIcon } from '../Icons/ModeNightIcon'
-import { NightModeToggle } from '../Toggles/NightModeToggle'
 import { LogoutIcon } from '../Icons/LogoutIcon'
 import { GridIcon } from '../Icons/GridIcon'
 import { PersonIcon } from '../Icons/PersonIcon'
@@ -14,6 +13,7 @@ import { FavoriteOutlinedIcon } from '../Icons/FavoriteOutlinedIcon'
 import { SettingsIcon } from '../Icons/SettingsIcon'
 import { VisibilityIcon } from '../Icons/VisibilityIcon'
 import useTranslation from 'next-translate/useTranslation'
+import { Toggle } from '../Toggle/Toggle'
 
 interface Props {
     
@@ -25,6 +25,8 @@ export const AccountDropdownContent: FC<Props> = ({
     const { t } = useTranslation('common')
     const { mounted } = useMounted()
     const { data: session } = useSession()
+    
+    const [nightModeActive, setNightModeActive] = useState<boolean>(false)
     
     return (
         <Fragment>
@@ -151,7 +153,10 @@ export const AccountDropdownContent: FC<Props> = ({
                     >
                         {t('nightMode')}
                     </Text>
-                    <NightModeToggle />
+                    <Toggle 
+                        active={nightModeActive}
+                        setActive={setNightModeActive}
+                    />
                 </Box>
             </Box>
         </Fragment>

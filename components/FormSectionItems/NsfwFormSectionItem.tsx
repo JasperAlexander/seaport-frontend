@@ -2,12 +2,12 @@ import { FC } from 'react'
 import { Box } from '../Box/Box'
 import * as styles from './FormSectionItem.css'
 import { WarningIcon } from '../Icons/WarningIcon'
-import { FormToggle } from '../Toggles/FormToggle'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Text } from '../Text/Text'
 import { CreateCollectionFormType } from '../Forms/CreateCollectionForm'
 import useTranslation from 'next-translate/useTranslation'
 import { EditAssetFormType } from '../Forms/EditAssetForm'
+import { Toggle } from '../Toggle/Toggle'
 
 interface Props {
     data: CreateAssetFormType | EditAssetFormType | CreateCollectionFormType
@@ -54,7 +54,7 @@ export const NsfwFormSectionItem: FC<Props> = ({
                     </Box>
                 </Box>
                 <Box>
-                    <FormToggle 
+                    <Toggle 
                         active={data.is_nsfw}
                         setActive={() => setData({
                             ...data,

@@ -1,18 +1,20 @@
 import { FC, useState } from 'react'
 import { Box } from '../Box/Box'
 import * as styles from './BodyHeaderNavBar.css'
-import { MenuSideDialogTrigger } from '../DialogTriggers/MenuSideDialogTrigger'
-import { ExploreDropdownTrigger } from '../DropdownTriggers/ExploreDropdownTrigger'
 import { NextLink } from '../NextLink/NextLink'
 import { Text } from '../Text/Text'
-import { AccountDropdownTrigger } from '../DropdownTriggers/AccountDropdownTrigger'
 import { PersonOutlinedIcon } from '../Icons/PersonOutlinedIcon'
 import { useSession } from 'next-auth/react'
-import { WalletSideDialogTrigger } from '../DialogTriggers/WalletSideDialogTrigger'
 import { WalletOutlinedIcon } from '../Icons/WalletOutlinedIcon'
 import { CloseIcon } from '../Icons/CloseIcon'
 import { MenuIcon } from '../Icons/MenuIcon'
 import useTranslation from 'next-translate/useTranslation'
+import { DropdownTrigger } from '../DropdownTrigger/DropdownTrigger'
+import { AccountDropdownContent } from '../DropdownContents/AccountDropdownContent'
+import { ExploreDropdownContent } from '../DropdownContents/ExploreDropdownContent'
+import { DialogTrigger } from '../DialogTrigger/DialogTrigger'
+import { MenuSideDialogContent } from '../DiaglogContents/MenuSideDialogContent'
+import { WalletSideDialogContent } from '../DiaglogContents/WalletSideDialogContent'
 
 export const BodyHeaderNavBar: FC = () => {
     const { t } = useTranslation('common')
@@ -29,19 +31,23 @@ export const BodyHeaderNavBar: FC = () => {
             <Box
                 className={styles.bodyHeaderNavBarContainer}
             >
-                <ExploreDropdownTrigger>
+                <DropdownTrigger
+                    content={<ExploreDropdownContent />}
+                    placement='bottom'
+                    trigger='mouseenter'
+                >
                     <NextLink 
                         href='/assets' 
                         className={styles.bodyHeaderNavBarItem}
                     >
-                    <Text
-                        fontWeight='600'
-                        hoverColor='black'
-                    >
-                        {t('explore')}
-                    </Text>
+                        <Text
+                            fontWeight='600'
+                            hoverColor='black'
+                        >
+                            {t('explore')}
+                        </Text>
                     </NextLink>
-                </ExploreDropdownTrigger>
+                </DropdownTrigger>
 
                 <NextLink 
                     href='/faucet'
@@ -67,7 +73,11 @@ export const BodyHeaderNavBar: FC = () => {
                     </Text>
                 </NextLink>
 
-                <AccountDropdownTrigger>
+                <DropdownTrigger
+                    content={<AccountDropdownContent />}
+                    placement='bottom'
+                    trigger='mouseenter'
+                >
                     <NextLink 
                         href='/account' 
                         className={styles.bodyHeaderNavBarItem}
@@ -77,9 +87,14 @@ export const BodyHeaderNavBar: FC = () => {
                             fillOnHover='black'
                         />
                     </NextLink>
-                </AccountDropdownTrigger>
-                
-                <WalletSideDialogTrigger
+                </DropdownTrigger>
+                <DialogTrigger
+                    content={
+                        <WalletSideDialogContent 
+                            open={walletSideDialogOpen} 
+                            setOpen={setWalletSideDialogOpen} 
+                        />
+                    }
                     open={walletSideDialogOpen}
                     setOpen={setWalletSideDialogOpen}
                 >
@@ -95,10 +110,15 @@ export const BodyHeaderNavBar: FC = () => {
                             fillOnHover='black'
                         />
                     </Box>
-                </WalletSideDialogTrigger>
+                </DialogTrigger>
             </Box>
-
-            <MenuSideDialogTrigger
+            <DialogTrigger
+                content={
+                    <MenuSideDialogContent 
+                        open={menuSideDialogOpen} 
+                        setOpen={setMenuSideDialogOpen} 
+                    />
+                }
                 open={menuSideDialogOpen}
                 setOpen={setMenuSideDialogOpen}
             >
@@ -117,7 +137,7 @@ export const BodyHeaderNavBar: FC = () => {
                         : <MenuIcon width='32' />
                     }
                 </Box>
-            </MenuSideDialogTrigger>
+            </DialogTrigger>
         </Box>
     )
 }

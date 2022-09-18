@@ -35,13 +35,17 @@ export const ProfileName: FC<Props> = ({
                     alignItems='flex-start'
                 >
                     <Box 
-                        style={{maxWidth: '60%'}}
+                        style={{
+                            maxWidth: '60%'
+                        }}
                     >
                         <Box 
                             display='flex'
                             gap='4'
                             alignItems='center'
-                            style={{wordBreak: 'break-word'}}
+                            style={{
+                                wordBreak: 'break-word'
+                            }}
                         >
                             {/* <Box 
                                 display='none'
@@ -50,7 +54,9 @@ export const ProfileName: FC<Props> = ({
                                 display='flex'
                                 alignItems='center'
                                 gap='4'
-                                style={{wordBreak: 'break-word'}}
+                                style={{
+                                    wordBreak: 'break-word'
+                                }}
                             >
                                 <Text 
                                     as='h1'

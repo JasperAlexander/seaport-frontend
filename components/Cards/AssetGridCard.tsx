@@ -4,20 +4,21 @@ import { Box } from '../Box/Box'
 import { AssetReadType } from '../../types/assetTypes'
 import { CardButton } from '../Buttons/CardButton/CardButton'
 import { AssetGridLoadingCard } from '../LoadingCards/AssetGridLoadingCard'
-import { LoginSideDialogTrigger } from '../DialogTriggers/LoginSideDialogTrigger'
 import { useAccount } from 'wagmi'
 import useMounted from '../../hooks/useMounted'
-import { CompletePurchaseDialogTrigger } from '../DialogTriggers/CompletePurchaseDialogTrigger'
-import { CancelListingDialogTrigger } from '../DialogTriggers/CancelListingDialogTrigger'
 import { Text } from '../Text/Text'
 import { NextLink } from '../NextLink/NextLink'
 import useOrders from '../../hooks/useOrders'
 import { useRouter } from 'next/router'
 import { OrderType } from '../../types/orderTypes'
 import TimeAgo from 'react-timeago'
-import { MakeOfferDialogTrigger } from '../DialogTriggers/MakeOfferDialogTrigger'
 import { TokensStateType } from '../../types/tokenTypes'
 import useTranslation from 'next-translate/useTranslation'
+import { DialogTrigger } from '../DialogTrigger/DialogTrigger'
+import { CancelListingDialogContent } from '../DiaglogContents/CancelListingDialogContent'
+import { CompletePurchaseDialogContent } from '../DiaglogContents/CompletePurchaseDialogContent'
+import { LoginSideDialogContent } from '../DiaglogContents/LoginSideDialogContent'
+import { MakeOfferDialogContent } from '../DiaglogContents/MakeOfferDialogContent'
 
 interface Props {
     asset: AssetReadType
@@ -212,7 +213,13 @@ export const AssetGridCard: FC<Props> = ({
                             }
                         </Box>
                         {mounted && !isConnected &&
-                            <LoginSideDialogTrigger 
+                            <DialogTrigger
+                                content={
+                                    <LoginSideDialogContent 
+                                        open={loginSideDialogOpen} 
+                                        setOpen={setLoginSideDialogOpen} 
+                                    />
+                                }
                                 open={loginSideDialogOpen}
                                 setOpen={setLoginSideDialogOpen}
                             >
@@ -221,48 +228,66 @@ export const AssetGridCard: FC<Props> = ({
                                 >
                                     {t('buyNow')}
                                 </CardButton>
-                            </LoginSideDialogTrigger>
+                            </DialogTrigger>
                         }
                         {mounted && isConnected && !isOwner && lastListing &&
-                            <CompletePurchaseDialogTrigger
+                            <DialogTrigger
+                                content={
+                                    <CompletePurchaseDialogContent 
+                                        open={completePurchaseDialogOpen} 
+                                        setOpen={setCompletePurchaseDialogOpen} 
+                                        asset={asset}
+                                        order={lastListing}
+                                    />
+                                }
                                 open={completePurchaseDialogOpen}
                                 setOpen={setCompletePurchaseDialogOpen}
-                                asset={asset}
-                                order={lastListing}
                             >
                                 <CardButton 
                                     onClick={() => {return null}}
                                 >
                                     {t('buyNow')}
                                 </CardButton>
-                            </CompletePurchaseDialogTrigger>
+                            </DialogTrigger>
                         }
                         {mounted && isConnected && !isOwner && !lastListing &&
-                            <MakeOfferDialogTrigger
+                            <DialogTrigger
+                                content={
+                                    <MakeOfferDialogContent 
+                                        open={makeOfferDialogOpen} 
+                                        setOpen={setMakeOfferDialogOpen} 
+                                        tokens={tokens}
+                                    />
+                                }
                                 open={makeOfferDialogOpen}
                                 setOpen={setMakeOfferDialogOpen}
-                                tokens={tokens}
                             >
                                 <CardButton 
                                     onClick={() => {return null}}
                                 >
                                     {t('makeOffer')}
                                 </CardButton>
-                            </MakeOfferDialogTrigger>
+                            </DialogTrigger>
                         }
                         {mounted && isConnected && isOwner && lastListing &&
-                            <CancelListingDialogTrigger
+                            <DialogTrigger
+                                content={
+                                    <CancelListingDialogContent 
+                                        open={cancelListingDialogOpen} 
+                                        setOpen={setCancelListingDialogOpen} 
+                                        asset={asset}
+                                        order={lastListing}
+                                    />
+                                }
                                 open={cancelListingDialogOpen}
                                 setOpen={setCancelListingDialogOpen}
-                                asset={asset}
-                                order={lastListing}
                             >
                                 <CardButton 
                                     onClick={() => {return null}}
                                 >
                                     {t('cancelListing')}
                                 </CardButton>
-                            </CancelListingDialogTrigger>
+                            </DialogTrigger>
                         }
                         {mounted && isConnected && isOwner && !lastListing &&
                             <NextLink

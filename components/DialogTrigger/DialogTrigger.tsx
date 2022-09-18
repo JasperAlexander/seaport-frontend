@@ -1,17 +1,25 @@
 import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
 import { Box } from '../Box/Box'
+import * as Dialog from '@radix-ui/react-dialog'
 import * as styles from './DialogTrigger.css'
-import { FilterSideDialogContent } from '../DiaglogContents/FilterSideDialogContent'
 
 interface Props {
     children: ReactNode
+    content: JSX.Element
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const FilterSideDialogTrigger: FC<Props> = ({
+/**
+ * Triggers Radix-ui dialog
+ * @param children will be the trigger that activates dialog content
+ * @param content will be wrapped inside Radix-ui dialog
+ * @param open whether dialog is open
+ * @param setOpen opens or closes dialog
+ */
+export const DialogTrigger: FC<Props> = ({
     children,
+    content,
     open,
     setOpen
 }) => {
@@ -29,13 +37,10 @@ export const FilterSideDialogTrigger: FC<Props> = ({
                 asChild={true}
             >
                 <Box 
-                    className={styles.sideDialogTriggerOverlay}
+                    className={styles.dialogTriggerOverlay}
                 />
             </Dialog.Overlay>
-            <FilterSideDialogContent 
-                open={open} 
-                setOpen={setOpen} 
-            />
+            {content}
         </Dialog.Root>
     )
 }

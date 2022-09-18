@@ -10,9 +10,10 @@ import { PriceTagIcon } from '../../Icons/PriceTagIcon'
 import TimeAgo from 'react-timeago'
 import { MainButton } from '../../Buttons/MainButton/MainButton'
 import { OrdersStateType } from '../../../types/orderTypes'
-import { CancelListingDialogTrigger } from '../../DialogTriggers/CancelListingDialogTrigger'
 import { AssetReadType } from '../../../types/assetTypes'
 import useTranslation from 'next-translate/useTranslation'
+import { DialogTrigger } from '../../DialogTrigger/DialogTrigger'
+import { CancelListingDialogContent } from '../../DiaglogContents/CancelListingDialogContent'
 
 interface Props {
     orders: OrdersStateType
@@ -172,11 +173,17 @@ export const ListingsAccordion: FC<Props> = ({
                                                         </MainButton>
                                                     :
                                                         asset &&
-                                                        <CancelListingDialogTrigger
+                                                        <DialogTrigger
+                                                            content={
+                                                                <CancelListingDialogContent 
+                                                                    open={cancelListingDialogOpen} 
+                                                                    setOpen={setCancelListingDialogOpen} 
+                                                                    asset={asset}
+                                                                    order={listing}
+                                                                />
+                                                            }
                                                             open={cancelListingDialogOpen}
                                                             setOpen={setCancelListingDialogOpen}
-                                                            asset={asset}
-                                                            order={listing}
                                                         >
                                                             <MainButton 
                                                                 variant='secondary' 
@@ -184,7 +191,7 @@ export const ListingsAccordion: FC<Props> = ({
                                                             >
                                                                 {t('cancel')}
                                                             </MainButton>
-                                                        </CancelListingDialogTrigger>
+                                                        </DialogTrigger>
                                                 }
                                             </Box>
                                         </Box>

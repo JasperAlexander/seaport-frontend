@@ -3,11 +3,11 @@ import { Box } from '../Box/Box'
 import * as styles from './FormSectionItem.css'
 import { LockOpenIcon } from '../Icons/LockOpenIcon'
 import { Textarea } from '../Textarea/Textarea'
-import { FormToggle } from '../Toggles/FormToggle'
 import { CreateAssetFormType } from '../Forms/CreateAssetForm'
 import { Text } from '../Text/Text'
 import useTranslation from 'next-translate/useTranslation'
 import { EditAssetFormType } from '../Forms/EditAssetForm'
+import { Toggle } from '../Toggle/Toggle'
 
 interface Props {
     handleChange: 
@@ -65,7 +65,7 @@ export const UnlockableFormSectionItem: FC<Props> = ({
                     </Box>
                 </Box>
                 <Box>
-                    <FormToggle 
+                    <Toggle 
                         active={unlockableActive}
                         setActive={setUnlockableActive}
                     />

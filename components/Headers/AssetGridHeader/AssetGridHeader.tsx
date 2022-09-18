@@ -1,13 +1,14 @@
 import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { Box } from '../../Box/Box'
 import { RoundButton } from '../../Buttons/RoundButton/RoundButton'
-import { FilterSideDialogTrigger } from '../../DialogTriggers/FilterSideDialogTrigger'
 import { FilterListIcon } from '../../Icons/FilterListIcon'
 import { SortIcon } from '../../Icons/SortIcon'
 import { SortSelect } from '../../Selects/SortSelect'
 import * as styles from './AssetGridHeader.css'
 import { Text } from '../../Text/Text'
 import useTranslation from 'next-translate/useTranslation'
+import { DialogTrigger } from '../../DialogTrigger/DialogTrigger'
+import { FilterSideDialogContent } from '../../DiaglogContents/FilterSideDialogContent'
 
 interface Props {
     toggleShowFilters: () => void
@@ -57,7 +58,13 @@ export const AssetGridHeader: FC<Props> = ({
                     gap='8'
                     paddingTop='16'
                 >
-                    <FilterSideDialogTrigger
+                    <DialogTrigger
+                        content={
+                            <FilterSideDialogContent 
+                                open={filterSideDialogOpen} 
+                                setOpen={setFilterSideDialogOpen} 
+                            />
+                        }
                         open={filterSideDialogOpen}
                         setOpen={setFilterSideDialogOpen}
                     >
@@ -78,7 +85,7 @@ export const AssetGridHeader: FC<Props> = ({
                                 </Text>
                             </Box>
                         </Box>
-                    </FilterSideDialogTrigger>
+                    </DialogTrigger>
                     <Box
                         as='button'
                         className={styles.assetGridHeaderButton}

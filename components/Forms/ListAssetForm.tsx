@@ -3,7 +3,6 @@ import { useForm } from '../../hooks/useForm'
 import { Box } from '../Box/Box'
 import { SWRResponse } from 'swr'
 import { AssetReadType } from '../../types/assetTypes'
-import { CompleteListingDialogTrigger } from '../DialogTriggers/CompleteListingDialogTrigger'
 import { ListingTypeFormSection } from '../FormSections/ListingTypeFormSection'
 import { ListingPriceFormSection } from '../FormSections/ListingPriceFormSection'
 import { ListingDurationFormSection } from '../FormSections/ListingDurationFormSection'
@@ -21,6 +20,8 @@ import { ListingMethodFormSection } from '../FormSections/ListingMethodFormSecti
 import { Text } from '../Text/Text'
 import useUser from '../../hooks/useUser'
 import useTranslation from 'next-translate/useTranslation'
+import { DialogTrigger } from '../DialogTrigger/DialogTrigger'
+import { CompleteListingDialogContent } from '../DiaglogContents/CompleteListingDialogContent'
 
 const SUPPORTED_CHAIN_IDS = process.env.NEXT_PUBLIC_SUPPORTED_CHAIN_IDS
 
@@ -275,15 +276,21 @@ export const ListAssetForm: FC<Props> = ({
                     borderStyle='solid'
                     borderColor='box'
                 />
-
-                <CompleteListingDialogTrigger
+                <DialogTrigger
+                    content={
+                        <CompleteListingDialogContent 
+                            open={completeListingDialogOpen} 
+                            setOpen={setCompleteListingDialogOpen} 
+                            formData={formData}
+                            asset={formData?.asset}
+                            listingStatus={listingStatus}
+                            setListingStatus={setListingStatus}
+                            loadingStatus={loadingStatus}
+                            setLoadingStatus={setLoadingStatus}
+                        />
+                    }
                     open={completeListingDialogOpen}
                     setOpen={setCompleteListingDialogOpen}
-                    formData={formData}
-                    listingStatus={listingStatus}
-                    setListingStatus={setListingStatus}
-                    loadingStatus={loadingStatus}
-                    setLoadingStatus={setLoadingStatus}
                 >
                     <MainButton
                         onClick={async() => { 
@@ -326,7 +333,7 @@ export const ListAssetForm: FC<Props> = ({
                     >
                         {t('completeListing')}
                     </MainButton>
-                </CompleteListingDialogTrigger>
+                </DialogTrigger>
             </Box>
         </Box>
     )

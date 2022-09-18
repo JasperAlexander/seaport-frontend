@@ -6,10 +6,11 @@ import { Box } from '../../Box/Box'
 import { MoreHorizontalIcon } from '../../Icons/MoreHorizontalIcon'
 import { RefreshIcon } from '../../Icons/RefreshIcon'
 import { ShareIcon } from '../../Icons/ShareIcon'
-import { MoreDropdownTrigger } from '../../DropdownTriggers/MoreDropdownTrigger'
-import { ShareDropdownTrigger } from '../../DropdownTriggers/ShareDropdownTrigger'
 import { NextLink } from '../../NextLink/NextLink'
 import { LinkIcon } from '../../Icons/LinkIcon'
+import { DropdownTrigger } from '../../DropdownTrigger/DropdownTrigger'
+import { ShareDropdownContent } from '../../DropdownContents/ShareDropdownContent'
+import { MoreDropdownContent } from '../../DropdownContents/MoreDropdownContent'
 
 interface Props {
     asset: SWRResponse<AssetReadType, any> | undefined
@@ -46,20 +47,26 @@ export const AssetButtonRow: FC<Props> = ({
                         </NextLink>
                     </AssetButtonRowItem>
                 }
-                <ShareDropdownTrigger>
+                <DropdownTrigger
+                    content={<ShareDropdownContent />}
+                    offsetDistance={10}
+                >
                     <AssetButtonRowItem>
                         <ShareIcon 
                             width='22'
                         />
                     </AssetButtonRowItem>
-                </ShareDropdownTrigger>
-                <MoreDropdownTrigger>
+                </DropdownTrigger>
+                <DropdownTrigger
+                    content={<MoreDropdownContent />}
+                    offsetDistance={10}
+                >
                     <AssetButtonRowItem>
                         <MoreHorizontalIcon 
                             width='22'
                         />
                     </AssetButtonRowItem>
-                </MoreDropdownTrigger>
+                </DropdownTrigger>
             </Box>
         </Box>
     )
