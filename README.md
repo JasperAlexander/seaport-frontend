@@ -1,3 +1,6 @@
+> [!WARNING]
+> 16 april 2024: I'm archiving this repository because I don't have time to maintain it and the code is too outdated.
+
 ![openfish-logo-1](https://user-images.githubusercontent.com/84851956/186010813-a67bc95d-11f7-4af9-a907-806b9159618d.png)
 
 # Seaport implementation (frontend)
